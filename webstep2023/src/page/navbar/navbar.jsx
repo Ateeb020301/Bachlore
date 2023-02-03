@@ -39,18 +39,25 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 export const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  let changed = 'block';
+  {isCollapsed && (changed = 'flex')};
 
   return (
     <Box
       sx={{
         "& .pro-sidebar-inner": {
           background: `#064bd7 !important`,
+          display: changed,
+          justifyContent: 'center',
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
+
         },
         "& .pro-inner-item": {
-          padding: "5px 10px 0px 10px !important",
+          padding: "5px 5px 5px 0px !important",
+          flex: 1
+          
         },
         "& .pro-inner-item:hover": {
           opacity: 0.9
@@ -77,12 +84,12 @@ export const Navbar = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
+                paddingLeft={'20px'}
               >
                 <img
                   alt="profile-user"
                   width="100px"
                   src={require('../../components/images/webstepinv.png')}
-                  style={{ cursor: "pointer"}}
                 />
                 <IconButton style={{color: 'white'}} onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOpen  />
@@ -114,7 +121,7 @@ export const Navbar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Dashboard"
+              title={!isCollapsed &&("Dashboard")}
               to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
@@ -131,21 +138,21 @@ export const Navbar = () => {
               </p>
             )}
             <Item
-              title="Manage Team"
+              title={!isCollapsed &&("Manage Team")}
               to="/team"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Contacts Information"
+              title={!isCollapsed &&("Contact Information")}
               to="/contacts"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Invoices Balances"
+              title={!isCollapsed &&("Invoices Balances")}
               to="/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -162,21 +169,21 @@ export const Navbar = () => {
               </p>
             )}
             <Item
-              title="Profile Form"
+              title={!isCollapsed &&("Profile Form")}
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Calendar"
+              title={!isCollapsed &&("Calender")}
               to="/calendar"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="FAQ Page"
+              title={!isCollapsed &&("FAQ Page")}
               to="/faq"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
