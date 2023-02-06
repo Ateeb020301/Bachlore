@@ -64,12 +64,12 @@ export const Home = () => {
                 </Box>
             </Box>
 
-            <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between", border: 'solid', maxHeight: '50%'}}>
+            <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between", maxHeight: '50vh'}}>
                 <Box key={'Graph'} sx={{flex: 1.5, mr: 3, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', display: 'flex', justifyContent: 'center'}}>
                     <Line options={optionsLine} data={dataLine} />
                 </Box>
                 <Box sx={{flex: 1, ml: 1}}>
-                        <Box sx={{display: 'flex', justifyContent: 'space-between', flexBasis: '100%', background: '#fefeff', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, maxHeight: '50%', borderRadius: '10px'}}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', flex: 1, background: '#fefeff', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, maxHeight: '50%', borderRadius: '10px'}}>
                             <Box sx={{flex: 2, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                 <Pie style={{padding: '25px'}} data={dataPie} options={optionsPie}/>
                             </Box>
@@ -88,7 +88,7 @@ export const Home = () => {
                                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                                     <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'space-between'}}>
                                         <Box sx={{flex: 1}}>
-                                            <h3 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${fakeNumber}</h3>
+                                            <h3 style={{margin: 0, fontSize: '24px', opacity: 0.6}}>${fakeNumber}</h3>
                                         </Box>
                                         <Box sx={{flex: 1, textAlign: 'right'}}>
                                             <h5 style={{margin: 0}}>Totalt Profit</h5>
@@ -107,6 +107,7 @@ export const Home = () => {
                 </Box>
 
             </Box>
+
         </Box>
     )
 }
