@@ -19,6 +19,7 @@ import MenuOpen from '@mui/icons-material/MenuOpen';
 import './navbar.css';
 import "react-pro-sidebar/dist/css/styles.css";
 import CloseIcon from '@mui/icons-material/Close';
+import { textAlign } from '@mui/system';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
@@ -40,31 +41,36 @@ export const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   let changed = 'block';
+  let solid = 'none'
+  let pad = '5px 0px 5px 0px !important'
   {isCollapsed && (changed = 'flex')};
+  {!isCollapsed && (solid = 'solid')}
+  {isCollapsed && (pad = '15px 0px 10px 0px !important')}
+  
 
   return (
     <Box
       sx={{
         "& .pro-sidebar-inner": {
           background: `#064bd7 !important`,
-          display: changed,
           justifyContent: 'center',
+          display: changed,
+          
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
-
+        
         },
         "& .pro-inner-item": {
-          padding: "5px 5px 5px 0px !important",
-          flex: 1
-          
+          padding: pad
         },
         "& .pro-inner-item:hover": {
           opacity: 0.9
         },
         "& .pro-menu-item.active": {
           fontWeight: 'bolder',
-          borderRight: 'solid'
+          opacity: .7,
+          borderRight: solid
         },
       }}
     >
@@ -88,8 +94,9 @@ export const Navbar = () => {
               >
                 <img
                   alt="profile-user"
-                  width="100px"
+                  width="120px"
                   src={require('../../components/images/webstepinv.png')}
+                  style={{ cursor: "pointer"}}
                 />
                 <IconButton style={{color: 'white'}} onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOpen  />
@@ -113,7 +120,7 @@ export const Navbar = () => {
                 <p
                   sx={{ m: "15px 0 5px 20px" }}
                 >
-                  Mohamad
+                  Mohammad
                 </p>
               </Box>
             </Box>

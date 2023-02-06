@@ -6,7 +6,7 @@ import isAuthenticated from './utils/auth_check';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HeaderBar } from './page/navbar/header';
 import { Navbar } from './page/navbar/navbar';
-import Home from '@mui/icons-material/Home';
+import { Home } from './page/home/home';
 
 const client = new ApolloClient({
   uri: document.baseURI + 'graphql',
@@ -22,12 +22,9 @@ export const App: React.FC = () => {
               <Navbar />
               <main className="content">
                   <HeaderBar />
-                    <Routes>
-                      <Route path='/' element={undefined} />
-                      <Route path="/belegg" element={<GuardedRoute component={undefined} auth={isAuthenticated} />}/>
-                      <Route path="/nokkel" element={<GuardedRoute component={undefined} auth={isAuthenticated} />}/>
-                      <Route path="/prospekt" element={<GuardedRoute component={undefined} auth={isAuthenticated} />}/>
-                    </Routes>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                  </Routes>
                 </main>
             </div>
         </BrowserRouter>
