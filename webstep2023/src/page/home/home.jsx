@@ -62,11 +62,20 @@ export const Home = () => {
                 </Box>
             </Box>
 
-            <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between"}}>
-                <Box key={'Graph'} sx={{flex: 2, mr: 1, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
+            <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between", border: 'solid'}}>
+                <Box key={'Graph'} sx={{flex: 1.5, mr: 1, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', display: 'flex', justifyContent: 'center'}}>
                     <Line options={options} data={data} />
                 </Box>
-                <Box sx={{border: 'solid', flex: 1, ml: 1}}>
+                <Box sx={{border: 'solid', flex: 1, ml: 1, display: 'flex', flexWrap: 'wrap'}}>
+                        <Box sx={{border: 'solid', flexBasis: '100%', background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1}}>
+                            test
+                        </Box>
+                        <Box sx={{border: 'solid', flex: 1, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1}}>
+                            test
+                        </Box>
+                        <Box sx={{border: 'solid', flex: 1, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1}}>
+                            test
+                        </Box>
                         
                 </Box>
             </Box>
