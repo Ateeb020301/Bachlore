@@ -7,8 +7,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import KeyIcon from '@mui/icons-material/Key';
 import AddIcon from '@mui/icons-material/Add';
-import {options, data} from './charts/linechart'
+import {optionsLine, dataLine} from './charts/linechart'
+import { dataPie, optionsPie } from './charts/piechart'
 import { Line } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
+import { faker } from '@faker-js/faker';
 
   
 const Item = styled(Paper)(({ }) => ({
@@ -19,7 +22,7 @@ const Item = styled(Paper)(({ }) => ({
   }));
 
 export const Home = () => {
-
+    const fakeNumber = faker.datatype.number({ min: 10000, max: 90000 }).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
     return (
         <Box sx={{py: 3, px:2, border: 'solid', display: 'flex', flexWrap: 'wrap', overflowY: 'scroll'}}>
             {/*Top Part*/}
@@ -29,7 +32,6 @@ export const Home = () => {
                     <h3 style={{margin: 0}}>God Morgen, Mohammad</h3>
                     <p style={{opacity: 0.8, color: 'black'}}>Du har 8 meldinger</p>
                 </Box>
-                
                 <Box sx={{display: 'flex', flexBasis: '50%'}}>
                     <Box sx={{ flexGrow: 1}}>
                         <Grid container sx={{display: 'flex', height: "100%", justifyContent: "flex-end"}} spacing={{ xs: 0, md: 0 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -51,9 +53,9 @@ export const Home = () => {
                                     <p style={{color: '#00192d', fontWeight: 'bold'}}>Nøkkeltall</p>
                                 </Item>
                             </Grid>
-                            <Grid item xs={2} sm={4} md={2} sx={{mx: 1}}>
+                            <Grid item xs={2} sm={4} md={2} sx={{ml: 1}}>
                                 <Item sx={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#064bd7 !important', color: 'white !important'}}>
-                                    <p style={{color: '#00192d', fontWeight: 'bold', paddingRight: '5px', color: 'white'}}>Add New</p>
+                                    <p style={{fontWeight: 'bold', paddingRight: '5px', color: 'white'}}>Add New</p>
                                     <AddIcon />                                    
                                 </Item>
                             </Grid>
@@ -62,24 +64,49 @@ export const Home = () => {
                 </Box>
             </Box>
 
-            <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between", border: 'solid'}}>
-                <Box key={'Graph'} sx={{flex: 1.5, mr: 1, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', display: 'flex', justifyContent: 'center'}}>
-                    <Line options={options} data={data} />
+            <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between", border: 'solid', maxHeight: '50%'}}>
+                <Box key={'Graph'} sx={{flex: 1.5, mr: 3, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', display: 'flex', justifyContent: 'center'}}>
+                    <Line options={optionsLine} data={dataLine} />
                 </Box>
-                <Box sx={{border: 'solid', flex: 1, ml: 1, display: 'flex', flexWrap: 'wrap'}}>
-                        <Box sx={{border: 'solid', flexBasis: '100%', background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1}}>
-                            test
+                <Box sx={{flex: 1, ml: 1}}>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', flexBasis: '100%', background: '#fefeff', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, maxHeight: '50%', borderRadius: '10px'}}>
+                            <Box sx={{flex: 2, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                <Pie style={{padding: '25px'}} data={dataPie} options={optionsPie}/>
+                            </Box>
+                            <Box sx={{borderLeft: 'solid', borderColor: '#e7eaf3', borderWidth: '2px',display: 'flex', flex:1, justifyContent: 'center', pl: 6, flexDirection: 'column'}}>
+                                <Box>
+                                    <h3 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${fakeNumber}</h3>
+                                </Box>
+                                <Box>
+                                    <p style={{color: 'black',margin: 0, opacity: 0.4, fontSize: '13px'}}>Actual Revenue</p>
+                                </Box>
+                            </Box>
                         </Box>
-                        <Box sx={{border: 'solid', flex: 1, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1}}>
-                            test
-                        </Box>
-                        <Box sx={{border: 'solid', flex: 1, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1}}>
-                            test
+
+                        <Box sx={{display: 'flex', mt:3, border: 'solid'}}>
+                            <Box sx={{border: 'solid', background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, mr: 2, justifyContent: 'space-between', display: 'flex', flex: 1}}>
+                                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                                    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'space-between'}}>
+                                        <Box sx={{flex: 1}}>
+                                            <h3 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${fakeNumber}</h3>
+                                        </Box>
+                                        <Box sx={{flex: 1, textAlign: 'right'}}>
+                                            <h5 style={{margin: 0}}>Totalt Profit</h5>
+                                            <h6 style={{margin: 0}}>72.10% of Target</h6>
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{display: 'flex', height: '100%'}}><Line options={optionsLine} data={dataLine} /></Box>
+                                </Box>
+                            </Box>
+
+                            <Box sx={{border: 'solid',flex: 1, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, ml: 2}}>
+                                test
+                            </Box>
                         </Box>
                         
                 </Box>
-            </Box>
 
+            </Box>
         </Box>
     )
 }
