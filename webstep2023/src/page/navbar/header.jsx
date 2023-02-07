@@ -15,7 +15,7 @@ import TextField from '@mui/material/TextField'
 
 export const HeaderBar = () => {
     return (
-        <Box sx={{display: 'flex', justifyContent: 'space-between', p: 1, background: '#fefeff', flex: 1, height: 'auto'}}>
+        <Box sx={{display: 'flex', justifyContent: 'space-between', p: 1, background: '#fefeff', flex: 1}}>
 
             <Box sx={{display: 'flex'}}>
                 <h3>Create New</h3>
