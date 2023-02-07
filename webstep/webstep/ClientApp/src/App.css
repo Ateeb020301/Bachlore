@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+
+body {
+  overflow: hidden;
+}
+
+html,
+body,
+.app,
+.content {
+  max-height: 100vh;
+  max-width: 100%;
+  margin: 0px;
+  background-color: #f8f9f9;
+  font-family: 'Open Sans', sans-serif
+}
+
+
+/* Website Layout Design */
+.app {
+  display: flex;
+  height: 100vh;
+  flex-direction: row;
+  
+}
+
+.content {
+  overflow-y: scroll;
+
+}

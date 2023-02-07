@@ -1,0 +1,21 @@
+.auth-container {
+    display: flex;
+    justify-items: flex-start;
+    align-items: center;
+    flex-direction: row;
+    height: 100%;
+    margin-left: 20px;
+}
+
+/* hacky fix */
+.profile-pic {
+    margin-left: 20px;
+    width: 50px;
+    object-fit: contain;
+}
+
+@media screen and (max-width: 1400px) {
+    .profile-pic {
+        width: 35px;
+    }
+}

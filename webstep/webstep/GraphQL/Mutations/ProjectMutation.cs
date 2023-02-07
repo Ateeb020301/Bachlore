@@ -1,0 +1,86 @@
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using HotChocolate;
+using HotChocolate.Data;
+using HotChocolate.Types;
+using webstep.Data;
+using webstep.GraphQL.Entities;
+using webstep.Interfaces;
+using webstep.Models;
+
+namespace webstep.GraphQL.Mutations
+{
+    [ExtendObjectType(Name = nameof(Mutation))]
+    public class ProjectMutation
+    {
+        private readonly IRepository _repo;
+
+        public ProjectMutation(IRepository repo)
+        {
+            _repo = repo;
+        }
+
+        [UseDbContext(typeof(WebstepContext))]
+        public async Task<ProjectPayload> AddProjectAsync(
+            AddProjectInput input,
+            [ScopedService] WebstepContext context,
+            CancellationToken cancellationToken)
+        {
+            var consultant = await _repo.SelectByIdAsync<Consultant>(input.ConsultantId, context, cancellationToken)
+                .ConfigureAwait(false);
+            
+            var project = new Project()
+            {
+                Consultant = consultant,
+                ProjectName = input.ProjectName,
+                CustomerName = input.CustomerName,
+                HourlyRate = input.HourlyRate
+            };
+            
+            await _repo
+                .CreateAsync(project, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            return new ProjectPayload(project);
+        }
+
+        [UseDbContext(typeof(WebstepContext))]
+        public async Task<ProjectPayload> EditProjectAsync(
+            EditProjectInput input,
+            [ScopedService] WebstepContext context,
+            CancellationToken cancellationToken)
+        {
+            var project = await _repo.SelectByIdAsync<Project>(input.Id, context, cancellationToken)
+                .ConfigureAwait(false);
+            
+            project.CustomerName = input.CustomerName ?? project.CustomerName;
+            project.ProjectName = input.ProjectName ?? project.ProjectName;
+            project.HourlyRate = input.HourlyRate ?? project.HourlyRate;
+            
+            await _repo
+                .UpdateAsync(project, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            return new ProjectPayload(project);
+        }
+        
+        [UseDbContext(typeof(WebstepContext))]
+        public async Task<ProjectPayload> DeleteProjectAsync(
+            DeleteProjectInput input,
+            [ScopedService] WebstepContext context,
+            CancellationToken cancellationToken)
+        {
+            var project = await _repo.SelectByIdAsync<Project>(input.Id, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            await _repo
+                .DeleteAsync(project, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            return new ProjectPayload(project);
+        }
+        
+        
+    }
+}
