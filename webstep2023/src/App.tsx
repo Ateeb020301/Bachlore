@@ -20,12 +20,15 @@ export const App: React.FC = () => {
         <BrowserRouter>
             <div className='app'>
               <Navbar />
-              <main className="content">
-                  <HeaderBar />
+              <div style={{display: 'flex', flex: 1, flexDirection: 'column', height: '100%'}}>
+                <HeaderBar />
+                <main className="content">
                   <Routes>
                     <Route path="/" element={<Home />} />
                   </Routes>
                 </main>
+              </div>
+
             </div>
         </BrowserRouter>
     </ApolloProvider>
