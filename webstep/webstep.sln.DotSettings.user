@@ -1,0 +1,11 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=82179570_002D54e6_002D4fde_002D8d86_002D06431017a7aa/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;Webstep.Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\Gustav\Bachelor\webstep\Webstep.Tests" Presentation="&amp;lt;Webstep.Tests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8e625df3_002D48dc_002D4f60_002D8c4e_002D2985866a2ed3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ContractForecastCalculation" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9D3335FF-FAC6-45B9-BD41-EDE8D3902C4F::net5.0::WebstepTest.TargetNumbers.ContractForecastCalculation&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9D3335FF-FAC6-45B9-BD41-EDE8D3902C4F::net5.0::WebstepTest.ModelTest.ConsultantTest.ConsultantCalculateCapacityTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=webstep/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
