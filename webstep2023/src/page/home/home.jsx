@@ -67,7 +67,7 @@ export const Home = () => {
                 </Box>
             </Box>
 
-            <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between", maxHeight: '50vh'}}>
+            <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between"}}>
 
                 <Box key={'Graph'} sx={{flex: 1.5, mr: 3, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', display: 'flex', flexWrap: 'wrap', overflow: 'hidden'}}>
                     <Box sx={{mx: 2, mt: 2, mb: 1,}}>
@@ -86,9 +86,9 @@ export const Home = () => {
                     </Box>
                 </Box>
                 <Box sx={{flex: 1, ml: 1}}>
-                        <Box sx={{display: 'flex', justifyContent: 'space-between', flex: 1, background: '#fefeff', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, maxHeight: '50%', borderRadius: '10px'}}>
-                            <Box sx={{flex: 2, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                <Pie style={{padding: '25px'}} data={dataPie} options={optionsPie}/>
+                        <Box sx={{display: 'flex', justifyContent: 'space-between', flex: 1, background: '#fefeff', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, borderRadius: '10px'}}>
+                            <Box sx={{flex: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', maxHeight: '150px'}}>
+                                <Pie data={dataPie} options={optionsPie}/>
                             </Box>
                             <Box sx={{borderLeft: 'solid', borderColor: '#e7eaf3', borderWidth: '2px',display: 'flex', flex:1, justifyContent: 'center', pl: 6, flexDirection: 'column'}}>
                                 <Box>
@@ -100,7 +100,7 @@ export const Home = () => {
                             </Box>
                         </Box>
 
-                        <Box sx={{display: 'flex', mt:3}}>
+                        <Box sx={{display: 'flex', mt:3, border: 'solid'}}>
                             <Box sx={{border: 'solid', flex: 1, background: '#064bd7', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, my: 0, mr: 2, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                 <h3 style={{color: 'white'}}>Total Prosjekter: <span className="totalProjects">0</span></h3>
                             </Box>
