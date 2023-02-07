@@ -9,6 +9,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import AddIcon from '@mui/icons-material/Add';
 import {optionsLine, dataLine} from './charts/linechart'
 import { dataPie, optionsPie } from './charts/piechart'
+import {dataMulti, MultiAxis, optionsMulti } from './charts/mutliaxis'
 import { Line } from 'react-chartjs-2';
 import { Pie } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
@@ -67,8 +68,22 @@ export const Home = () => {
             </Box>
 
             <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between", maxHeight: '50vh'}}>
-                <Box key={'Graph'} sx={{flex: 1.5, mr: 3, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', display: 'flex', justifyContent: 'center'}}>
-                    <Line options={optionsLine} data={dataLine} />
+
+                <Box key={'Graph'} sx={{flex: 1.5, mr: 3, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', display: 'flex', flexWrap: 'wrap', overflow: 'hidden'}}>
+                    <Box sx={{mx: 2, mt: 2, mb: 1,}}>
+                        <h4 style={{padding: '0px', margin: '0px'}}>Revenue vs Actual Revenue</h4>
+                    </Box>
+                    <hr  style={{
+                        color: '#000000',
+                        backgroundColor: '#000000',
+                        opacity: .1,
+                        height: 0.1,
+                        borderColor : '#000000',
+                        width: '100%',
+                    }}/>
+                    <Box sx={{width: '100%',height: '85%', px: 2}}>
+                        <MultiAxis options={optionsMulti} data={dataMulti} />
+                    </Box>
                 </Box>
                 <Box sx={{flex: 1, ml: 1}}>
                         <Box sx={{display: 'flex', justifyContent: 'space-between', flex: 1, background: '#fefeff', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, maxHeight: '50%', borderRadius: '10px'}}>
@@ -108,43 +123,42 @@ export const Home = () => {
             </Box>
             
             <Box sx={{display: 'flex', flexBasis: '100%', mt: 3, justifyContent: "space-between", height: 'auto', pb: 2}}>
-                    <Box sx={{borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', background: '#fefeff', display: 'flex', flexDirection: 'column', flex: 2.5, mr: 2, boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
-                        <Box sx={{mx: 2, mt: 2, mb: 1}}>
-                            <h4 style={{padding: '0px', margin: '0px'}}>Pågående Prosjekter</h4>
-                            </Box>
-                        
-                        <hr  style={{
-                            color: '#000000',
-                            backgroundColor: '#000000',
-                            opacity: .1,
-                            height: 0.1,
-                            borderColor : '#000000',
-                            width: '100%'
-                        }}/>
-
-                        <Box sx={{mx: 0, mt: 0, mb: 2}}>
-                            <CollapsibleTable />
+                <Box sx={{borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', background: '#fefeff', display: 'flex', flexDirection: 'column', flex: 2.5, mr: 2, boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
+                    <Box sx={{mx: 2, mt: 2, mb: 1}}>
+                        <h4 style={{padding: '0px', margin: '0px'}}>Pågående Prosjekter</h4>
                         </Box>
+                    
+                    <hr  style={{
+                        color: '#000000',
+                        backgroundColor: '#000000',
+                        opacity: .1,
+                        height: 0.1,
+                        borderColor : '#000000',
+                        width: '100%'
+                    }}/>
+
+                    <Box sx={{mx: 2, mt: 2, mb: 2}}>
+                        <CollapsibleTable />
                     </Box>
-                
-                
-                    <Box sx={{borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px',background: '#fefeff', display: 'flex', flexDirection: 'column', flex: 1, ml: 2, boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
-                        <Box sx={{mx: 2, mt: 2, mb: 1}}>
-                                <h4 style={{padding: '0px', margin: '0px'}}>Nylig Aktivitet</h4>
-                                </Box>
-                            
-                            <hr  style={{
-                                color: '#000000',
-                                backgroundColor: '#000000',
-                                opacity: .1,
-                                height: 0.1,
-                                borderColor : '#000000',
-                                width: '100%'
-                            }}/>
-                        </Box>
                 </Box>
-
-
+            
+            
+                <Box sx={{borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px',background: '#fefeff', display: 'flex', flexDirection: 'column', flex: 1, ml: 2, boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
+                    <Box sx={{mx: 2, mt: 2, mb: 1,}}>
+                        <h4 style={{padding: '0px', margin: '0px'}}>Nylig Aktivitet</h4>
+                    </Box>
+                        
+                    <hr  style={{
+                        color: '#000000',
+                        backgroundColor: '#000000',
+                        opacity: .1,
+                        height: 0.1,
+                        borderColor : '#000000',
+                        width: '100%'
+                    }}/>
+                </Box>
+                
+            </Box>
         </Box>
     )
 }

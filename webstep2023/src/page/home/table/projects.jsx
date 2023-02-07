@@ -118,12 +118,12 @@ export const CollapsibleTable = () => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
-        <TableHead>
+        <TableHead sx={{background: '#f8f9f9'}}>
           <TableRow>
             <TableCell />
             <TableCell>Prosjekt Navn</TableCell>
             <TableCell align="right">Team</TableCell>
-            <TableCell align="right">Start Date&nbsp;(g)</TableCell>
+            <TableCell align="right">Start Dato&nbsp;(g)</TableCell>
             <TableCell align="right">Slutt Dato&nbsp;(g)</TableCell>
             <TableCell align="right">Status&nbsp;(g)</TableCell>
           </TableRow>
