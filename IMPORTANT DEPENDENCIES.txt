@@ -16,6 +16,9 @@ npm i react-toastify		|
 npm i yup				| 
 npm i typescript
 npm i @faker-js/faker
+npm i reactstrap
+npm i @types/uuid
+npm i react-confirm-alert
 
 
 npm install typescript @faker-js/faker react-pro-sidebar@0.7.1 react-router-dom @apollo/client @mui/material @mui/icons-material @mui/x-data-grid apollo react-chartjs-2 react-dom chart.js formik graphql react react-scripts react-toastify yup
