@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HeaderBar } from './page/navbar/header'; 
 import { Navbar } from './page/navbar/navbar';
 import { Home } from './page/home/home';
+import { Prospects } from './page/prospect/Prospects'
 
 const client = new ApolloClient({
   uri: document.baseURI + 'graphql',
@@ -25,6 +26,7 @@ export const App: React.FC = () => {
                 <main className="content">
                   <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/prospect" element={<Prospects />} />
                   </Routes>
                 </main>
               </div>

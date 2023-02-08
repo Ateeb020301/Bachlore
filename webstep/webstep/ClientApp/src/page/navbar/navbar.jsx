@@ -145,8 +145,8 @@ export const Navbar = () => {
               </p>
             )}
             <Item
-              title={!isCollapsed &&("Manage Team")}
-              to="/team"
+              title={!isCollapsed &&("Prospects")}
+              to="/prospect"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

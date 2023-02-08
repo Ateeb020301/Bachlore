@@ -1,0 +1,42 @@
+.delete-corner-button {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: red;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    z-index: 1;
+}
+
+.delete-corner-button:hover {
+    color: #ff5733;
+    padding: 0;
+    font-weight: bold;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    box-shadow: 0px 0px 0px transparent;
+    text-shadow: 0px 0px 0px transparent;
+}
+
+.delete-corner-button:active {
+    color: #fd4016;
+    padding: 0;
+    font-weight: bold;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.delete-corner-button:focus {
+    outline: 0;
+    border: none;
+}
