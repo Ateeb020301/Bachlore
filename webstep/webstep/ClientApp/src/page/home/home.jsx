@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useQuery } from '@apollo/client';
+import { GET_SELLER_NAMES } from '../../api/prospects/queries';
+import { GetSellerNamesPayload } from '../../api/prospects/payloads';
 import Box from "@mui/material/Box"
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from "@mui/material/Paper";
@@ -26,6 +28,11 @@ const Item = styled(Paper)(({ }) => ({
 
 export const Home = () => {
     const fakeNumber = faker.datatype.number({ min: 10000, max: 90000 }).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+    const { loading, error, data } = useQuery<GetSellerNamesPayload>(GET_SELLER_NAMES);
+    data?.sellers.items.map((seller) => {
+       console.log(seller.name)
+    })
+
     return (
         <Box sx={{py: 3, px:2, display: 'flex', flexWrap: 'wrap', position: 'relative', height: '100%'}}>
             {/*Top Part*/}

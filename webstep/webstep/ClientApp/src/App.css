@@ -5,26 +5,25 @@ body {
 }
 
 html,
-body,
-.app,
-.content {
-  max-height: 100vh;
-  max-width: 100%;
+body{  
+  height: 100vh;
+  width: 100vw;
   margin: 0px;
   background-color: #f8f9f9;
-  font-family: 'Open Sans', sans-serif
+  font-family: 'Open Sans', sans-serif;
 }
 
 
 /* Website Layout Design */
 .app {
-  display: flex;
   height: 100vh;
+  width: 100vw;
+  display: flex;
   flex-direction: row;
   
 }
 
 .content {
-  overflow-y: scroll;
+  overflow-y: auto;
 
 }

@@ -17,7 +17,6 @@ const contentStyle = {
     display: 'grid',
     gridTemplateColumns: 'minmax(100px, 150px) minmax(100px, 150px)', //modified
     gridTemplateRows: '15px 1fr',
-    paddingLeft: '40px',
     paddingTop: '5px',
     fontSize: 12,
     height: '100%',
@@ -27,6 +26,7 @@ const contentStyle = {
     borderRight: '1px solid grey',
     overflow: 'hidden',
 };
+
 const centeredSpan = {
     display: 'flex',
     justifyContent: 'flex-start',
