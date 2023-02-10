@@ -35,3 +35,4 @@ export interface GetSellerNamesPayload {
 export interface GetSellerProspectsPayload {
     seller: SellerJustProspects[];
 }
+

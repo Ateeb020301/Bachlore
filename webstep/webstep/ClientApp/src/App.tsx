@@ -22,7 +22,7 @@ export const App: React.FC = () => {
         <BrowserRouter>
             <div className='app'>
               <Navbar />
-              <div style={{display: 'flex', flex: 7, flexDirection: 'column', height: '100%', border: 'solid'}}>
+              <div style={{display: 'flex', flex: 7, flexDirection: 'column', height: '100%'}}>
                 <div>
                   <HeaderBar />
                 </div>

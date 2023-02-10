@@ -61,8 +61,7 @@ export const Navbar = () => {
           "& .pro-sidebar-inner": {
             background: `#064bd7 !important`,
             justifyContent: 'center',
-            display: changed,
-            flex: 1
+            display: changed
             
           },
           "& .pro-icon-wrapper": {

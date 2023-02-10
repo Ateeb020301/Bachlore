@@ -16,6 +16,7 @@ import { Line } from 'react-chartjs-2';
 import { Pie } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { CollapsibleTable } from "./table/projects";
+import React from 'react';
 
 
   
@@ -30,12 +31,11 @@ export const Home = () => {
     const fakeNumber = faker.datatype.number({ min: 10000, max: 90000 }).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
     const { loading, error, data } = useQuery<GetSellerNamesPayload>(GET_SELLER_NAMES);
     data?.sellers.items.map((seller) => {
-       console.log(seller.name)
+       console.log(seller.fullName)
     })
 
     return (
         <Box sx={{py: 3, px:2, display: 'flex', flexWrap: 'wrap', position: 'relative', height: '100%'}}>
-            {/*Top Part*/}
             <Box sx={{display: 'flex', justifyContent: 'space-between', flexBasis: '100%'}}>
 
                 <Box sx={{display: 'flex', flexDirection: 'column', flexBasis: '20%'}}>
@@ -44,26 +44,26 @@ export const Home = () => {
                 </Box>
                 <Box sx={{display: 'flex', flexBasis: '50%'}}>
                     <Box sx={{ flexGrow: 1}}>
-                        <Grid container sx={{display: 'flex', height: "100%", justifyContent: "flex-end"}} spacing={{ xs: 0, md: 0 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                            <Grid item xs={2} sm={4} md={1.5} sx={{mx: 1}}>
+                    <Grid container sx={{display: 'flex', height: "100%", justifyContent: "flex-end"}} spacing={{ xs: 0, md: 0 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                            <Grid xs={2} sm={4} md={1.5} sx={{mx: 1}}>
                                 <Item sx={{height: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
                                     <EditIcon sx={{pt: '10px', color: "orange !important"}}/>
                                     <p style={{color: '#00192d', fontWeight: 'bold'}}>Todo list</p>
                                 </Item>
                             </Grid>
-                            <Grid item xs={2} sm={4} md={1.5} sx={{mx: 1}}>
+                            <Grid xs={2} sm={4} md={1.5} sx={{mx: 1}}>
                                 <Item sx={{height: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
                                     <AssignmentTurnedInIcon sx={{pt: '10px', color: "green"}}/>
                                     <p style={{color: '#00192d', fontWeight: 'bold'}}>Prosjekter</p>
                                 </Item>
                             </Grid>
-                            <Grid item xs={2} sm={4} md={1.5} sx={{mx: 1}}>
+                            <Grid xs={2} sm={4} md={1.5} sx={{mx: 1}}>
                                 <Item sx={{height: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
                                     <KeyIcon sx={{pt: '10px', color: "#FA4616 !important"}}/>
                                     <p style={{color: '#00192d', fontWeight: 'bold'}}>Nøkkeltall</p>
                                 </Item>
                             </Grid>
-                            <Grid item xs={2} sm={4} md={2} sx={{ml: 1}}>
+                            <Grid xs={2} sm={4} md={2} sx={{ml: 1}}>
                                 <Item sx={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#064bd7 !important', color: 'white !important'}}>
                                     <p style={{fontWeight: 'bold', paddingRight: '5px', color: 'white'}}>Add New</p>
                                     <AddIcon />                                    
@@ -89,7 +89,7 @@ export const Home = () => {
                         width: '100%',
                     }}/>
                     <Box sx={{width: '100%',height: '85%', px: 2}}>
-                        <MultiAxis options={optionsMulti} data={dataMulti} />
+                        <MultiAxis />
                     </Box>
                 </Box>
                 <Box sx={{flex: 1, ml: 1, display: 'flex', flexDirection: 'column'}}>
