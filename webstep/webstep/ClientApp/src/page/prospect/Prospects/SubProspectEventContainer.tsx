@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { EditSubProspectInput } from '../../../api/prospects/inputs';
 import { getEditSubProspectInput } from '../../../api/prospects/logic';
 import { EditSubProspectPayload } from '../../../api/prospects/payloads';
@@ -41,12 +42,14 @@ export const SubProspectEventContainer: React.FC<SubProspectEventContainerProps>
     const deleteWrapper = () => {
         deleteSubProspect({ variables: { input: { id: subProspect.id } } })
             .then((res) => {
-                toast.configure();
-                toast.success('Prospektet ble slettet.', defaultMessagePlacement);
+                toast.success('Prospektet ble slettet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             })
             .catch((e) => {
-                toast.configure();
-                toast.error('Noe gikk galt med slettingen av prospektet.', defaultMessagePlacement);
+                toast.error('Noe gikk galt ved sletting av prospektet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
                 console.log(e);
             });
     };
@@ -60,12 +63,14 @@ export const SubProspectEventContainer: React.FC<SubProspectEventContainerProps>
         };
         editSubProspect({ variables: { input: newSubProspect } })
             .then((res) => {
-                toast.configure();
-                toast.success('Prospektet ble redigert.', defaultMessagePlacement);
+                toast.success('Prospektet ble redigert', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             })
             .catch((e) => {
-                toast.configure();
-                toast.error('Noe gikk galt med redigering av prospektet.', defaultMessagePlacement);
+                toast.error('Noe gikk galt ved redigering av prospektet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
                 console.log(e);
             });
     };
@@ -75,12 +80,14 @@ export const SubProspectEventContainer: React.FC<SubProspectEventContainerProps>
 
         editSubProspect({ variables: { input: newSubProspect } })
             .then((res) => {
-                toast.configure();
-                toast.success('Prospektet ble redigert.', defaultMessagePlacement);
+                toast.success('Prospekt opprettet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             })
             .catch((e) => {
-                toast.configure();
-                toast.error('Noe gikk galt med redigering av prospektet.', defaultMessagePlacement);
+                toast.error('Noe gikk galt ved redigering av prospektet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
                 console.log(e);
             });
     };

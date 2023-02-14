@@ -1,0 +1,31 @@
+.content-wrapper {
+    height: 100%;
+    width:100%;
+}
+
+.belegg-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 25% auto;
+    grid-template-rows: auto;
+    border: 2px solid black;
+    background: white;
+    padding: 20px;
+}
+
+/* paragraph thats inside belegg-grid */
+.belegg-grid p {
+    margin-bottom: 0;
+}
+
+/* Grid that contains all belegg */
+.belegg-container-grid {
+    width: 100%;
+    height: 75%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content;
+    grid-auto-rows: min-content;
+    grid-gap: 20px;
+    overflow-y: auto;
+}

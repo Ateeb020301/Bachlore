@@ -1,12 +1,13 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
 import { EditProspectInput } from '../../../api/prospects/inputs';
 import { EditProspectPayload } from '../../../api/prospects/payloads';
 import { EDIT_PROSPECT, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
 import { Prospect } from '../../../logic/interfaces';
 import { defaultMessagePlacement } from '../../../logic/toast';
 import { EditableField } from '../../Utils/EditableField';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface ProspectDescriptionProps {
     prospect: Prospect;
@@ -48,12 +49,14 @@ export const ProspectDescription: React.FC<ProspectDescriptionProps> = ({ prospe
         let input: EditProspectInput = { id: p.id, customerName: p.customerName, projectName: p.projectName };
         editProspect({ variables: { input: input } })
             .then((res) => {
-                toast.configure();
-                toast.success('Prospektet ble redigert.', defaultMessagePlacement);
+                toast.success('Prospektet ble redigert', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             })
             .catch((e) => {
-                toast.configure();
-                toast.error('Noe gikk galt med redigering av prospektet.', defaultMessagePlacement);
+                toast.error('Noe gikk galt ved redigering av prospektet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             });
     };
     return (

@@ -6,7 +6,7 @@
     grid-auto-rows: 50px;
     overflow-x: scroll;
     background-color: #f8f9f9;
-    overflow-y: 'hidden';
+    overflow-y: hidden;
 }
 
 .sidebar-content {

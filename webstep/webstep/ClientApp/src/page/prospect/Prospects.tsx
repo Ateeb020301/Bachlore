@@ -1,6 +1,7 @@
 import React from 'react';
 import { ProspectsCalendarContainer } from './Prospects/ProspectsCalendarContainer';
 import { FullPageContent } from '../Utils/FullPageContent';
+import { ToastContainer, toast } from 'react-toastify';
 
 export const Prospects = () => {
     return (
@@ -9,6 +10,7 @@ export const Prospects = () => {
                 <h2>Prospekter</h2>
             </div>
             <ProspectsCalendarContainer/>
+            <ToastContainer />
             
         </div>
     );

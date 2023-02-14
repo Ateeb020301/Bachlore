@@ -3,7 +3,8 @@ import React from 'react';
 import { ADD_PROSPECT, ADD_SUBPROSPECT, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
 import { getCurrentWeek } from '../../../logic/dateFunctions';
 import PlusIcon from '../../../components/images/plus-square.svg';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { AddProspectPayload, AddSubProspectPayload } from '../../../api/prospects/payloads';
 import { AddProspectInput, AddSubProspectInput } from '../../../api/prospects/inputs';
 import { defaultMessagePlacement } from '../../../logic/toast';
@@ -41,15 +42,21 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({ sell
                     let defaultSubProspect = getDefaultSubProspect(newProspectId);
                     addSubProspect({ variables: { input: defaultSubProspect } })
                         .then((res) => {
-                            toast.success('Prospekt ble opprettet.', defaultMessagePlacement);
+                            toast.success('Prospekt opprettet', {
+                                position: toast.POSITION.BOTTOM_RIGHT
+                            })
                         })
                         .catch((e) => {
-                            toast.error('Noe gikk galt med oppretting av sub-prospekt.', defaultMessagePlacement);
+                            toast.error('Noe gikk galt ved oppretting av sub-prospektet', {
+                                position: toast.POSITION.BOTTOM_RIGHT
+                            })
                         });
                 }
             })
             .catch((e) => {
-                toast.error('Noe gikk galt med oppretting av prospekt.', defaultMessagePlacement);
+                toast.error('Noe gikk galt ved oppretting av prospektet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             });
     };
     return (

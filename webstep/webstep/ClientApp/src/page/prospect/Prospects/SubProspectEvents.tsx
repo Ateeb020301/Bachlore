@@ -10,7 +10,8 @@ import { useMutation } from '@apollo/client';
 import { AddSubProspectPayload } from '../../../api/prospects/payloads';
 import { getAddSubProspectInput, getDefaultNewSubProspect } from '../../../api/prospects/logic';
 import { defaultMessagePlacement } from '../../../logic/toast';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface SubProspectEventsProps {
     subProspects: SubProspect[];
@@ -35,12 +36,14 @@ export const SubProspectEvents: React.FC<SubProspectEventsProps> = ({ subProspec
 
         addSubProspect({ variables: { input: input } })
             .then((res) => {
-                toast.configure();
-                toast.success('Prospektet ble lagt til.', defaultMessagePlacement);
+                toast.success('Prospekt opprettet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             })
             .catch((e) => {
-                toast.configure();
-                toast.error('Noe gikk galt med opprettingen av prospektet.', defaultMessagePlacement);
+                toast.error('Noe gikk galt ved oppretting av prospektet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             });
     };
 
