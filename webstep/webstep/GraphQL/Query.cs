@@ -72,7 +72,8 @@ namespace webstep.GraphQL
         /// </summary>
         /// <returns></returns>
         [UseOffsetPaging(MaxPageSize = 250), UseProjection, UseSorting]
-        public IQueryable<Contract> GetContracts() => this._repo.SelectAll<Contract>();
+        public IQueryable<Contract> GetContracts() => this._repo.SelectAll<Contract>();        
+       
 
         /// <summary>
         /// Fetches a single contract
@@ -82,6 +83,13 @@ namespace webstep.GraphQL
         [UseProjection]
         public IQueryable<Contract> GetContract(
             int id) => this._repo.SelectSingle<Contract>(id);
+
+        /// <summary>
+        /// Fetches all financials,
+        /// </summary>
+        /// <returns></returns>
+        [UseProjection, UseFiltering, UseSorting]
+        public IEnumerable<Financial> GetAllFinancials() => _repo.SelectAll<Financial>();
 
         /// <summary>
         /// Fetches a single financial record

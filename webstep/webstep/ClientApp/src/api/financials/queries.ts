@@ -28,6 +28,14 @@ query($input: Int!) {
 } 
 `;
 
+export const GET__FINANCIAL_YEARS = gql`
+{
+  allFinancials {
+    	year
+  }
+} 
+`;
+
 //Retrieves last x months of estimated Budget
 export const GET_EMPLOYEE_BUDGET = gql`
 query($input: Int!) {

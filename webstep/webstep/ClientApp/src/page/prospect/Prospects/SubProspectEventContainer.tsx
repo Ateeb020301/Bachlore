@@ -35,6 +35,10 @@ export const SubProspectEventContainer: React.FC<SubProspectEventContainerProps>
                 query: GET_SELLER_PROSPECTS,
                 variables: { id: subProspect.id },
             },
+            {
+                query: GET_SELLER_PROSPECTS,
+                variables: { start: { week: subProspect.startWeek, year: subProspect.startYear },  end: { week: subProspect.endWeek, year: subProspect.endYear }, probability: subProspect.probability, numOfConsultants: subProspect.numOfConsultants, id: subProspect.id },
+            },
         ],
         awaitRefetchQueries: true,
     });
@@ -53,6 +57,7 @@ export const SubProspectEventContainer: React.FC<SubProspectEventContainerProps>
                 console.log(e);
             });
     };
+    
     const editPlacement = (input: Eventable) => {
         let newSubProspect: EditSubProspectInput = {
             id: subProspect.id,
