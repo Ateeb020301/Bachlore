@@ -37,8 +37,6 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
     });
 
     const handleClick = () => {
-        toast.configure();
-
         addProject({
             variables: {
                 input: { consultantId: consultantId, customerName: 'Kunde', projectName: 'Prosjekt', hourlyRate: 1150 },
