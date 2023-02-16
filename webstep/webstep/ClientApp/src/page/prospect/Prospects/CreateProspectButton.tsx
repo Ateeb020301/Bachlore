@@ -32,7 +32,6 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({ sell
     });
 
     const handleClick = () => {
-        toast.configure();
         let defaultProspect = getDefaultProspect(sellerId);
         addProspect({ variables: { input: defaultProspect } })
             .then((res) => {

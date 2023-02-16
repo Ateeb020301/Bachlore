@@ -28,7 +28,6 @@ export const AddVacancyButton: React.FC<AddVacancyButtonProps> = ({ consultantId
     });
 
     const handleClick = () => {
-        toast.configure();
         let newVacancy: AddVacancyInput = getDefaultAddVacancyInput(planned, consultantId);
 
         addVacancy({ variables: { input: newVacancy } })
