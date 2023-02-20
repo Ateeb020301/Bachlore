@@ -7,17 +7,23 @@ import EditIcon from '@mui/icons-material/Edit';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import KeyIcon from '@mui/icons-material/Key';
 import AddIcon from '@mui/icons-material/Add';
-import MultiAxis, {SelectYear, yearOut } from './charts/mutliaxis'
+import MultiAxis from './charts/mutliaxis'
 import { faker } from '@faker-js/faker';
 import { CollapsibleTable } from "./table/projects";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import PieChart, {SumAnually, targetPercentage} from "./charts/piechart";
 import { ProfitLine, SumProfit } from "./charts/linechart";
+import { Link } from "react-router-dom";
+import './home.css'
+import { FormControl, InputLabel, Select, SelectChangeEvent } from "@mui/material";
+import useForceUpdate from "use-force-update";
   
+let yearOut = 2017;
+
 const Item = styled(Paper)(({ }) => ({
     backgroundColor: '#fefffe',
     textAlign: 'center',
@@ -25,7 +31,40 @@ const Item = styled(Paper)(({ }) => ({
     boxShadow: 'none',
   }));
 
-export const Home = () => {    
+  export const SelectYear = () => {
+    const [year, setYear] = React.useState(2017);
+    const handleChange = (event: SelectChangeEvent) => {
+      setYear(parseInt(event.target.value));
+      yearOut = parseInt(event.target.value);
+    };
+  
+    return (
+      <Box sx={{ minWidth: 100, height: 50 }}>
+        <FormControl fullWidth sx={{}}>
+          <InputLabel id="demo-simple-select-label">Year</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="yearSelect"
+            value={year.toString()}
+            label="year"
+            onChange={handleChange}>
+            <MenuItem value={2017}>2017</MenuItem>
+            <MenuItem value={2018}>2018</MenuItem>
+            <MenuItem value={2019}>2019</MenuItem>
+            <MenuItem value={2020}>2020</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+    );
+  }
+
+export const Home = () => {
+    const [, updateState] = useState();
+    const handleForceupdateMethod = useCallback(() => updateState({}), []);
+
+    // Check your console
+    console.log("Rendering...");
+    
     return (
         <Box sx={{my: 3, px:2, display: 'flex', flexWrap: 'wrap', maxHeight: '100%'}}>
 
@@ -64,8 +103,8 @@ export const Home = () => {
                                                 Add New <AddIcon />  
                                             </Button>
                                             <Menu {...bindMenu(popupState)}>
-                                                <MenuItem onClick={popupState.close}>Add Consultant</MenuItem>
-                                                <MenuItem onClick={popupState.close}>Add Seller</MenuItem>
+                                                <MenuItem onClick={popupState.close}><Link className="dropLink" to="/consultant">Add Consualtant</Link></MenuItem>
+                                                <MenuItem onClick={popupState.close}><Link className="dropLink" to="/seller'">Add Seller</Link></MenuItem>
                                             </Menu>
                                             </React.Fragment>
                                         )}
@@ -98,7 +137,7 @@ export const Home = () => {
                         width: '100%',
                     }}/>
                     <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', px: 2, height: '100%'}}>
-                        <MultiAxis />
+                        ${MultiAxis(yearOut)}
                     </Box>
                 </Box>
                 <Box sx={{flex: 1, ml: 1, display: 'flex', flexDirection: 'column'}}>
