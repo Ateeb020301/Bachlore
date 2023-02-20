@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React from 'react';
 import { getMonthName } from '../../../logic/getMonth';
 import { useQuery } from '@apollo/client';
 import {
@@ -36,46 +36,18 @@ let estRevenue: any[] = [];
 let actRevenue: any[] = [];
 
 
-export const SelectYear = () => {
-  const [year, setYear] = React.useState(2017);
-  const handleChange = (event: SelectChangeEvent) => {
-    setYear(parseInt(event.target.value));
-    yearOut = parseInt(event.target.value);
-  };
 
-  return (
-    <Box sx={{ minWidth: 100, height: 50 }}>
-      <FormControl fullWidth sx={{}}>
-        <InputLabel id="demo-simple-select-label">Year</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="yearSelect"
-          value={year.toString()}
-          label="year"
-          onChange={handleChange}>
-          <MenuItem value={2017}>2017</MenuItem>
-          <MenuItem value={2018}>2018</MenuItem>
-          <MenuItem value={2019}>2019</MenuItem>
-          <MenuItem value={2020}>2020</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
-  );
-}
-
-
-const MultiAxis = () => {
+function MultiAxis(yearOut: React.Key | null | undefined) {
   actRevenue = [];
   estRevenue = [];
   labels = [];
 
-  const { loading, error, data, refetch } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
+  const { loading, error, data } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
   data?.financial.forEach((data) => {
     labels.push(getMonthName(data.month));
     actRevenue.push(data.actualRevenue);
     estRevenue.push(data.revenue);
   })
-
   const dataMulti = {
     labels,
     datasets: [
@@ -95,7 +67,6 @@ const MultiAxis = () => {
       },
     ],
   };
-
 
   const element = (
     <Line 
