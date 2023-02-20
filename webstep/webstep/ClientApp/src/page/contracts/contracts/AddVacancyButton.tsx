@@ -7,7 +7,6 @@ import { AddVacancyInput } from '../../../api/contract/inputs';
 import { getDefaultAddVacancyInput } from '../../../api/contract/logic';
 import { AddVacancyPayload } from '../../../api/contract/payloads';
 import { ADD_VACANCY, GET_CONSULTANT_VACANCY } from '../../../api/contract/queries';
-import { defaultMessagePlacement } from '../../../logic/toast';
 
 interface AddVacancyButtonProps {
     consultantId: number;

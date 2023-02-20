@@ -7,7 +7,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AddProspectPayload, AddSubProspectPayload } from '../../../api/prospects/payloads';
 import { AddProspectInput, AddSubProspectInput } from '../../../api/prospects/inputs';
-import { defaultMessagePlacement } from '../../../logic/toast';
 import { Button } from 'reactstrap';
 
 interface CreateProspectButtonProps {
@@ -77,9 +76,16 @@ const getDefaultProspect = (sellerId: number) => {
 };
 
 const getDefaultSubProspect = (prospectId: number) => {
+    let currentDate: any = new Date();
+    let startDate: any = new Date(currentDate.getFullYear(), 0, 1);
+    var days = Math.floor((currentDate - startDate) /
+        (24 * 60 * 60 * 1000));
+         
+    var weekNumber = Math.ceil(days / 7);
+
     let currentWeek = getCurrentWeek();
     let currentYear = new Date().getFullYear();
-    let prospectDurationInWeeks = 4;
+    let prospectDurationInWeeks = 3;
 
     let probability = 30;
     let workdays = 5;
@@ -89,7 +95,7 @@ const getDefaultSubProspect = (prospectId: number) => {
         probability: probability,
         numOfConsultants: workdays,
         start: { year: currentYear, week: currentWeek },
-        end: { year: currentYear, week: currentWeek + prospectDurationInWeeks },
+        end: { year: currentYear, week: weekNumber + prospectDurationInWeeks },
     };
 
     return defaultSubProspect;

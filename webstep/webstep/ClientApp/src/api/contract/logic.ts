@@ -15,14 +15,21 @@ export const getEditContractInput = (c: Contract) => {
 };
 
 export const getDefaultNewContract = (projectId: number) => {
+    let currentDate: any = new Date();
+    let startDate: any = new Date(currentDate.getFullYear(), 0, 1);
+    var days = Math.floor((currentDate - startDate) /
+        (24 * 60 * 60 * 1000));
+         
+    var weekNumber = Math.ceil(days / 7);
+
     let currentWeek = getCurrentWeek();
     let currentYear = new Date().getFullYear();
 
     let defaultContract: AddContractInput = {
         projectId: projectId,
         daysOfWeek: 3,
-        start: { week: currentWeek, year: currentYear },
-        end: { week: currentWeek + 4, year: currentYear }, //TODO: Handle case where +4 moves to new year
+        start: { week: weekNumber, year: currentYear },
+        end: { week: weekNumber + 4, year: currentYear }, //TODO: Handle case where +4 moves to new year
     };
 
     return defaultContract;
