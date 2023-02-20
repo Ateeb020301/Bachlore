@@ -1,7 +1,6 @@
 import React, { useReducer, useState } from 'react';
-import { faker } from '@faker-js/faker';
+import { getMonthName } from '../../../logic/getMonth';
 import { useQuery } from '@apollo/client';
-import useForceUpdate from 'use-force-update';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,8 +15,6 @@ import { Line } from 'react-chartjs-2';
 import { GET_REVENUE } from '../../../api/financials/queries';
 import { Financial } from '../../../components/ChartLogic/chartlogic';
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { dataPie } from './piechart';
-import { render } from 'react-dom';
 
 ChartJS.register(
   CategoryScale,
@@ -33,7 +30,7 @@ interface GetRevenuePayload {
   financial: Financial[];
 }
 
-let yearOut = 2017;
+export let yearOut = 2017;
 let labels: any[] = [];
 let estRevenue: any[] = [];
 let actRevenue: any[] = [];
@@ -66,20 +63,13 @@ export const SelectYear = () => {
   );
 }
 
-function getMonthName(month: number){
-  const d = new Date();
-  d.setMonth(month-1);
-  const monthName = d.toLocaleString("en-us", {month: "long"});
-  return monthName;
-}
 
 const MultiAxis = () => {
   actRevenue = [];
   estRevenue = [];
   labels = [];
 
-  const { loading, error, data } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
-  console.log(data)
+  const { loading, error, data, refetch } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
   data?.financial.forEach((data) => {
     labels.push(getMonthName(data.month));
     actRevenue.push(data.actualRevenue);

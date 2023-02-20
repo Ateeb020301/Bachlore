@@ -7,11 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import KeyIcon from '@mui/icons-material/Key';
 import AddIcon from '@mui/icons-material/Add';
-import {optionsLine, dataLine} from './charts/linechart'
-import { dataPie, optionsPie } from './charts/piechart'
-import MultiAxis, {SelectYear } from './charts/mutliaxis'
-import { Line } from 'react-chartjs-2';
-import { Pie } from 'react-chartjs-2';
+import MultiAxis, {SelectYear, yearOut } from './charts/mutliaxis'
 import { faker } from '@faker-js/faker';
 import { CollapsibleTable } from "./table/projects";
 import Button from '@mui/material/Button';
@@ -19,7 +15,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import React from 'react';
-
+import PieChart, {SumAnually, targetPercentage} from "./charts/piechart";
+import { ProfitLine, SumProfit } from "./charts/linechart";
   
 const Item = styled(Paper)(({ }) => ({
     backgroundColor: '#fefffe',
@@ -28,9 +25,7 @@ const Item = styled(Paper)(({ }) => ({
     boxShadow: 'none',
   }));
 
-export const Home = () => {
-    const fakeNumber = faker.datatype.number({ min: 10000, max: 90000 }).toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
-    
+export const Home = () => {    
     return (
         <Box sx={{my: 3, px:2, display: 'flex', flexWrap: 'wrap', maxHeight: '100%'}}>
 
@@ -109,14 +104,15 @@ export const Home = () => {
                 <Box sx={{flex: 1, ml: 1, display: 'flex', flexDirection: 'column'}}>
                         <Box sx={{display: 'flex', justifyContent: 'space-between', flex: 1, background: '#fefeff', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, borderRadius: '10px'}}>
                             <Box sx={{flex: 2, alignSelf: 'center', display: 'flex', justifyContent: 'center', maxHeight: '200px'}}>
-                                <Pie data={dataPie} options={optionsPie}/>
+                                <PieChart />
                             </Box>
                             <Box sx={{borderLeft: 'solid', borderColor: '#e7eaf3', borderWidth: '2px',display: 'flex', flex:1, justifyContent: 'center', pl: 6, flexDirection: 'column'}}>
                                 <Box>
-                                    <h3 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${fakeNumber}</h3>
+                                    <h3 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${SumAnually()}</h3>
                                 </Box>
                                 <Box>
-                                    <p style={{color: 'black',margin: 0, opacity: 0.4, fontSize: '13px'}}>Actual Revenue</p>
+                                    <p style={{color: 'black',margin: 0, opacity: 0.4, fontSize: '13px'}}>Actual Revenue </p>
+                                    <p style={{color: 'black',margin: 0, opacity: 0.4, fontSize: '13px'}}>{yearOut}</p>
                                 </Box>
                             </Box>
                         </Box>
@@ -129,14 +125,16 @@ export const Home = () => {
                                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                                     <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'space-between'}}>
                                         <Box sx={{flex: 1}}>
-                                            <h4 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${fakeNumber}</h4>
+                                            <h4 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${SumProfit()}</h4>
                                         </Box>
                                         <Box sx={{flex: 1, textAlign: 'right'}}>
                                             <h5 style={{margin: 0}}>Totalt Profit</h5>
-                                            <h6 style={{margin: 0}}>72.10% of Target</h6>
+                                            <h6 style={{margin: 0}}>{targetPercentage.toFixed(0)}% of Target</h6>
                                         </Box>
                                     </Box>
-                                    <Box sx={{display: 'flex', height: '100%'}}><Line options={optionsLine} data={dataLine} /></Box>
+                                    <Box sx={{display: 'flex', height: '100%'}}>
+                                        <ProfitLine />
+                                    </Box>
                                 </Box>
                             </Box>
                         </Box>
