@@ -77,14 +77,11 @@ export const Seller = () => {
                     toast.success('Selger opprettet', {
                         position: toast.POSITION.BOTTOM_RIGHT
                     })
-                    console.log("yep")
                 })
                 .catch((err) => {
                     toast.error('Noe gikk galt med oppretting av en selger.', {
                         position: toast.POSITION.BOTTOM_RIGHT
-                    })
-                    console.log("nop")
-                    
+                    })                    
                 });
         }
     };

@@ -37,7 +37,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 export let setNavCollapse = false;
 
 export const Navbar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 1100 ? false : true);
   const [selected, setSelected] = useState("Dashboard");
 
   let changed = 'block';
@@ -48,10 +48,8 @@ export const Navbar = () => {
   {isCollapsed && (pad = '15px 0px 10px 0px !important')}
   {isCollapsed && (setNavCollapse = true)};
   {!isCollapsed && (setNavCollapse = false)};
-  
 
   return (
-
       <Box sx={{display: 'flex'}}>
         <Box
         sx={{
