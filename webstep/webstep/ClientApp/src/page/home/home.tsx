@@ -15,8 +15,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import React, { useCallback, useState } from 'react';
-import PieChart, {SumAnually, targetPercentage} from "./charts/piechart";
-import { ProfitLine, SumProfit } from "./charts/linechart";
+import DoughnutChart, {SumAnually, targetPercentage} from "./charts/doughnut";
+import ProfitLine, { SumProfit } from "./charts/linechart";
 import { Link } from "react-router-dom";
 import './home.css'
 import { FormControl, InputLabel, Select, SelectChangeEvent } from "@mui/material";
@@ -30,41 +30,32 @@ const Item = styled(Paper)(({ }) => ({
     color: '#00192d',
     boxShadow: 'none',
   }));
-
-  export const SelectYear = () => {
-    const [year, setYear] = React.useState(2017);
+export const Home = () => {
+    const [year, setYear] = React.useState(yearOut);
     const handleChange = (event: SelectChangeEvent) => {
       setYear(parseInt(event.target.value));
       yearOut = parseInt(event.target.value);
     };
-  
-    return (
-      <Box sx={{ minWidth: 100, height: 50 }}>
-        <FormControl fullWidth sx={{}}>
-          <InputLabel id="demo-simple-select-label">Year</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="yearSelect"
-            value={year.toString()}
-            label="year"
-            onChange={handleChange}>
-            <MenuItem value={2017}>2017</MenuItem>
-            <MenuItem value={2018}>2018</MenuItem>
-            <MenuItem value={2019}>2019</MenuItem>
-            <MenuItem value={2020}>2020</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-    );
-  }
-
-export const Home = () => {
-    const [, updateState] = useState();
-    const handleForceupdateMethod = useCallback(() => updateState({}), []);
-
-    // Check your console
-    console.log("Rendering...");
-    
+    const SelectYear = () => {
+        return (
+          <Box sx={{ minWidth: 100, height: 50 }}>
+            <FormControl fullWidth sx={{}}>
+              <InputLabel id="demo-simple-select-label">Year</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="yearSelect"
+                value={year.toString()}
+                label="year"
+                onChange={handleChange}>
+                <MenuItem value={2017}>2017</MenuItem>
+                <MenuItem value={2018}>2018</MenuItem>
+                <MenuItem value={2019}>2019</MenuItem>
+                <MenuItem value={2020}>2020</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        );
+    }
     return (
         <Box sx={{my: 3, px:2, display: 'flex', flexWrap: 'wrap', maxHeight: '100%'}}>
 
@@ -104,7 +95,7 @@ export const Home = () => {
                                             </Button>
                                             <Menu {...bindMenu(popupState)}>
                                                 <MenuItem onClick={popupState.close}><Link className="dropLink" to="/consultant">Add Consualtant</Link></MenuItem>
-                                                <MenuItem onClick={popupState.close}><Link className="dropLink" to="/seller'">Add Seller</Link></MenuItem>
+                                                <MenuItem onClick={popupState.close}><Link className="dropLink" to="/seller">Add Seller</Link></MenuItem>
                                             </Menu>
                                             </React.Fragment>
                                         )}
@@ -137,21 +128,20 @@ export const Home = () => {
                         width: '100%',
                     }}/>
                     <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', px: 2, height: '100%'}}>
-                        ${MultiAxis(yearOut)}
+                        {MultiAxis(yearOut)}
                     </Box>
                 </Box>
                 <Box sx={{flex: 1, ml: 1, display: 'flex', flexDirection: 'column'}}>
                         <Box sx={{display: 'flex', justifyContent: 'space-between', flex: 1, background: '#fefeff', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, borderRadius: '10px'}}>
                             <Box sx={{flex: 2, alignSelf: 'center', display: 'flex', justifyContent: 'center', maxHeight: '200px'}}>
-                                <PieChart />
+                                {DoughnutChart(yearOut)}
                             </Box>
                             <Box sx={{borderLeft: 'solid', borderColor: '#e7eaf3', borderWidth: '2px',display: 'flex', flex:1, justifyContent: 'center', pl: 6, flexDirection: 'column'}}>
                                 <Box>
-                                    <h3 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${SumAnually()}</h3>
+                                    <h3 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${SumAnually(yearOut)}</h3>
                                 </Box>
                                 <Box>
-                                    <p style={{color: 'black',margin: 0, opacity: 0.4, fontSize: '13px'}}>Actual Revenue </p>
-                                    <p style={{color: 'black',margin: 0, opacity: 0.4, fontSize: '13px'}}>{yearOut}</p>
+                                    <p style={{color: 'black',margin: 0, opacity: 0.4, fontSize: '13px'}}>Actual Revenue {yearOut}</p>
                                 </Box>
                             </Box>
                         </Box>
@@ -161,18 +151,18 @@ export const Home = () => {
                                 <h3 style={{color: 'white'}}>Total Prosjekter: <span className="totalProjects">0</span></h3>
                             </Box>
                             <Box sx={{border: 'solid', background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, ml: 2, justifyContent: 'space-between', display: 'flex', flex: 1}}>
-                                <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                                    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'space-between'}}>
+                                <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+                                    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'space-between', mb: 1}}>
                                         <Box sx={{flex: 1}}>
-                                            <h4 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${SumProfit()}</h4>
+                                            <h4 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${SumProfit(yearOut)}</h4>
                                         </Box>
                                         <Box sx={{flex: 1, textAlign: 'right'}}>
                                             <h5 style={{margin: 0}}>Totalt Profit</h5>
-                                            <h6 style={{margin: 0}}>{targetPercentage.toFixed(0)}% of Target</h6>
+                                            <h6 style={{margin: 0}}>{targetPercentage.toFixed(1)}% of Target</h6>
                                         </Box>
                                     </Box>
-                                    <Box sx={{display: 'flex', height: '100%'}}>
-                                        <ProfitLine />
+                                    <Box sx={{display: 'flex', height: '75%', width: '100%', justifyContent: 'center'}}>
+                                        {ProfitLine(yearOut)}
                                     </Box>
                                 </Box>
                             </Box>
@@ -183,7 +173,7 @@ export const Home = () => {
             <Box sx={{display: 'flex', flexBasis: '100%', mt: 3, justifyContent: "space-between", height: 'auto', pb: 2}}>
                 <Box sx={{borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', background: '#fefeff', display: 'flex', flexDirection: 'column', flex: 2.5, mr: 2, boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
                     <Box sx={{mx: 2, mt: 2, mb: 2}}>
-                        <h4 style={{padding: '0px', margin: '0px'}}>Pågående Prosjekter</h4>
+                        <h4 style={{padding: '0px', margin: '0px'}}>Pågående prosjekter</h4>
                     </Box>
                     
                     <hr  style={{

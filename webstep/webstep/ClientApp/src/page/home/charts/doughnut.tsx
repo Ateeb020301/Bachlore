@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 import { useQuery } from '@apollo/client';
 import { GET_REVENUE } from '../../../api/financials/queries';
 import { yearOut } from './mutliaxis';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import { Financial } from '../../../components/ChartLogic/chartlogic';
 import { getMonthName } from '../../../logic/getMonth';
 
@@ -22,7 +22,7 @@ let sum = 0;
 let estSum = 0;
 export let targetPercentage = 0;
 
-export function SumAnually() {
+export function SumAnually(yearOut: React.Key | null | undefined) {
   labels = [];
   actRev = [];
   estRev = [];
@@ -48,8 +48,18 @@ export function SumAnually() {
   return sum.toLocaleString();
 }
 
-const PieChart = () => {
-  const dataPie = {
+
+function DoughnutChart(yearOut: React.Key | null | undefined) {
+  labels = [];
+  actRev = [];
+  estRev = [];
+  const { loading, error, data, refetch } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
+  data?.financial.forEach((data) => {
+    labels.push(getMonthName(data.month) + " " + yearOut);
+    actRev.push(data.actualRevenue)
+    estRev.push(data.revenue)
+  })
+  const dataDoughnut = {
     labels,
     datasets: [
       {
@@ -76,9 +86,9 @@ const PieChart = () => {
     ],
   };
 
-  const optionsPie = {
-    type: 'pie',
-    data: dataPie,
+  const optionsDoughnut = {
+    type: 'doughnut',
+    data: dataDoughnut,
     plugins: { legend: { display: false, }},
     options: {
         responsive: true
@@ -86,9 +96,9 @@ const PieChart = () => {
   }
   
   const element = (
-    <Pie data={dataPie} options={optionsPie}/>
+    <Doughnut data={dataDoughnut} options={optionsDoughnut}/>
   )
   return element
 }
 
-export default PieChart;
+export default DoughnutChart;
