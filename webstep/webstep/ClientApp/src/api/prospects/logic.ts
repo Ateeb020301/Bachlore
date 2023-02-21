@@ -27,13 +27,19 @@ export const getAddSubProspectInput = (p: NewSubProspect): AddSubProspectInput =
 };
 
 export const getDefaultNewSubProspect = (prospectId: number): NewSubProspect => {
+    let currentDate: any = new Date();
+    let startDate: any = new Date(currentDate.getFullYear(), 0, 1);
+    var days = Math.floor((currentDate - startDate) /
+        (24 * 60 * 60 * 1000));
+         
+    var weekNumber = Math.ceil(days / 7);
     let defaultSubProspect: NewSubProspect = {
         prospectId: prospectId,
         probability: 10,
         startYear: new Date().getFullYear(),
-        startWeek: getCurrentWeek(),
+        startWeek: weekNumber,
         endYear: new Date().getFullYear(),
-        endWeek: getCurrentWeek() + 4,
+        endWeek: weekNumber + 4,
         numOfConsultants: 5,
     };
 

@@ -94,7 +94,7 @@ const getDefaultSubProspect = (prospectId: number) => {
         prospectId: prospectId,
         probability: probability,
         numOfConsultants: workdays,
-        start: { year: currentYear, week: currentWeek },
+        start: { year: currentYear, week: weekNumber },
         end: { year: currentYear, week: weekNumber + prospectDurationInWeeks },
     };
 

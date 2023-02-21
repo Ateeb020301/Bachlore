@@ -26,7 +26,7 @@ let labels: string[] = [];
 let profit: number[] = [];
 let sum = 0;
 
-export function SumProfit() {
+export function SumProfit(yearOut: React.Key | null | undefined) {
   labels = [];
   profit = [];
   sum = 0;
@@ -44,7 +44,12 @@ export function SumProfit() {
   return sum.toLocaleString();
 }
 
-  export const ProfitLine = () => {
+  function ProfitLine(yearOut: React.Key | null | undefined) {
+    const { loading, error, data, refetch } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
+    data?.financial.forEach((data) => {
+      labels.push(getMonthName(data.month) + " " + yearOut);
+      profit.push((data.actualRevenue-data.revenue));
+    })
     const optionsLine = {
       type: 'line',
       responsive: true,
@@ -91,3 +96,5 @@ export function SumProfit() {
     )
     return element;
   }
+
+  export default ProfitLine;

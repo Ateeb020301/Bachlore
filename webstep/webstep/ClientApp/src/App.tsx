@@ -10,6 +10,8 @@ import { Home } from './page/home/home';
 import { Prospects } from './page/prospect/Prospects'
 import { setNavCollapse } from './page/navbar/navbar';
 import { Contracts } from './page/contracts/contracts';
+import { Seller } from './page/seller/seller';
+import { Consultant } from './page/consultant/consultant';
 
 const client = new ApolloClient({
   uri: document.baseURI + 'graphql',
@@ -32,6 +34,8 @@ export const App: React.FC = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/prospect" element={<Prospects />} />
                     <Route path="/belegg" element={<Contracts />} />
+                    <Route path="/seller" element={<Seller />} />
+                    <Route path="/consultant" element={<Consultant />} />
                   </Routes>
                 </main>
               </div>

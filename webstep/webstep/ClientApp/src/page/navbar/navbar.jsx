@@ -4,9 +4,6 @@ import { useState } from 'react'
 import InputBase from '@mui/material/InputBase'
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from 'react-router-dom'
-import KeyIcon from '@mui/icons-material/Key';
-import HomeIcon from '@mui/icons-material/Home';
-import PercentIcon from '@mui/icons-material/Percent';
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
@@ -17,9 +14,9 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpen from '@mui/icons-material/MenuOpen';
 import './navbar.css';
-import "react-pro-sidebar/dist/css/styles.css";
-import CloseIcon from '@mui/icons-material/Close';
-import { textAlign } from '@mui/system';
+import "react-pro-sidebar/dist/css/styles.css"; 
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
@@ -166,8 +163,8 @@ export const Navbar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title={!isCollapsed &&("Invoices Balances")}
-                to="/invoices"
+                title={!isCollapsed &&("Deals")}
+                to="/deals"
                 icon={<ReceiptOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
@@ -179,20 +176,20 @@ export const Navbar = () => {
                   color={'white'}
                   sx={{ m: "15px 0 5px 20px" }}
                 >
-                Pages
+                Form
                 </p>
               )}
               <Item
-                title={!isCollapsed &&("Profile Form")}
-                to="/form"
-                icon={<PersonOutlinedIcon />}
+                title={!isCollapsed &&("Add Seller")}
+                to="/seller"
+                icon={<PersonAddAltIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title={!isCollapsed &&("Calender")}
-                to="/calendar"
-                icon={<CalendarTodayOutlinedIcon />}
+                title={!isCollapsed &&("Add Consultant")}
+                to="/consultant"
+                icon={<AddBusinessIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
