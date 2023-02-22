@@ -208,7 +208,27 @@ namespace webstep.GraphQL
             }
         }
 
-       
+
+        /// <summary>
+        /// Fetches a single Deal
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [UseProjection]
+        public IQueryable<Deals> GetDeal(
+            int id) => this._repo.SelectSingle<Deals>(id);
+
+
+        /// <summary>
+        /// Fetches a single contract
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [UseProjection]
+        public IQueryable<DealsConsulents> GetDealsConsulents(
+            int id) => this._repo.SelectSingle<DealsConsulents>(id);
+
+
 
     }
 }
