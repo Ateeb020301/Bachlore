@@ -37,6 +37,8 @@ namespace webstep.Data
         public DbSet<Financial> Financials { get; set; }
         
         public DbSet<Vacancy> Vacancies { get; set; }
+        public DbSet<Deals> Deals { get; set; }
+        public DbSet<DealsConsulents> DealConsulents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +50,8 @@ namespace webstep.Data
             SubProspectTable(modelBuilder);
             FinancialTable(modelBuilder);
             VacancyTable(modelBuilder);
+            DealsTable(modelBuilder);
+            DealsConsulentsTable(modelBuilder);
         }
 
 
@@ -159,6 +163,18 @@ namespace webstep.Data
             builder.Entity<Vacancy>()
                 .HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false &&
                                      m.EndDate >= clock.GetCurrentDate());
+        }
+
+        private void DealsTable(ModelBuilder builder)
+        {
+            builder.Entity<Deals>().ToTable("Deals");
+            builder.Entity<Deals>().Property<bool>("isDeleted");
+            builder.Entity<Deals>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
+        }
+
+        private void DealsConsulentsTable(ModelBuilder builder)
+        {
+            builder.Entity<DealsConsulents>().ToTable("DealsConsulents");
         }
 
         public override int SaveChanges()
