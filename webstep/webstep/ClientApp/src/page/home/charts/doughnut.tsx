@@ -40,9 +40,6 @@ export function SumAnually(yearOut: React.Key | null | undefined) {
     sum += actRev[i];
     estSum += estRev[i];
   }
-
-  console.log(sum);
-  console.log(estSum);
   targetPercentage = (sum/estSum)*100;
 
   return sum.toLocaleString();

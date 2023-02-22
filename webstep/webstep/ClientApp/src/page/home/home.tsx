@@ -108,7 +108,6 @@ export const Home = () => {
             </Box>
 
             <Box sx={{flex: 1, mt: 2, display: 'flex', justifyContent: "space-between"}}>
-
                 <Box key={'Graph'} sx={{flex: 1.5, mr: 3, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', display: 'flex', flexDirection: 'column', overflow: 'hidden'}}>
                     <Box sx={{display: 'flex', mx: 2, mt: 1, mb: 1, justifyContent: 'space-between'}}>
                         <Box sx={{display: 'flex', alignItems: 'center'}}><h4>Revenue vs Actual Revenue</h4></Box>

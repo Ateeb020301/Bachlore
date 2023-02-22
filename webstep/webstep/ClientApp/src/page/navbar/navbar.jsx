@@ -36,7 +36,6 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 export let setNavCollapse = false;
 export const Navbar = () => {
-  console.log(window.innerWidth)
   let width = window.innerWidth;
   const [isCollapsed, setIsCollapsed] = useState(width < 1600 ? true : false);
   const [selected, setSelected] = useState("Dashboard");

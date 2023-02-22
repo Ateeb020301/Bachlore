@@ -18,6 +18,7 @@
     public record AddDealsConsulentsInput
     {
         [Required] public int ConsultantId { get; set; }
+        [Required] public int DealsId { get; set; }
 
     }
 #nullable enable

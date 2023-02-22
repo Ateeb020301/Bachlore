@@ -27,5 +27,8 @@
         [Required]
         public Consultant Consultant { get; set; }
         
+        [Required]
+        public Deals Deals { get; set; }
+        
     }
 }

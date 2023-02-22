@@ -31,10 +31,14 @@
         {
             var consulent = await this._repo.SelectByIdAsync<Consultant>(input.ConsultantId, context, cancellationToken)
             .ConfigureAwait(false);
+            
+            var deals = await this._repo.SelectByIdAsync<Deals>(input.DealsId, context, cancellationToken)
+            .ConfigureAwait(false);
 
             var dealsconsulent = new DealsConsulents
             {
                  Consultant = consulent,
+                 Deals = deals
             };
 
             await _repo.CreateAsync(dealsconsulent, context, cancellationToken)
