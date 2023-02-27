@@ -40,6 +40,9 @@
         public LocalDate EndDate { get; set; }
 
         [Required]
+        public int HourlyRate { get; set; }
+
+        [Required]
         public Project Project { get; set; }
 
         [Required]

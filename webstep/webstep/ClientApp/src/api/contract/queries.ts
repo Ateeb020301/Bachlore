@@ -45,7 +45,6 @@ export const GET_CONSULTANT_CONTRACTS = gql`
                 id
                 customerName
                 projectName
-                hourlyRate
                 contracts {
                     id
                     startYear
@@ -53,6 +52,7 @@ export const GET_CONSULTANT_CONTRACTS = gql`
                     endYear
                     endWeek
                     daysOfWeek
+                    hourlyRate
                 }
             }
             firstName

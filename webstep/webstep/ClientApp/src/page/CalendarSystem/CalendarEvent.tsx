@@ -5,6 +5,7 @@ import '../Utils/Normalize.css';
 import { DragBar } from '../Utils/DragBar';
 import { DocumentNode } from '@apollo/client';
 import { constants } from '../../logic/constants';
+import { HourlyRateImage } from '../../components/images/HourlyRateImage';
 
 export interface Eventable {
     id: number;

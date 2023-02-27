@@ -9,6 +9,7 @@ export const getEditContractInput = (c: Contract) => {
         start: { week: c.startWeek, year: c.startYear },
         end: { week: c.endWeek, year: c.endYear },
         daysOfWeek: c.daysOfWeek,
+        hourlyRate: c.hourlyRate
     };
 
     return input;
@@ -30,6 +31,7 @@ export const getDefaultNewContract = (projectId: number) => {
         daysOfWeek: 3,
         start: { week: weekNumber, year: currentYear },
         end: { week: weekNumber + 4, year: currentYear }, //TODO: Handle case where +4 moves to new year
+        hourlyRate: 1200
     };
 
     return defaultContract;

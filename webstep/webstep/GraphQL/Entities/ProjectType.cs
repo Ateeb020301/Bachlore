@@ -8,9 +8,9 @@ namespace webstep.GraphQL.Entities
         
     }
 
-    public record AddProjectInput(int ConsultantId, string CustomerName, string ProjectName, int HourlyRate);
+    public record AddProjectInput(int ConsultantId, string CustomerName, string ProjectName);
     #nullable enable
-    public record EditProjectInput(int Id, string? CustomerName, string? ProjectName, int? HourlyRate);
+    public record EditProjectInput(int Id, string? CustomerName, string? ProjectName);
     public record DeleteProjectInput(int Id);
 
     public record ProjectPayload(Project Project);

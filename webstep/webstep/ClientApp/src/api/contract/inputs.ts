@@ -1,3 +1,4 @@
+import { Contract } from '../../logic/interfaces';
 import { WeekYear } from '../prospects/types';
 
 export interface GetConsultantCapacityInput {
@@ -16,12 +17,12 @@ export interface EditContractInput {
     start: WeekYear;
     end: WeekYear;
     daysOfWeek: number;
+    hourlyRate: number;
 }
 
 export interface AddProjectInput {
     consultantId: number;
     projectName: string;
-    hourlyRate: number;
     customerName: string;
 }
 
@@ -29,7 +30,6 @@ export interface EditProjectInput {
     id: number;
     customerName: string;
     projectName: string;
-    hourlyRate: number;
 }
 
 export interface AddContractInput {
@@ -37,6 +37,7 @@ export interface AddContractInput {
     start: WeekYear;
     end: WeekYear;
     daysOfWeek: number;
+    hourlyRate: number;
 }
 
 export interface EditVacancyInput {

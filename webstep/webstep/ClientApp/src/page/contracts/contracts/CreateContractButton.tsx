@@ -39,7 +39,7 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
     const handleClick = () => {
         addProject({
             variables: {
-                input: { consultantId: consultantId, customerName: 'Kunde', projectName: 'Prosjekt', hourlyRate: 1150 },
+                input: { consultantId: consultantId, customerName: 'Kunde', projectName: 'Prosjekt'},
             },
         })
             .then((res) => {

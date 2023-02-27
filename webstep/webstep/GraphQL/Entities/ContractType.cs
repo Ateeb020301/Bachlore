@@ -15,6 +15,10 @@
 
     public record AddContractInput
     {
+
+        [Required]
+        public int HourlyRate { get; set; }
+
         [Required]
         public WeekYear Start { get; set; }
 
@@ -28,7 +32,7 @@
         public decimal DaysOfWeek { get; set; }
     }
     #nullable enable
-    public record EditContractInput(int Id, WeekYear? Start, WeekYear? End, decimal? DaysOfWeek);
+    public record EditContractInput(int Id, WeekYear? Start, WeekYear? End, decimal? DaysOfWeek, int? HourlyRate);
     public record DeleteContractInput(int Id);
     public record ContractPayload(Contract Contract);
 }

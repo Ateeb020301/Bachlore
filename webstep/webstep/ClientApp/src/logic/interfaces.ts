@@ -58,6 +58,7 @@ export interface Contract {
     endYear: number;
     endWeek: number;
     daysOfWeek: number;
+    hourlyRate: number;
 }
 
 export interface ContractNoProject {
@@ -75,7 +76,6 @@ export interface Project {
     id: number;
     customerName: string;
     projectName: string;
-    hourlyRate: number;
     contracts: Contract[];
 }
 

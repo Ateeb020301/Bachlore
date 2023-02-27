@@ -35,7 +35,6 @@ namespace webstep.GraphQL.Mutations
                 Consultant = consultant,
                 ProjectName = input.ProjectName,
                 CustomerName = input.CustomerName,
-                HourlyRate = input.HourlyRate
             };
             
             await _repo
@@ -56,7 +55,7 @@ namespace webstep.GraphQL.Mutations
             
             project.CustomerName = input.CustomerName ?? project.CustomerName;
             project.ProjectName = input.ProjectName ?? project.ProjectName;
-            project.HourlyRate = input.HourlyRate ?? project.HourlyRate;
+            
             
             await _repo
                 .UpdateAsync(project, context, cancellationToken)

@@ -14,7 +14,6 @@ namespace webstep.GraphQL.Mutations
 {
     using global::NodaTime;
     using global::NodaTime.Calendars;
-
     using webstep.Interfaces;
 
     [ExtendObjectType(Name = nameof(Mutation))]
@@ -40,7 +39,8 @@ namespace webstep.GraphQL.Mutations
             var contract = new Contract
             {
                 Project = project,
-                DaysOfWeek = input.DaysOfWeek
+                DaysOfWeek = input.DaysOfWeek,
+                HourlyRate = input.HourlyRate
             };
 
             try
@@ -73,6 +73,7 @@ namespace webstep.GraphQL.Mutations
                 .SelectByIdAsync<Contract>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
             contract.DaysOfWeek = input.DaysOfWeek ?? contract.DaysOfWeek;
+            contract.HourlyRate = input.HourlyRate ?? contract.HourlyRate;
 
             try
             {
