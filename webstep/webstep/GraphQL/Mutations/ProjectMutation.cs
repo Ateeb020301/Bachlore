@@ -32,7 +32,6 @@ namespace webstep.GraphQL.Mutations
             
             var project = new Project()
             {
-                Consultant = consultant,
                 ProjectName = input.ProjectName,
                 CustomerName = input.CustomerName,
             };

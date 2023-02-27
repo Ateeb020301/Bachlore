@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Dynamic;
     using System.Linq;
     using HotChocolate;
     using HotChocolate.Data;
@@ -29,6 +30,7 @@
             context.SaveChanges();
             context.SubProspects.AddRange(DummySubProspects(context));
             context.Contracts.AddRange(DummyContracts(context));
+            context.ProjectConsultant.AddRange(DummyProjectConsultant(context));
             context.SaveChanges();
         }
 
@@ -237,20 +239,17 @@
                 new Project()
                 {
                     CustomerName = "Bouvet",
-                    ProjectName = "Kassesystem",
-                    Consultant = consultant[0]
+                    ProjectName = "Kassesystem"
                 },
                 new Project()
                 {
                     CustomerName = "Innow",
-                    ProjectName = "Idk man",
-                    Consultant = consultant[0]
+                    ProjectName = "Idk man"
                 },
                 new Project()
                 {
                     CustomerName = "xLedger",
-                    ProjectName = "Sikkerhet",
-                    Consultant = consultant[0]
+                    ProjectName = "Sikkerhet"
                 }
             };
         }
@@ -367,6 +366,33 @@
                     Probability = 30,
                     NumOfConsultants = 5,
                     Prospect = prospect[3]
+                }
+            };
+        }
+
+        public static List<ProjectConsultant> DummyProjectConsultant(WebstepContext context)
+        {
+            var project = context.Projects.ToList();
+            var consultants = context.Consultants.ToList();
+
+
+            return new List<ProjectConsultant>()
+            {
+                new ProjectConsultant
+                {
+                     Project = project[0],
+                     Consultant = consultants[0]
+
+                },
+                new ProjectConsultant
+                {
+                     Project = project[1],
+                     Consultant = consultants[0]
+                },
+                new ProjectConsultant
+                {
+                     Project = project[2],
+                     Consultant = consultants[0]
                 }
             };
         }

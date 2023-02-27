@@ -25,6 +25,7 @@ namespace webstep.Data
         public DbSet<Consultant> Consultants { get; set; }
         
         public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectConsultant> ProjectConsultant { get; set; }
 
         public DbSet<Contract> Contracts { get; set; }
 
@@ -41,6 +42,7 @@ namespace webstep.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ProjectTable(modelBuilder);
+            ProjectConsultantTable(modelBuilder);
             SellerTable(modelBuilder);
             ConsultantTable(modelBuilder);
             ContractTable(modelBuilder);
@@ -67,6 +69,13 @@ namespace webstep.Data
             builder.Entity<Project>().ToTable("Project");
             builder.Entity<Project>().Property<bool>("isDeleted");
             builder.Entity<Project>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
+        } 
+        
+        private void ProjectConsultantTable(ModelBuilder builder) 
+        {
+            builder.Entity<ProjectConsultant>().ToTable("ProjectConsultant");
+            builder.Entity<ProjectConsultant>().Property<bool>("isDeleted");
+            builder.Entity<ProjectConsultant>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         }
         
 

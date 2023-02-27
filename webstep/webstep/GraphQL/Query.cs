@@ -136,10 +136,13 @@ namespace webstep.GraphQL
         public IQueryable<SubProspect> GetSubProspect(int id) => this._repo.SelectSingle<SubProspect>(id);
 
         
-        [UseProjection]
+        [UseProjection]                                                                  
         public IQueryable<Project> GetProject(int id) => _repo.SelectSingle<Project>(id);
-        
-        
+
+        [UseProjection]
+        public IQueryable<ProjectConsultant> GetProjectConsultant(int id) => _repo.SelectSingle<ProjectConsultant>(id).Where(x => x.Consultant.Id == id);
+
+
         [UseOffsetPaging(MaxPageSize = 20), UseProjection]
         public IQueryable<Project> GetProjects() => _repo.SelectAll<Project>();
         
