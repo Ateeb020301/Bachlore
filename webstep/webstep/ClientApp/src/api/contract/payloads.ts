@@ -4,7 +4,6 @@ import { Vacancy, ConsultantCapacity } from './types';
 // Custom base interfaces for contract/consultant api calls
 export interface Consultant {
     id: number;
-    projects: Project[];
     firstName: string;
     lastName: string;
     employmentDate: string;
@@ -28,6 +27,17 @@ export interface GetConsultantContractsPayload {
     consultant: Consultant[];
 }
 
+export interface GetProjectConsultantContractsPayload {
+    projectConsultant: [
+        {
+            consultant: Consultant[]
+        },
+        {
+            project: Project[]
+        }
+     ]
+}
+
 export interface EditContractPayload {
     contract: { id: number };
 }
@@ -37,7 +47,7 @@ export interface GetConsultantIDsPayload {
 }
 
 export interface GetProjectConsultantIDS {
-    allProjectConsultants: { items: [{ consultant: { id: number } }] };
+    allProjectConsultants: [{ id: number }];
 }
 
 export interface AddProjectPayload {

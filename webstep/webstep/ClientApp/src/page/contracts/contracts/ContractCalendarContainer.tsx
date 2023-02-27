@@ -8,12 +8,13 @@ import { ConsultantSection } from './ConsultantSection';
 
 export const ContractCalendarContainer = () => {
     const { loading, error, data } = useQuery<GetProjectConsultantIDS>(GET_PROJECTCONSULTANT_IDS);
+
     return (
         <Calendar
             title={'Konsulenter'}
             render={(b: boolean) =>
-                data?.allProjectConsultants.items.map((consultant) => {
-                    return <ConsultantSection consultantId={consultant.consultant.id} showContracts={b} key={uuidv4()} />;
+                data?.allProjectConsultants.map((consultant:any) => {
+                    return <ConsultantSection consultantId={consultant.id} showContracts={b} key={uuidv4()} />;
                 })
             }></Calendar>
     );

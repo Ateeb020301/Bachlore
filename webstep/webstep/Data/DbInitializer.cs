@@ -434,12 +434,22 @@
                 new ProjectConsultant
                 {
                      Project = project[1],
-                     Consultant = consultants[0]
+                     Consultant = consultants[1]
                 },
                 new ProjectConsultant
                 {
                      Project = project[2],
+                     Consultant = consultants[2]
+                },             
+                new ProjectConsultant
+                {
+                     Project = project[1],
                      Consultant = consultants[0]
+                },
+                new ProjectConsultant
+                {
+                     Project = project[0],
+                     Consultant = consultants[1]
                 }
             };
         }

@@ -1,9 +1,9 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQuery } from '@apollo/client';
-import { AddContractPayload, GetConsultantContractsPayload } from '../../../api/contract/payloads';
+import { AddContractPayload, GetConsultantContractsPayload, GetProjectConsultantContractsPayload } from '../../../api/contract/payloads';
 import { AddContractInput, GetConsultantContractsInput } from '../../../api/contract/inputs';
-import { ADD_CONTRACT, GET_CONSULTANT_CAPACITY, GET_CONSULTANT_CONTRACTS } from '../../../api/contract/queries';
+import { ADD_CONTRACT, GET_CONSULTANT_CAPACITY, GET_CONSULTANT_CONTRACTS, GET_CONS_CONTRACTS } from '../../../api/contract/queries';
 import { Loading } from '../../Utils/Loading';
 import { CalendarRow } from '../../CalendarSystem/CalendarRow';
 import { ProjectDescription } from './ProjectDescription';
@@ -21,13 +21,14 @@ interface ConsultantContractRowListProps {
 }
 
 export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps> = ({ consultantId }) => {
-    const { loading, error, data } = useQuery<GetConsultantContractsPayload, GetConsultantContractsInput>(
-        GET_CONSULTANT_CONTRACTS,
+    const { loading, error, data } = useQuery<GetProjectConsultantContractsPayload, GetConsultantContractsInput>(
+        GET_CONS_CONTRACTS,
         {
             variables: { id: consultantId },
             pollInterval: 3000,
         }
     );
+    console.log(data)
     const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
         refetchQueries: [
             {
@@ -60,15 +61,15 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
     return (
         <>
             {!loading && !error && data ? (
-                data.consultant[0].projects.map(
-                    (project) =>
+                data.projectConsultant[1].project.map(
+                    (project: any) =>
                         project.contracts.length > 0 && (
                             <CalendarRow
                                 key={uuidv4()}
                                 sidebarContent={<ProjectDescription project={project} consultantId={consultantId} />}
                                 timelineContent={
                                     <CalendarTimelineGrid>
-                                        {project.contracts.map((contract) => {
+                                        {project.contracts.map((contract: any) => {
                                             return (
                                                 isContractValid(contract) && (
                                                     <ContractEventContainer

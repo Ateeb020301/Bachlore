@@ -9,7 +9,7 @@ using ILogger = Microsoft.Extensions.Logging.ILogger;
 namespace webstep.GraphQL
 {
     using System.Linq;
-
+    using System.Security.Cryptography.X509Certificates;
     using global::NodaTime;
     using global::NodaTime.Calendars;
 
@@ -140,10 +140,20 @@ namespace webstep.GraphQL
         public IQueryable<Project> GetProject(int id) => _repo.SelectSingle<Project>(id);
 
         [UseProjection]
-        public IQueryable<ProjectConsultant> GetProjectConsultant(int id) => _repo.SelectSingle<ProjectConsultant>(id).Where(x => x.Consultant.Id == id);
+        public IQueryable<ProjectConsultant> GetProjectConsultant(int id) => _repo.SelectAll<ProjectConsultant>().Where(x => x.Consultant.Id == id);
 
-        [UseOffsetPaging(MaxPageSize = 50), UseProjection, UseSorting]
-        public IQueryable<ProjectConsultant> GetAllProjectConsultants() => _repo.SelectAll<ProjectConsultant>();
+        [UseProjection]
+        public IQueryable<Consultant> GetAllProjectConsultants()
+        {
+            var consultant = _repo.SelectAll<Consultant>();
+            var contracts = _repo.SelectAll<Contract>();
+           
+            var projectConsultant = _repo.SelectAll<ProjectConsultant>();
+            var values = projectConsultant.Select(z => z.Consultant).ToList();
+
+
+            return consultant.Select(x => x).Where(p => values.Contains(p)).Include(x => x.Projects);
+        }
 
         [UseOffsetPaging(MaxPageSize = 20), UseProjection]
         public IQueryable<Project> GetProjects() => _repo.SelectAll<Project>();

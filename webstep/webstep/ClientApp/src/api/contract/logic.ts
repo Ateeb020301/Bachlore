@@ -50,6 +50,13 @@ export const getEditVacancyInput = (vacancy: Vacancy): EditVacancyInput => {
 };
 
 export const getDefaultAddVacancyInput = (planned: boolean, consultantId: number): AddVacancyInput => {
+    let currentDate: any = new Date();
+    let startDate: any = new Date(currentDate.getFullYear(), 0, 1);
+    var days = Math.floor((currentDate - startDate) /
+        (24 * 60 * 60 * 1000));
+
+    var weekNumber = Math.ceil(days / 7);
+
     let currentYear = new Date().getFullYear();
     let startWeek = getCurrentWeek() + 1;
     let daysOfWeek = 5;
@@ -59,8 +66,8 @@ export const getDefaultAddVacancyInput = (planned: boolean, consultantId: number
         consultantId: consultantId,
         daysOfWeek: daysOfWeek,
         planned: planned,
-        start: { week: startWeek, year: currentYear },
-        end: { week: endWeek, year: endYear },
+        start: { week: weekNumber, year: currentYear },
+        end: { week: weekNumber+4, year: endYear },
     };
     return input;
 };

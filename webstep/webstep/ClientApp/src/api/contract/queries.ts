@@ -77,10 +77,40 @@ export const GET_CONSULTANT_IDS = gql`
 export const GET_PROJECTCONSULTANT_IDS = gql`
     query {
         allProjectConsultants {
-            items { consultant { id } }   
+            id   
         }
     }
 `;
+
+export const GET_CONS_CONTRACTS = gql`
+    query GetConsContracts{
+        projectConsultant(id: $id) {
+            project {
+                id
+                customerName
+                projectName
+                contracts {
+                    id
+                    startYear
+                    startWeek
+                    endYear
+                    endWeek
+                    daysOfWeek
+                    hourlyRate
+                }
+            }
+            consultant {
+                id
+                firstName
+                lastName
+                employmentDate
+                resignationDate
+                workdays
+            }
+        }
+    }
+`;
+
 
 export const EDIT_CONTRACT = gql`
     mutation EditContract($input: EditContractInput) {
