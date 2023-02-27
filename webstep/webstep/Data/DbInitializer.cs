@@ -23,6 +23,7 @@
             context.Sellers.AddRange(DummySellers());
             context.Consultants.AddRange(DummyConsultants());
             context.Financials.AddRange(DummyFinancials());
+            context.Customer.AddRange(DummyCustomers());
             context.SaveChanges();
             context.Vacancies.AddRange(DummyVacancies(context));
             context.Prospects.AddRange(DummyProspects(context));
@@ -32,6 +33,52 @@
             context.Contracts.AddRange(DummyContracts(context));
             context.ProjectConsultant.AddRange(DummyProjectConsultant(context));
             context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Creates a list of dummy sellers
+        /// </summary>
+        /// <returns>
+        /// The <see cref="List{Seller}"/>.
+        /// </returns>
+        public static List<Customer> DummyCustomers()
+        {
+
+            return new List<Customer>()
+            {
+                new Customer
+                {
+                    FirstName = "Ateeb",
+                    LastName = "Salam",
+                    Adresse = "Snypemyrlia 9",
+                    Email = "ateeb@live.no",
+                    Tlf = "40749470"
+                },
+                new Customer
+                {
+                    FirstName = "Mohammad",
+                    LastName = "Abo Khalifa",
+                    Adresse = "Byggveien 7",
+                    Email = "mohammedabo0102@hotmail.com",
+                    Tlf = "45418389"
+                },
+                new Customer
+                {
+                    FirstName = "Hassan",
+                    LastName = "Mehmod Hussain",
+                    Adresse = "Brunasvei 93",
+                    Email = "hassanreserve10@gmail.com",
+                    Tlf = "45457590"
+                },
+                new Customer
+                {
+                    FirstName = "Naveen",
+                    LastName = "Vijayasanker",
+                    Adresse = "Havreveien 32",
+                    Email = "naveen150301@gmail.com",
+                    Tlf = "46762686"
+                },
+            };
         }
 
         /// <summary>

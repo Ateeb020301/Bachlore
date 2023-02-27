@@ -24,8 +24,8 @@ namespace webstep.GraphQL.Mutations
         }
 
         [UseDbContext(typeof(WebstepContext))]
-        public async Task<ConsultantPayload> AddConsultantAsync(
-            AddConsultantInput input,
+        public async Task<CustomerPayload> AddCustomerAsync(
+            AddCustomerInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
@@ -38,39 +38,37 @@ namespace webstep.GraphQL.Mutations
                 Tlf = input.Tlf
             };
 
-            customer.Validate();
 
-            await _repo.CreateAsync(Customer, context, cancellationToken)
+            await _repo.CreateAsync(customer, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new ConsultantPayload(customer);
+            return new CustomerPayload(customer);
         }
 
         [UseDbContext(typeof(WebstepContext))]
-        public async Task<ConsultantPayload> EditConsultantAsync(
-            EditConsultantInput input,
+        public async Task<CustomerPayload> EditCustomerAsync(
+            EditCustomerInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-            var consultant = await _repo.SelectByIdAsync<Consultant>(input.Id, context, cancellationToken)
+            var customer = await _repo.SelectByIdAsync<Customer>(input.Id, context, cancellationToken)
                                  .ConfigureAwait(false);
 
             customer.FirstName = input.FirstName ?? customer.FirstName;
             customer.LastName = input.LastName ?? customer.LastName;
             customer.Adresse = input.Adresse ?? customer.Adresse;
             customer.Email = input.Email ?? customer.Email;
+            customer.Tlf = input.Tlf ?? customer.Tlf;
             
-            customer.Validate();
-
             await _repo
                 .UpdateAsync(customer, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new ConsultantPayload(customer);
+            return new CustomerPayload(customer);
         }
 
         [UseDbContext(typeof(WebstepContext))]
-        public async Task<ConsultantPayload> DeleteConsultantAsync(
+        public async Task<CustomerPayload> DeleteConsultantAsync(
             DeleteConsultantInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
@@ -81,7 +79,7 @@ namespace webstep.GraphQL.Mutations
             await _repo.DeleteAsync(customer, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new ConsultantPayload(customer);
+            return new CustomerPayload(customer);
         }
     }
 }
