@@ -74,6 +74,14 @@ export const GET_CONSULTANT_IDS = gql`
     }
 `;
 
+export const GET_PROJECTCONSULTANT_IDS = gql`
+    query {
+        allProjectConsultants {
+            items { consultant { id } }   
+        }
+    }
+`;
+
 export const EDIT_CONTRACT = gql`
     mutation EditContract($input: EditContractInput) {
         editContract(input: $input) {

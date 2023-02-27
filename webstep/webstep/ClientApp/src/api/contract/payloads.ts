@@ -36,6 +36,10 @@ export interface GetConsultantIDsPayload {
     consultants: { items: [{ id: number }] };
 }
 
+export interface GetProjectConsultantIDS {
+    allProjectConsultants: { items: [{ consultant: { id: number } }] };
+}
+
 export interface AddProjectPayload {
     addProject: { project: { id: number } };
 }

@@ -142,6 +142,8 @@ namespace webstep.GraphQL
         [UseProjection]
         public IQueryable<ProjectConsultant> GetProjectConsultant(int id) => _repo.SelectSingle<ProjectConsultant>(id).Where(x => x.Consultant.Id == id);
 
+        [UseOffsetPaging(MaxPageSize = 50), UseProjection, UseSorting]
+        public IQueryable<ProjectConsultant> GetAllProjectConsultants() => _repo.SelectAll<ProjectConsultant>();
 
         [UseOffsetPaging(MaxPageSize = 20), UseProjection]
         public IQueryable<Project> GetProjects() => _repo.SelectAll<Project>();
