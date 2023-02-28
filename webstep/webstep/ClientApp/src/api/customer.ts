@@ -8,11 +8,11 @@ export interface CustomerQuery {
 }
 
 export interface AddCustomerPayload {
-    addSeller: { seller: { id: number } };
+    addCustomer: { customer: { id: number } };
 }
 
 export interface DeleteCustomerPayload {
-    deleteSeller: { seller: { id: number } };
+    deleteCustomer: { customer: { id: number } };
 }
 
 export const GET_CUSTOMER = gql`
@@ -38,10 +38,11 @@ export const GET_CUSTOMERS = gql`
                     projectName
                 }
                 id
-                fullName
+                firstName
+                lastName
                 email
-                employmentDate
-                resignationDate
+                adresse
+                tlf
             }
         }
     }
