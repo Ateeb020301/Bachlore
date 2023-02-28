@@ -30,14 +30,37 @@ export const Customer = () => {
 
     const [currentCustomer, setCurrentCustomer] = useState<CustomerNoId>(defaultCustomer);
     const [displayValidation, setDisplayValidation] = useState<string>('');
-    const [addSeller] = useMutation<AddCustomerPayload, { input: CustomerNoId }>(ADD_CUSTOMER);
+    const [addCustomer] = useMutation<AddCustomerPayload, { input: CustomerNoId }>(ADD_CUSTOMER);
 
     //Adds or removes validation field on resignationDate depending on if its empty or not
 
     //checks only if the start date is empty
-   
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
+        setCurrentCustomer((prevCustomer) => ({
+            ...prevCustomer,
+            [name]: value,
+        }));
+    };
 
   
+    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+
+            // console.log(currentSeller);
+            addCustomer({ variables: { input: currentCustomer } })
+                .then((res) => {
+                    toast.success('Customer opprettet', {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    })
+                })
+                .catch((err) => {
+                    toast.error('Noe gikk galt med oppretting av en customer.', {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    })                    
+                });
+    };
 
     return (
         <div style={{width: '100%', border: 'solid'}}>
@@ -48,7 +71,7 @@ export const Customer = () => {
                         type='text'
                         id='firstName'
                         value={currentCustomer.firstName}
-                        // onChange={handleChange}
+                        onChange={handleChange}
                         name='firstName'
                     />
                 </FormGroup>
@@ -58,7 +81,7 @@ export const Customer = () => {
                         type='text'
                         id='lastName'
                         value={currentCustomer.lastName}
-                        //onChange={handleChange}
+                        onChange={handleChange}
                         name='lastName'
                     />
                 </FormGroup>
@@ -68,7 +91,7 @@ export const Customer = () => {
                         type='text'
                         id='email'
                         value={currentCustomer.email}
-                        //onChange={handleChange}
+                        onChange={handleChange}
                         name='email'
                     />
                 </FormGroup>
@@ -79,7 +102,7 @@ export const Customer = () => {
                         type='date'
                         id='adresse'
                         value={currentCustomer.adresse}
-                        //onChange={handleChange}
+                        onChange={handleChange}
                         name='adresse'
                     />
                 </FormGroup>
@@ -90,12 +113,12 @@ export const Customer = () => {
                         type='date'
                         id='tlf'
                         value={currentCustomer.tlf}
-                        //onChange={handleChange}
+                        onChange={handleChange}
                         name='tlf'
                     />
                 </FormGroup>
 
-                <Button color='primary' /*onClick={handleSubmit}> */>
+                <Button color='primary' onClick={handleSubmit}>
                     Legg til
                 </Button>
             </form>
