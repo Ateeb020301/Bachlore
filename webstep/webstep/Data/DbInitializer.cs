@@ -24,6 +24,7 @@
             context.Consultants.AddRange(DummyConsultants());
             context.Financials.AddRange(DummyFinancials());
             context.Customer.AddRange(DummyCustomers());
+            context.Teams.AddRange(DummyTeam(context));
             context.SaveChanges();
             context.Vacancies.AddRange(DummyVacancies(context));
             context.Prospects.AddRange(DummyProspects(context));
@@ -32,7 +33,7 @@
             context.SubProspects.AddRange(DummySubProspects(context));
             context.Contracts.AddRange(DummyContracts(context));
             context.SaveChanges();
-            context.ProjectConsultant.AddRange(DummyProjectConsultant(context));
+            context.TeamsConsultant.AddRange(DummyTeamConsultant(context));
             context.SaveChanges();
         }
 
@@ -280,7 +281,7 @@
 
         public static List<Project> DummyProjects(WebstepContext context)
         {
-            var consultant = context.Consultants.ToList();
+            var team = context.Teams.ToList();
 
             return new List<Project>()
             {
@@ -288,19 +289,19 @@
                 {
                     CustomerName = "Bouvet",
                     ProjectName = "Kassesystem",
-                    Consultant = consultant[0],
+                    Team = team[0],
                 },
                 new Project()
                 {
                     CustomerName = "Innow",
                     ProjectName = "Idk man",
-                    Consultant = consultant[0],
+                    Team = team[0],
                 },
                 new Project()
                 {
                     CustomerName = "xLedger",
                     ProjectName = "Sikkerhet",
-                    Consultant = consultant[0],
+                    Team = team[1],
         }
             };
         }
@@ -516,52 +517,56 @@
             };
         }
 
-        public static List<ProjectConsultant> DummyProjectConsultant(WebstepContext context)
+        public static List<Team> DummyTeam(WebstepContext context)
         {
-            var project = context.Projects.ToList();
-            var consultants = context.Consultants.ToList();
-            var contracts = context.Contracts.ToList();
-
-
-            return new List<ProjectConsultant>()
+            return new List<Team>()
             {
-                new ProjectConsultant
+                new Team
                 {
-                     Project = contracts[0].Project,
-                     Consultant = consultants[0],
-                     Contract = contracts[0]
+                     TeamName = "Team 1"
 
                 },
-                new ProjectConsultant
+                new Team
                 {
-                     Project = contracts[1].Project,
-                     Consultant = consultants[1],
-                     Contract = contracts[1]
+                     TeamName = "Team 2"
                 },
-                new ProjectConsultant
+                new Team
                 {
-                     Project = contracts[2].Project,
-                     Consultant = consultants[2],
-                     Contract = contracts[2]
-                },             
-                new ProjectConsultant
-                {
-                     Project = contracts[3].Project,
-                     Consultant = consultants[0],
-                     Contract = contracts[3]
+                     TeamName = "Team 3"
+
                 },
-                new ProjectConsultant
+            };
+        }
+
+        public static List<TeamConsultant> DummyTeamConsultant(WebstepContext context)
+        {
+            var team = context.Teams.ToList();
+            var consultant = context.Consultants.ToList();
+
+            return new List<TeamConsultant>()
+            {
+                new TeamConsultant
                 {
-                    Project = contracts[4].Project,
-                    Consultant = consultants[0],
-                    Contract = contracts[4]
+                     Consultant = consultant[0],
+                     Team = team[0]
                 },
-                new ProjectConsultant
+                new TeamConsultant
                 {
-                    Project = contracts[0].Project,
-                    Consultant = consultants[3],
-                    Contract = contracts[0]
-                }
+                     Consultant = consultant[1],
+                     Team = team[0]
+                },
+                new TeamConsultant
+                {
+                     Consultant = consultant[2],
+                     Team = team[1]
+
+                },
+                new TeamConsultant
+                {
+                     Consultant = consultant[0],
+                     Team = team[1]
+
+                },
             };
         }
 

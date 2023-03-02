@@ -12,72 +12,69 @@ using webstep.Models;
 namespace webstep.GraphQL.Mutations
 {
     [ExtendObjectType(Name = nameof(Mutation))]
-    public class ProjectMutation
+    public class TeamMutation
     {
         private readonly IRepository _repo;
 
-        public ProjectMutation(IRepository repo)
+        public TeamMutation(IRepository repo)
         {
             _repo = repo;
         }
 
         [UseDbContext(typeof(WebstepContext))]
-        public async Task<ProjectPayload> AddProjectAsync(
-            AddProjectInput input,
+        public async Task<TeamPayload> AddTeamAsync(
+            AddTeamInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-            var consultant = await _repo.SelectByIdAsync<Consultant>(input.ConsultantId, context, cancellationToken)
+            var teams = await _repo.SelectByIdAsync<Team>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            var project = new Project()
+            var team = new Team()
             {
-                ProjectName = input.ProjectName,
-                CustomerName = input.CustomerName,
-                Team = input.team,
+                TeamName = input.TeamName,
             };
             
             await _repo
-                .CreateAsync(project, context, cancellationToken)
+                .CreateAsync(team, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new ProjectPayload(project);
+            return new TeamPayload(teams);
         }
 
         [UseDbContext(typeof(WebstepContext))]
-        public async Task<ProjectPayload> EditProjectAsync(
-            EditProjectInput input,
+        public async Task<TeamPayload> EditTeamAsync(
+            EditTeamInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-            var project = await _repo.SelectByIdAsync<Project>(input.Id, context, cancellationToken)
+            var team = await _repo.SelectByIdAsync<Team>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
             
-            project.CustomerName = input.CustomerName ?? project.CustomerName;
-            project.ProjectName = input.ProjectName ?? project.ProjectName;
+            team.TeamName = input.TeamName ?? team.TeamName;
             
             
             await _repo
-                .UpdateAsync(project, context, cancellationToken)
+                .UpdateAsync(team, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new ProjectPayload(project);
+            return new TeamPayload(team);
         }
         
         [UseDbContext(typeof(WebstepContext))]
-        public async Task<ProjectPayload> DeleteProjectAsync(
-            DeleteProjectInput input,
+        public async Task<TeamPayload> DeleteTeamAsync(
+            DeleteTeamInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-            var project = await _repo.SelectByIdAsync<Project>(input.Id, context, cancellationToken)
+            var team = await _repo.SelectByIdAsync<Team>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
 
             await _repo
-                .DeleteAsync(project, context, cancellationToken)
+                .DeleteAsync(team, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new ProjectPayload(project);
+            return new TeamPayload(team);
         }
         
         

@@ -5,19 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webstep.Models
 {
-    public class ProjectConsultant : BaseModel
+    public class Team : BaseModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
 
         [Required]
-        public Project Project { get; set; }
-        
-        [Required]
-        public Consultant Consultant { get; set; }
-        [Required]
-        public Contract Contract { get; set; }
-        
+        public string TeamName { get; set; }
+
+        public ICollection<Project> projects { get; set; }
+
+
     }
 }

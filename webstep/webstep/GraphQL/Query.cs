@@ -142,16 +142,15 @@ namespace webstep.GraphQL
         public IQueryable<Project> GetProject(int id) => _repo.SelectSingle<Project>(id);
 
         [UseProjection]
-        public IQueryable<ProjectConsultant> GetProjectConsultant(int id) => this._repo.SelectSingle<ProjectConsultant>(id).Include("Project");
+        public IQueryable<Team> GetTeam(int id) => this._repo.SelectSingle<Team>(id);
 
         [UseProjection]
-        public IQueryable<Consultant> GetAllProjectConsultants()
+        public IQueryable<Consultant> GetAllTeams()
         {
             var consultant = _repo.SelectAll<Consultant>();
-            var contracts = _repo.SelectAll<Contract>();
            
-            var projectConsultant = _repo.SelectAll<ProjectConsultant>();
-            var values = projectConsultant.Select(z => z.Consultant).ToList();
+            var teams = _repo.SelectAll<TeamConsultant>();
+            var values = teams.Select(z => z.Consultant).ToList();
 
             return consultant.Select(x => x).Where(p => values.Contains(p));
         }

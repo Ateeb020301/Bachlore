@@ -12,7 +12,7 @@ export interface Consultant {
     projects: Project[];
 }
 
-export interface ProjectCons {
+export interface Team {
     projects: Project[];
 }
 
@@ -32,8 +32,8 @@ export interface GetConsultantContractsPayload {
     consultant: Consultant[];
 }
 
-export interface GetProjectConsultantContractsPayload {
-    projectConsultant: ProjectCons[];
+export interface GetTeamContractPayload {
+    team: Team[];
 }
 
 export interface EditContractPayload {
@@ -45,7 +45,7 @@ export interface GetConsultantIDsPayload {
 }
 
 export interface GetProjectConsultantIDS {
-    allProjectConsultants: [{ id: number }];
+    allTeams: [{ id: number }];
 }
 
 export interface AddProjectPayload {
