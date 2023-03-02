@@ -18,11 +18,13 @@ export interface DeleteSellerPayload {
 export const GET_SELLER = gql`
     query {
         sellers {
+        items {
             id
             fullName
             email
             employmentDate
             resignationDate
+        }
         }
     }
 `;
