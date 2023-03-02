@@ -23,6 +23,11 @@ export interface EditContractInput {
 export interface AddProjectInput {
     projectName: string;
     customerName: string;
+    teamId: number;
+}
+
+export interface AddTeamConsultantInput {
+    teamId: number;
     consultantId: number;
 }
 

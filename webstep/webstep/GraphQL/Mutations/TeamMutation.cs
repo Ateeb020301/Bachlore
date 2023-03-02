@@ -1,3 +1,5 @@
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,11 +8,15 @@ using HotChocolate.Data;
 using HotChocolate.Types;
 using webstep.Data;
 using webstep.GraphQL.Entities;
-using webstep.Interfaces;
 using webstep.Models;
 
 namespace webstep.GraphQL.Mutations
 {
+    using global::NodaTime;
+    using global::NodaTime.Calendars;
+
+    using webstep.Interfaces;
+
     [ExtendObjectType(Name = nameof(Mutation))]
     public class TeamMutation
     {
@@ -18,28 +24,27 @@ namespace webstep.GraphQL.Mutations
 
         public TeamMutation(IRepository repo)
         {
-            _repo = repo;
+            this._repo = repo;
         }
 
         [UseDbContext(typeof(WebstepContext))]
         public async Task<TeamPayload> AddTeamAsync(
-            AddTeamInput input,
-            [ScopedService] WebstepContext context,
-            CancellationToken cancellationToken)
+           AddTeamInput input,
+           [ScopedService] WebstepContext context,
+           CancellationToken cancellationToken)
         {
-            var teams = await _repo.SelectByIdAsync<Team>(input.Id, context, cancellationToken)
-                .ConfigureAwait(false);
 
-            var team = new Team()
+            var team = new Team
             {
-                TeamName = input.TeamName,
+                TeamName = input.TeamName
             };
-            
-            await _repo
+
+
+            await this._repo
                 .CreateAsync(team, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new TeamPayload(teams);
+            return new TeamPayload(team);
         }
 
         [UseDbContext(typeof(WebstepContext))]
@@ -48,35 +53,34 @@ namespace webstep.GraphQL.Mutations
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-            var team = await _repo.SelectByIdAsync<Team>(input.Id, context, cancellationToken)
+            var team = await this._repo.SelectByIdAsync<Team>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
-            
+
             team.TeamName = input.TeamName ?? team.TeamName;
-            
-            
-            await _repo
+
+            await this._repo
                 .UpdateAsync(team, context, cancellationToken)
                 .ConfigureAwait(false);
 
             return new TeamPayload(team);
         }
-        
+
         [UseDbContext(typeof(WebstepContext))]
         public async Task<TeamPayload> DeleteTeamAsync(
-            DeleteTeamInput input,
+            DeleteSubProspectInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-            var team = await _repo.SelectByIdAsync<Team>(input.Id, context, cancellationToken)
+            var team = await this._repo.SelectByIdAsync<Team>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            await _repo
+
+            await this._repo
                 .DeleteAsync(team, context, cancellationToken)
                 .ConfigureAwait(false);
 
             return new TeamPayload(team);
         }
-        
-        
+
     }
 }

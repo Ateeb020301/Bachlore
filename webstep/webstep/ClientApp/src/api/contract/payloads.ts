@@ -45,11 +45,15 @@ export interface GetConsultantIDsPayload {
 }
 
 export interface GetProjectConsultantIDS {
-    allTeams: [{ id: number }];
+    consInTeams: [{ id: number }];
 }
 
 export interface AddProjectPayload {
     addProject: { project: { id: number } };
+}
+
+export interface AddTeamConsultantPayload {
+    addTeamConsultant: { teamConsultant: { id: number } };
 }
 
 export interface EditProjectPayload {

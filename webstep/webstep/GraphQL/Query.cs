@@ -145,7 +145,7 @@ namespace webstep.GraphQL
         public IQueryable<Team> GetTeam(int id) => this._repo.SelectSingle<Team>(id);
 
         [UseProjection]
-        public IQueryable<Consultant> GetAllTeams()
+        public IQueryable<Consultant> GetConsInTeams()
         {
             var consultant = _repo.SelectAll<Consultant>();
            
@@ -153,6 +153,23 @@ namespace webstep.GraphQL
             var values = teams.Select(z => z.Consultant).ToList();
 
             return consultant.Select(x => x).Where(p => values.Contains(p));
+        }
+
+        [UseProjection]
+        public IQueryable<Consultant> GetConsSingleInTeams(int id)
+        {
+            var consultant = _repo.SelectSingle<Consultant>(id);
+
+            var teams = _repo.SelectAll<TeamConsultant>();
+            var values = teams.Select(z => z.Consultant).ToList();
+
+            return consultant.Select(x => x).Where(p => values.Contains(p));
+        }
+
+        [UseProjection]
+        public IQueryable<TeamConsultant> GetAllTeams(int id)
+        {
+            return this._repo.SelectAll<TeamConsultant>().Where(x => x.Consultant.Id == id);
         }
 
         [UseOffsetPaging(MaxPageSize = 20), UseProjection]

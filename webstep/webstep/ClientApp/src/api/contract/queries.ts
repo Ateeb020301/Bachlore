@@ -49,7 +49,7 @@ export const GET_CONSULTANT_IDS = gql`
 
 export const GET_PROJECTCONSULTANT_IDS = gql`
     query {
-        allTeams {
+        consInTeams {
             id   
         }
     }
@@ -130,6 +130,18 @@ export const ADD_PROJECT = gql`
         addProject(input: $input) {
             project {
                 id
+            }
+        }
+    }
+`;
+
+export const ADD_TEAMCONSULTANT = gql`
+    mutation AddTeamConsultant($input: AddTeamConsultantInput) {
+        addTeamConsultant(input: $input) {
+            teamConsultant {
+                team {
+                    id
+                }
             }
         }
     }

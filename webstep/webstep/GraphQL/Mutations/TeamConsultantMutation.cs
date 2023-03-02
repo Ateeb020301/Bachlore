@@ -1,3 +1,5 @@
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,11 +8,15 @@ using HotChocolate.Data;
 using HotChocolate.Types;
 using webstep.Data;
 using webstep.GraphQL.Entities;
-using webstep.Interfaces;
 using webstep.Models;
 
 namespace webstep.GraphQL.Mutations
 {
+    using global::NodaTime;
+    using global::NodaTime.Calendars;
+
+    using webstep.Interfaces;
+
     [ExtendObjectType(Name = nameof(Mutation))]
     public class TeamConsultantMutation
     {
@@ -18,29 +24,34 @@ namespace webstep.GraphQL.Mutations
 
         public TeamConsultantMutation(IRepository repo)
         {
-            _repo = repo;
+            this._repo = repo;
         }
 
         [UseDbContext(typeof(WebstepContext))]
         public async Task<TeamConsultantPayload> AddTeamConsultantAsync(
-            AddTeamConsultantInput input,
-            [ScopedService] WebstepContext context,
-            CancellationToken cancellationToken)
+           AddTeamConsultantInput input,
+           [ScopedService] WebstepContext context,
+           CancellationToken cancellationToken)
         {
-            var teamsconsultant = await _repo.SelectByIdAsync<TeamConsultant>(input.Id, context, cancellationToken)
-                .ConfigureAwait(false);
-
-            var team = new TeamConsultant()
-            {
-                Consultant = input.consultant,
-                Team = input.team
-            };
+            var team = await this._repo.SelectByIdAsync<Team>(input.teamId, context, cancellationToken)
+                .ConfigureAwait(false);            
             
-            await _repo
-                .CreateAsync(team, context, cancellationToken)
+            var consultant = await this._repo.SelectByIdAsync<Consultant>(input.consultantId, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new TeamConsultantPayload(teamsconsultant);
+
+            var rule = WeekYearRules.Iso;
+            var teamConsultant = new TeamConsultant
+            {
+                Team = team,
+                Consultant= consultant,
+            };
+
+            await this._repo
+                .CreateAsync(teamConsultant, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            return new TeamConsultantPayload(teamConsultant);
         }
 
         [UseDbContext(typeof(WebstepContext))]
@@ -49,36 +60,45 @@ namespace webstep.GraphQL.Mutations
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-            var teamconsultant = await _repo.SelectByIdAsync<TeamConsultant>(input.Id, context, cancellationToken)
-                .ConfigureAwait(false);
-            
-            teamconsultant.Consultant = input.consultant ?? teamconsultant.Consultant;
-            teamconsultant.Team = input.team ?? teamconsultant.Team;
-            
-            
-            await _repo
-                .UpdateAsync(teamconsultant, context, cancellationToken)
+
+            var teamConsultant = await this._repo.SelectByIdAsync<TeamConsultant>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new TeamConsultantPayload(teamconsultant);
+            if (input.teamId.HasValue)
+            {
+                var team = await this._repo.SelectByIdAsync<Team>((int)input.teamId, context, cancellationToken);
+                teamConsultant.Team = team;
+            }
+            if (input.consultantId.HasValue)
+            {
+                var consultant = await this._repo.SelectByIdAsync<Consultant>((int)input.consultantId, context, cancellationToken);
+                teamConsultant.Consultant = consultant;
+            }
+           
+
+            await this._repo
+                .UpdateAsync(teamConsultant, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            return new TeamConsultantPayload(teamConsultant);
         }
-        
+
         [UseDbContext(typeof(WebstepContext))]
         public async Task<TeamConsultantPayload> DeleteTeamConsultantAsync(
-            DeleteTeamConsultantInput input,
+            DeleteSubProspectInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-            var teamconsultant = await _repo.SelectByIdAsync<TeamConsultant>(input.Id, context, cancellationToken)
+            var teamConsultant = await this._repo.SelectByIdAsync<TeamConsultant>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            await _repo
-                .DeleteAsync(teamconsultant, context, cancellationToken)
+
+            await this._repo
+                .DeleteAsync(teamConsultant, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new TeamConsultantPayload(teamconsultant);
+            return new TeamConsultantPayload(teamConsultant);
         }
-        
-        
+
     }
 }

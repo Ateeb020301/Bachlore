@@ -1,20 +1,28 @@
-using HotChocolate.Types;
-using System.Web;
-using webstep.Models;
-
-namespace webstep.GraphQL.Entities
+﻿namespace webstep.GraphQL.Entities
 {
-    public class TeamConsultantType : ObjectType<Team>
+    using HotChocolate;
+    using HotChocolate.Types;
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using webstep.Models;
+
+    public class TeamConsultantType : ObjectType<TeamConsultant>
     {
-        
+        protected override void Configure(IObjectTypeDescriptor<TeamConsultant> descriptor)
+        {
+        }
     }
 
-    public record AddTeamConsultantInput(int Id, Team team, Consultant consultant);
-    #nullable enable
-    public record EditTeamConsultantInput(int Id, Team team, Consultant consultant);
+    public record AddTeamConsultantInput
+    {
+        [Required] public int consultantId { get; set; }
+
+        [Required] public int teamId { get; set; }
+    }
+#nullable enable
+    public record EditTeamConsultantInput(int Id, int? consultantId, int? teamId);
+
     public record DeleteTeamConsultantInput(int Id);
 
     public record TeamConsultantPayload(TeamConsultant TeamConsultant);
-
-
 }

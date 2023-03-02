@@ -194,7 +194,9 @@ namespace webstep
                 .AddType<ConsultantCapacityType>()
                 .AddType<CapacityType>()
                 .AddType<ProjectType>()
-                .AddType<ProjectMutation>();
+                .AddType<ProjectMutation>()                
+                .AddType<TeamConsultantType>()
+                .AddType<TeamConsultantMutation>();
         }
     }
 }

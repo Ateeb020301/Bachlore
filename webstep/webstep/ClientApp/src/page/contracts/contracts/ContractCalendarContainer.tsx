@@ -13,7 +13,7 @@ export const ContractCalendarContainer = () => {
         <Calendar
             title={'Konsulenter'}
             render={(b: boolean) =>
-                data?.allTeams.map((consultant: any) => {
+                data?.consInTeams.map((consultant: any) => {
                     return <ConsultantSection consultantId={consultant.id} showContracts={b} key={uuidv4()} />;
                 })
             }></Calendar>
