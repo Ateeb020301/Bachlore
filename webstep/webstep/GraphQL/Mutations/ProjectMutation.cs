@@ -29,11 +29,12 @@ namespace webstep.GraphQL.Mutations
         {
             var consultant = await _repo.SelectByIdAsync<Consultant>(input.ConsultantId, context, cancellationToken)
                 .ConfigureAwait(false);
-            
+
             var project = new Project()
             {
                 ProjectName = input.ProjectName,
                 CustomerName = input.CustomerName,
+                Consultant = consultant
             };
             
             await _repo

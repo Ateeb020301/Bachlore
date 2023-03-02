@@ -31,6 +31,7 @@
             context.SaveChanges();
             context.SubProspects.AddRange(DummySubProspects(context));
             context.Contracts.AddRange(DummyContracts(context));
+            context.SaveChanges();
             context.ProjectConsultant.AddRange(DummyProjectConsultant(context));
             context.SaveChanges();
         }
@@ -268,11 +269,11 @@
             return new List<Consultant>()
             {
             new Consultant{FirstName = "John", LastName = "Doe", EmploymentDate = new LocalDate(2018,05,05), Workdays = 5},
-            new Consultant{FirstName = "Jane", LastName = "Doe", EmploymentDate = today, Workdays = 5 },
-            new Consultant{FirstName = "Peter", LastName = "Parker", EmploymentDate = today, ResignationDate = today.PlusDays(12), Workdays = 5},
-            new Consultant{FirstName = "Bart", LastName = "Simpson", EmploymentDate = today.PlusMonths(2), Workdays = 5},
-            new Consultant{FirstName = "Pedro", LastName = "Johnson", EmploymentDate = today.PlusMonths(4), Workdays = 5 },
-            new Consultant{FirstName = "Benjamin", LastName= "Oakwood", EmploymentDate = today.PlusDays(12), Workdays = 3}
+            new Consultant{FirstName = "Jane", LastName = "Doe", EmploymentDate = new LocalDate(2018,05,05), Workdays = 5 },
+            new Consultant{FirstName = "Peter", LastName = "Parker", EmploymentDate = new LocalDate(2018,05,05), ResignationDate = today.PlusDays(12), Workdays = 5},
+            new Consultant{FirstName = "Bart", LastName = "Simpson", EmploymentDate = new LocalDate(2018,05,05), Workdays = 5},
+            new Consultant{FirstName = "Pedro", LastName = "Johnson", EmploymentDate = new LocalDate(2018,05,05), Workdays = 5 },
+            new Consultant{FirstName = "Benjamin", LastName= "Oakwood", EmploymentDate = new LocalDate(2018,05,05), Workdays = 3}
             };
         }
 
@@ -280,24 +281,27 @@
         public static List<Project> DummyProjects(WebstepContext context)
         {
             var consultant = context.Consultants.ToList();
-            
+
             return new List<Project>()
             {
                 new Project()
                 {
                     CustomerName = "Bouvet",
-                    ProjectName = "Kassesystem"
+                    ProjectName = "Kassesystem",
+                    Consultant = consultant[0],
                 },
                 new Project()
                 {
                     CustomerName = "Innow",
-                    ProjectName = "Idk man"
+                    ProjectName = "Idk man",
+                    Consultant = consultant[0],
                 },
                 new Project()
                 {
                     CustomerName = "xLedger",
-                    ProjectName = "Sikkerhet"
-                }
+                    ProjectName = "Sikkerhet",
+                    Consultant = consultant[0],
+        }
             };
         }
         
@@ -417,70 +421,6 @@
             };
         }
 
-        public static List<ProjectConsultant> DummyProjectConsultant(WebstepContext context)
-        {
-            var project = context.Projects.ToList();
-            var consultants = context.Consultants.ToList();
-
-
-            return new List<ProjectConsultant>()
-            {
-                new ProjectConsultant
-                {
-                     Project = project[0],
-                     Consultant = consultants[0]
-
-                },
-                new ProjectConsultant
-                {
-                     Project = project[1],
-                     Consultant = consultants[1]
-                },
-                new ProjectConsultant
-                {
-                     Project = project[2],
-                     Consultant = consultants[2]
-                },             
-                new ProjectConsultant
-                {
-                     Project = project[1],
-                     Consultant = consultants[0]
-                },
-                new ProjectConsultant
-                {
-                     Project = project[0],
-                     Consultant = consultants[1]
-                }
-            };
-        }
-
-        public static List<Vacancy> DummyVacancies(WebstepContext context)
-        {
-            var consultant = context.Consultants.OrderBy(x => x.Id).First();
-            var zone = DateTimeZoneProviders.Tzdb["Europe/London"];
-            var clock = SystemClock.Instance.InZone(zone);
-            var today = clock.GetCurrentDate();
-            return new List<Vacancy>()
-            {
-                new Vacancy()
-                {
-                    Planned = false,
-                    StartDate = today,
-                    EndDate = today.PlusDays(7),
-                    DaysOfWeek = 5,
-                    Consultant = consultant
-                },
-                new Vacancy()
-                {
-                    Planned = true,
-                    StartDate = today.PlusDays(20),
-                    EndDate = today.PlusDays(110),
-                    DaysOfWeek = 2,
-                    Consultant = consultant
-                }
-            };
-        }
-
         /// <summary>
         /// Creates a list of dummy contracts.
         /// </summary>
@@ -495,7 +435,7 @@
             DateTimeZone zone = DateTimeZoneProviders.Tzdb["Europe/London"];
             ZonedClock clock = SystemClock.Instance.InZone(zone);
             LocalDate today = clock.GetCurrentDate();
-            
+
             var projects = context.Projects.ToList();
 
             return new List<Contract>()
@@ -572,6 +512,82 @@
                     Project = projects[1],
                     DaysOfWeek = (decimal) 3.55,
                     HourlyRate = 1150,
+                }
+            };
+        }
+
+        public static List<ProjectConsultant> DummyProjectConsultant(WebstepContext context)
+        {
+            var project = context.Projects.ToList();
+            var consultants = context.Consultants.ToList();
+            var contracts = context.Contracts.ToList();
+
+
+            return new List<ProjectConsultant>()
+            {
+                new ProjectConsultant
+                {
+                     Project = contracts[0].Project,
+                     Consultant = consultants[0],
+                     Contract = contracts[0]
+
+                },
+                new ProjectConsultant
+                {
+                     Project = contracts[1].Project,
+                     Consultant = consultants[1],
+                     Contract = contracts[1]
+                },
+                new ProjectConsultant
+                {
+                     Project = contracts[2].Project,
+                     Consultant = consultants[2],
+                     Contract = contracts[2]
+                },             
+                new ProjectConsultant
+                {
+                     Project = contracts[3].Project,
+                     Consultant = consultants[0],
+                     Contract = contracts[3]
+                },
+                new ProjectConsultant
+                {
+                    Project = contracts[4].Project,
+                    Consultant = consultants[0],
+                    Contract = contracts[4]
+                },
+                new ProjectConsultant
+                {
+                    Project = contracts[0].Project,
+                    Consultant = consultants[3],
+                    Contract = contracts[0]
+                }
+            };
+        }
+
+        public static List<Vacancy> DummyVacancies(WebstepContext context)
+        {
+            var consultant = context.Consultants.OrderBy(x => x.Id).First();
+            var zone = DateTimeZoneProviders.Tzdb["Europe/London"];
+            var clock = SystemClock.Instance.InZone(zone);
+            var today = clock.GetCurrentDate();
+            return new List<Vacancy>()
+            {
+                new Vacancy()
+                {
+                    Planned = false,
+                    StartDate = today,
+                    EndDate = today.PlusDays(7),
+                    DaysOfWeek = 5,
+                    Consultant = consultant
+                },
+                new Vacancy()
+                {
+                    Planned = true,
+                    StartDate = today.PlusDays(20),
+                    EndDate = today.PlusDays(110),
+                    DaysOfWeek = 2,
+                    Consultant = consultant
                 }
             };
         }

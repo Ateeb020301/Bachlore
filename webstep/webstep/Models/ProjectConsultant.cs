@@ -10,12 +10,14 @@ namespace webstep.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
-        
+
         [Required]
         public Project Project { get; set; }
         
         [Required]
         public Consultant Consultant { get; set; }
+        [Required]
+        public Contract Contract { get; set; }
         
     }
 }

@@ -21,9 +21,9 @@ export interface EditContractInput {
 }
 
 export interface AddProjectInput {
-    consultantId: number;
     projectName: string;
     customerName: string;
+    consultantId: number;
 }
 
 export interface EditProjectInput {

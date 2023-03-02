@@ -64,8 +64,10 @@ namespace webstep.GraphQL
         /// <param name="id"></param>
         /// <returns></returns>
         [UseProjection]
-        public IQueryable<Consultant> GetConsultant(
-            int id) => this._repo.SelectSingle<Consultant>(id);
+        public IQueryable<Consultant> GetConsultant(int id)
+        {
+            return this._repo.SelectSingle<Consultant>(id);
+        }
 
         /// <summary>
         /// Fetches all contracts
@@ -140,7 +142,7 @@ namespace webstep.GraphQL
         public IQueryable<Project> GetProject(int id) => _repo.SelectSingle<Project>(id);
 
         [UseProjection]
-        public IQueryable<ProjectConsultant> GetProjectConsultant(int id) => _repo.SelectAll<ProjectConsultant>().Where(x => x.Consultant.Id == id);
+        public IQueryable<ProjectConsultant> GetProjectConsultant(int id) => this._repo.SelectSingle<ProjectConsultant>(id).Include("Project");
 
         [UseProjection]
         public IQueryable<Consultant> GetAllProjectConsultants()
@@ -151,8 +153,7 @@ namespace webstep.GraphQL
             var projectConsultant = _repo.SelectAll<ProjectConsultant>();
             var values = projectConsultant.Select(z => z.Consultant).ToList();
 
-
-            return consultant.Select(x => x).Where(p => values.Contains(p)).Include(x => x.Projects);
+            return consultant.Select(x => x).Where(p => values.Contains(p));
         }
 
         [UseOffsetPaging(MaxPageSize = 20), UseProjection]

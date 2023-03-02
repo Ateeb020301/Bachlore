@@ -16,6 +16,7 @@ import { constants } from '../../../logic/constants';
 
 interface ProjectDescriptionProps {
     project: Project;
+    contract: Contract[];
     consultantId: number;
 }
 
@@ -39,7 +40,7 @@ const centeredSpan = {
     alignItems: 'center',
 };
 
-export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project, consultantId }) => {
+export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project, contract, consultantId }) => {
     const [editProject] = useMutation<EditProjectPayload, { input: EditProjectInput }>(EDIT_PROJECT, {
         refetchQueries: [
             {
@@ -66,7 +67,6 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
             });
     };
 
-
     const [editContract] = useMutation<EditContractPayload, { input: EditContractInput }>(EDIT_CONTRACT, {
         refetchQueries: [
             {
@@ -77,12 +77,16 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
         awaitRefetchQueries: true,
     });
 
-    const editContractWrapper = (c: Contract) => {
+    var cont = project.contracts;
+
+    const editContractWrapper = (p: Project) => {
         console.log("s");
-        let newContract: EditContractInput = getEditContractInput(c);
+        let newContract: EditContractInput = getEditContractInput(p.contracts[0]);
+        console.log(p.contracts[0].hourlyRate)
 
         editContract({ variables: { input: newContract } })
             .then((res) => {
+                console.log(newContract)
                 toast.success('Kontrakten ble redigert', {
                     position: toast.POSITION.BOTTOM_RIGHT
                 })
@@ -122,11 +126,11 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
             <span style={centeredSpan}>
                 <ImageAndContent image={<HourlyRateImage widthAndHeightPx={20} />} extraSpaceBetween={true}>
                     <EditableNumberField
-                        editCallBack={editContractWrapper}
-                        displayText={project.contracts[0].hourlyRate.toString() + 'kr/t'}
-                        objectToEdit={project}
-                        fieldToEdit={project.contracts[0].hourlyRate.toString()}
+                        displayText={contract[0].hourlyRate + 'kr/t'}
+                        objectToEdit={contract}
+                        fieldToEdit={contract[0].hourlyRate.toString()}
                         fieldName={'hourlyRate'}
+                        editCallBack={editContractWrapper}
                         width={65}
                     />
                 </ImageAndContent>

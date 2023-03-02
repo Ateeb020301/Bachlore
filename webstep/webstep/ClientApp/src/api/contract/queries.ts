@@ -37,33 +37,6 @@ export const GET_CONSULTANT_VACANCY = gql`
     }
 `;
 
-export const GET_CONSULTANT_CONTRACTS = gql`
-    query GetConsultantContracts($id: Int!) {
-        consultant(id: $id) {
-            id
-            projects {
-                id
-                customerName
-                projectName
-                contracts {
-                    id
-                    startYear
-                    startWeek
-                    endYear
-                    endWeek
-                    daysOfWeek
-                    hourlyRate
-                }
-            }
-            firstName
-            lastName
-            employmentDate
-            resignationDate
-            workdays
-        }
-    }
-`;
-
 export const GET_CONSULTANT_IDS = gql`
     query {
         consultants {
@@ -83,9 +56,35 @@ export const GET_PROJECTCONSULTANT_IDS = gql`
 `;
 
 export const GET_CONS_CONTRACTS = gql`
-    query GetConsContracts{
+    query GetConsContracts($id: Int!) {
         projectConsultant(id: $id) {
             project {
+                id
+                customerName
+                projectName
+                contracts {
+                    id
+                    startYear
+                    startWeek
+                    endYear
+                    endWeek
+                    daysOfWeek
+                }
+            }
+        }
+    }
+`;
+
+export const GET_CONSULTANT_CONTRACTS = gql`
+    query GetConsultantContracts($id: Int!) {
+        consultant(id: $id) {
+            id
+            firstName
+            lastName
+            employmentDate
+            resignationDate
+            workdays
+            projects {
                 id
                 customerName
                 projectName
@@ -99,15 +98,8 @@ export const GET_CONS_CONTRACTS = gql`
                     hourlyRate
                 }
             }
-            consultant {
-                id
-                firstName
-                lastName
-                employmentDate
-                resignationDate
-                workdays
-            }
         }
+
     }
 `;
 

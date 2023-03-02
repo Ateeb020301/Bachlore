@@ -15,21 +15,25 @@ import { getDefaultNewContract } from '../../../api/contract/logic';
 import { toast } from 'react-toastify';
 import { defaultMessagePlacement } from '../../../logic/toast';
 import { isContractValid } from '../../../logic/validationFunctions';
+import { cachedDataVersionTag } from 'v8';
+
+let arr: {} = {} ;
 
 interface ConsultantContractRowListProps {
     consultantId: number;
 }
 
 export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps> = ({ consultantId }) => {
-    const { loading, error, data } = useQuery<GetProjectConsultantContractsPayload, GetConsultantContractsInput>(
-        GET_CONS_CONTRACTS,
+
+    const { loading, error, data } = useQuery<GetConsultantContractsPayload, GetConsultantContractsInput>(
+        GET_CONSULTANT_CONTRACTS,
         {
             variables: { id: consultantId },
-            pollInterval: 3000,
+            pollInterval: 3000
         }
     );
-    console.log(data)
-    const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
+
+        const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
         refetchQueries: [
             {
                 query: GET_CONSULTANT_CONTRACTS,
@@ -41,7 +45,9 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             },
         ],
         awaitRefetchQueries: true,
-    });
+        });
+
+    
 
     const addContractWrapper = (id: number) => {
         let defaultContract = getDefaultNewContract(id);
@@ -58,18 +64,19 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             });
     };
 
+    
     return (
         <>
             {!loading && !error && data ? (
-                data.projectConsultant[1].project.map(
-                    (project: any) =>
+                data.consultant[0].projects.map(
+                    (project) => 
                         project.contracts.length > 0 && (
                             <CalendarRow
                                 key={uuidv4()}
-                                sidebarContent={<ProjectDescription project={project} consultantId={consultantId} />}
+                                sidebarContent={<ProjectDescription project={project} contract={project.contracts} consultantId={consultantId} />}
                                 timelineContent={
                                     <CalendarTimelineGrid>
-                                        {project.contracts.map((contract: any) => {
+                                        {project.contracts.map((contract) => {
                                             return (
                                                 isContractValid(contract) && (
                                                     <ContractEventContainer
@@ -89,7 +96,7 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
                                     </CalendarTimelineGrid>
                                 }
                             />
-                        )
+                        ) 
                 )
             ) : (
                 <Loading />
