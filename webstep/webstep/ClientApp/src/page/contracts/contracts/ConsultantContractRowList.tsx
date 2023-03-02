@@ -1,9 +1,9 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQuery } from '@apollo/client';
-import { AddContractPayload, GetConsultantContractsPayload } from '../../../api/contract/payloads';
+import { AddContractPayload, GetConsultantContractsPayload, GetProjectConsultantContractsPayload } from '../../../api/contract/payloads';
 import { AddContractInput, GetConsultantContractsInput } from '../../../api/contract/inputs';
-import { ADD_CONTRACT, GET_CONSULTANT_CAPACITY, GET_CONSULTANT_CONTRACTS } from '../../../api/contract/queries';
+import { ADD_CONTRACT, GET_CONSULTANT_CAPACITY, GET_CONSULTANT_CONTRACTS, GET_CONS_CONTRACTS } from '../../../api/contract/queries';
 import { Loading } from '../../Utils/Loading';
 import { CalendarRow } from '../../CalendarSystem/CalendarRow';
 import { ProjectDescription } from './ProjectDescription';
@@ -15,20 +15,25 @@ import { getDefaultNewContract } from '../../../api/contract/logic';
 import { toast } from 'react-toastify';
 import { defaultMessagePlacement } from '../../../logic/toast';
 import { isContractValid } from '../../../logic/validationFunctions';
+import { cachedDataVersionTag } from 'v8';
+
+let arr: {} = {} ;
 
 interface ConsultantContractRowListProps {
     consultantId: number;
 }
 
 export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps> = ({ consultantId }) => {
+
     const { loading, error, data } = useQuery<GetConsultantContractsPayload, GetConsultantContractsInput>(
         GET_CONSULTANT_CONTRACTS,
         {
             variables: { id: consultantId },
-            pollInterval: 3000,
+            pollInterval: 3000
         }
     );
-    const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
+
+        const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
         refetchQueries: [
             {
                 query: GET_CONSULTANT_CONTRACTS,
@@ -40,7 +45,9 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             },
         ],
         awaitRefetchQueries: true,
-    });
+        });
+
+    
 
     const addContractWrapper = (id: number) => {
         let defaultContract = getDefaultNewContract(id);
@@ -57,15 +64,16 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             });
     };
 
+    
     return (
         <>
             {!loading && !error && data ? (
                 data.consultant[0].projects.map(
-                    (project) =>
+                    (project) => 
                         project.contracts.length > 0 && (
                             <CalendarRow
                                 key={uuidv4()}
-                                sidebarContent={<ProjectDescription project={project} consultantId={consultantId} />}
+                                sidebarContent={<ProjectDescription project={project} contract={project.contracts} consultantId={consultantId} />}
                                 timelineContent={
                                     <CalendarTimelineGrid>
                                         {project.contracts.map((contract) => {
@@ -88,7 +96,7 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
                                     </CalendarTimelineGrid>
                                 }
                             />
-                        )
+                        ) 
                 )
             ) : (
                 <Loading />

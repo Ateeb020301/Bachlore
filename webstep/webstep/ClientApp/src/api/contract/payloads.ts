@@ -1,15 +1,19 @@
-import { Project } from '../../logic/interfaces';
+import { Project, Contract } from '../../logic/interfaces';
 import { Vacancy, ConsultantCapacity } from './types';
 
 // Custom base interfaces for contract/consultant api calls
 export interface Consultant {
     id: number;
-    projects: Project[];
     firstName: string;
     lastName: string;
     employmentDate: string;
     resignationDate?: any;
     workdays: number;
+    projects: Project[];
+}
+
+export interface ProjectCons {
+    projects: Project[];
 }
 
 export interface GetConsultantCapacityPayload {
@@ -28,12 +32,20 @@ export interface GetConsultantContractsPayload {
     consultant: Consultant[];
 }
 
+export interface GetProjectConsultantContractsPayload {
+    projectConsultant: ProjectCons[];
+}
+
 export interface EditContractPayload {
     contract: { id: number };
 }
 
 export interface GetConsultantIDsPayload {
     consultants: { items: [{ id: number }] };
+}
+
+export interface GetProjectConsultantIDS {
+    allProjectConsultants: [{ id: number }];
 }
 
 export interface AddProjectPayload {

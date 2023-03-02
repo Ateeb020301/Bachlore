@@ -61,7 +61,7 @@ export interface SellerJustProspects {
 
 export interface Contract {
     id: number;
-    project: Project;
+    project: Project[];
     startYear: number;
     startWeek: number;
     endYear: number;
@@ -82,10 +82,10 @@ export interface ContractNoProject {
 }
 
 export interface Project {
+    contracts: Contract[];
     id: number;
     customerName: string;
     projectName: string;
-    contracts: Contract[];
 }
 
 export interface Consultant {
@@ -98,7 +98,7 @@ export interface Consultant {
 }
 
 export interface ConsultantWithContracts {
-    projects: Project[];
+    project: Project[];
     id: number;
     firstName: string;
     lastName: string;

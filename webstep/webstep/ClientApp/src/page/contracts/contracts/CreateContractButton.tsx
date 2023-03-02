@@ -37,14 +37,14 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
     });
 
     const handleClick = () => {
+        console.log()
         addProject({
             variables: {
-                input: { consultantId: consultantId, customerName: 'Kunde', projectName: 'Prosjekt'},
+                input: { customerName: 'Kunde', projectName: 'Prosjekt', consultantId: consultantId },
             },
-        })
+            })
             .then((res) => {
                 if (!res.data) throw Error;
-
                 let projectId = res.data.addProject.project.id;
                 let defaultContract = getDefaultNewContract(projectId);
                 addContract({ variables: { input: defaultContract } })
@@ -61,6 +61,7 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
                     });
             })
             .catch((e) => {
+                console.log(e)
                 toast.error('Noe gikk galt med oppretting av prosjekt til den nye kontrakten.', {
                     position: toast.POSITION.BOTTOM_RIGHT
                 })

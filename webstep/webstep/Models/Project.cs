@@ -16,7 +16,10 @@ namespace webstep.Models
         
         [Required]
         public string ProjectName { get; set; }
-        
+
+        [Required]
+        public Consultant Consultant { get; set; }
+
         public ICollection<Contract> Contracts { get; set; }
         
     }

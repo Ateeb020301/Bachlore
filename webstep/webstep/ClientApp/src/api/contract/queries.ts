@@ -37,10 +37,53 @@ export const GET_CONSULTANT_VACANCY = gql`
     }
 `;
 
+export const GET_CONSULTANT_IDS = gql`
+    query {
+        consultants {
+            items {
+                id
+            }
+        }
+    }
+`;
+
+export const GET_PROJECTCONSULTANT_IDS = gql`
+    query {
+        allProjectConsultants {
+            id   
+        }
+    }
+`;
+
+export const GET_CONS_CONTRACTS = gql`
+    query GetConsContracts($id: Int!) {
+        projectConsultant(id: $id) {
+            project {
+                id
+                customerName
+                projectName
+                contracts {
+                    id
+                    startYear
+                    startWeek
+                    endYear
+                    endWeek
+                    daysOfWeek
+                }
+            }
+        }
+    }
+`;
+
 export const GET_CONSULTANT_CONTRACTS = gql`
     query GetConsultantContracts($id: Int!) {
         consultant(id: $id) {
             id
+            firstName
+            lastName
+            employmentDate
+            resignationDate
+            workdays
             projects {
                 id
                 customerName
@@ -55,24 +98,11 @@ export const GET_CONSULTANT_CONTRACTS = gql`
                     hourlyRate
                 }
             }
-            firstName
-            lastName
-            employmentDate
-            resignationDate
-            workdays
         }
+
     }
 `;
 
-export const GET_CONSULTANT_IDS = gql`
-    query {
-        consultants {
-            items {
-                id
-            }
-        }
-    }
-`;
 
 export const EDIT_CONTRACT = gql`
     mutation EditContract($input: EditContractInput) {
