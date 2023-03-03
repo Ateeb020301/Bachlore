@@ -32,10 +32,8 @@ export const EditableNumberField: React.FC<EditableNumberFieldProps> = ({
 
     const handleSubmit = () => {
         if (hasBeenChanged) {
-            if (fieldName in objectToEdit) {
-                objectToEdit = { ...objectToEdit, [fieldName]: Number(fieldValue) };
-                editCallBack(objectToEdit);
-            }
+            objectToEdit = { ...objectToEdit, [fieldName]: Number(fieldValue) };
+            editCallBack(objectToEdit);
             setHasBeenChanged(false);
         }
     };

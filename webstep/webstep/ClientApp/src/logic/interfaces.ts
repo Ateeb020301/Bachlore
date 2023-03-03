@@ -37,6 +37,11 @@ export interface NewProspect {
     customerName: string;
 }
 
+export interface Team {
+    id: number;
+    teamName: string;
+}
+
 export interface Seller {
     id: number;
     fullName: string;
@@ -86,6 +91,8 @@ export interface Project {
     id: number;
     customerName: string;
     projectName: string;
+    team: Team[];
+    hourlyRate: number;
 }
 
 export interface Consultant {

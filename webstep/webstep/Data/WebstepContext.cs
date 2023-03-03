@@ -25,7 +25,8 @@ namespace webstep.Data
         public DbSet<Consultant> Consultants { get; set; }
         
         public DbSet<Project> Projects { get; set; }
-        public DbSet<ProjectConsultant> ProjectConsultant { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<TeamConsultant> TeamsConsultant { get; set; }
 
         public DbSet<Contract> Contracts { get; set; }
 
@@ -43,7 +44,8 @@ namespace webstep.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ProjectTable(modelBuilder);
-            ProjectConsultantTable(modelBuilder);
+            TeamTable(modelBuilder);
+            TeamConsultantTable(modelBuilder);
             SellerTable(modelBuilder);
             ConsultantTable(modelBuilder);
             ContractTable(modelBuilder);
@@ -80,19 +82,24 @@ namespace webstep.Data
             builder.Entity<Project>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         } 
         
-        private void ProjectConsultantTable(ModelBuilder builder) 
+        private void TeamTable(ModelBuilder builder) 
         {
-            builder.Entity<ProjectConsultant>().ToTable("ProjectConsultant");
-            builder.Entity<ProjectConsultant>().Property<bool>("isDeleted");
-            builder.Entity<ProjectConsultant>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
+            builder.Entity<Team>().ToTable("Teams");
+            builder.Entity<Team>().Property<bool>("isDeleted");
+            builder.Entity<Team>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         }
-        
+
+        private void TeamConsultantTable(ModelBuilder builder)
+        {
+            builder.Entity<TeamConsultant>().ToTable("TeamsConsultant");
+            builder.Entity<TeamConsultant>().Property<bool>("isDeleted");
+        }
+
 
         private void ProspectTable(ModelBuilder builder) 
         {
             builder.Entity<Prospect>().ToTable("Prospect");
             builder.Entity<Prospect>().Property<bool>("isDeleted");
-            builder.Entity<Prospect>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         }
 
         private void SubProspectTable(ModelBuilder builder)

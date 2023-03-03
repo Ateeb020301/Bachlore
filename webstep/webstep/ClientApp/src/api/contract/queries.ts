@@ -49,16 +49,16 @@ export const GET_CONSULTANT_IDS = gql`
 
 export const GET_PROJECTCONSULTANT_IDS = gql`
     query {
-        allProjectConsultants {
+        consInTeams {
             id   
         }
     }
 `;
 
-export const GET_CONS_CONTRACTS = gql`
-    query GetConsContracts($id: Int!) {
-        projectConsultant(id: $id) {
-            project {
+export const GET_TEAMCONS_CONTRACTS = gql`
+    query GetTeamConsContracts($id: Int!) {
+        team(id: $id) {
+            projects {
                 id
                 customerName
                 projectName
@@ -69,6 +69,7 @@ export const GET_CONS_CONTRACTS = gql`
                     endYear
                     endWeek
                     daysOfWeek
+                    hourlyRate
                 }
             }
         }
@@ -129,6 +130,18 @@ export const ADD_PROJECT = gql`
         addProject(input: $input) {
             project {
                 id
+            }
+        }
+    }
+`;
+
+export const ADD_TEAMCONSULTANT = gql`
+    mutation AddTeamConsultant($input: AddTeamConsultantInput) {
+        addTeamConsultant(input: $input) {
+            teamConsultant {
+                team {
+                    id
+                }
             }
         }
     }

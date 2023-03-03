@@ -27,14 +27,14 @@ namespace webstep.GraphQL.Mutations
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-            var consultant = await _repo.SelectByIdAsync<Consultant>(input.ConsultantId, context, cancellationToken)
-                .ConfigureAwait(false);
+            var team = await _repo.SelectByIdAsync<Team>(input.teamId, context, cancellationToken)
+                    .ConfigureAwait(false);
 
             var project = new Project()
             {
                 ProjectName = input.ProjectName,
                 CustomerName = input.CustomerName,
-                Consultant = consultant
+                Team = team,
             };
             
             await _repo
