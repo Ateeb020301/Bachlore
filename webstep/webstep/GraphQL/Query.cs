@@ -70,6 +70,24 @@ namespace webstep.GraphQL
         }
 
         /// <summary>
+        /// Fetches a single customer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [UseProjection]
+        public IQueryable<Customer> GetCustomer(int id)
+        {
+            return this._repo.SelectSingle<Customer>(id);
+        }
+
+        /// <summary>
+        /// Fetches all Customers
+        /// </summary>
+        /// <returns></returns>
+        [UseOffsetPaging(MaxPageSize = 50), UseProjection, UseSorting]
+        public IQueryable<Customer> GetCustomers() => _repo.SelectAll<Customer>();
+
+        /// <summary>
         /// Fetches all contracts
         /// </summary>
         /// <returns></returns>
