@@ -50,6 +50,15 @@ export interface Seller {
     resignationDate: any;
 }
 
+export interface Customer {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    adresse: string;
+    tlf: string;
+}
+
 export interface SellerJustProspects {
     id: number;
     prospects: Prospect[];

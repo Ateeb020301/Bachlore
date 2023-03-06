@@ -17,6 +17,7 @@ import './navbar.css';
 import "react-pro-sidebar/dist/css/styles.css"; 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
@@ -160,13 +161,6 @@ export const Navbar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
-              <Item
-                title={!isCollapsed &&("Deals")}
-                to="/deals"
-                icon={<ReceiptOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
 
               {!isCollapsed && (
                 <p
@@ -177,6 +171,13 @@ export const Navbar = () => {
                 Form
                 </p>
               )}
+              <Item
+                title={!isCollapsed &&("Add Customer")}
+                to="/customer"
+                icon={<PeopleAltIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
               <Item
                 title={!isCollapsed &&("Add Seller")}
                 to="/seller"
