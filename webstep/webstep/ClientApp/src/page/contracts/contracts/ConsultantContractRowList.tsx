@@ -32,7 +32,6 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             pollInterval: 3000
         }
     );
-    console.log(data);
 
         const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
         refetchQueries: [
