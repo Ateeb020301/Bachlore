@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { EditContractInput, EditProjectInput } from '../../../api/contract/inputs';
 import { EditContractPayload, EditProjectPayload } from '../../../api/contract/payloads';
-import { EDIT_CONTRACT, EDIT_PROJECT, GET_CONSULTANT_CONTRACTS } from '../../../api/contract/queries';
+import { EDIT_CONTRACT, EDIT_PROJECT, GET_CONSULTANT_CONTRACTS, GET_TEAMCONS_CONTRACTS } from '../../../api/contract/queries';
 import { Contract, Project } from '../../../logic/interfaces';
 import { defaultMessagePlacement } from '../../../logic/toast';
 import { HourlyRateImage } from '../../../components/images/HourlyRateImage';
@@ -43,7 +43,7 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
     const [editProject] = useMutation<EditProjectPayload, { input: EditProjectInput }>(EDIT_PROJECT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             },
         ],
@@ -69,7 +69,7 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
     const [editContract] = useMutation<EditContractPayload, { input: EditContractInput }>(EDIT_CONTRACT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             }
         ],

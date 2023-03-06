@@ -17,14 +17,13 @@ import { defaultMessagePlacement } from '../../../logic/toast';
 import { isContractValid } from '../../../logic/validationFunctions';
 import { cachedDataVersionTag } from 'v8';
 
-let arr: {} = {} ;
 
 interface ConsultantContractRowListProps {
     consultantId: number;
 }
 
 export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps> = ({ consultantId }) => {
-
+    let projectArr: any[] = [{projects: []}];
     const { loading, error, data } = useQuery<GetTeamContractPayload, GetConsultantContractsInput>(
         GET_TEAMCONS_CONTRACTS,
         {
@@ -64,19 +63,30 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             });
     };
 
-    
+    //Made my own array to loop through to get the output of the
+    let dataL = data?.team.length ?? 0;
+    for (let i = 0; i < dataL; i++) {
+        console.log(consultantId)
+        let dataP = data?.team[i].projects.length ?? 0;
+        for (let j = 0; j < dataP; j++) {
+            projectArr[0].projects.push(data?.team[i].projects[j]);
+        }
+    }
+
+    console.log(projectArr)
+
     return (
         <>
             {!loading && !error && data ? (
-                data.team[0].projects.map(
-                    (project) => 
+                projectArr[0].projects.map(
+                    (project : any) => 
                         project.contracts.length > 0 && (
                             <CalendarRow
                                 key={uuidv4()}
                                 sidebarContent={<ProjectDescription project={project} consultantId={consultantId} />}
                                 timelineContent={
                                     <CalendarTimelineGrid>
-                                        {project.contracts.map((contract) => {
+                                        {project.contracts.map((contract : any) => {
                                             return (
                                                 isContractValid(contract) && (
                                                     <ContractEventContainer

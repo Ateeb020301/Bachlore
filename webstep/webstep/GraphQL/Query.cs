@@ -141,6 +141,11 @@ namespace webstep.GraphQL
         [UseProjection]                                                                  
         public IQueryable<Project> GetProject(int id) => _repo.SelectSingle<Project>(id);
 
+        /// <summary>
+        /// Fetches a single team base on the consulentId, from that you can get projects
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [UseProjection]
         public IQueryable<Team> GetTeam(int id)
         {
@@ -148,7 +153,7 @@ namespace webstep.GraphQL
             var team = _repo.SelectAll<Team>();
             var values = teamConsultant.Select(z => z.Team).ToList();
 
-            return team.Select(x => x).Where(p => values.Contains(p));
+            return team.Select(x => x).Where(p => values.Contains(p)).Include("projects");
         }
 
         [UseProjection]

@@ -12,6 +12,7 @@ import {
     GET_CONSULTANT_CAPACITY,
     GET_CONSULTANT_CONTRACTS,
     ADD_TEAMCONSULTANT,
+    GET_TEAMCONS_CONTRACTS,
 } from '../../../api/contract/queries';
 import { defaultMessagePlacement } from '../../../logic/toast';
 
@@ -27,7 +28,7 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
     const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             },
             {
