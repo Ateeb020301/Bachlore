@@ -16,6 +16,8 @@ namespace webstep.Models
 
         public ICollection<Project> projects { get; set; }
 
+        public ICollection<TeamConsultant> teamConsultants { get; set; }
+
 
     }
 }
