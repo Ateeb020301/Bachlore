@@ -5,6 +5,7 @@ import { AddSellerPayload, ADD_SELLER } from '../../api/sellers';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
+import { Modal } from '../Utils/ModalComponent';
 
 interface SellerNoId {
     fullName: string;
@@ -14,6 +15,9 @@ interface SellerNoId {
 }
 
 export const Seller = () => {
+    const [isModalOpen, setModalState] = React.useState(false);
+
+    const toggleModal = () => setModalState(!isModalOpen);
 
     //Date shenanigans
     let d = new Date();
@@ -190,8 +194,21 @@ export const Seller = () => {
                 <Button color='primary' onClick={handleSubmit} disabled={!isValidSeller()}>
                     Legg til
                 </Button>
-            </form>
+            </form>     
             <ToastContainer />
+            <div className='modalContainer'>
+                <button
+                        className={'app__btn'}
+                        onClick={toggleModal}
+                    >
+                        Kontrakt 
+                    </button>
+                    <Modal
+                        title={'Kontrakt form'}
+                        isOpen={isModalOpen}
+                        onClose={toggleModal}
+                    />
+            </div>
         </div>
     );
 }
