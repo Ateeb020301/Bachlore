@@ -18,7 +18,9 @@
     background-color: rgba(0, 0, 0, .8);
     cursor: pointer;
   }
-  
+  .modal img{
+    width: 10px;
+  }
   .modal__box {
     position: relative;
     width: 80%;
