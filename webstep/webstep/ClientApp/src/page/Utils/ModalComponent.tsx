@@ -1,5 +1,5 @@
 import React from 'react';
-import iconX from '../../images/x.svg';
+import iconX from '../Utils/x.jpeg';
 
 import './ModalComponent.css';
 
