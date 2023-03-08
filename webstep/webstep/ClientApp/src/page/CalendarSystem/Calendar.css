@@ -47,5 +47,10 @@
 }
 
 .timeline-content:first-child {
-color: orange;
+    color: orange;
 }
+
+.MuiPopover-paper {
+    background: black;
+}
+

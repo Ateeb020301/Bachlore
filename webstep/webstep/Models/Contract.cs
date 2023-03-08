@@ -43,7 +43,9 @@
         public int HourlyRate { get; set; }
 
         [Required]
-        public Project Project { get; set; }
+        public Project Project { get; set; }        
+        [Required]
+        public Consultant Consultant { get; set; }
 
         [Required]
         public decimal DaysOfWeek { get; set; }

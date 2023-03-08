@@ -64,18 +64,22 @@ namespace webstep.GraphQL
         /// <param name="id"></param>
         /// <returns></returns>
         [UseProjection]
-        public IQueryable<Consultant> GetConsultant(int id)
-        {
-            return this._repo.SelectSingle<Consultant>(id);
-        }
+        public IQueryable<Consultant> GetConsultant(int id) => this._repo.SelectSingle<Consultant>(id);
 
         /// <summary>
         /// Fetches all contracts
         /// </summary>
         /// <returns></returns>
         [UseOffsetPaging(MaxPageSize = 250), UseProjection, UseSorting]
-        public IQueryable<Contract> GetContracts() => this._repo.SelectAll<Contract>();        
-       
+        public IQueryable<Contract> GetContracts() => this._repo.SelectAll<Contract>();
+
+        /// <summary>
+        /// Fetches all contracts
+        /// </summary>
+        /// <returns></returns>
+        [UseOffsetPaging(MaxPageSize = 250), UseProjection, UseSorting]
+        public IQueryable<Contract> GetConsultantContracts(int id) => this._repo.SelectAll<Contract>().Where(x => x.Consultant.Id == id);
+
 
         /// <summary>
         /// Fetches a single contract
@@ -139,17 +143,21 @@ namespace webstep.GraphQL
 
         
         [UseProjection]                                                                  
-        public IQueryable<Project> GetProject(int id) => _repo.SelectSingle<Project>(id);
+        public IQueryable<Project> GetProject(int id)
+        {
+            var projects = _repo.SelectSingle<Project>(id);
+            return this._repo.SelectSingle<Project>(id);
+        }
 
         /// <summary>
         /// Fetches a single team base on the consulentId, from that you can get projects
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [UseProjection]
+        [UseOffsetPaging(MaxPageSize = 250), UseProjection, UseSorting]
         public IQueryable<Team> GetTeam(int id)
         {
-            var teamConsultant = _repo.SelectAll<TeamConsultant>().Where(x => x.Consultant.Id == id);
+            var teamConsultant = _repo.SelectAll<TeamConsultant>().Include(x => x.Consultant).ThenInclude(x => x.Contracts.Where(y => y.Consultant.Id == id)).Where(x => x.Consultant.Id == id);
             var team = _repo.SelectAll<Team>();
             var values = teamConsultant.Select(z => z.Team).ToList();
 
@@ -174,7 +182,7 @@ namespace webstep.GraphQL
             var consultant = _repo.SelectSingle<Consultant>(id);
 
             var teams = _repo.SelectAll<TeamConsultant>();
-            var values = teams.Select(z => z.Consultant).ToList();
+            var values = teams.Select(z => z.Consultant).Where(x => x.Id == id).ToList();
 
             return consultant.Select(x => x).Where(p => values.Contains(p));
         }
@@ -216,7 +224,7 @@ namespace webstep.GraphQL
         public IQueryable<ConsultantCapacity> GetConsultantsCapacity(int startYear, int? endYear, int? consultantId)
         {
             endYear ??= startYear;
-            var consultants = consultantId.HasValue ? _repo.SelectSingle<Consultant>((int)consultantId).Include(x => x.Projects).ThenInclude(c => c.Contracts).ToList() : _repo.SelectAll<Consultant>().Include(x => x.Projects).ThenInclude(c => c.Contracts).ToList();
+            var consultants = consultantId.HasValue ? _repo.SelectSingle<Consultant>((int)consultantId).Include(x => x.Contracts).ToList() : _repo.SelectAll<Consultant>().Include(x => x.Contracts).ToList();
             
             return consultants.Select(consultant => consultant.CalculateCapacity(startYear, endYear)).AsQueryable();
         }

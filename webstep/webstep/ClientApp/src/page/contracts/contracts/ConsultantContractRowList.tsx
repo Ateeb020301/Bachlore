@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQuery } from '@apollo/client';
-import { AddContractPayload, GetConsultantContractsPayload, GetTeamContractPayload } from '../../../api/contract/payloads';
+import { AddContractPayload, GetConsultantContractPayload, GetConsultantContractsPayload, GetTeamContractPayload } from '../../../api/contract/payloads';
 import { AddContractInput, GetConsultantContractsInput } from '../../../api/contract/inputs';
 import { ADD_CONTRACT, GET_CONSULTANT_CAPACITY, GET_CONSULTANT_CONTRACTS, GET_TEAMCONS_CONTRACTS } from '../../../api/contract/queries';
 import { Loading } from '../../Utils/Loading';
@@ -23,7 +23,10 @@ interface ConsultantContractRowListProps {
 }
 
 export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps> = ({ consultantId }) => {
-    let projectArr: any[] = [{projects: []}];
+    let projectArr: any[] = [{ projects: [] }];
+    let contractArr: any[] = [{ contracts: [] }];
+    let combinedArr: any[] = [{ projects: [{contracts: []}]}]
+    const { data: cData} = useQuery<GetConsultantContractPayload>(GET_CONSULTANT_CONTRACTS, { variables: { id: consultantId } });
     const { loading, error, data } = useQuery<GetTeamContractPayload, GetConsultantContractsInput>(
         GET_TEAMCONS_CONTRACTS,
         {
@@ -31,6 +34,7 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             pollInterval: 3000
         }
     );
+
 
         const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
         refetchQueries: [
@@ -66,14 +70,17 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
     //Made my own array to loop through to get the output of the
     let dataL = data?.team.length ?? 0;
     for (let i = 0; i < dataL; i++) {
-        console.log(consultantId)
         let dataP = data?.team[i].projects.length ?? 0;
         for (let j = 0; j < dataP; j++) {
             projectArr[0].projects.push(data?.team[i].projects[j]);
+            //PUT CONTRACTS IN PROJECT.CONTRACT
+            let cDataL = cData?.consultantContracts.items.length ?? 0;
         }
     }
 
-    console.log(projectArr)
+
+
+
 
     return (
         <>

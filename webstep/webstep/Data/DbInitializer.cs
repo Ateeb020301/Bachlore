@@ -438,6 +438,7 @@
             LocalDate today = clock.GetCurrentDate();
 
             var projects = context.Projects.ToList();
+            var consultant = context.Consultants.ToList();
 
             return new List<Contract>()
             {
@@ -448,15 +449,17 @@
                     Project = projects[0],
                     DaysOfWeek = 5,
                     HourlyRate = 1150,
+                    Consultant = consultant[0],
 
                 },
                 new Contract
                 {
                     StartDate = today.PlusWeeks(4),
                     EndDate = today.PlusWeeks(5),
-                    Project = projects[0],
+                    Project = projects[2],
                     DaysOfWeek = 5,
-                    HourlyRate = 1150
+                    HourlyRate = 1150,
+                    Consultant = consultant[0],
                 },
                 new Contract
                 {
@@ -464,15 +467,8 @@
                     EndDate = today.PlusWeeks(5),
                     Project = projects[0],
                     DaysOfWeek = 3,
-                    HourlyRate = 1150
-                },
-                new Contract
-                {
-                    StartDate = today.PlusWeeks(8),
-                    EndDate = today.PlusWeeks(11),
-                    Project = projects[0],
-                    DaysOfWeek = 4,
-                    HourlyRate = 1150
+                    HourlyRate = 1150,
+                    Consultant = consultant[2],
                 },
                 new Contract
                 {
@@ -480,15 +476,8 @@
                     EndDate = today.PlusWeeks(11),
                     Project = projects[0],
                     DaysOfWeek = (decimal)4.25,
-                    HourlyRate = 1150
-                },
-                new Contract
-                {
-                    StartDate = today.PlusWeeks(12),
-                    EndDate = today.PlusWeeks(14),
-                    Project = projects[0],
-                    DaysOfWeek = (decimal) 3.98,
-                    HourlyRate = 1150
+                    HourlyRate = 1150,
+                    Consultant = consultant[0],
                 },
                 new Contract
                 {
@@ -496,15 +485,8 @@
                     EndDate = today.PlusWeeks(14),
                     Project = projects[1],
                     DaysOfWeek = 5,
-                    HourlyRate = 1150
-                },
-                new Contract
-                {
-                    StartDate = today.PlusWeeks(24),
-                    EndDate = today.PlusWeeks(29),
-                    Project = projects[0],
-                    DaysOfWeek = 5,
-                    HourlyRate = 1150
+                    HourlyRate = 1150,
+                    Consultant = consultant[1],
                 },
                 new Contract
                 {
@@ -513,6 +495,7 @@
                     Project = projects[1],
                     DaysOfWeek = (decimal) 3.55,
                     HourlyRate = 1150,
+                    Consultant = consultant[1],
                 }
             };
         }
