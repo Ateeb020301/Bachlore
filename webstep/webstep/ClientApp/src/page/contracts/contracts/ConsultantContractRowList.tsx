@@ -78,6 +78,8 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
         }
     }
 
+    console.log(projectArr[0]);
+
 
 
 

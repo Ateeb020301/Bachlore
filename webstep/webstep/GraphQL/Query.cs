@@ -154,10 +154,10 @@ namespace webstep.GraphQL
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [UseOffsetPaging(MaxPageSize = 250), UseProjection, UseSorting]
+        [UseProjection]
         public IQueryable<Team> GetTeam(int id)
         {
-            var teamConsultant = _repo.SelectAll<TeamConsultant>().Include(x => x.Consultant).ThenInclude(x => x.Contracts.Where(y => y.Consultant.Id == id)).Where(x => x.Consultant.Id == id);
+            var teamConsultant = _repo.SelectAll<TeamConsultant>().Where(x => x.Consultant.Id == id);
             var team = _repo.SelectAll<Team>();
             var values = teamConsultant.Select(z => z.Team).ToList();
 
