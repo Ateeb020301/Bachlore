@@ -19,8 +19,9 @@
     cursor: pointer;
   }
   .modal img{
-    width: 10px;
+    width: 20px;
   }
+  
   .modal__box {
     position: relative;
     width: 80%;
