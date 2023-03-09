@@ -19,7 +19,9 @@ npm i @faker-js/faker
 npm i reactstrap
 npm i @types/uuid
 npm i react-confirm-alert
-material-ui-popup-state@^1.9.3
+npm i material-ui-popup-state@^1.9.3
+npm i react-router-dom
+npm i styled-components
 
 
 npm install material-ui-popup-state@^1.9.3 typescript @faker-js/faker react-pro-sidebar@0.7.1 react-router-dom @apollo/client @mui/material @mui/icons-material @mui/x-data-grid apollo react-chartjs-2 react-dom chart.js formik graphql react react-scripts react-toastify yup
