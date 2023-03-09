@@ -29,14 +29,14 @@ export const FormStep4 = () => {
         <Theme>
             <C.Container>
                 
-                <h2>Parabéns</h2>
-                <p>Cadastro enviado com sucesso!</p>
+                <h2>Finish</h2>
+                <p>Finito!</p>
 
                 <C.IconArea>
                    <CheckIcon fill="rgb(91, 24, 153)" width={120} height={120}/>
                 </C.IconArea>
 
-                <p className='check-email'>Enviamos um e-mail para: <b>{state.email}</b> com a confirmação do cadastro</p>
+                <p className='check-email'>Tilsendt på e-mail: <b>{state.email}</b>. Vedlegget inneholder tilhørende Team og info</p>
                 
 
             </C.Container>

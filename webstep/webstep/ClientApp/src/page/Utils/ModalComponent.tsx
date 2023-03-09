@@ -27,6 +27,11 @@ export const Modal: React.FC<ModalProps> = ({ title, isOpen, onClose }) => {
       navigate('/seller')
     }
   }
+  
+  function closeIcon(){
+    onClose();
+    navigate('/seller')
+  }
 
   return isOpen ? (
     <div className={'modal'}>
@@ -38,7 +43,7 @@ export const Modal: React.FC<ModalProps> = ({ title, isOpen, onClose }) => {
       <div className={'modal__box'}>
         <button
           className={'modal__close'}
-          onClick={onClose}
+          onClick={closeIcon}
         >
           <img src={iconX} alt={'close'} />
         </button>

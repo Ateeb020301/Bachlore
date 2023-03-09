@@ -7,6 +7,7 @@ P{
     display: block ;
     font-size: 25px ;
     color: rgb(91, 24, 153) ;
+    color: black;
 }
 h2{
     display: block ;
