@@ -20,6 +20,7 @@
   }
   .modal img{
     width: 20px;
+    float:left;
   }
   
   .modal__box {
