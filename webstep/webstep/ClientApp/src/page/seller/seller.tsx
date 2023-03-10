@@ -6,6 +6,7 @@ import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Modal } from '../Utils/ModalComponent';
+import './seller.css'
 
 interface SellerNoId {
     fullName: string;
@@ -139,10 +140,11 @@ export const Seller = () => {
     };
 
     return (
-        <div style={{width: '100%', border: 'solid'}}>
+        <div className="formContainer">
+            <h1>Registrer Seller</h1>
             <form>
                 <FormGroup>
-                    <Label for='fullName'>Selgers navn:</Label>
+                    <Label for='fullName'>Navn:</Label><br />
                     <Input
                         type='text'
                         id='fullName'
@@ -154,7 +156,7 @@ export const Seller = () => {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for='email'>Selgers email:</Label>
+                    <Label for='email'>Email</Label><br />
                     <Input
                         type='text'
                         id='email'
@@ -167,7 +169,7 @@ export const Seller = () => {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for='employmentDate'>Start dato:</Label>
+                    <Label for='employmentDate'>Start dato</Label><br />
                     <Input
                         type='date'
                         id='employmentDate'
@@ -180,7 +182,7 @@ export const Seller = () => {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for='resignationDate'>Slutt dato:</Label>
+                    <Label for='resignationDate'>Slutt dato</Label><br />
                     <Input
                         type='date'
                         id='resignationDate'
@@ -191,10 +193,16 @@ export const Seller = () => {
                     />
                 </FormGroup>
 
-                <Button color='primary' onClick={handleSubmit} disabled={!isValidSeller()}>
+                <div className='formButtons'>
+                <Button id='btnB' onClick={handleSubmit} disabled={!isValidSeller()}>
                     Legg til
                 </Button>
-            </form>     
+                <Button id='btnR' onClick={handleSubmit} disabled={!isValidSeller()}>
+                    Slett
+                </Button>
+                
+                </div>
+            </form> 
             <ToastContainer />
             <div className='modalContainer'>
                 <button

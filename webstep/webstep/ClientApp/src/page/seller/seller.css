@@ -1,0 +1,84 @@
+
+#email, #fullName, #resignationDate, #employmentDate {
+    width: 80%;
+    background-color: lightblue;
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#btnB:hover {
+    background-color: rgb(44, 80, 237);
+    color: white;
+    cursor: pointer;
+}
+#btnR:hover {
+    background-color: rgb(237, 44, 44);
+    color: white;
+    cursor: pointer;
+}
+
+.formContainer form{
+    border: solid black;
+    width: 30%;
+    background-color: white;
+    border-radius: 3%;
+    padding: 20px;
+    
+}
+.formContainer {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: solid black;
+    
+}
+.formButtons{
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: solid black;
+    
+}
+h1{
+    margin-right: 140px;
+}
+#btnB{
+    background-color: lightblue;
+    border-radius: 5px;
+    color: black;
+    padding: 10px;
+    margin: 10px;
+}
+#btnR{
+    background-color: lightblue;
+    border-radius: 5px;
+    color: black;
+    padding: 10px;
+    margin: 10px;
+    
+}
+/* 
+.box1{
+    flex: 1;
+    border:  1px solid #e7eaf3 0px 0px 5px 0px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    background: #fefeff;
+}
+.box2{
+    flex: 1;
+    border:  1px solid #e7eaf3 0px 0px 5px 0px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    background: #fefeff;
+} */
+
