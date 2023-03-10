@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
 import { Box } from '@mui/material';
+import { ModalSlett } from '../seller/SlettModal';
 
 interface ConsultantNoId {
     firstName: string;
@@ -16,6 +17,9 @@ interface ConsultantNoId {
 }
 
 export const Consultant = () => {
+    const [isModalOpen, setModalState] = React.useState(false);
+
+    const toggleModal = () => setModalState(!isModalOpen);
     //Date shenanigans
     let d = new Date();
     //Get todays date
@@ -199,6 +203,18 @@ export const Consultant = () => {
                     <Button color='primary' onClick={handleSubmit} disabled={!isValidConsultant()}>
                         Legg til
                     </Button>
+                    {/* <button
+                        id='btnR'
+                        onClick={toggleModal}
+
+                    >
+                        Slett 
+                    </button>
+                    <ModalSlett
+                        title={'Seller Liste'}
+                        isOpen={isModalOpen}
+                        onClose={toggleModal}
+                    /> */}
                 </form>
             </Box>
             <Box sx={{flex: 1, border: 'solid', mx: 2, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>

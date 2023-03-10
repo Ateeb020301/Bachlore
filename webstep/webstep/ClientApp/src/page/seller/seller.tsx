@@ -8,6 +8,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Modal } from '../Utils/ModalComponent';
 import './seller.css'
 import { SellerContainer } from './SellerContainer';
+import { ModalSlett } from './SlettModal';
 
 interface SellerNoId {
     fullName: string;
@@ -20,6 +21,7 @@ export const Seller = () => {
     const [isModalOpen, setModalState] = React.useState(false);
 
     const toggleModal = () => setModalState(!isModalOpen);
+
 
     //Date shenanigans
     let d = new Date();
@@ -199,13 +201,9 @@ export const Seller = () => {
                 <Button id='btnB' onClick={handleSubmit} disabled={!isValidSeller()}>
                     Legg til
                 </Button>
-                <Button id='btnR' onClick={handleSubmit} disabled={!isValidSeller()}>
-                    Slett
-                </Button>
                 
                 </div>
             </form> 
-            <ToastContainer />
             <div className='modalContainer'>
                 <button
                         className={'app__btn'}
@@ -224,17 +222,8 @@ export const Seller = () => {
             <div className="formContainer">
                 <form className='form2'>
                     <SellerContainer/>
-                    <div className='formButtons'>
-                    <Button id='btnB' onClick={handleSubmit} disabled={!isValidSeller()}>
-                        Legg til
-                    </Button>
-                    <Button id='btnR' onClick={handleSubmit} disabled={!isValidSeller()}>
-                        Slett
-                    </Button>
-                    
-                    </div>
                 </form> 
-                <h1>Slett Seller</h1>
+                <h1 id='titleSlett'>Slett Seller</h1>
             </div>
         </div>
     );
