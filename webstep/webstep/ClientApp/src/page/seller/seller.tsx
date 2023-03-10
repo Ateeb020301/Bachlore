@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Modal } from '../Utils/ModalComponent';
 import './seller.css'
+import { SellerContainer } from './SellerContainer';
 
 interface SellerNoId {
     fullName: string;
@@ -140,6 +141,7 @@ export const Seller = () => {
     };
 
     return (
+        <div>
         <div className="formContainer">
             <h1>Registrer Seller</h1>
             <form>
@@ -216,6 +218,23 @@ export const Seller = () => {
                         isOpen={isModalOpen}
                         onClose={toggleModal}
                     />
+            </div>
+
+        </div>
+            <div className="formContainer">
+                <form className='form2'>
+                    <SellerContainer/>
+                    <div className='formButtons'>
+                    <Button id='btnB' onClick={handleSubmit} disabled={!isValidSeller()}>
+                        Legg til
+                    </Button>
+                    <Button id='btnR' onClick={handleSubmit} disabled={!isValidSeller()}>
+                        Slett
+                    </Button>
+                    
+                    </div>
+                </form> 
+                <h1>Slett Seller</h1>
             </div>
         </div>
     );
