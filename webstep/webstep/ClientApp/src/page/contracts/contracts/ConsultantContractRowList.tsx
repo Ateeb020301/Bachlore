@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQuery } from '@apollo/client';
-import { AddContractPayload, GetConsultantContractPayload, GetConsultantContractsPayload, GetTeamContractPayload } from '../../../api/contract/payloads';
+import { AddContractPayload, GetTeamContractPayload } from '../../../api/contract/payloads';
 import { AddContractInput, GetConsultantContractsInput } from '../../../api/contract/inputs';
 import { ADD_CONTRACT, GET_CONSULTANT_CAPACITY, GET_CONSULTANT_CONTRACTS, GET_TEAMCONS_CONTRACTS } from '../../../api/contract/queries';
 import { Loading } from '../../Utils/Loading';
@@ -15,8 +15,9 @@ import { getDefaultNewContract } from '../../../api/contract/logic';
 import { toast } from 'react-toastify';
 import { defaultMessagePlacement } from '../../../logic/toast';
 import { isContractValid } from '../../../logic/validationFunctions';
-import { cachedDataVersionTag } from 'v8';
-
+import { boolean } from 'yup/lib/locale';
+import { forEachChild } from 'typescript';
+import { Consultant } from '../../consultant/consultant';
 
 interface ConsultantContractRowListProps {
     consultantId: number;
@@ -24,9 +25,7 @@ interface ConsultantContractRowListProps {
 
 export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps> = ({ consultantId }) => {
     let projectArr: any[] = [{ projects: [] }];
-    let contractArr: any[] = [{ contracts: [] }];
-    let combinedArr: any[] = [{ projects: [{contracts: []}]}]
-    const { data: cData} = useQuery<GetConsultantContractPayload>(GET_CONSULTANT_CONTRACTS, { variables: { id: consultantId } });
+    let checkData = false;
     const { loading, error, data } = useQuery<GetTeamContractPayload, GetConsultantContractsInput>(
         GET_TEAMCONS_CONTRACTS,
         {
@@ -36,10 +35,10 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
     );
 
 
-        const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
+    const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             },
             {
@@ -48,12 +47,12 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             },
         ],
         awaitRefetchQueries: true,
-        });
+    });
 
-    
 
-    const addContractWrapper = (id: number) => {
-        let defaultContract = getDefaultNewContract(id);
+
+    const addContractWrapper = (id: number, consultantId: number) => {
+        let defaultContract = getDefaultNewContract(id, consultantId);
         addContract({ variables: { input: defaultContract } })
             .then((res) => {
                 toast.success('Kontrakt opprettet', {
@@ -67,49 +66,44 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             });
     };
 
-    //Made my own array to loop through to get the output of the
+    //Made my own array to loop through to get the output of the data
     let dataL = data?.team.length ?? 0;
     for (let i = 0; i < dataL; i++) {
         let dataP = data?.team[i].projects.length ?? 0;
         for (let j = 0; j < dataP; j++) {
             projectArr[0].projects.push(data?.team[i].projects[j]);
-            //PUT CONTRACTS IN PROJECT.CONTRACT
-            let cDataL = cData?.consultantContracts.items.length ?? 0;
         }
     }
-
-    console.log(projectArr[0]);
-
-
-
-
 
     return (
         <>
             {!loading && !error && data ? (
                 projectArr[0].projects.map(
-                    (project : any) => 
+                    (project: any) =>
                         project.contracts.length > 0 && (
                             <CalendarRow
                                 key={uuidv4()}
                                 sidebarContent={<ProjectDescription project={project} consultantId={consultantId} />}
                                 timelineContent={
                                     <CalendarTimelineGrid>
-                                        {project.contracts.map((contract : any) => {
-                                            return (
-                                                isContractValid(contract) && (
-                                                    <ContractEventContainer
-                                                        contract={contract}
-                                                        key={uuidv4()}
-                                                        consultantId={consultantId}
-                                                       
-                                                    />
-                                                )
-                                            );
+                                        {
+                                            project.contracts.map((contract: any) => {
+                                                if (contract.consultant.id == consultantId) {
+                                                    return (
+                                                        isContractValid(contract) && (
+                                                            <ContractEventContainer
+                                                                contract={contract}
+                                                                key={uuidv4()}
+                                                                consultantId={consultantId}
+
+                                                            />
+                                                        )
+                                                    );
+                                                }
                                         })}
                                         <CalendarTimelineBackground
                                             column={1}
-                                            onClick={() => addContractWrapper(project.id)}
+                                            onClick={() => addContractWrapper(project.id, consultantId)}
                                             key={uuidv4()}
                                         />
                                     </CalendarTimelineGrid>

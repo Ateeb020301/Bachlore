@@ -15,7 +15,7 @@ export const getEditContractInput = (c: Contract) => {
     return input;
 };
 
-export const getDefaultNewContract = (projectId: number) => {
+export const getDefaultNewContract = (projectId: number, consultantId: number) => {
     let currentDate: any = new Date();
     let startDate: any = new Date(currentDate.getFullYear(), 0, 1);
     var days = Math.floor((currentDate - startDate) /
@@ -28,6 +28,7 @@ export const getDefaultNewContract = (projectId: number) => {
 
     let defaultContract: AddContractInput = {
         projectId: projectId,
+        consultantId: consultantId,
         daysOfWeek: 3,
         start: { week: weekNumber, year: currentYear },
         end: { week: weekNumber + 4, year: currentYear }, //TODO: Handle case where +4 moves to new year

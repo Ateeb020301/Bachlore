@@ -95,7 +95,7 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
             });
     };
 
-    return (
+     return (
         <div style={contentStyle}>
             <span style={{ display: 'flex', flexDirection: 'column' }}>
                 <span style={centeredSpan}>Kunde:</span>

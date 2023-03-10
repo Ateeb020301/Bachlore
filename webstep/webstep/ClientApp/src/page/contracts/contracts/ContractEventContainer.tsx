@@ -44,7 +44,11 @@ export const ContractEventContainer: React.FC<ContractEventContainerProps> = ({ 
             {
                 query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
-            }
+            },
+            {
+                query: GET_CONSULTANT_CAPACITY,
+                variables: { startYear: constants.currentYear, endYear: constants.currentYear + 2, id: consultantId },
+            },
         ],
         awaitRefetchQueries: true,
     });

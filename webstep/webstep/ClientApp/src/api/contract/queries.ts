@@ -68,6 +68,9 @@ export const GET_TEAMCONS_CONTRACTS = gql`
                 customerName
                 projectName
                 contracts {
+                    consultant {
+                        id
+                    }
                     id
                     startYear
                     startWeek
