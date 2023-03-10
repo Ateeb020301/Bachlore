@@ -5,6 +5,7 @@ import { DeleteConsultantPayload, DELETE_CONSULTANT } from '../../api/consultant
 import { ConsultantWithContracts } from '../../logic/interfaces';
 import { defaultMessagePlacement } from '../../logic/toast';
 import { DisplayProjects } from './DisplayContracts';
+import './Consultant.css'
 
 interface ConsultantFields {
     consultant: ConsultantWithContracts;
