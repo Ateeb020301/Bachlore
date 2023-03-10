@@ -201,7 +201,9 @@ export const Consultant = () => {
                     </Button>
                 </form>
             </Box>
-            <Box sx={{flex: 1, border: 'solid', mx: 2, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}></Box>
+            <Box sx={{flex: 1, border: 'solid', mx: 2, background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
+                
+            </Box>
             <ToastContainer />
         </Box>
     );
