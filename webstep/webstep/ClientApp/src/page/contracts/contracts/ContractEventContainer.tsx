@@ -28,7 +28,7 @@ export const ContractEventContainer: React.FC<ContractEventContainerProps> = ({ 
     const [editContract] = useMutation<EditContractPayload, { input: EditContractInput }>(EDIT_CONTRACT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             },
             {

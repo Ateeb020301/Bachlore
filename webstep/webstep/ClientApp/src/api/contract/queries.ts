@@ -62,24 +62,22 @@ export const GET_PROJECTCONSULTANT_IDS = gql`
 
 export const GET_TEAMCONS_CONTRACTS = gql`
     query GetTeamConsContracts($id: Int!) {
-        team(id: $id) {
-            projects {
-                id
-                customerName
-                projectName
-                contracts {
-                    consultant {
-                        id
-                    }
-                    id
-                    startYear
-                    startWeek
-                    endYear
-                    endWeek
-                    daysOfWeek
-                    hourlyRate
-                }
+      projectConsultants(id: $id) {
+          id
+          customerName
+          projectName
+          contracts(id: $id) {
+            consultant {
+              id
             }
+            id
+            startYear
+            startWeek
+            endYear
+            endWeek
+            daysOfWeek
+            hourlyRate
+          }
         }
     }
 `;

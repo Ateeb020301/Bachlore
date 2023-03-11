@@ -66,15 +66,10 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             });
     };
 
-    //Made my own array to loop through to get the output of the data
-    let dataL = data?.team.length ?? 0;
-    for (let i = 0; i < dataL; i++) {
-        let dataP = data?.team[i].projects.length ?? 0;
-        for (let j = 0; j < dataP; j++) {
-            projectArr[0].projects.push(data?.team[i].projects[j]);
-        }
+    let dataP = data?.projectConsultants.length ?? 0;
+    for (let i = 0; i < dataP; i++) {
+        projectArr[0].projects.push(data?.projectConsultants[i])
     }
-
     return (
         <>
             {!loading && !error && data ? (
@@ -116,4 +111,5 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
             )}
         </>
     );
+
 };

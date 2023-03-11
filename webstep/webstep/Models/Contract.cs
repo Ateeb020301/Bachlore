@@ -43,7 +43,9 @@
         public int HourlyRate { get; set; }
 
         [Required]
-        public Project Project { get; set; }        
+        public Project Project { get; set; }
+
+        [Key]
         [Required]
         public Consultant Consultant { get; set; }
 

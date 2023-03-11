@@ -15,17 +15,13 @@ export interface Consultant {
 interface Contract {
     id: number;
     project: Project[];
-    consultant: Consultant[];
+    consultant: Consultant;
     startYear: number;
     startWeek: number;
     endYear: number;
     endWeek: number;
     daysOfWeek: number;
     hourlyRate: number;
-}
-
-export interface Team {
-    projects: Project[];
 }
 
 export interface GetConsultantCapacityPayload {
@@ -45,7 +41,8 @@ export interface GetConsultantContractsPayload {
 }
 
 export interface GetTeamContractPayload {
-    team: Team[];
+    projectConsultants: [{ projects: [Project]}]
+;
 }
 
 export interface GetConsultantContractPayload {
