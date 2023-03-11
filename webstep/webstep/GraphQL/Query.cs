@@ -9,6 +9,7 @@ using ILogger = Microsoft.Extensions.Logging.ILogger;
 namespace webstep.GraphQL
 {
     using System.Linq;
+    using System.Reflection.Metadata;
     using System.Security.Cryptography.X509Certificates;
     using global::NodaTime;
     using global::NodaTime.Calendars;
@@ -74,14 +75,6 @@ namespace webstep.GraphQL
         public IQueryable<Contract> GetContracts() => this._repo.SelectAll<Contract>();
 
         /// <summary>
-        /// Fetches all contracts
-        /// </summary>
-        /// <returns></returns>
-        [UseOffsetPaging(MaxPageSize = 250), UseProjection, UseSorting]
-        public IQueryable<Contract> GetConsultantContracts(int id) => this._repo.SelectAll<Contract>().Where(x => x.Consultant.Id == id);
-
-
-        /// <summary>
         /// Fetches a single contract
         /// </summary>
         /// <param name="id"></param>
@@ -145,7 +138,6 @@ namespace webstep.GraphQL
         [UseProjection]                                                                  
         public IQueryable<Project> GetProject(int id)
         {
-            var projects = _repo.SelectSingle<Project>(id);
             return this._repo.SelectSingle<Project>(id);
         }
 
@@ -175,6 +167,15 @@ namespace webstep.GraphQL
             return consultant.Select(x => x).Where(p => values.Contains(p));
         }
 
+        [UseProjection]
+        public IQueryable<Project> GetProjectConsultants(int id)
+        {
+            var contracts = _repo.SelectAll<Contract>().Where(x => x.Consultant.Id == id);
+            var project = _repo.SelectAll<Project>();
+            var values = contracts.Select(x => x.Project).ToList();
+
+            return project.Select(x => x).Where(p => values.Contains(p)).Include("Contracts");
+        }
 
         [UseProjection]
         public IQueryable<Consultant> GetConsSingleInTeams(int id)
