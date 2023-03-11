@@ -6,6 +6,9 @@ import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Modal } from '../Utils/ModalComponent';
+import './seller.css'
+import { SellerContainer } from './SellerContainer';
+import { ModalSlett } from './SlettModal';
 
 interface SellerNoId {
     fullName: string;
@@ -18,6 +21,7 @@ export const Seller = () => {
     const [isModalOpen, setModalState] = React.useState(false);
 
     const toggleModal = () => setModalState(!isModalOpen);
+
 
     //Date shenanigans
     let d = new Date();
@@ -139,10 +143,12 @@ export const Seller = () => {
     };
 
     return (
-        <div style={{width: '100%', border: 'solid'}}>
+        <div>
+        <div className="formContainer">
+            <h1>Registrer Seller</h1>
             <form>
                 <FormGroup>
-                    <Label for='fullName'>Selgers navn:</Label>
+                    <Label for='fullName'>Navn:</Label><br />
                     <Input
                         type='text'
                         id='fullName'
@@ -154,7 +160,7 @@ export const Seller = () => {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for='email'>Selgers email:</Label>
+                    <Label for='email'>Email</Label><br />
                     <Input
                         type='text'
                         id='email'
@@ -167,7 +173,7 @@ export const Seller = () => {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for='employmentDate'>Start dato:</Label>
+                    <Label for='employmentDate'>Start dato</Label><br />
                     <Input
                         type='date'
                         id='employmentDate'
@@ -180,7 +186,7 @@ export const Seller = () => {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for='resignationDate'>Slutt dato:</Label>
+                    <Label for='resignationDate'>Slutt dato</Label><br />
                     <Input
                         type='date'
                         id='resignationDate'
@@ -191,11 +197,13 @@ export const Seller = () => {
                     />
                 </FormGroup>
 
-                <Button color='primary' onClick={handleSubmit} disabled={!isValidSeller()}>
+                <div className='formButtons'>
+                <Button id='btnB' onClick={handleSubmit} disabled={!isValidSeller()}>
                     Legg til
                 </Button>
-            </form>     
-            <ToastContainer />
+                
+                </div>
+            </form> 
             <div className='modalContainer'>
                 <button
                         className={'app__btn'}
@@ -208,6 +216,14 @@ export const Seller = () => {
                         isOpen={isModalOpen}
                         onClose={toggleModal}
                     />
+            </div>
+
+        </div>
+            <div className="formContainer">
+                <form className='form2'>
+                    <SellerContainer/>
+                </form> 
+                <h1 id='titleSlett'>Slett Seller</h1>
             </div>
         </div>
     );

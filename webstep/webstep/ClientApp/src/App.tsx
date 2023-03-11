@@ -11,7 +11,7 @@ import { Prospects } from './page/prospect/Prospects'
 import { setNavCollapse } from './page/navbar/navbar';
 import { Contracts } from './page/contracts/contracts';
 import { Seller } from './page/seller/seller';
-import { Consultant } from './page/consultant/consultant';
+import { Consultant } from './page/consultant/Consultant';
 
 const client = new ApolloClient({
   uri: document.baseURI + 'graphql',
