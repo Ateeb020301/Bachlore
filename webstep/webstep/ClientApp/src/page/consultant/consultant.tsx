@@ -220,8 +220,7 @@ export const Consultant = () => {
                 </form>
             </Box>
             <Box id='box2'>
-                
-                
+                <ConsultantContainer/>
             </Box>
         </Box>
     );
