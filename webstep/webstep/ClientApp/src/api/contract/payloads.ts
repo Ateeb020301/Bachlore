@@ -9,7 +9,7 @@ export interface Consultant {
     employmentDate: string;
     resignationDate?: any;
     workdays: number;
-    projects: Project[];
+    contracts: Contract;
 }
 
 interface Contract {
@@ -39,6 +39,11 @@ export interface GetConsultantVacancyPayload {
 export interface GetConsultantContractsPayload {
     consultant: Consultant[];
 }
+
+export interface GetConsultantItemsContractsPayload {
+    consultants: { items: Consultant[] }
+}
+
 
 export interface GetTeamContractPayload {
     projectConsultants: [{ projects: [Project]}]

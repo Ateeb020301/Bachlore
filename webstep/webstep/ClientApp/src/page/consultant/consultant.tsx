@@ -5,10 +5,12 @@ import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
-import { Box } from '@mui/material';
+import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
 import { ModalSlett } from '../seller/SlettModal';
 import './Consultant.css';
 import { ConsultantContainer } from './ConsultantContainer';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { ConsultantDisplay } from './ConsultantDisplay';
 
 interface ConsultantNoId {
     firstName: string;
@@ -18,8 +20,35 @@ interface ConsultantNoId {
     workdays: number;
 }
 
+function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+}
+
 export const Consultant = () => {
+
+    const breadcrumbs = [
+        <Link underline="none" fontSize="12px" key="1" color="inherit" href="/">
+            Home
+        </Link>,
+        <Link
+            underline="none"
+            fontSize="12px"
+            key="2"
+            color="inherit">
+            Form
+        </Link>,
+        <Link
+            underline="none"
+            fontSize="12px"
+            key="3"
+            color="inherit">
+            Add Consultant
+        </Link>,
+    ];
+
     const [isModalOpen, setModalState] = React.useState(false);
+
 
     const toggleModal = () => setModalState(!isModalOpen);
     //Date shenanigans
@@ -149,8 +178,30 @@ export const Consultant = () => {
     };
 
     return (
-        <Box sx={{display: 'flex', flexWrap: 'wrap', mt: 2}}>
-            <Box sx={{flex: 1, border: 'solid', mx: 2, borderRadius: '10px', background: '#fefeff', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 2}}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between',flex: 1, mx: 1, mt:1, color: 'black', fontWeight: '950', letterSpacing: '.5px', fontSize: '14px' }}>
+                <Box>
+                    CONSULTANT
+                </Box>
+                <Box>
+                    <Breadcrumbs separator={<KeyboardArrowRightIcon fontSize="inherit" />} aria-label="breadcrumb">
+                        {breadcrumbs}
+                    </Breadcrumbs>
+                </Box>
+            </Box>
+
+            <Box sx={{boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', display: 'flex', my: 1, mx: 1, flexBasis: '100%', flexWrap:'wrap', background: "#ffffff", borderRadius: '5px', justifyContent: 'space-between', alignItems: 'center' }}>
+                <ConsultantContainer />
+            </Box>
+            <Box sx={{ display: 'flex', my: 1, mx: 1, flexBasis: '100%', flexWrap: 'wrap'}}>
+                <ConsultantDisplay />
+            </Box>
+        </Box>
+    )
+
+    /* return (
+        <Box sx={{display: 'flex', flexWrap: 'wrap', mt: 2, border:'solid'}}>
+            <Box sx={{flexBasis: '100%', border: 'solid', mx: 2, borderRadius: '10px', background: '#fefeff', borderColor: '#e7eaf3', borderWidth: '1px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
                 <form>
                     <FormGroup>
                         <Label for='firstName'>Konsulents navn:</Label>
@@ -205,7 +256,7 @@ export const Consultant = () => {
                     <Button color='primary' onClick={handleSubmit} disabled={!isValidConsultant()}>
                         Legg til
                     </Button>
-                    {/* <button
+                    /* <button
                         id='btnR'
                         onClick={toggleModal}
 
@@ -216,12 +267,13 @@ export const Consultant = () => {
                         title={'Seller Liste'}
                         isOpen={isModalOpen}
                         onClose={toggleModal}
-                    /> */}
+                    />
                 </form>
             </Box>
             <Box id='box2'>
                 <ConsultantContainer/>
             </Box>
         </Box>
-    );
+    ); */
+    
 }

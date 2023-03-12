@@ -47,6 +47,23 @@ export const GET_CONSULTANT_IDS = gql`
     }
 `;
 
+export const GET_CONSULTANTS_INFO = gql`
+    query {
+        consultants {
+            items {
+                firstName
+                lastName
+                employmentDate
+                resignationDate
+                workdays
+                contracts {
+                    id
+                }
+            }
+        }
+    }
+`;
+
 export const GET_PROJECTCONSULTANT_IDS = gql`
     query {
         consInTeams {
