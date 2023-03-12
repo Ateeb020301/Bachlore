@@ -11,10 +11,7 @@
     background-color: lightblue;
     color: black;
 }
-.AccordionHolder{
-    background-color: darkblue;
-    padding: 20px;
-}
+
 #email, #fullName, #resignationDate, #employmentDate {
     width: 80%;
     background-color: lightblue;

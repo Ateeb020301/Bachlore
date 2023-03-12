@@ -30,13 +30,12 @@
     padding: 20px;
 }
 .formContainer .form2{
-    border: solid black;
-    width: 30%;
-    background-color: black;
+    width: 70%;
     border-radius: 3%;
     padding: 20px;
     height: 50vh;
     overflow-y:auto;
+    border: solid black;
 }
 .formContainer {
     border-radius: 5px;
@@ -80,6 +79,33 @@ h1{
 }
 #titleSlett{
     margin-left: 140px;
+}
+.tableContent{
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.tableContent thead tr{
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+.tableContent th,
+.tableContent td {
+    padding: 12px 15px;
+}
+.tableContent tbody tr {
+    border-bottom: 1px solid rgb(60, 60, 221);
+}
+
+.tableContent tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.tableContent tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
 }
 /* 
 .box1{
