@@ -4,6 +4,7 @@ import { GET_SELLERS } from '../../api/sellers';
 import { PageInfo } from '../../logic/interfaces';
 import { Loading } from '../Utils/Loading';
 import { SellerDisplay } from './SellerDisplay';
+import './Seller.css'
 
 interface GetSellersPayload {
     sellers: Sellers;

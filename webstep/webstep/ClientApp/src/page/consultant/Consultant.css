@@ -7,10 +7,7 @@
     padding: 20px;
     overflow-y:auto;
 }
-.AccordionContent{
-    background-color: lightblue;
-    color: black;
-}
+
 
 #email, #fullName, #resignationDate, #employmentDate {
     width: 80%;
