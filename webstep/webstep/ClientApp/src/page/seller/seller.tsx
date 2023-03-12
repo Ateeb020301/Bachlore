@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Modal } from '../Utils/ModalComponent';
-import './seller.css'
+import './Seller.css'
 import { SellerContainer } from './SellerContainer';
 import { ModalSlett } from './SlettModal';
 
@@ -144,8 +144,8 @@ export const Seller = () => {
 
     return (
         <div>
+            <h1 id='registrerTitle'>Registrer Seller</h1>
         <div className="formContainer">
-            <h1>Registrer Seller</h1>
             <form>
                 <FormGroup>
                     <Label for='fullName'>Navn:</Label><br />
@@ -204,7 +204,7 @@ export const Seller = () => {
                 
                 </div>
             </form> 
-            <div className='modalContainer'>
+            {/* <div className='modalContainer'>
                 <button
                         className={'app__btn'}
                         onClick={toggleModal}
@@ -216,14 +216,27 @@ export const Seller = () => {
                         isOpen={isModalOpen}
                         onClose={toggleModal}
                     />
-            </div>
+            </div> */}
 
         </div>
+        <h1 id='titleSlett'>Slett Seller</h1>
             <div className="formContainer">
+           
                 <form className='form2'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Full Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Employement</th>
+                            <th scope="col">Resignation</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                </table>
                     <SellerContainer/>
                 </form> 
-                <h1 id='titleSlett'>Slett Seller</h1>
             </div>
         </div>
     );
