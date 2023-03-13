@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQuery } from '@apollo/client';
 import { AddContractPayload, GetTeamContractPayload } from '../../../api/contract/payloads';
 import { AddContractInput, GetConsultantContractsInput } from '../../../api/contract/inputs';
-import { ADD_CONTRACT, GET_CONSULTANT_CAPACITY, GET_CONSULTANT_CONTRACTS, GET_TEAMCONS_CONTRACTS } from '../../../api/contract/queries';
+import { ADD_CONTRACT, GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY, GET_CONSULTANT_CONTRACTS, GET_TEAMCONS_CONTRACTS } from '../../../api/contract/queries';
 import { Loading } from '../../Utils/Loading';
 import { CalendarRow } from '../../CalendarSystem/CalendarRow';
 import { ProjectDescription } from './ProjectDescription';
@@ -45,6 +45,9 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
                 query: GET_CONSULTANT_CAPACITY,
                 variables: { startYear: constants.currentYear, endYear: constants.currentYear + 2, id: consultantId },
             },
+            {
+                query: GET_CONSULTANTS_INFO
+            }
         ],
         awaitRefetchQueries: true,
     });
