@@ -12,6 +12,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { ConsultantDisplay } from './ConsultantDisplay';
 import { Form, useNavigate } from 'react-router-dom';
 import { ModalConsultant } from './ModalConsultant'
+import { GET_CONSULTANTS_INFO } from '../../api/contract/queries';
 
 interface ConsultantNoId {
     firstName: string;
@@ -56,7 +57,16 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
 
     const [currentConsultant, setCurrentConsultant] = useState<ConsultantNoId>(defaultConsultant);
     const [displayValidation, setDisplayValidation] = useState<string>('');
-    const [addConsultant] = useMutation<AddConsultantPayload, { input: ConsultantNoId }>(ADD_CONSULTANT);
+    const [addConsultant] = useMutation<AddConsultantPayload, { input: ConsultantNoId }>(
+        ADD_CONSULTANT, {
+            refetchQueries: [
+                {
+                    query: GET_CONSULTANTS_INFO,
+                },
+            ],
+            awaitRefetchQueries: true,
+        }
+    );
 
     //Adds or removes validation field on resignationDate depending on if its empty or not
     useEffect(() => {
