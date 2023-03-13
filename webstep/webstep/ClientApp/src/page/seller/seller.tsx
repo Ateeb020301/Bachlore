@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
-import { AddSellerPayload, ADD_SELLER, GET_SELLERS } from '../../api/sellers';
+import { AddSellerPayload, ADD_SELLER, EditSellerPayload, GET_SELLER, GET_SELLERS } from '../../api/sellers';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
@@ -89,6 +89,7 @@ export const Seller: React.FC= () => {
                 
             }
         );
+
         //Adds or removes validation field on resignationDate depending on if its empty or not
         useEffect(() => {
             resignationDateValidationToggle();

@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { DeleteSellerPayload, DELETE_SELLER } from '../../api/sellers';
+import { DeleteSellerPayload, DELETE_SELLER, EditSellerPayload, EditSellerInput, EDIT_SELLER, GET_SELLER } from '../../api/sellers';
 import { defaultMessagePlacement } from '../../logic/toast';
 import { DisplayProspects } from './DisplayProspects';
 import { Prospects, SellerInterface } from './SellerContainer';
@@ -21,7 +21,37 @@ interface SellerId {
 
 export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospects }) => {
     const [deleteSeller] = useMutation<DeleteSellerPayload, { input: SellerId }>(DELETE_SELLER);
-    const [endreSeller] = useMutation<DeleteSellerPayload, { input: SellerId }>(DELETE_SELLER);
+    const [editSeller] = useMutation<EditSellerPayload, { input: EditSellerInput }>(EDIT_SELLER, {
+        refetchQueries: [
+            {
+                query:  GET_SELLER,
+                variables: { id: seller.id},
+            },
+        ],
+        awaitRefetchQueries: true,
+    });
+
+    const sendEditRequest = (input: SellerFields)=>{
+        let newSeller: EditSellerInput = {
+            id: seller.id,
+            fullName: seller.fullName,
+            email: seller.email ,
+            employmentDate: seller.employmentDate,
+            resignationDate: seller.resignationDate,
+        };
+        editSeller({ variables: { input: newSeller  } })
+            .then((res) => {
+                toast.success('Seller ble redigert', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
+            })
+            .catch((e) => {
+                toast.error('Noe gikk galt ved redigering av Seller', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
+                console.log(e);
+            });
+    }
 
     //used for toggling consultant info on/off
     const [isHidden, setIsHidden] = useState(true);

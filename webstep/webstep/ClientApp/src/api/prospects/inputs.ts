@@ -27,3 +27,4 @@ export interface EditSubProspectInput {
     start: WeekYear;
     end: WeekYear;
 }
+
