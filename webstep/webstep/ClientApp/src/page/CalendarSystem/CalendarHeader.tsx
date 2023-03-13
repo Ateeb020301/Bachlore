@@ -11,5 +11,6 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({ header, children
             <strong>{header}</strong>
             {children}
         </div>
+
     );
 };

@@ -68,8 +68,8 @@ export const ConsultantDisplay: React.FC = () => {
                                     </Box>
                                 </Box>
 
-                                <Box sx={{}}>
-                                    <Button sx={{ color: 'black', background: '#f2f6f8', ":hover": { background: '#cfd1d4' }, textTransform: 'none', fontWeight: '400', fontSize: '14px', display: 'flex', px: 2, py: 1, alignItems: 'center' }} size="small" disableRipple disableFocusRipple>
+                                <Box>
+                                    <Button sx={{ color: 'black', background: '#f2f6f8', ":hover": { background: '#cfd1d4' }, textTransform: 'none', fontWeight: '400', fontSize: '14px', display: 'flex', px: 2, py: 1, alignItems: 'center'}} size="small" disableRipple disableFocusRipple>
                                         View Profile
                                     </Button>
                                 </Box>

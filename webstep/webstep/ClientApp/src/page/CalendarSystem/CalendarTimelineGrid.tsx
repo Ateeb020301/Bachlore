@@ -1,9 +1,9 @@
 import React from 'react';
 import { constants } from '../../logic/constants';
 
-interface CalendarTimelineGridProps {}
+interface CalendarTimelineGridProps { }
 
-export const CalendarTimelineGrid = ({ children }: {children: any}) => {
+export const CalendarTimelineGrid = ({ children }: { children: any }) => {
     // Simple solution, assumes you want to view rougly 2 years worth of time
     let weeks = constants.weeksToShow;
     let columnWidth = constants.calendarColumnWidth;

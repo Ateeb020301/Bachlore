@@ -43,5 +43,9 @@ export const CalendarWeeks = () => {
         );
     }
 
-    return <div style={weeksContainerStyle}>{weeks}</div>;
+    return (
+        <div style={weeksContainerStyle}>
+            {weeks}
+        </div>
+    );
 };

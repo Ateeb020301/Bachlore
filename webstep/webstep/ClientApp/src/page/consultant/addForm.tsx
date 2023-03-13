@@ -7,10 +7,11 @@ import { toast, ToastContainer } from 'react-toastify';
 import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
 import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
 import { ModalSlett } from '../seller/SlettModal';
-import './Consultant.css';
 import { ConsultantContainer } from './ConsultantContainer';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { ConsultantDisplay } from './ConsultantDisplay';
+import { Form, useNavigate } from 'react-router-dom';
+import { ModalConsultant } from './ModalConsultant'
 
 interface ConsultantNoId {
     firstName: string;
@@ -25,32 +26,8 @@ function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
     console.info('You clicked a breadcrumb.');
 }
 
-export const Consultant = () => {
+export const AddForm = () => {
 
-    const breadcrumbs = [
-        <Link underline="none" fontSize="12px" key="1" color="inherit" href="/">
-            Home
-        </Link>,
-        <Link
-            underline="none"
-            fontSize="12px"
-            key="2"
-            color="inherit">
-            Form
-        </Link>,
-        <Link
-            underline="none"
-            fontSize="12px"
-            key="3"
-            color="inherit">
-            Add Consultant
-        </Link>,
-    ];
-
-    const [isModalOpen, setModalState] = React.useState(false);
-
-
-    const toggleModal = () => setModalState(!isModalOpen);
     //Date shenanigans
     let d = new Date();
     //Get todays date
@@ -68,6 +45,9 @@ export const Consultant = () => {
         resignationDate: null,
         workdays: 0,
     };
+
+    const outsideRef = React.useRef(null);
+    const navigate = useNavigate();
 
     const [currentConsultant, setCurrentConsultant] = useState<ConsultantNoId>(defaultConsultant);
     const [displayValidation, setDisplayValidation] = useState<string>('');
@@ -118,11 +98,12 @@ export const Consultant = () => {
                     toast.success('Konsulent opprettet', {
                         position: toast.POSITION.BOTTOM_RIGHT
                     })
+
                 })
                 .catch((err) => {
                     toast.error('Noe gikk galt med oppretting av en konsulent.', {
                         position: toast.POSITION.BOTTOM_RIGHT
-                    })             
+                    })
                 });
         }
     };
@@ -178,26 +159,67 @@ export const Consultant = () => {
     };
 
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 2}}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between',flex: 1, mx: 1, mt:1, color: 'black', fontWeight: '950', letterSpacing: '.5px', fontSize: '14px' }}>
-                <Box>
-                    CONSULTANT
-                </Box>
-                <Box>
-                    <Breadcrumbs separator={<KeyboardArrowRightIcon fontSize="inherit" />} aria-label="breadcrumb">
-                        {breadcrumbs}
-                    </Breadcrumbs>
-                </Box>
-            </Box>
+        <Box>
+            <Box>
+                <form>
+                    <FormGroup>
+                        <Label for='firstName'>Konsulent</Label><br />
+                        <Input
+                            type='text'
+                            id='firstName'
+                            valid={isValidText(currentConsultant.firstName)}
+                            invalid={!isValidText(currentConsultant.firstName)}
+                            value={currentConsultant.firstName}
+                            onChange={handleChange}
+                            name='firstName'
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                    <Label for='lastName'>Etternavn</Label><br />
+                        <Input
+                            type='text'
+                            id='lastName'
+                            valid={isValidText(currentConsultant.lastName)}
+                            invalid={!isValidText(currentConsultant.lastName)}
+                            value={currentConsultant.lastName}
+                            onChange={handleChange}
+                            name='lastName'
+                        />
+                    </FormGroup>
 
-            <Box sx={{boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', display: 'flex', my: 1, mx: 1, flexBasis: '100%', flexWrap:'wrap', background: "#ffffff", borderRadius: '5px', justifyContent: 'space-between', alignItems: 'center' }}>
-                <ConsultantContainer />
+                    <FormGroup>
+                        <Label for='employmentDate'>Start dato:</Label>
+                        <Input
+                            type='date'
+                            id='inpEmploymentDate'
+                            valid={isValidStartDate(currentConsultant.employmentDate)}
+                            invalid={!isValidStartDate(currentConsultant.employmentDate)}
+                            value={currentConsultant.employmentDate}
+                            onChange={handleChange}
+                            name='inpEmploymentDate'
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for='resignationDate'>Slutt dato:</Label>
+                        <Input
+                            type='date'
+                            id='inpResignationDate'
+                            className={displayValidation}
+                            value={currentConsultant.resignationDate ? currentConsultant.resignationDate : ''}
+                            onChange={handleChange}
+                            name='inpResignationDate'
+                        />
+                    </FormGroup>
+
+                    <Button color='primary' onClick={ handleSubmit } disabled={!isValidConsultant()}>
+                        Legg til
+                    </Button>
+                </form>
+
+
             </Box>
-            <Box sx={{ display: 'flex', my: 1, mx: 1, flexBasis: '100%', flexWrap: 'wrap'}}>
-                <ConsultantDisplay />
-            </Box>
-            <ToastContainer />
         </Box>
-    )
+    );
 
 }

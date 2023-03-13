@@ -15,17 +15,16 @@ interface ProspectDescriptionProps {
 }
 
 const contentStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'minmax(100px, 150px) minmax(100px, 150px)', //modified
-    gridTemplateRows: '15px 1fr',
-    paddingTop: '5px',
-    fontSize: 12,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRight: '1px solid',
+    padding: '0px 15px 0px 15px',
     height: '100%',
-    width: '100%',
-    backgroundImage: 'linear-gradient(to left, white , #F1F1F1)',
-    borderBottom: '1px solid grey',
-    borderRight: '1px solid grey',
+    fontSize: 12,
+    backgroundImage: 'linear-gradient(to right, white , #f8f9f9)',
     overflow: 'hidden',
+    boxsizing: 'content-box'
 };
 
 const centeredSpan = {
@@ -61,27 +60,32 @@ export const ProspectDescription: React.FC<ProspectDescriptionProps> = ({ prospe
     };
     return (
         <div style={contentStyle}>
-            <span style={centeredSpan}>Kunde:</span>
-            <span style={centeredSpan}>Prosjekt:</span>
-            <span style={centeredSpan}>
-                <EditableField
-                    objectToEdit={prospect}
-                    fieldName={'customerName'}
-                    fieldToEdit={prospect.customerName}
-                    editCallBack={editFunctionWrapper}
-                    width={70}
-                />
-            </span>
-            <span style={centeredSpan}>
-                {' '}
-                <EditableField
-                    objectToEdit={prospect}
-                    fieldName={'projectName'}
-                    fieldToEdit={prospect.projectName}
-                    editCallBack={editFunctionWrapper}
-                    width={70}
-                />
-            </span>
+            <div>
+                <span style={centeredSpan}>Kunde:</span>
+                <span style={centeredSpan}>
+                    <EditableField
+                        objectToEdit={prospect}
+                        fieldName={'customerName'}
+                        fieldToEdit={prospect.customerName}
+                        editCallBack={editFunctionWrapper}
+                        width={70}
+                    />
+                </span>
+            </div>
+
+            <div>
+                <span style={centeredSpan}>Prosjekt:</span>
+                <span style={centeredSpan}>
+                    {' '}
+                    <EditableField
+                        objectToEdit={prospect}
+                        fieldName={'projectName'}
+                        fieldToEdit={prospect.projectName}
+                        editCallBack={editFunctionWrapper}
+                        width={70}
+                    />
+                </span>
+            </div>
         </div>
     );
 };
