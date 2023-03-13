@@ -54,11 +54,9 @@ const takeAmount = 50;
 
 export const Seller: React.FC= () => {
     // const [isModalOpen, setModalState] = React.useState(false);
-    const { loading, error, data, refetch } = useQuery<GetSellersPayload>(GET_SELLERS, {
-        pollInterval: 500,
-        variables: { skipAmount: skipAmount, takeAmount: takeAmount },
-    });
-    
+    const [name, setName] = useState();
+    const [email, setEmail] = useState();
+     
         //Date shenanigans
         let d = new Date();
         //Get todays date
@@ -79,8 +77,18 @@ export const Seller: React.FC= () => {
     
         const [currentSeller, setCurrentSeller] = useState<SellerNoId>(defaultSeller);
         const [displayValidation, setDisplayValidation] = useState<string>('');
-        const [addSeller] = useMutation<AddSellerPayload, { input: SellerNoId }>(ADD_SELLER);
-    
+        const [addSeller] = useMutation<AddSellerPayload, { input: SellerNoId }>(
+            ADD_SELLER, {
+                    refetchQueries: [
+                        {
+                            query: GET_SELLERS,
+                            variables: { skipAmount: skipAmount, takeAmount: takeAmount },
+                        },
+                    ],
+                    awaitRefetchQueries: true,
+                
+            }
+        );
         //Adds or removes validation field on resignationDate depending on if its empty or not
         useEffect(() => {
             resignationDateValidationToggle();
@@ -118,10 +126,11 @@ export const Seller: React.FC= () => {
                 // console.log(currentSeller);
                 addSeller({ variables: { input: currentSeller } })
                     .then((res) => {
-                        refetch();
                         toast.success('Selger opprettet', {
                             position: toast.POSITION.BOTTOM_RIGHT
                         })
+                        currentSeller.fullName = "";
+                        currentSeller.email = "";
                     })
                     .catch((err) => {
                         toast.error('Noe gikk galt med oppretting av en selger.', {
@@ -262,6 +271,7 @@ export const Seller: React.FC= () => {
                     <SellerContainer/>
                 </form> 
             </div>
+            <ToastContainer />
         </div>
     );
 }
