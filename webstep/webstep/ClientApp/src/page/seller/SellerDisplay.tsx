@@ -59,6 +59,8 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospec
                                 <div className="btnContainer">
                                     <button onClick={sendDeleteRequest} className='btnDelete'>
                                         <DeleteForeverIcon id='btnR' />
+                                    </button>   
+                                    <button className='btnDelete'>
                                         <ModeEditIcon id='btnE'/>
                                     </button>   
                                 </div>

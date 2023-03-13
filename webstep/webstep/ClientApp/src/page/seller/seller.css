@@ -47,8 +47,7 @@
     background-color: black;
 }
 .formContainer {
-    border-radius: 5px;
-    background-color: black;
+    border-radius: 3px;
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -105,6 +104,7 @@ table thead{
     background-color: rgba(255,255,255,0.3);
     position: -webkit-sticky;
     position: sticky;
+    top: 0;
 }
 tbody{
     height:10%;
@@ -146,47 +146,6 @@ td{
     border-radius: 5px;
 }
 .projectContainer{
-    border-top: 2px solid black;
+    border: solid black 1px;
 }
-
-/* .tableContent{
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-.tableContent thead tr{
-    background-color: #009879;
-    color: #ffffff;
-    text-align: left;
-}
-.tableContent th,
-.tableContent td {
-    padding: 12px 15px;
-}
-.tableContent tbody tr {
-    border-bottom: 1px solid rgb(60, 60, 221);
-}
-
-.tableContent tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-.tableContent tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-} */
-/* 
-.box1{
-    flex: 1;
-    border:  1px solid #e7eaf3 0px 0px 5px 0px rgba(0,0,0,0.1);
-    border-radius: 5px;
-    background: #fefeff;
-}
-.box2{
-    flex: 1;
-    border:  1px solid #e7eaf3 0px 0px 5px 0px rgba(0,0,0,0.1);
-    border-radius: 5px;
-    background: #fefeff;
-} */
 
