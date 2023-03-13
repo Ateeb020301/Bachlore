@@ -49,7 +49,7 @@ export const ModalConsultant: React.FC<ModalConsultantProps> = ({ title, isOpen,
                     </div>
 
                     <div className={'modalBody'}>
-                        <AddForm />
+                        <AddForm onClose={onClose} />
                     </div>
                 </div>
 

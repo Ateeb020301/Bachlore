@@ -26,7 +26,12 @@ function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
     console.info('You clicked a breadcrumb.');
 }
 
-export const AddForm = () => {
+
+interface ModalConsultantProps {
+    onClose: () => void;
+}
+
+export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
 
     //Date shenanigans
     let d = new Date();
@@ -98,7 +103,7 @@ export const AddForm = () => {
                     toast.success('Konsulent opprettet', {
                         position: toast.POSITION.BOTTOM_RIGHT
                     })
-
+                    onClose();
                 })
                 .catch((err) => {
                     toast.error('Noe gikk galt med oppretting av en konsulent.', {
