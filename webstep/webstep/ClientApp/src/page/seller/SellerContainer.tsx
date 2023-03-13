@@ -5,6 +5,8 @@ import { PageInfo } from '../../logic/interfaces';
 import { Loading } from '../Utils/Loading';
 import { SellerDisplay } from './SellerDisplay';
 import './Seller.css'
+import { SellerForm } from './SellerForm';
+
 
 interface GetSellersPayload {
     sellers: Sellers;
@@ -42,7 +44,10 @@ export const SellerContainer: React.FC = () => {
     });
 
     let containerContent;
-
+    // let sellerContent= data?.sellers.items.map((item,i)=>(
+    //     <Seller key={'Seller_Fragment_' + item.id} seller={item} refetch={refetch} prospects={item.prospects}/>
+    // ));
+        
     if (data) {
         containerContent = data.sellers.items.map((item, i) => (
             <React.Fragment key={'Seller_Fragment_' + item.id}>

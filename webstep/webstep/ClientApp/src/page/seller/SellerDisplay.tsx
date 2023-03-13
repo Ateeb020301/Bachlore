@@ -68,7 +68,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospec
                         </tr>
                     </tbody>
                 </table>
-            <div className='AccordionContent'>
+            <div className='AccordionContent' style={{ display: display }}>
                 <p>Prospects:</p>
                 <DisplayProspects prospects={prospects} />
             </div>

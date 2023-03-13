@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
-import { AddSellerPayload, ADD_SELLER } from '../../api/sellers';
+import { AddSellerPayload, ADD_SELLER, GET_SELLERS } from '../../api/sellers';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
@@ -9,7 +9,32 @@ import { Modal } from '../Utils/ModalComponent';
 import './Seller.css'
 import { SellerContainer } from './SellerContainer';
 import { ModalSlett } from './SlettModal';
+import { SellerForm } from './SellerForm';
+import { PageInfo } from '../../logic/interfaces';
+import { useQuery } from '@apollo/client';
 
+interface GetSellersPayload {
+    sellers: Sellers;
+}
+interface Sellers {
+    items: Seller[];
+    pageInfo: PageInfo;
+}
+
+export interface Seller {
+    prospects: Prospects[];
+    id: number;
+    fullName: string;
+    email: string;
+    employmentDate: string;
+    resignationDate?: any;
+}
+
+export interface Prospects {
+    id: number;
+    customerName: string;
+    projectName: string;
+}
 interface SellerNoId {
     fullName: string;
     email: string;
@@ -17,136 +42,147 @@ interface SellerNoId {
     resignationDate?: any;
 }
 
-export const Seller = () => {
-    const [isModalOpen, setModalState] = React.useState(false);
+interface Selger {
+    seller: Seller;
+    refetch: () => {};
+    prospects: Prospects[];
+}
+//GQL pagination skip const
+const skipAmount = 0;
+//GQL pagination take const
+const takeAmount = 50;
 
-    const toggleModal = () => setModalState(!isModalOpen);
-
-
-    //Date shenanigans
-    let d = new Date();
-    //Get todays date
-    let today =
-        d.getFullYear() +
-        '-' +
-        (d.getMonth() + 1).toString().padStart(2, '0') +
-        '-' +
-        d.getDate().toString().padStart(2, '0');
-
-    // you dont put id yourself
-    let defaultSeller: SellerNoId = {
-        fullName: '',
-        email: '',
-        employmentDate: today,
-        resignationDate: null,
-    };
-
-    const [currentSeller, setCurrentSeller] = useState<SellerNoId>(defaultSeller);
-    const [displayValidation, setDisplayValidation] = useState<string>('');
-    const [addSeller] = useMutation<AddSellerPayload, { input: SellerNoId }>(ADD_SELLER);
-
-    //Adds or removes validation field on resignationDate depending on if its empty or not
-    useEffect(() => {
-        resignationDateValidationToggle();
+export const Seller: React.FC= () => {
+    // const [isModalOpen, setModalState] = React.useState(false);
+    const { loading, error, data, refetch } = useQuery<GetSellersPayload>(GET_SELLERS, {
+        pollInterval: 500,
+        variables: { skipAmount: skipAmount, takeAmount: takeAmount },
     });
-
-    const resignationDateValidationToggle = () => {
-        let isValidatedStr = '';
-
-        //returns true if its a valid end date, false if its not
-        let isValidResignationDate = isValidEndDate(currentSeller.resignationDate ? currentSeller.resignationDate : '');
-
-        //Checks if date is not empty and is a valid endDate
-        if (currentSeller.resignationDate && currentSeller.resignationDate !== '' && isValidResignationDate) {
-            isValidatedStr = 'is-valid';
-        } else if (currentSeller.resignationDate && currentSeller.resignationDate !== '' && !isValidResignationDate) {
-            isValidatedStr = 'is-invalid';
-        }
-
-        setDisplayValidation(isValidatedStr);
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-
-        setCurrentSeller((prevSeller) => ({
-            ...prevSeller,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-
-        if (isValidSeller()) {
-            // console.log(currentSeller);
-            addSeller({ variables: { input: currentSeller } })
-                .then((res) => {
-                    toast.success('Selger opprettet', {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    })
-                })
-                .catch((err) => {
-                    toast.error('Noe gikk galt med oppretting av en selger.', {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    })                    
-                });
-        }
-    };
-
-    const isValidText = (s: string) => {
-        return s !== '';
-    };
-
-    //checks only if the start date is empty
-    const isValidStartDate = (s: string) => {
-        if (s === '') {
-            return false;
-        }
-        return true;
-    };
-
-    const isValidEndDate = (s: string) => {
-        if (s === '') {
-            return true;
-        }
-
-        // If the startdate doesnt exist, any valid date is a valid start date
-        if (currentSeller.employmentDate === '') {
-            //change to date when its ready
-            return isValidText(s);
-        } else {
-            // assumes startdate is formatted correctly
-            let tempSD = new Date(currentSeller.employmentDate);
-            // assumes enddate is formatted correctly
-            let tempED = new Date(s);
-            return tempED > tempSD;
-        }
-    };
-
-    const isValidSeller = (): boolean => {
-        let hasTruthyValues =
-            currentSeller.fullName && currentSeller.email && isValidStartDate(currentSeller.employmentDate);
-
-        let resignDate = currentSeller.resignationDate?.toString();
-        if (hasTruthyValues) {
-            if (resignDate !== '') {
-                return (
-                    isValidText(currentSeller.employmentDate) &&
-                    isValidEndDate(currentSeller.resignationDate ? currentSeller.resignationDate : '')
-                );
-            } else {
-                return isValidText(currentSeller.employmentDate);
+    
+        //Date shenanigans
+        let d = new Date();
+        //Get todays date
+        let today =
+            d.getFullYear() +
+            '-' +
+            (d.getMonth() + 1).toString().padStart(2, '0') +
+            '-' +
+            d.getDate().toString().padStart(2, '0');
+    
+        // you dont put id yourself
+        let defaultSeller: SellerNoId = {
+            fullName: '',
+            email: '',
+            employmentDate: today,
+            resignationDate: null,
+        };
+    
+        const [currentSeller, setCurrentSeller] = useState<SellerNoId>(defaultSeller);
+        const [displayValidation, setDisplayValidation] = useState<string>('');
+        const [addSeller] = useMutation<AddSellerPayload, { input: SellerNoId }>(ADD_SELLER);
+    
+        //Adds or removes validation field on resignationDate depending on if its empty or not
+        useEffect(() => {
+            resignationDateValidationToggle();
+        });
+    
+        const resignationDateValidationToggle = () => {
+            let isValidatedStr = '';
+    
+            //returns true if its a valid end date, false if its not
+            let isValidResignationDate = isValidEndDate(currentSeller.resignationDate ? currentSeller.resignationDate : '');
+    
+            //Checks if date is not empty and is a valid endDate
+            if (currentSeller.resignationDate && currentSeller.resignationDate !== '' && isValidResignationDate) {
+                isValidatedStr = 'is-valid';
+            } else if (currentSeller.resignationDate && currentSeller.resignationDate !== '' && !isValidResignationDate) {
+                isValidatedStr = 'is-invalid';
             }
-        }
-        return false;
-    };
-
+    
+            setDisplayValidation(isValidatedStr);
+        };
+    
+        const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const { name, value } = e.target;
+    
+            setCurrentSeller((prevSeller) => ({
+                ...prevSeller,
+                [name]: value,
+            }));
+        };
+    
+        const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            e.preventDefault();
+    
+            if (isValidSeller()) {
+                // console.log(currentSeller);
+                addSeller({ variables: { input: currentSeller } })
+                    .then((res) => {
+                        refetch();
+                        toast.success('Selger opprettet', {
+                            position: toast.POSITION.BOTTOM_RIGHT
+                        })
+                    })
+                    .catch((err) => {
+                        toast.error('Noe gikk galt med oppretting av en selger.', {
+                            position: toast.POSITION.BOTTOM_RIGHT
+                        })                    
+                    });
+            }
+        };
+    
+        const isValidText = (s: string) => {
+            return s !== '';
+        };
+    
+        //checks only if the start date is empty
+        const isValidStartDate = (s: string) => {
+            if (s === '') {
+                return false;
+            }
+            return true;
+        };
+    
+        const isValidEndDate = (s: string) => {
+            if (s === '') {
+                return true;
+            }
+    
+            // If the startdate doesnt exist, any valid date is a valid start date
+            if (currentSeller.employmentDate === '') {
+                //change to date when its ready
+                return isValidText(s);
+            } else {
+                // assumes startdate is formatted correctly
+                let tempSD = new Date(currentSeller.employmentDate);
+                // assumes enddate is formatted correctly
+                let tempED = new Date(s);
+                return tempED > tempSD;
+            }
+        };
+    
+        const isValidSeller = (): boolean => {
+            let hasTruthyValues =
+                currentSeller.fullName && currentSeller.email && isValidStartDate(currentSeller.employmentDate);
+    
+            let resignDate = currentSeller.resignationDate?.toString();
+            if (hasTruthyValues) {
+                if (resignDate !== '') {
+                    return (
+                        isValidText(currentSeller.employmentDate) &&
+                        isValidEndDate(currentSeller.resignationDate ? currentSeller.resignationDate : '')
+                    );
+                } else {
+                    return isValidText(currentSeller.employmentDate);
+                }
+            }
+            return false;
+        };
     return (
         <div>
             <h1 id='registrerTitle'>Registrer Seller</h1>
         <div className="formContainer">
-            <form>
+        <form>
                 <FormGroup>
                     <Label for='fullName'>Navn:</Label><br />
                     <Input
@@ -203,27 +239,11 @@ export const Seller = () => {
                 </Button>
                 
                 </div>
-            </form> 
-            {/* <div className='modalContainer'>
-                <button
-                        className={'app__btn'}
-                        onClick={toggleModal}
-                    >
-                        Kontrakt 
-                    </button>
-                    <Modal
-                        title={'Kontrakt form'}
-                        isOpen={isModalOpen}
-                        onClose={toggleModal}
-                    />
-            </div> */}
-
+            </form>
+            {/* {containerContent} */}
         </div>
         <h1 id='titleSlett'>Slett Seller</h1>
-            <div className="formContainer">
-           
-                <form className='form2'>
-                <table>
+        <table className='stickyHead'>
                     <thead>
                         <tr>
                             <th scope="col">Id</th>
@@ -234,7 +254,11 @@ export const Seller = () => {
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-                </table>
+        </table>
+            <div className="formContainer">
+                
+                <form className='form2'>
+
                     <SellerContainer/>
                 </form> 
             </div>
