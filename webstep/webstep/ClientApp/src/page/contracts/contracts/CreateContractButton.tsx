@@ -12,6 +12,7 @@ import {
     GET_CONSULTANT_CAPACITY,
     GET_CONSULTANT_CONTRACTS,
     ADD_TEAMCONSULTANT,
+    GET_TEAMCONS_CONTRACTS,
 } from '../../../api/contract/queries';
 import { defaultMessagePlacement } from '../../../logic/toast';
 
@@ -27,7 +28,7 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
     const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             },
             {
@@ -39,13 +40,14 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
     });
 
     const handleClick = () => {
-        console.log()
-        addTeamcons({ variables: { input: { teamId: 1, consultantId: consultantId } } }).then((res) => {
+        let rnd = Math.floor(Math.random() * 3) + 1;
+        console.log(rnd)
+        addTeamcons({ variables: { input: { teamId: rnd , consultantId: consultantId } } }).then((res) => {
             if (!res.data) throw Error;
             addProject({ variables: { input: { customerName: 'Kunde', projectName: 'Prosjekt', teamId: 1 }, } }).then((res) => {
                 if (!res.data) throw Error;
                 let projectId = res.data.addProject.project.id;
-                let defaultContract = getDefaultNewContract(projectId);
+                let defaultContract = getDefaultNewContract(projectId, consultantId);
                 addContract({ variables: { input: defaultContract } })
                     .then((res) => {
                         toast.success('Kontrakten ble opprettet', {

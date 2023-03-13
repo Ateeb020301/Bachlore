@@ -45,6 +45,10 @@
         [Required]
         public Project Project { get; set; }
 
+        [Key]
+        [Required]
+        public Consultant Consultant { get; set; }
+
         [Required]
         public decimal DaysOfWeek { get; set; }
 

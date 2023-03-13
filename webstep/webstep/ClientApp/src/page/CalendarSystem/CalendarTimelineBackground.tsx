@@ -33,6 +33,7 @@ export const CalendarTimelineBackground: React.FC<CalendarTimelineBackgroundProp
     const style = {
         backgroundColor: bg,
         borderBottom: '1px solid black',
+        cursor: 'pointer',
     };
 
     const timelineStyle = row === undefined ? { ...style, gridRowStart: 1 } : { ...style, gridRowStart: row };

@@ -10,6 +10,7 @@ import {
     EDIT_CONTRACT,
     GET_CONSULTANT_CAPACITY,
     GET_CONSULTANT_CONTRACTS,
+    GET_TEAMCONS_CONTRACTS,
 } from '../../../api/contract/queries';
 import { constants } from '../../../logic/constants';
 import { Contract } from '../../../logic/interfaces';
@@ -27,7 +28,7 @@ export const ContractEventContainer: React.FC<ContractEventContainerProps> = ({ 
     const [editContract] = useMutation<EditContractPayload, { input: EditContractInput }>(EDIT_CONTRACT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             },
             {
@@ -41,7 +42,7 @@ export const ContractEventContainer: React.FC<ContractEventContainerProps> = ({ 
     const [deleteContract] = useMutation<number, { input: { id: number } }>(DELETE_CONTRACT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             },
             {

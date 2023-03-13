@@ -67,6 +67,7 @@ export interface SellerJustProspects {
 export interface Contract {
     id: number;
     project: Project[];
+    consultant: Consultant;
     startYear: number;
     startWeek: number;
     endYear: number;

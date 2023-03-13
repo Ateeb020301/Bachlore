@@ -27,7 +27,10 @@
         
         [Required]
         public int ProjectId { get; set; }
-        
+
+        [Required]
+        public int ConsultantId { get; set; }
+
         [Required]
         public decimal DaysOfWeek { get; set; }
     }

@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { EditContractInput, EditProjectInput } from '../../../api/contract/inputs';
 import { EditContractPayload, EditProjectPayload } from '../../../api/contract/payloads';
-import { EDIT_CONTRACT, EDIT_PROJECT, GET_CONSULTANT_CONTRACTS } from '../../../api/contract/queries';
+import { EDIT_CONTRACT, EDIT_PROJECT, GET_CONSULTANT_CONTRACTS, GET_TEAMCONS_CONTRACTS } from '../../../api/contract/queries';
 import { Contract, Project } from '../../../logic/interfaces';
 import { defaultMessagePlacement } from '../../../logic/toast';
 import { HourlyRateImage } from '../../../components/images/HourlyRateImage';
@@ -21,21 +21,20 @@ interface ProjectDescriptionProps {
 
 
 const contentStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'minmax(80px, 120px) minmax(100px, 150px) minmax(50px, 70px)',
-    gridTemplateRows: '15px 1fr',
+    display: 'flex',
     paddingTop: '5px',
     fontSize: 12,
     height: '100%',
     width: '100%',
-    backgroundImage: 'linear-gradient(to left, white , #F1F1F1)',
-    borderBottom: '1px solid grey',
+    backgroundImage: 'linear-gradient(to right, white , #f8f9f9)',
+    borderBottom: 'solid',
     borderRight: '1px solid grey',
     overflow: 'hidden',
+    justifyContent: 'space-between',
+
 };
 const centeredSpan = {
     display: 'flex',
-    justifyContent: 'flex-start',
     alignItems: 'center',
 };
 
@@ -43,7 +42,7 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
     const [editProject] = useMutation<EditProjectPayload, { input: EditProjectInput }>(EDIT_PROJECT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             },
         ],
@@ -69,14 +68,13 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
     const [editContract] = useMutation<EditContractPayload, { input: EditContractInput }>(EDIT_CONTRACT, {
         refetchQueries: [
             {
-                query: GET_CONSULTANT_CONTRACTS,
+                query: GET_TEAMCONS_CONTRACTS,
                 variables: { id: consultantId },
             }
         ],
         awaitRefetchQueries: true,
     });
 
-    var cont = project.contracts;
 
     const editContractWrapper = (p: Project) => {
         console.log(p);
@@ -97,12 +95,10 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
             });
     };
 
-    return (
+     return (
         <div style={contentStyle}>
-            <span style={centeredSpan}>Kunde:</span>
-            <span style={centeredSpan}>Prosjekt:</span>
-            <span style={centeredSpan}>Timepris:</span>
-            <span style={centeredSpan}>
+            <span style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={centeredSpan}>Kunde:</span>
                 <EditableField
                     editCallBack={editProjectWrapper}
                     fieldToEdit={project.customerName}
@@ -111,17 +107,18 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({ project,
                     width={170}
                 />
             </span>
-            <span style={centeredSpan}>
-                <EditableField
-                    editCallBack={editProjectWrapper}
-                    fieldToEdit={project.projectName}
-                    fieldName={'projectName'}
-                    objectToEdit={project}
-                    width={170}
-                />
+            <span style={{ display: 'flex', flexDirection: 'column'}}>
+                <span style={centeredSpan}>Prosjekt:</span>
+                    <EditableField
+                        editCallBack={editProjectWrapper}
+                        fieldToEdit={project.projectName}
+                        fieldName={'projectName'}
+                        objectToEdit={project}
+                        width={170}
+                    />
             </span>
-
-            <span style={centeredSpan}>
+            <span style={{ display: 'flex', flexDirection: 'column'}}>
+                <span style={centeredSpan}>Timepris:</span>
                 <ImageAndContent image={<HourlyRateImage widthAndHeightPx={20} />} extraSpaceBetween={true}>
                     <EditableNumberField
                         displayText={project.contracts[0].hourlyRate + 'kr/t'}

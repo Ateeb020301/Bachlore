@@ -1,5 +1,5 @@
 export const constants = {
-    weeksToShow: 104,
+    weeksToShow: 52 * 2,
     calendarColumnWidth: 40,
     calendarRowHeight: 50,
     currentYear: new Date().getFullYear(),

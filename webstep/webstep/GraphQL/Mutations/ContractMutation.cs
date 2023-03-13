@@ -34,11 +34,14 @@ namespace webstep.GraphQL.Mutations
         {
             var project = await _repo.SelectByIdAsync<Project>(input.ProjectId, context, cancellationToken)
                 .ConfigureAwait(false);
+            var consultant = await _repo.SelectByIdAsync<Consultant>(input.ConsultantId, context, cancellationToken)
+                .ConfigureAwait(false);
             
             var rule = WeekYearRules.Iso;
             var contract = new Contract
             {
                 Project = project,
+                Consultant = consultant,
                 DaysOfWeek = input.DaysOfWeek,
                 HourlyRate = input.HourlyRate
             };

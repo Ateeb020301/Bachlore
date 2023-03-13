@@ -39,7 +39,7 @@ namespace webstep.Models
         public int Workdays { get; set; }
         public ICollection<TeamConsultant> TeamConsultants { get; set; }
 
-        public ICollection<Project> Projects{ get; set; }
+        public ICollection<Contract> Contracts{ get; set; }
         public ICollection<Vacancy> Vacancies { get; set; } = new List<Vacancy>();
 
 
@@ -86,7 +86,7 @@ namespace webstep.Models
             var capacity = new List<Capacity>();
             for (var year = startYear; year <= endYear; year++)
             {
-                var current = Projects.SelectMany(x => x.Contracts).Where(x => x.StartYear <= year && x.EndYear >= year);
+                var current = Contracts.Select(x => x).Where(x => x.StartYear <= year && x.EndYear >= year);
                 for (var i = 1; i <= rule.GetWeeksInWeekYear(year); i++)
                 {
                     var x = current.Where(x => (x.StartWeek <= i || x.StartYear < year) && (x.EndWeek >= i || x.EndYear > year)).Sum(s => s.DaysOfWeek);

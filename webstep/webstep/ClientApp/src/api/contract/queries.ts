@@ -47,60 +47,76 @@ export const GET_CONSULTANT_IDS = gql`
     }
 `;
 
+export const GET_CONSULTANTS_INFO = gql`
+    query {
+        consultants {
+            items {
+                firstName
+                lastName
+                employmentDate
+                resignationDate
+                workdays
+                contracts {
+                    id
+                }
+            }
+        }
+    }
+`;
+
 export const GET_PROJECTCONSULTANT_IDS = gql`
     query {
         consInTeams {
             id   
+            contracts {
+                project {
+                    id
+                }
+            }
         }
     }
 `;
 
 export const GET_TEAMCONS_CONTRACTS = gql`
     query GetTeamConsContracts($id: Int!) {
-        team(id: $id) {
-            projects {
-                id
-                customerName
-                projectName
-                contracts {
-                    id
-                    startYear
-                    startWeek
-                    endYear
-                    endWeek
-                    daysOfWeek
-                    hourlyRate
-                }
+      projectConsultants(id: $id) {
+          id
+          customerName
+          projectName
+          contracts(id: $id) {
+            consultant {
+              id
             }
+            id
+            startYear
+            startWeek
+            endYear
+            endWeek
+            daysOfWeek
+            hourlyRate
+          }
         }
     }
 `;
 
+
+
 export const GET_CONSULTANT_CONTRACTS = gql`
     query GetConsultantContracts($id: Int!) {
-        consultant(id: $id) {
-            id
-            firstName
-            lastName
-            employmentDate
-            resignationDate
-            workdays
-            projects {
-                id
-                customerName
-                projectName
-                contracts {
-                    id
-                    startYear
-                    startWeek
-                    endYear
-                    endWeek
-                    daysOfWeek
-                    hourlyRate
-                }
+          consultantContracts(id: $id) {
+            items {
+              id
+              startYear
+              startWeek
+              endYear
+              endWeek
+              daysOfWeek
+              hourlyRate
+              project {
+                  id
+              }
             }
-        }
-
+          }
     }
 `;
 

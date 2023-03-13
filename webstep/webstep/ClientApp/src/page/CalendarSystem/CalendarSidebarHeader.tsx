@@ -1,4 +1,6 @@
 import React from 'react';
+import Popover from '@mui/material/Popover';
+import './Calendar.css'
 
 interface CalendarSidebarHeaderProps {
     header: string;
@@ -6,10 +8,15 @@ interface CalendarSidebarHeaderProps {
 }
 
 export const CalendarSidebarHeader: React.FC<CalendarSidebarHeaderProps> = ({ header, children }) => {
+
     return (
         <div className='sidebar-header'>
-            <strong>{header}</strong>
-            <div>{children}</div>
-        </div>
+                <div>
+                    <strong>
+                        {header}
+                    </strong>
+                </div>
+                <div>{children}</div>
+            </div>
     );
 };

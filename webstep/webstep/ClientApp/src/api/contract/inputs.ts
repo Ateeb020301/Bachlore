@@ -39,6 +39,7 @@ export interface EditProjectInput {
 
 export interface AddContractInput {
     projectId: number;
+    consultantId: number;
     start: WeekYear;
     end: WeekYear;
     daysOfWeek: number;

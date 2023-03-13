@@ -20,7 +20,6 @@
 .timeline-content {
     grid-column-start: 2;
     background-color: transparent;
-    
 }
 
 .calendar-header {
@@ -47,5 +46,9 @@
 }
 
 .timeline-content:first-child {
-color: orange;
+    color: orange;
+}
+
+.MuiPopover-paper {
+    background: black;
 }

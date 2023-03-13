@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client';
-import { color } from '@mui/system';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { DeleteSellerPayload, DELETE_SELLER } from '../../api/sellers';
