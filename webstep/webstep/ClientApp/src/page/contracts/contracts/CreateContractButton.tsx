@@ -13,6 +13,7 @@ import {
     GET_CONSULTANT_CONTRACTS,
     ADD_TEAMCONSULTANT,
     GET_TEAMCONS_CONTRACTS,
+    GET_CONSULTANTS_INFO,
 } from '../../../api/contract/queries';
 import { defaultMessagePlacement } from '../../../logic/toast';
 
@@ -34,6 +35,9 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
             {
                 query: GET_CONSULTANT_CAPACITY,
                 variables: { startYear: currentYear, endYear: currentYear + 2, id: consultantId },
+            },
+            {
+                query: GET_CONSULTANTS_INFO,
             },
         ],
         awaitRefetchQueries: true,

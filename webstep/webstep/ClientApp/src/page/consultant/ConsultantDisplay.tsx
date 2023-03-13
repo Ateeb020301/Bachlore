@@ -2,11 +2,15 @@ import { useMutation, useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import './Consultant.css'
-import { Box, Button, ButtonBase } from '@mui/material';
+import { Box, Button, ButtonBase, Menu, MenuItem } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { GET_CONSULTANTS_INFO } from '../../api/contract/queries';
 import { GetConsultantContractsPayload, GetConsultantItemsContractsPayload } from '../../api/contract/payloads';
 import { Loading } from '../Utils/Loading';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import { Link } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const pStyleHead = {
     color: '#495057',
@@ -75,7 +79,31 @@ export const ConsultantDisplay: React.FC = () => {
                                 </Box>
 
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <ButtonBase sx={{ color: '#8093e6' }} disableRipple disableTouchRipple><MoreHorizIcon fontSize='small' /></ButtonBase>
+                                    <PopupState variant="popover" popupId="demo-popup-menu">
+                                        {(popupState) => (
+                                            <React.Fragment>
+                                                <ButtonBase sx={{ color: '#8093e6' }}  {...bindTrigger(popupState)} disableRipple disableTouchRipple><MoreHorizIcon fontSize='small' /></ButtonBase>
+                                                <Menu {...bindMenu(popupState)}>
+                                                    <MenuItem sx={{ display: 'flex', justifyContent: 'space-between', padding: '5px', mb:1 }} onClick={popupState.close}>
+                                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                            <ButtonBase>Delete Consultant</ButtonBase>
+                                                        </Box>
+                                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                            <DeleteIcon fontSize={'small'} />
+                                                        </Box>
+                                                    </MenuItem>
+                                                    <MenuItem sx={{display: 'flex', justifyContent: 'space-between', padding: '5px', mt:1 }} onClick={popupState.close}>
+                                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                            <ButtonBase>Edit Consultant</ButtonBase>
+                                                        </Box>
+                                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                            <EditIcon fontSize={'small'} />
+                                                        </Box>
+                                                    </MenuItem>
+                                                </Menu>
+                                            </React.Fragment>
+                                        )}
+                                    </PopupState>     
                                 </Box>
 
                             </Box>

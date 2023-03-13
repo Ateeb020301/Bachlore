@@ -8,6 +8,7 @@ import { EditContractPayload } from '../../../api/contract/payloads';
 import {
     DELETE_CONTRACT,
     EDIT_CONTRACT,
+    GET_CONSULTANTS_INFO,
     GET_CONSULTANT_CAPACITY,
     GET_CONSULTANT_CONTRACTS,
     GET_TEAMCONS_CONTRACTS,
@@ -48,6 +49,9 @@ export const ContractEventContainer: React.FC<ContractEventContainerProps> = ({ 
             {
                 query: GET_CONSULTANT_CAPACITY,
                 variables: { startYear: constants.currentYear, endYear: constants.currentYear + 2, id: consultantId },
+            },
+            {
+                query: GET_CONSULTANTS_INFO
             },
         ],
         awaitRefetchQueries: true,
