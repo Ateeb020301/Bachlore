@@ -1,7 +1,7 @@
 import React from 'react';
 import iconX from '../Utils/x.png';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
-import { Seller } from './Seller';
+import { Seller } from './seller';
 import { SellerContainer } from './SellerContainer';
 import './SlettModal.css'
 

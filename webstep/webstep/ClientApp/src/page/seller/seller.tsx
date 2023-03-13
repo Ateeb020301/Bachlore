@@ -17,11 +17,11 @@ interface GetSellersPayload {
     sellers: Sellers;
 }
 interface Sellers {
-    items: Seller[];
+    items: SellerInterface[];
     pageInfo: PageInfo;
 }
 
-export interface Seller {
+export interface SellerInterface {
     prospects: Prospects[];
     id: number;
     fullName: string;
@@ -43,7 +43,7 @@ interface SellerNoId {
 }
 
 interface Selger {
-    seller: Seller;
+    seller: SellerInterface;
     refetch: () => {};
     prospects: Prospects[];
 }

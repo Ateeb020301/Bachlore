@@ -9,7 +9,7 @@ import { FormStep3 } from '../../components/FormInfo/pages/FormStep3';
 import { FormStep4 } from '../../components/FormInfo/pages/FormStep4';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import './ModalComponent.css';
-import { Seller } from '../seller/Seller';
+import { Seller } from '../seller/seller';
 
 interface ModalProps {
   title: string;
