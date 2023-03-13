@@ -11,6 +11,8 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { DELETE_CONSULTANT } from '../../api/consultants';
+import { Consultant } from '../../logic/interfaces';
 
 const pStyleHead = {
     color: '#495057',
@@ -30,12 +32,43 @@ const pStyleUnder = {
     letterSpacing: '.05rem',
     margin: 0,
     padding: 0
+}
 
+interface ConsultantDisplayContainerProps {
+    consultant: Consultant;
 }
 
 export const ConsultantDisplay: React.FC = () => {
     const { loading, error, data } = useQuery<GetConsultantItemsContractsPayload>(GET_CONSULTANTS_INFO);
-    console.log(data?.consultants.items)
+
+    const [deleteConsultant] = useMutation<number, { input: { id: number } }>(DELETE_CONSULTANT, {
+        refetchQueries: [
+            {
+                query: GET_CONSULTANTS_INFO
+            },
+        ],
+        awaitRefetchQueries: true,
+    });
+
+
+
+    const deleteWrapper = (id: any) => {
+
+        deleteConsultant({ variables: { input: { id: id } } })
+            .then((res) => {
+                toast.success('Konsulenten ble slettet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
+            })
+            .catch((e) => {
+                
+                toast.error('Noe gikk galt ved sletting av Konsulenten', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
+                console.log(e);
+            });
+    };
+
 
     return (
         <>
@@ -43,7 +76,7 @@ export const ConsultantDisplay: React.FC = () => {
                 data?.consultants.items.map(
                     (consultant: any) =>
                         consultant != null && (
-                            <Box sx={{ display: 'flex', flexBasis: '100%', alignItems: 'center', height: '5vh', justifyContent: 'space-between', background: "#ffffff", boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', py: 2, px: 2, my: 1 }}>
+                            <Box key={consultant.id} sx={{ display: 'flex', flexBasis: '100%', alignItems: 'center', height: '5vh', justifyContent: 'space-between', background: "#ffffff", boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', py: 2, px: 2, my: 1 }}>
 
                                 <Box sx={{ display: 'flex', padding: '2px', flexBasis: '40%' }}>
                                     {/* Image / First Letter of Name */}
@@ -86,7 +119,7 @@ export const ConsultantDisplay: React.FC = () => {
                                                 <Menu {...bindMenu(popupState)}>
                                                     <MenuItem sx={{ display: 'flex', justifyContent: 'space-between', padding: '5px', mb:1 }} onClick={popupState.close}>
                                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                            <ButtonBase>Delete Consultant</ButtonBase>
+                                                            <ButtonBase onClick={() => deleteWrapper(consultant.id) }>Delete Consultant</ButtonBase>
                                                         </Box>
                                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                             <DeleteIcon fontSize={'small'} />
