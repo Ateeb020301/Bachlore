@@ -5,7 +5,9 @@ import { DeleteSellerPayload, DELETE_SELLER } from '../../api/sellers';
 import { defaultMessagePlacement } from '../../logic/toast';
 import { DisplayProspects } from './DisplayProspects';
 import { Prospects, Seller } from './SellerContainer';
-import './seller.css';
+import './Seller.css';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 interface SellerFields {
     seller: Seller;
@@ -44,15 +46,28 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospec
 
     return (
         <div key={'Seller_' + seller.id} className='AccordionHolder'>
-            <p onClick={toggleOpen} className='AccordionHead noselect'>
-                {seller.fullName}
-            </p>
+            <table className="tableContent">
+                    <tbody>
+                        <tr onClick={toggleOpen} className='AccordionHead noselect'>
+                            <td>{seller.id}</td>
+                            <td>{seller.fullName}</td>
+                            <td>{seller.email}</td>
+                            <td>{seller.employmentDate}</td>
+                            <td>{seller.resignationDate}</td>
+                            <td>
+                                <div className="btnContainer">
+                                    <button onClick={sendDeleteRequest} className='btnDelete'>
+                                        <DeleteForeverIcon id='btnR' />
+                                    </button>   
+                                    <button className='btnDelete'>
+                                        <ModeEditIcon id='btnE'/>
+                                    </button>   
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             <div className='AccordionContent' style={{ display: display }}>
-                <button onClick={sendDeleteRequest} className='delete-button'>
-                    X
-                </button>
-                <p>Navn: {seller.fullName}</p>
-                <p>Start dato: {seller.employmentDate}</p>
                 <p>Prospects:</p>
                 <DisplayProspects prospects={prospects} />
             </div>
