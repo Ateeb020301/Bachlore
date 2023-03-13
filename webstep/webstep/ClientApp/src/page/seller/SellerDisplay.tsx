@@ -21,6 +21,7 @@ interface SellerId {
 
 export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospects }) => {
     const [deleteSeller] = useMutation<DeleteSellerPayload, { input: SellerId }>(DELETE_SELLER);
+    const [endreSeller] = useMutation<DeleteSellerPayload, { input: SellerId }>(DELETE_SELLER);
 
     //used for toggling consultant info on/off
     const [isHidden, setIsHidden] = useState(true);
