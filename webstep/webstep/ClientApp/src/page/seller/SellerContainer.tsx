@@ -13,11 +13,11 @@ interface GetSellersPayload {
 }
 
 interface Sellers {
-    items: Seller[];
+    items: SellerInterface[];
     pageInfo: PageInfo;
 }
 
-export interface Seller {
+export interface SellerInterface {
     prospects: Prospects[];
     id: number;
     fullName: string;

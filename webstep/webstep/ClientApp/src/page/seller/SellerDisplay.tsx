@@ -4,13 +4,13 @@ import { toast } from 'react-toastify';
 import { DeleteSellerPayload, DELETE_SELLER } from '../../api/sellers';
 import { defaultMessagePlacement } from '../../logic/toast';
 import { DisplayProspects } from './DisplayProspects';
-import { Prospects, Seller } from './SellerContainer';
+import { Prospects, SellerInterface } from './SellerContainer';
 import './Seller.css';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 interface SellerFields {
-    seller: Seller;
+    seller: SellerInterface;
     refetch: () => {};
     prospects: Prospects[];
 }

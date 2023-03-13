@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Modal } from '../Utils/ModalComponent';
 import './Seller.css'
-import { Prospects, Seller, SellerContainer } from './SellerContainer';
+import { Prospects, SellerInterface, SellerContainer } from './SellerContainer';
 import { ModalSlett } from './SlettModal';
 
 interface SellerNoId {
@@ -18,7 +18,7 @@ interface SellerNoId {
 }
 
 interface Selger {
-    seller: Seller;
+    seller: SellerInterface;
     refetch: () => {};
     prospects: Prospects[];
 }
