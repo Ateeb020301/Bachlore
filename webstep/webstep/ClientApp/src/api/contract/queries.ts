@@ -51,6 +51,7 @@ export const GET_CONSULTANTS_INFO = gql`
     query {
         consultants {
             items {
+                id
                 firstName
                 lastName
                 employmentDate

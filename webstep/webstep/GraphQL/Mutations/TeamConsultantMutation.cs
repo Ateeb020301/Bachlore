@@ -14,7 +14,7 @@ namespace webstep.GraphQL.Mutations
 {
     using global::NodaTime;
     using global::NodaTime.Calendars;
-
+    using HotChocolate.Data.Filters.Expressions;
     using webstep.Interfaces;
 
     [ExtendObjectType(Name = nameof(Mutation))]
@@ -85,13 +85,13 @@ namespace webstep.GraphQL.Mutations
 
         [UseDbContext(typeof(WebstepContext))]
         public async Task<TeamConsultantPayload> DeleteTeamConsultantAsync(
-            DeleteSubProspectInput input,
+            DeleteTeamConsultantInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
+
             var teamConsultant = await this._repo.SelectByIdAsync<TeamConsultant>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
-
 
             await this._repo
                 .DeleteAsync(teamConsultant, context, cancellationToken)
