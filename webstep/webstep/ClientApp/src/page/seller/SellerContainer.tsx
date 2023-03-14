@@ -51,7 +51,7 @@ export const SellerContainer: React.FC = () => {
     if (data) {
         containerContent = data.sellers.items.map((item, i) => (
             <React.Fragment key={'Seller_Fragment_' + item.id}>
-                <SellerDisplay key={'Seller_' + item.id} seller={item} refetch={refetch} prospects={item.prospects} />
+                <SellerDisplay key={'Seller_' + item.id} seller={item} prospects={item.prospects} />
             </React.Fragment>
         ));
     } else if (error) {
