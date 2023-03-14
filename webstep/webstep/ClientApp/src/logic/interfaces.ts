@@ -42,6 +42,12 @@ export interface Team {
     teamName: string;
 }
 
+export interface TeamConsultant {
+    id: number;
+    team: Team[];
+    consultant: Consultant[];
+}
+
 export interface Seller {
     id: number;
     fullName: string;
@@ -102,11 +108,12 @@ export interface Consultant {
     lastName: string;
     employmentDate: string;
     resignationDate?: any;
-    workdays: number;
+    workdays: number;  
 }
 
 export interface ConsultantWithContracts {
-    project: Project[];
+    contracts: Contract[];
+    teamConsultants: TeamConsultant[];
     id: number;
     firstName: string;
     lastName: string;

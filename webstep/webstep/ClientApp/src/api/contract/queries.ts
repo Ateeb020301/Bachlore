@@ -57,6 +57,9 @@ export const GET_CONSULTANTS_INFO = gql`
                 employmentDate
                 resignationDate
                 workdays
+                teamConsultants {
+                    id
+                }
                 contracts {
                     id
                 }

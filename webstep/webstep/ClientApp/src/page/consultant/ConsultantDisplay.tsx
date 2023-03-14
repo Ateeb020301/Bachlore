@@ -4,15 +4,15 @@ import { toast } from 'react-toastify';
 import './Consultant.css'
 import { Box, Button, ButtonBase, Menu, MenuItem } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { GET_CONSULTANTS_INFO } from '../../api/contract/queries';
+import { DELETE_CONTRACT, GET_CONSULTANTS_INFO } from '../../api/contract/queries';
 import { GetConsultantContractsPayload, GetConsultantItemsContractsPayload } from '../../api/contract/payloads';
 import { Loading } from '../Utils/Loading';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { DELETE_CONSULTANT } from '../../api/consultants';
-import { Consultant } from '../../logic/interfaces';
+import { DELETE_CONSULTANT, DELETE_TEAMCONSULTANT } from '../../api/consultants';
+import { Consultant, ConsultantWithContracts } from '../../logic/interfaces';
 
 const pStyleHead = {
     color: '#495057',
@@ -50,13 +50,56 @@ export const ConsultantDisplay: React.FC = () => {
         awaitRefetchQueries: true,
     });
 
+    const [deleteTeamConsultant] = useMutation<number, { input: { id: number } }>(DELETE_TEAMCONSULTANT, {
+        refetchQueries: [
+            {
+                query: GET_CONSULTANTS_INFO
+            },
+        ],
+        awaitRefetchQueries: true,
+    });
+
+    const [deleteContract] = useMutation<number, { input: { id: number } }>(DELETE_CONTRACT, {
+        refetchQueries: [
+            {
+                query: GET_CONSULTANTS_INFO
+            },
+        ],
+        awaitRefetchQueries: true,
+    });
 
 
-    const deleteWrapper = (id: any) => {
 
-        deleteConsultant({ variables: { input: { id: id } } })
+    const deleteWrapper = (consultant: ConsultantWithContracts) => {
+        deleteConsultant({ variables: { input: { id: consultant.id } } })
             .then((res) => {
-                toast.success('Konsulenten ble slettet', {
+                consultant.teamConsultants.forEach((teamconsultant) => {
+                    deleteTeamConsultant({ variables: { input: { id: teamconsultant.id } } })
+                        .then((res) => {
+
+                        })
+                        .catch((e) => {
+
+                            toast.error('Noe gikk galt ved sletting av Konsulenten fra TeamConsultant', {
+                                position: toast.POSITION.BOTTOM_RIGHT
+                            })
+                            console.log(e);
+                        });
+                })
+                consultant.contracts.forEach((contract) => {
+                    deleteContract({ variables: { input: { id: contract.id } } })
+                        .then((res) => {
+
+                        })
+                        .catch((e) => {
+
+                            toast.error('Noe gikk galt ved sletting av Kontraktene fra Konsulenten', {
+                                position: toast.POSITION.BOTTOM_RIGHT
+                            })
+                            console.log(e);
+                        });
+                })
+                toast.success('Konsulenten ble slettet fra team', {
                     position: toast.POSITION.BOTTOM_RIGHT
                 })
             })
@@ -68,7 +111,6 @@ export const ConsultantDisplay: React.FC = () => {
                 console.log(e);
             });
     };
-
 
     return (
         <>
@@ -119,7 +161,7 @@ export const ConsultantDisplay: React.FC = () => {
                                                 <Menu {...bindMenu(popupState)}>
                                                     <MenuItem sx={{ display: 'flex', justifyContent: 'space-between', padding: '5px', mb:1 }} onClick={popupState.close}>
                                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                            <ButtonBase onClick={() => deleteWrapper(consultant.id) }>Delete Consultant</ButtonBase>
+                                                            <ButtonBase onClick={() => deleteWrapper(consultant) }>Delete Consultant</ButtonBase>
                                                         </Box>
                                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                             <DeleteIcon fontSize={'small'} />
