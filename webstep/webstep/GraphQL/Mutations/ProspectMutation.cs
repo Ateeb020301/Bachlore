@@ -72,5 +72,21 @@ namespace webstep.GraphQL.Mutations
 
             return new ProspectPayload(prospect);
         }
+
+        [UseDbContext(typeof(WebstepContext))]
+        public async Task<ProspectPayload> DeleteProspectAsync(
+            DeleteProspectInput input,
+            [ScopedService] WebstepContext context,
+            CancellationToken cancellationToken)
+        {
+            var prospect = await this._repo.SelectByIdAsync<Prospect>(input.Id, context, cancellationToken)
+                             .ConfigureAwait(false);
+
+            await this._repo
+                 .DeleteAsync(prospect, context, cancellationToken)
+                 .ConfigureAwait(false);
+
+            return new ProspectPayload(prospect);
+        }
     }
 }

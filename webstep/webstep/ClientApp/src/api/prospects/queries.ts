@@ -136,7 +136,15 @@ export const DELETE_SUBPROSPECT = gql`
         }
     }
 `;
-
+export const DELETE_PROSPECT = gql`
+    mutation DeleteProspect($input: DeleteProspectInput) {
+        deleteProspect(input: $input) {
+            prospect {
+                id
+            }
+        }
+    }
+`;
 export const ON_PROSPECT_ADDED = gql`
     subscription OnProspectAdded {
         onProspectAdded {

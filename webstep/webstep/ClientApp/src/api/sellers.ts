@@ -51,6 +51,9 @@ export const GET_SELLERS = gql`
                     id
                     customerName
                     projectName
+                    subProspects {
+                        id
+                    }
                 }
                 id
                 fullName

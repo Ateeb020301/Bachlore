@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { GET_SELLERS } from '../../api/sellers';
-import { PageInfo } from '../../logic/interfaces';
+import { PageInfo, Prospect } from '../../logic/interfaces';
 import { Loading } from '../Utils/Loading';
 import { SellerDisplay } from './SellerDisplay';
 import './Seller.css'
@@ -18,7 +18,7 @@ interface Sellers {
 }
 
 export interface SellerInterface {
-    prospects: Prospects[];
+    prospects: Prospect[];
     id: number;
     fullName: string;
     email: string;

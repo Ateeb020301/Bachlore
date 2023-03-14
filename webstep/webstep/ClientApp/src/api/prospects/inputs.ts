@@ -5,7 +5,6 @@ export interface AddProspectInput {
     customerName: string;
     projectName: string;
 }
-
 export interface AddSubProspectInput {
     prospectId: number;
     probability: number;

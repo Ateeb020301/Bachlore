@@ -1,40 +1,63 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { DeleteSellerPayload, DELETE_SELLER, EditSellerPayload, EditSellerInput, EDIT_SELLER, GET_SELLER } from '../../api/sellers';
+import { DeleteSellerPayload, DELETE_SELLER, EditSellerPayload, EditSellerInput, EDIT_SELLER, GET_SELLERS, GET_SELLER } from '../../api/sellers';
 import { defaultMessagePlacement } from '../../logic/toast';
 import { DisplayProspects } from './DisplayProspects';
 import { Prospects, SellerInterface } from './SellerContainer';
 import './Seller.css';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import { TypeOfExpression } from 'typescript';
-import { Seller } from '../../logic/interfaces';
+import { isTokenKind, TypeOfExpression } from 'typescript';
+import { SellerProspects } from '../../logic/interfaces';
+import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries';
+import { Seller } from './seller';
+import { SchemaMetaFieldDef } from 'graphql/type';
 
 interface SellerFields {
     seller: SellerInterface;
+    // prospect: Prospects;
     prospects: Prospects[];
 }
 
-interface SellerId {
-    id: number;
-}
+//GQL pagination skip const
+const skipAmount = 0;
+//GQL pagination take const
+const takeAmount = 50;
 
 export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => {
-    const [deleteSeller] = useMutation<DeleteSellerPayload, { input: SellerId }>(DELETE_SELLER, {
+    const [deleteProspect] = useMutation<number, { input: { id: number } }>(DELETE_PROSPECT, {
         refetchQueries: [
             {
-                query:  GET_SELLER,
-                variables: { id: seller.id},
+                query: GET_SELLERS,
+                variables: { skipAmount: skipAmount, takeAmount: takeAmount },
             },
         ],
         awaitRefetchQueries: true,
     });
+    const [deleteSubProspect] = useMutation<number, { input: { id: number } }>(DELETE_SUBPROSPECT, {
+        refetchQueries: [
+            {
+                query: GET_SELLERS,
+                variables: { skipAmount: skipAmount, takeAmount: takeAmount },
+            },
+        ],
+        awaitRefetchQueries: true,
+    });
+    const [deleteSeller] = useMutation<number, { input: { id: number } }>(DELETE_SELLER, {
+        refetchQueries: [
+            {
+                query: GET_SELLERS,
+                variables: { skipAmount: skipAmount, takeAmount: takeAmount },
+            },
+        ],
+        awaitRefetchQueries: true,
+    });
+
     const [editSeller] = useMutation<EditSellerPayload, { input: EditSellerInput }>(EDIT_SELLER, {
         refetchQueries: [
             {
-                query:  GET_SELLER,
-                variables: { id: seller.id},
+                query: GET_SELLER  
             },
         ],
         awaitRefetchQueries: true,
@@ -68,22 +91,46 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
 
     const toggleOpen = () => setIsHidden(!isHidden);
 
-    const sendDeleteRequest = () => {
-        deleteSeller({
-            variables: { input: { id: seller.id } },
-        })
+    const sendDeleteRequest = (sellers: SellerInterface)=>{
+        console.log(sellers);
+        deleteSeller({ variables: { input: {id: sellers.id} } })
             .then((res) => {
-                toast.success('Seller ble slettet', {
+                sellers.prospects.forEach((prospect) => {
+                    deleteProspect({ variables: { input: {id: prospect.id} } })
+                        .then((res) => {
+                            prospect.subProspects.forEach((subprospect)  => {
+                                deleteSubProspect({variables: {input :{id :subprospect.id}}})
+                                .then((res) => {
+
+                                 })
+                                 .catch((e) => {
+                                        toast.error('Noe gikk galt ved sletting av SubProspects til Selgeren', {
+                                        position: toast.POSITION.BOTTOM_RIGHT
+                                    })
+                                    console.log(e);
+                                });
+
+                            })
+                        })  
+                        .catch((e) => {
+                            toast.error('Noe gikk galt ved sletting av Prospektet til Selgeren', {
+                                position: toast.POSITION.BOTTOM_RIGHT
+                            })
+                            console.log(e);
+                        });
+                })
+                toast.success('Selger slettet', {
                     position: toast.POSITION.BOTTOM_RIGHT
                 })
             })
-            .catch((err) => {
-                toast.error('Noe gikk galt ved sletting av seller', {
+            .catch((e) => {
+                
+                toast.error('Noe gikk galt ved sletting av Selger', {
                     position: toast.POSITION.BOTTOM_RIGHT
                 })
+                console.log(e);
             });
-    };
-
+    }
     let display = isHidden ? 'none' : 'block';
 
     return (
@@ -98,9 +145,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                             <td>{seller.resignationDate}</td>
                             <td>
                                 <div className="btnContainer">
-                                    <button onClick={sendDeleteRequest} className='btnDelete'>
-                                        <DeleteForeverIcon id='btnR' />
-                                    </button>   
+                                    <DeleteForeverIcon onClick={() => sendDeleteRequest(seller) } id='btnR' />
                                     <button onClick={sendEditRequest} className='btnDelete'>
                                         <ModeEditIcon id='btnE'/>
                                     </button>   
