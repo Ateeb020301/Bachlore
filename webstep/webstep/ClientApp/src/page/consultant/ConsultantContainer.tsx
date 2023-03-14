@@ -10,6 +10,7 @@ import { hover } from '@testing-library/user-event/dist/hover';
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ModalConsultant } from './ModalConsultant';
+import { ModalEditConsultant } from './ModalEditConsultant';
 
 export const ConsultantContainer: React.FC = () => {
     const [isModalOpen, setModalState] = React.useState(false);

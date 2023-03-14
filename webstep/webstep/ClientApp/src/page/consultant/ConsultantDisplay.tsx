@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { DELETE_CONSULTANT, DELETE_TEAMCONSULTANT } from '../../api/consultants';
 import { Consultant, ConsultantWithContracts } from '../../logic/interfaces';
+import { ModalEditConsultant } from './ModalEditConsultant';
 
 const pStyleHead = {
     color: '#495057',
@@ -39,6 +40,10 @@ interface ConsultantDisplayContainerProps {
 }
 
 export const ConsultantDisplay: React.FC = () => {
+    const [isModalOpen, setModalState] = React.useState(false);
+
+    const toggleModal = () => setModalState(!isModalOpen);
+
     const { loading, error, data } = useQuery<GetConsultantItemsContractsPayload>(GET_CONSULTANTS_INFO);
 
     const [deleteConsultant] = useMutation<number, { input: { id: number } }>(DELETE_CONSULTANT, {
@@ -169,7 +174,7 @@ export const ConsultantDisplay: React.FC = () => {
                                                     </MenuItem>
                                                     <MenuItem sx={{display: 'flex', justifyContent: 'space-between', padding: '5px', mt:1 }} onClick={popupState.close}>
                                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                            <ButtonBase>Edit Consultant</ButtonBase>
+                                                            <ButtonBase onClick={toggleModal}>Edit Consultant</ButtonBase>
                                                         </Box>
                                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                             <EditIcon fontSize={'small'} />
@@ -187,6 +192,11 @@ export const ConsultantDisplay: React.FC = () => {
             ) : (
                 <Loading />
             )}
+            <ModalEditConsultant
+                title={'Edit Kontakt form'}
+                isOpen={isModalOpen}
+                onClose={toggleModal}
+            />
         </>
     );
 };

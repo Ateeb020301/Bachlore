@@ -28,11 +28,11 @@ function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
 }
 
 
-interface ModalConsultantProps {
+interface ModalEditConsultantProps {
     onClose: () => void;
 }
 
-export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
+export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose}) => {
 
     //Date shenanigans
     let d = new Date();
@@ -96,11 +96,7 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let { name, value } : any = e.target;
-
-        if (name == 'workdays') {
-            value = parseInt(e.target.value);
-        }
+        const { name, value } = e.target;
 
         setCurrentConsultant((prevConsultant) => ({
             ...prevConsultant,
@@ -110,7 +106,6 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        console.log(currentConsultant);
 
         if (isValidConsultant()) {
             addConsultant({ variables: { input: currentConsultant } })
@@ -158,17 +153,9 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
         }
     };
 
-    const isValidWorkdays = (days: number) => {
-        if (days <= 5 || days >= 0) {
-            return true;
-        }
-        return false;
-    }
-
     const isValidConsultant = (): boolean => {
         let hasTruthyValues =
             currentConsultant.firstName &&
-            currentConsultant.workdays &&
             currentConsultant.lastName &&
             isValidStartDate(currentConsultant.employmentDate);
 
@@ -216,21 +203,6 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
                     </FormGroup>
 
                     <FormGroup>
-                        <Label for='workdays'>Workdays</Label><br />
-                        <Input
-                            type='number'
-                            id='workdays'
-                            min={0}
-                            max={5}
-                            valid={isValidWorkdays(currentConsultant.workdays)}
-                            invalid={!isValidWorkdays(currentConsultant.workdays)}
-                            value={currentConsultant.workdays}
-                            onChange={handleChange}
-                            name='workdays'
-                        />
-                    </FormGroup>
-
-                    <FormGroup>
                         <Label for='employmentDate'>Start dato:</Label>
                         <Input
                             type='date'
@@ -239,7 +211,7 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
                             invalid={!isValidStartDate(currentConsultant.employmentDate)}
                             value={currentConsultant.employmentDate}
                             onChange={handleChange}
-                            name='employmentDate'
+                            name='inpEmploymentDate'
                         />
                     </FormGroup>
 
@@ -251,7 +223,7 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
                             className={displayValidation}
                             value={currentConsultant.resignationDate ? currentConsultant.resignationDate : ''}
                             onChange={handleChange}
-                            name='resignationDate'
+                            name='inpResignationDate'
                         />
                     </FormGroup>
 
