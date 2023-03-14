@@ -8,10 +8,11 @@ import { Prospects, SellerInterface } from './SellerContainer';
 import './Seller.css';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { TypeOfExpression } from 'typescript';
+import { Seller } from '../../logic/interfaces';
 
 interface SellerFields {
     seller: SellerInterface;
-    refetch: () => {};
     prospects: Prospects[];
 }
 
@@ -19,8 +20,16 @@ interface SellerId {
     id: number;
 }
 
-export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospects }) => {
-    const [deleteSeller] = useMutation<DeleteSellerPayload, { input: SellerId }>(DELETE_SELLER);
+export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => {
+    const [deleteSeller] = useMutation<DeleteSellerPayload, { input: SellerId }>(DELETE_SELLER, {
+        refetchQueries: [
+            {
+                query:  GET_SELLER,
+                variables: { id: seller.id},
+            },
+        ],
+        awaitRefetchQueries: true,
+    });
     const [editSeller] = useMutation<EditSellerPayload, { input: EditSellerInput }>(EDIT_SELLER, {
         refetchQueries: [
             {
@@ -31,7 +40,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospec
         awaitRefetchQueries: true,
     });
 
-    const sendEditRequest = (input: SellerFields)=>{
+    const sendEditRequest = ()=>{
         let newSeller: EditSellerInput = {
             id: seller.id,
             fullName: seller.fullName,
@@ -39,6 +48,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospec
             employmentDate: seller.employmentDate,
             resignationDate: seller.resignationDate,
         };
+        console.log(newSeller);
         editSeller({ variables: { input: newSeller  } })
             .then((res) => {
                 toast.success('Seller ble redigert', {
@@ -59,17 +69,18 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospec
     const toggleOpen = () => setIsHidden(!isHidden);
 
     const sendDeleteRequest = () => {
-        toast.configure();
         deleteSeller({
             variables: { input: { id: seller.id } },
         })
             .then((res) => {
-                refetch();
-                toast.success('Selger ble slettet.', defaultMessagePlacement);
+                toast.success('Seller ble slettet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             })
             .catch((err) => {
-                toast.error('Noe gikk galt med sletting av selgeren.', defaultMessagePlacement);
-                console.error('Noe gikk galt ved sletting. Error: ' + err);
+                toast.error('Noe gikk galt ved sletting av seller', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
             });
     };
 
@@ -90,7 +101,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, refetch, prospec
                                     <button onClick={sendDeleteRequest} className='btnDelete'>
                                         <DeleteForeverIcon id='btnR' />
                                     </button>   
-                                    <button className='btnDelete'>
+                                    <button onClick={sendEditRequest} className='btnDelete'>
                                         <ModeEditIcon id='btnE'/>
                                     </button>   
                                 </div>
