@@ -71,3 +71,13 @@ export const DELETE_CONSULTANT = gql`
         }
     }
 `;
+
+export const DELETE_TEAMCONSULTANT = gql`
+    mutation($input: DeleteTeamConsultantInput) {
+        deleteTeamConsultant(input: $input) {
+            teamConsultant {
+                id
+            }
+        }
+    }
+`;

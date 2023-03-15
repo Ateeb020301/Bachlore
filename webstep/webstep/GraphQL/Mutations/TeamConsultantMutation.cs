@@ -89,15 +89,13 @@ namespace webstep.GraphQL.Mutations
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
-
-            var teamConsultant = await this._repo.SelectByIdAsync<TeamConsultant>(input.Id, context, cancellationToken)
+            var teamconsultant = await _repo.SelectByIdAsync<TeamConsultant>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            await this._repo
-                .DeleteAsync(teamConsultant, context, cancellationToken)
+            await _repo.DeleteAsync(teamconsultant, context, cancellationToken)
                 .ConfigureAwait(false);
 
-            return new TeamConsultantPayload(teamConsultant);
+            return new TeamConsultantPayload(teamconsultant);
         }
 
     }
