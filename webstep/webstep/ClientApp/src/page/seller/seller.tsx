@@ -266,10 +266,9 @@ export const Seller: React.FC= () => {
         </table>
             <div className="formContainer">
                 
-                <form className='form2'>
-
+                <div className='form2'>
                     <SellerContainer/>
-                </form> 
+                </div> 
             </div>
             <ToastContainer />
         </div>

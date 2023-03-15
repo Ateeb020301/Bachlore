@@ -30,14 +30,15 @@ export const ModalEdit: React.FC<ModalEditProps> = ({ title, seller, isOpen, onC
     const handleCloseOnOverlay = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         if (e.target === outsideRef.current) {
             onClose();
-            navigate('/seller')
+            navigate('/seller');
         }
     }
 
     function closeIcon() {
         onClose();
-        navigate('/seller')
+        navigate('/seller');
     }
+
 
     return isOpen ? (
         <div className={'modal'}>
@@ -58,7 +59,7 @@ export const ModalEdit: React.FC<ModalEditProps> = ({ title, seller, isOpen, onC
                     </div>
 
                     <div className={'modalBody'}>
-                        <EditSellerForm onClose={onClose} seller ={seller} />
+                        <EditSellerForm onClose={closeIcon} seller ={seller} />
                     </div>
                 </div>
 

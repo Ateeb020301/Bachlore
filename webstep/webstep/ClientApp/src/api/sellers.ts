@@ -97,13 +97,9 @@ mutation($input: DeleteSellerInput){
 
 export const EDIT_SELLER = gql `
 mutation($input: EditSellerInput){
-    EditSeller(input: $input){
+    editSeller(input: $input){
         seller{
             id
-            fullName
-            email
-            employmentDate
-            resignationDate
         }
     }
 }

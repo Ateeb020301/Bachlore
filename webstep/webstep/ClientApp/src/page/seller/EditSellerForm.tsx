@@ -41,29 +41,6 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
         resignationDateValidationToggle();
     });
 
-    const sendEditRequest = ()=>{
-        let newSeller: EditSellerInput = {
-            id: seller.id,
-            fullName: seller.fullName,
-            email: seller.email ,
-            employmentDate: seller.employmentDate,
-            resignationDate: seller.resignationDate,
-        };
-        console.log(newSeller);
-        editSeller({ variables: { input: newSeller  } })
-            .then((res) => {
-                toast.success('Seller ble redigert', {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
-            })
-            .catch((e) => {
-                toast.error('Noe gikk galt ved redigering av Seller', {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
-                console.log(e);
-            });
-    }
-
     const resignationDateValidationToggle = () => {
         let isValidatedStr = '';
 
@@ -112,6 +89,7 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
                         toast.success('Seller ble redigert', {
                             position: toast.POSITION.BOTTOM_RIGHT
                         })
+                        onClose();
                     })
                     .catch((e) => {
                         toast.error('Noe gikk galt ved redigering av Seller', {
@@ -182,7 +160,7 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
     return (
         <Box>
             <Box>
-                <form>
+            <form>
                     <FormGroup>
                         <Label for='fullName'>Seller</Label><br />
                         <Input

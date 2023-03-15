@@ -9,7 +9,7 @@ export interface SellerProspects {
 export interface Prospect {
     id: number;
     projectName: string;
-    customer: Customer[];
+    customer: Customer;
     subProspects: SubProspect[];
 }
 
@@ -55,7 +55,7 @@ export interface Seller {
     fullName: string;
     email: string;
     employmentDate: string;
-    resignationDate: any;
+    resignationDate?: any;
 }
 
 export interface Customer {
