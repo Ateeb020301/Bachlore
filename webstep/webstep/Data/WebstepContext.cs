@@ -39,7 +39,7 @@ namespace webstep.Data
         public DbSet<Financial> Financials { get; set; }
         
         public DbSet<Vacancy> Vacancies { get; set; }
-        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -70,7 +70,7 @@ namespace webstep.Data
         
         private void CustomerTable(ModelBuilder builder)
         {
-            builder.Entity<Customer>().ToTable("Customer");
+            builder.Entity<Customer>().ToTable("Customers");
             builder.Entity<Customer>().Property<bool>("isDeleted");
             builder.Entity<Customer>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         }

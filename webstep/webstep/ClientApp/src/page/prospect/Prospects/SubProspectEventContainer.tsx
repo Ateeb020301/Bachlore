@@ -33,7 +33,7 @@ export const SubProspectEventContainer: React.FC<SubProspectEventContainerProps>
         refetchQueries: [
             {
                 query: GET_SELLER_PROSPECTS,
-                variables: { id: subProspect.id },
+                variables: { id: sellerId },
             },
             /*
             {

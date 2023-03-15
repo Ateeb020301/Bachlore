@@ -17,12 +17,12 @@
     {
         [Required] public int SellerId { get; set; }
 
-        [Required] public string CustomerName { get; set; }
+        [Required] public int CustomerId { get; set; }
 
         [Required] public string ProjectName { get; set; }
     }
 #nullable enable
-    public record EditProspectInput(int Id, string? CustomerName, int? SellerId, string? ProjectName);
+    public record EditProspectInput(int Id, int? CustomerId, int? SellerId, string? ProjectName);
     public record DeleteProspectInput(int Id);
     public record ProspectPayload(Prospect Prospect);
 }

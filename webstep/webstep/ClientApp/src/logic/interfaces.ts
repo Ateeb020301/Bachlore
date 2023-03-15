@@ -6,8 +6,8 @@ export interface SellerProspects {
 
 export interface Prospect {
     id: number;
-    customerName: string;
     projectName: string;
+    customer: Customer;
     subProspects: SubProspect[];
 }
 
@@ -34,7 +34,7 @@ export interface NewSubProspect {
 export interface NewProspect {
     sellerId: number;
     projectName: string;
-    customerName: string;
+    customerId: number;
 }
 
 export interface Team {
@@ -119,3 +119,4 @@ export interface PageInfo {
     hasNextPage: boolean;
     hasPreviousPage: boolean;
 }
+

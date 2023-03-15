@@ -23,7 +23,7 @@
             context.Sellers.AddRange(DummySellers());
             context.Consultants.AddRange(DummyConsultants());
             context.Financials.AddRange(DummyFinancials());
-            context.Customer.AddRange(DummyCustomers());
+            context.Customers.AddRange(DummyCustomers());
             context.Teams.AddRange(DummyTeam(context));
             context.SaveChanges();
             context.Vacancies.AddRange(DummyVacancies(context));
@@ -319,43 +319,44 @@
         public static List<Prospect> DummyProspects(WebstepContext context)
         {
             var seller = context.Sellers.ToList();
+            var customer = context.Customers.ToList();
 
             return new List<Prospect>()
             {
                 new Prospect
                 {
                     ProjectName = "Coopay",
-                    CustomerName = "Coop Prix Gimlevang",
+                    Customer = customer[1],
                     Seller = seller[0]
                 },
                 new Prospect
                 {
                     ProjectName = "Kassesystem",
-                    CustomerName = "Joker lillemarkens",
+                    Customer = customer[0],
                     Seller = seller[1]
                 },
                 new Prospect
                 {
                     ProjectName = "GraphQL implementasjon",
-                    CustomerName = "UIA",
+                    Customer = customer[1],
                     Seller = seller[2]
                 },
                 new Prospect
                 {
                     ProjectName = "Pentest",
-                    CustomerName = "Stortinget",
+                    Customer = customer[3],
                     Seller = seller[3]
                 },
                 new Prospect
                 {
                     ProjectName = "Sikkerhetskonsultasjon",
-                    CustomerName = "Confirmit",
+                    Customer = customer[2],
                     Seller = seller[0]
                 },
                 new Prospect
                 {
                     ProjectName = "Idk man",
-                    CustomerName = "Innow AS",
+                    Customer = customer[3],
                     Seller = seller[4]
                 }
             };

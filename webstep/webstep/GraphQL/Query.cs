@@ -52,6 +52,22 @@ namespace webstep.GraphQL
             int id) => this._repo.SelectSingle<Seller>(id);
 
         /// <summary>
+        /// Fetches all customer
+        /// </summary>
+        /// <returns></returns>
+        [UseOffsetPaging(MaxPageSize = 50), UseProjection, UseSorting]
+        public IQueryable<Customer> GetCustomers() => this._repo.SelectAll<Customer>();
+
+        /// <summary>
+        /// Fetches a single customer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [UseProjection]
+        public IQueryable<Customer> GetCustomer(
+            int id) => this._repo.SelectSingle<Customer>(id);
+
+        /// <summary>
         /// Fetches all consultants
         /// </summary>
         /// <returns></returns>

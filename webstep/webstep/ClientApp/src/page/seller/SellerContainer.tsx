@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { GET_SELLERS } from '../../api/sellers';
-import { PageInfo, Prospect } from '../../logic/interfaces';
+import { Customer, PageInfo, Prospect } from '../../logic/interfaces';
 import { Loading } from '../Utils/Loading';
 import { SellerDisplay } from './SellerDisplay';
 import './Seller.css'
@@ -28,8 +28,8 @@ export interface SellerInterface {
 
 export interface Prospects {
     id: number;
-    customerName: string;
     projectName: string;
+    customer: Customer;
 }
 
 //GQL pagination skip const

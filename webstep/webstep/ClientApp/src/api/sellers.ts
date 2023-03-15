@@ -49,7 +49,14 @@ export const GET_SELLERS = gql`
             items {
                 prospects {
                     id
-                    customerName
+                    customer {
+                      id
+                      firstName
+                      lastName
+                      email
+                      adresse
+                      tlf
+                    }
                     projectName
                     subProspects {
                         id

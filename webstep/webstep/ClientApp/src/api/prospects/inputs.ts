@@ -2,7 +2,7 @@ import { WeekYear } from './types';
 
 export interface AddProspectInput {
     sellerId: number;
-    customerName: string;
+    customerId: number;
     projectName: string;
 }
 export interface AddSubProspectInput {
@@ -15,7 +15,6 @@ export interface AddSubProspectInput {
 
 export interface EditProspectInput {
     id: number;
-    customerName: string;
     projectName: string;
 }
 

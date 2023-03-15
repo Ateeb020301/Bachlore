@@ -12,7 +12,7 @@ const getProspectElements = (prospects: Prospects[]): JSX.Element => {
             {prospects.map((prospect) => (
                 <div key={'Prospect_Container_' + prospect.id} className='projectContainer'>
                     <p key={'Prospect_Name_' + prospect.id}>Prosjekt navn: {prospect.projectName}</p>
-                    <p key={'Prospect_Customer_' + prospect.id}>Kunde: {prospect.customerName}</p>
+                    <p key={'Prospect_Customer_' + prospect.id}>Kunde: {prospect.customer.firstName}</p>
                 </div>
             ))}
         </>

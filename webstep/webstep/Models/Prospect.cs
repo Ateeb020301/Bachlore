@@ -16,23 +16,18 @@
         public override int Id { get; set; }
 
         [Required]
+        public string ProjectName { get; set; }
+
+        [Required]
         public Seller Seller { get; set; }
 
         [Required]
-        public string CustomerName { get; set; }
-
-        [Required]
-        public string ProjectName { get; set; }
+        public Customer Customer { get; set; }
 
         public ICollection<SubProspect> SubProspects { get; set; }
 
         public void Validate()
         {
-
-            if (this.CustomerName.IsNullOrEmpty())
-            {
-                throw new RequiredFieldNullException() { Field = this.CustomerName };
-            }
 
             if (this.ProjectName.IsNullOrEmpty())
             {

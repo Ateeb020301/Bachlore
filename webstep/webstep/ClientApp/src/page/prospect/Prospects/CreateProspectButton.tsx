@@ -10,6 +10,7 @@ import { AddProspectInput, AddSubProspectInput } from '../../../api/prospects/in
 import { Button } from 'reactstrap';
 
 interface CreateProspectButtonProps {
+    customerId: number;
     sellerId: number;
 }
 const addButtonStyle = {
@@ -18,7 +19,7 @@ const addButtonStyle = {
     backgroundImage: 'url(' + PlusIcon + ')',
     backgroundSize: 'cover',
 };
-export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({ sellerId }) => {
+export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({ sellerId, customerId}) => {
     const [addProspect] = useMutation<AddProspectPayload, { input: AddProspectInput }>(ADD_PROSPECT);
     const [addSubProspect] = useMutation<AddSubProspectPayload, { input: AddSubProspectInput }>(ADD_SUBPROSPECT, {
         refetchQueries: [
@@ -31,7 +32,7 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({ sell
     });
 
     const handleClick = () => {
-        let defaultProspect = getDefaultProspect(sellerId);
+        let defaultProspect = getDefaultProspect(sellerId, customerId);
         addProspect({ variables: { input: defaultProspect } })
             .then((res) => {
                 let newProspectId = res.data?.addProspect.prospect.id;
@@ -64,13 +65,13 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({ sell
     );
 };
 
-const getDefaultProspect = (sellerId: number) => {
+const getDefaultProspect = (sellerId: number, customerId:number) => {
     let projectName = 'Prosjektnavn';
     let customerName = 'Kunde';
     let defaultProspect: AddProspectInput = {
         sellerId: sellerId,
         projectName: projectName,
-        customerName: customerName,
+        customerId: customerId,
     };
     return defaultProspect;
 };

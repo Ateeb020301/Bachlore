@@ -29,5 +29,6 @@
 
         Task DeleteAsync<T>(T entity, WebstepContext context, CancellationToken cancellationToken)
             where T : BaseModel;
+        Task SelectByIdAsync<T>(string customerId, WebstepContext context, CancellationToken cancellationToken);
     }
 }

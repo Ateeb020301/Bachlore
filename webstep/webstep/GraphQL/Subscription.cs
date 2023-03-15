@@ -16,6 +16,12 @@
         [Subscribe, Topic]
         public Seller OnSellerDeleted([EventMessage] Seller seller) => seller;
 
+        public Customer OnCustomerAdded([EventMessage] Customer customer) => customer;
+        [Subscribe, Topic]
+        public Customer OnCustomerEdited([EventMessage] Customer customer) => customer;
+        [Subscribe, Topic]
+        public Customer OnCustomerDeleted([EventMessage] Customer customer) => customer;
+
         [Subscribe, Topic]
         public Prospect OnProspectAdded([EventMessage] Prospect prospect) => prospect;
         [Subscribe, Topic]

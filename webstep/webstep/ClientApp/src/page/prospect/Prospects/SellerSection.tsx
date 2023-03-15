@@ -22,12 +22,14 @@ export const SellerSection: React.FC<SellerSectionProps> = ({ id, name, showPros
         pollInterval: 3000,
     });
 
+    console.log(data)
+
     return (
         <>
             <CalendarRow
                 sidebarContent={
                     <CalendarSidebarHeader header={name}>
-                        <CreateProspectButton sellerId={id} />
+                        <CreateProspectButton sellerId={id} customerId={id} />
                     </CalendarSidebarHeader>
                 }
                 timelineContent={<CalendarTimelineBlocker />}

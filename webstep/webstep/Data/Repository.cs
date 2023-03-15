@@ -105,5 +105,10 @@
 
             await _eventSender.SendAsync($"On{typeof(T).Name}Deleted", entity, cancellationToken).ConfigureAwait(false);
         }
+
+        public Task SelectByIdAsync<T>(string customerId, WebstepContext context, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
