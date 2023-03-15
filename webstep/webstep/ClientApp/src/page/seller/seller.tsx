@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
-import { AddSellerPayload, ADD_SELLER, EditSellerPayload, GET_SELLER, GET_SELLERS } from '../../api/sellers';
+import { AddSellerPayload, ADD_SELLER, GET_SELLERS } from '../../api/sellers';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Modal } from '../Utils/ModalComponent';
 import './Seller.css'
 import { SellerContainer } from './SellerContainer';
-import { ModalSlett } from './SlettModal';
-import { SellerForm } from './SellerForm';
 import { PageInfo } from '../../logic/interfaces';
-import { useQuery } from '@apollo/client';
 
 interface GetSellersPayload {
     sellers: Sellers;
@@ -53,9 +49,9 @@ const skipAmount = 0;
 const takeAmount = 50;
 
 export const Seller: React.FC= () => {
-    // const [isModalOpen, setModalState] = React.useState(false);
-    const [name, setName] = useState();
-    const [email, setEmail] = useState();
+    const [isModalOpen, setModalState] = React.useState(false);
+
+    const toggleModal = () => setModalState(!isModalOpen);
      
         //Date shenanigans
         let d = new Date();
@@ -247,7 +243,19 @@ export const Seller: React.FC= () => {
                 <Button id='btnB' onClick={handleSubmit} disabled={!isValidSeller()}>
                     Legg til
                 </Button>
-                
+                <div className='modalContainer'>
+                <button
+                        className={'app__btn'}
+                        onClick={toggleModal}
+                    >
+                        Kontrakt 
+                    </button>
+                    <Modal
+                        title={'Kontrakt form'}
+                        isOpen={isModalOpen}
+                        onClose={toggleModal}
+                    />
+                </div>
                 </div>
             </form>
             {/* {containerContent} */}

@@ -13,6 +13,7 @@ import { SellerProspects } from '../../logic/interfaces';
 import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries';
 import { Seller } from './seller';
 import { SchemaMetaFieldDef } from 'graphql/type';
+import { Modal } from '../Utils/ModalComponent';
 
 interface SellerFields {
     seller: SellerInterface;
@@ -26,6 +27,7 @@ const skipAmount = 0;
 const takeAmount = 50;
 
 export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => {
+
     const [deleteProspect] = useMutation<number, { input: { id: number } }>(DELETE_PROSPECT, {
         refetchQueries: [
             {

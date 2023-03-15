@@ -9,12 +9,17 @@ interface ProspectDisplay {
 const getProspectElements = (prospects: Prospects[]): JSX.Element => {
     return (
         <>
-            {prospects.map((prospect) => (
+            {prospects.forEach((prospect) => {
+                prospect.customer.forEach((custom)=>{
                 <div key={'Prospect_Container_' + prospect.id} className='projectContainer'>
                     <p key={'Prospect_Name_' + prospect.id}>Prosjekt navn: {prospect.projectName}</p>
-                    <p key={'Prospect_Customer_' + prospect.id}>Kunde: {prospect.customer.firstName}</p>
+                    <p key={'Prospect_Customer_' + prospect.id}>Kunde: {custom.firstName}</p>
                 </div>
-            ))}
+                })
+
+            })}
+
+    
         </>
     );
 };

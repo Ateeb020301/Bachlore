@@ -1,11 +1,10 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { GET_SELLERS } from '../../api/sellers';
-import { Customer, PageInfo, Prospect } from '../../logic/interfaces';
+import { Customer, PageInfo, Prospect, SubProspect } from '../../logic/interfaces';
 import { Loading } from '../Utils/Loading';
 import { SellerDisplay } from './SellerDisplay';
 import './Seller.css'
-import { SellerForm } from './SellerForm';
 
 
 interface GetSellersPayload {
@@ -18,7 +17,7 @@ interface Sellers {
 }
 
 export interface SellerInterface {
-    prospects: Prospect[];
+    prospects: Prospects[];
     id: number;
     fullName: string;
     email: string;
@@ -29,7 +28,8 @@ export interface SellerInterface {
 export interface Prospects {
     id: number;
     projectName: string;
-    customer: Customer;
+    customer: Customer[];
+    subProspects: SubProspect[];
 }
 
 //GQL pagination skip const
