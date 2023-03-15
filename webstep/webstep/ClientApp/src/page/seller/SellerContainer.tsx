@@ -22,7 +22,7 @@ export interface SellerInterface {
     fullName: string;
     email: string;
     employmentDate: string;
-    resignationDate?: any;
+    resignationDate: any;
 }
 
 

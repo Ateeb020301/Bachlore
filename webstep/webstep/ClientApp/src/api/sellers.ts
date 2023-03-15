@@ -26,7 +26,7 @@ export interface EditSellerInput {
     fullName: string;
     email: string;
     employmentDate: any;
-    resignationDate: any;
+    resignationDate?: any;
 }
 
 export const GET_SELLER = gql`
