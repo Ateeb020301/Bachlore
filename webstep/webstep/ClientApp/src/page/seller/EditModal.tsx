@@ -1,52 +1,71 @@
 import React from 'react';
 import iconX from '../Utils/x.png';
+import { FormProvider } from '../../components/FormInfo/context/FormContext';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
-import '../Utils/ModalComponent.css';
-import { Seller } from '../seller/seller';
+import '../consultant/AddModal.css';
+import CloseIcon from '@mui/icons-material/Close';
+import { Contract } from '../../logic/interfaces';
+import { EditSellerForm } from './EditSellerForm';
 
-interface ModalEditProps {
-  title: string;
-  isOpen: boolean;
-  onClose: () => void;
+interface Seller {
+    id: number;
+    fullName: string;
+    email: string;
+    employmentDate: string;
+    resignationDate?: any;
 }
 
-export const ModalEdit: React.FC<ModalEditProps> = ({ title, isOpen, onClose }) => {
-  const outsideRef = React.useRef(null);
-  const navigate = useNavigate();
+interface ModalEditProps {
+    title: string;
+    isOpen: boolean;
+    seller: Seller;
+    onClose: () => void;
+}
 
-  const closeOnOverlay = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (e.target === outsideRef.current) {
-      onClose();
+export const ModalEdit: React.FC<ModalEditProps> = ({ title, seller, isOpen, onClose }) => {
+    const outsideRef = React.useRef(null);
+    const navigate = useNavigate();
+
+
+    const handleCloseOnOverlay = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        if (e.target === outsideRef.current) {
+            onClose();
+            navigate('/seller')
+        }
     }
-  }
-  
-  function closeIcon(){
-    onClose();
-  }
 
-  return isOpen ? (
-    <div className={'modal'}>
-      <div
-        ref={outsideRef}
-        className={'modal__overlay'}
-        onClick={closeOnOverlay}
-      />
-      <div className={'modal__box'}>
-        <button
-          className={'modal__close'}
-          onClick={closeIcon}
-        >
-          <img src={iconX} alt={'close'} />
-        </button>
-        <div className={'modalTitle'}>
-          {title}
+    function closeIcon() {
+        onClose();
+        navigate('/seller')
+    }
+
+    return isOpen ? (
+        <div className={'modal'}>
+            <div
+                ref={outsideRef}
+                className={'modal__overlay'}
+                onClick={handleCloseOnOverlay}
+            />
+            <div className={'modal__box'}>
+                <div className={'modalWrapper'}>
+                    <div className={'header'}>
+                        <div className={'headerTextCont'}>
+                            <span className={'headerText'}>Edit {seller.fullName}</span>
+                        </div>
+                        <div className={'headerButton'}>
+                            <CloseIcon onClick={closeIcon} className={'modal__closeIcon'} />
+                        </div>
+                    </div>
+
+                    <div className={'modalBody'}>
+                        <EditSellerForm onClose={onClose} seller ={seller} />
+                    </div>
+                </div>
+
+
+            </div>
+
+
         </div>
-        <div className={'modalContent'}>
-
-        </div>
-        
-      </div>
-
-    </div>
-  ) : null;
+    ) : null;
 };

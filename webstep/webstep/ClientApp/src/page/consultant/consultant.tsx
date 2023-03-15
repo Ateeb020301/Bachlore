@@ -52,6 +52,7 @@ export const Consultant = () => {
     const toggleModal = () => setModalState(!isModalOpen);
     //Date shenanigans
     let d = new Date();
+    
     //Get todays date
     let today =
         d.getFullYear() +
