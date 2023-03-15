@@ -7,7 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Modal } from '../Utils/ModalComponent';
 import './Seller.css'
 import { SellerContainer } from './SellerContainer';
-import { PageInfo } from '../../logic/interfaces';
+import { PageInfo, Prospect } from '../../logic/interfaces';
 
 interface GetSellersPayload {
     sellers: Sellers;
@@ -18,7 +18,7 @@ interface Sellers {
 }
 
 export interface SellerInterface {
-    prospects: Prospects[];
+    prospects: Prospect[];
     id: number;
     fullName: string;
     email: string;
@@ -26,22 +26,12 @@ export interface SellerInterface {
     resignationDate?: any;
 }
 
-export interface Prospects {
-    id: number;
-    customerName: string;
-    projectName: string;
-}
+
 interface SellerNoId {
     fullName: string;
     email: string;
     employmentDate: string;
     resignationDate?: any;
-}
-
-interface Selger {
-    seller: SellerInterface;
-    refetch: () => {};
-    prospects: Prospects[];
 }
 //GQL pagination skip const
 const skipAmount = 0;
@@ -243,7 +233,10 @@ export const Seller: React.FC= () => {
                 <Button id='btnB' onClick={handleSubmit} disabled={!isValidSeller()}>
                     Legg til
                 </Button>
-                <div className='modalContainer'>
+
+                </div>
+            </form>
+            <div className='modalContainer'>
                 <button
                         className={'app__btn'}
                         onClick={toggleModal}
@@ -256,8 +249,6 @@ export const Seller: React.FC= () => {
                         onClose={toggleModal}
                     />
                 </div>
-                </div>
-            </form>
             {/* {containerContent} */}
         </div>
         <h1 id='titleSlett'>Slett Seller</h1>

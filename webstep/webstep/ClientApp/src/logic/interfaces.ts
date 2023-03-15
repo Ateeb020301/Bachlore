@@ -1,3 +1,5 @@
+import { Prospects } from "../page/prospect/Prospects/ProspectDescription";
+
 export interface SellerProspects {
     id: number;
     fullName: string;
@@ -7,7 +9,7 @@ export interface SellerProspects {
 export interface Prospect {
     id: number;
     projectName: string;
-    customer: Customer;
+    customer: Customer[];
     subProspects: SubProspect[];
 }
 
@@ -67,7 +69,7 @@ export interface Customer {
 
 export interface SellerJustProspects {
     id: number;
-    prospects: Prospect[];
+    prospects: Prospects[];
 }
 
 export interface Contract {

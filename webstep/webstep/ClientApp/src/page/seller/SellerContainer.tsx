@@ -17,7 +17,7 @@ interface Sellers {
 }
 
 export interface SellerInterface {
-    prospects: Prospects[];
+    prospects: Prospect[];
     id: number;
     fullName: string;
     email: string;
@@ -25,12 +25,6 @@ export interface SellerInterface {
     resignationDate?: any;
 }
 
-export interface Prospects {
-    id: number;
-    projectName: string;
-    customer: Customer[];
-    subProspects: SubProspect[];
-}
 
 //GQL pagination skip const
 const skipAmount = 0;

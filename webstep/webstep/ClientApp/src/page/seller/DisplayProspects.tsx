@@ -1,12 +1,12 @@
 import React from 'react';
-import { Prospects } from './SellerContainer'
+import { Customer, PageInfo, Prospect } from '../../logic/interfaces';
 import './Seller.css'
 
 interface ProspectDisplay {
-    prospects: Prospects[];
+    prospects: Prospect[];
 }
 
-const getProspectElements = (prospects: Prospects[]): JSX.Element => {
+const getProspectElements = (prospects: Prospect[]) => {
     return (
         <>
             {prospects.forEach((prospect) => {

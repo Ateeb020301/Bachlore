@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
 import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
-import { ModalSlett } from '../seller/SlettModal';
 import { ConsultantContainer } from './ConsultantContainer';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { ConsultantDisplay } from './ConsultantDisplay';

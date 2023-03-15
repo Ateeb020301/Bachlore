@@ -4,21 +4,21 @@ import { toast } from 'react-toastify';
 import { DeleteSellerPayload, DELETE_SELLER, EditSellerPayload, EditSellerInput, EDIT_SELLER, GET_SELLERS, GET_SELLER } from '../../api/sellers';
 import { defaultMessagePlacement } from '../../logic/toast';
 import { DisplayProspects } from './DisplayProspects';
-import { Prospects, SellerInterface } from './SellerContainer';
+import { SellerInterface } from './SellerContainer';
 import './Seller.css';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { isTokenKind, TypeOfExpression } from 'typescript';
 import { SellerProspects } from '../../logic/interfaces';
 import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries';
-import { Seller } from './seller';
-import { SchemaMetaFieldDef } from 'graphql/type';
-import { Modal } from '../Utils/ModalComponent';
+import { Customer, PageInfo, Prospect, SubProspect } from '../../logic/interfaces';
+import { ModalEdit } from './EditModal';
 
 interface SellerFields {
     seller: SellerInterface;
     // prospect: Prospects;
-    prospects: Prospects[];
+    prospects: Prospect[];
+
 }
 
 //GQL pagination skip const
@@ -27,6 +27,10 @@ const skipAmount = 0;
 const takeAmount = 50;
 
 export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => {
+    const [isModalEditOpen, setState] = React.useState(false);
+
+    const toggleEdit = () => setState(!isModalEditOpen);
+
 
     const [deleteProspect] = useMutation<number, { input: { id: number } }>(DELETE_PROSPECT, {
         refetchQueries: [
@@ -148,9 +152,25 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                             <td>
                                 <div className="btnContainer">
                                     <DeleteForeverIcon onClick={() => sendDeleteRequest(seller) } id='btnR' />
-                                    <button onClick={sendEditRequest} className='btnDelete'>
+                                    {/* <button onClick={sendEditRequest} className='btnDelete'>
+                                
                                         <ModeEditIcon id='btnE'/>
-                                    </button>   
+
+                                        </button>   */}
+                                        <div className='modalContainer'>
+                                        <button
+                                            className={'app__btn'}
+                                            onClick={toggleEdit}
+                                        >
+                                            <ModeEditIcon id='btnE'/> 
+                                        </button>
+                                        <ModalEdit
+                                            title={'Edit Seller'}
+                                            isOpen={isModalEditOpen}
+                                            onClose={toggleEdit}
+                                        />
+                                    </div>
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -158,7 +178,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                 </table>
             <div className='AccordionContent' style={{ display: display }}>
                 <p>Prospects:</p>
-                <DisplayProspects prospects={prospects} />
+                {/* <DisplayProspects prospects={prospects} /> */}
             </div>
         </div>
     );
