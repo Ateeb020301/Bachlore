@@ -62,15 +62,6 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
         awaitRefetchQueries: true,
     });
 
-    const [editSeller] = useMutation<EditSellerPayload, { input: EditSellerInput }>(EDIT_SELLER, {
-        refetchQueries: [
-            {
-                query: GET_SELLER  
-            },
-        ],
-        awaitRefetchQueries: true,
-    });
-
     
 
     //used for toggling consultant info on/off
@@ -145,24 +136,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                             <td>
                                 <div className="btnContainer">
                                     <DeleteForeverIcon onClick={() => sendDeleteRequest(seller) } id='btnR' />
-                                    {/* <button onClick={handleOpen} className='btnDelete'>
-                                        <ModeEditIcon onClick={() => handleOpen(seller) }id='btnE'/>
-                                    </button>   */}
-                                        <div className='modalContainer'>
-                                        <button
-                                            className={'app__btn'}
-                                            onClick={toggleEdit}
-                                        >
-                                            <ModeEditIcon onClick={() => handleOpen(seller) } id='btnE'/> 
-                                        </button>
-                                        <ModalEdit
-                                            title={'Edit Seller'}
-                                            isOpen={isModalEditOpen}
-                                            onClose={toggleEdit}
-                                            seller={sellerEdit}
-                                        />
-                                    </div>
-                                    
+                                    <ModeEditIcon onClick={toggleEdit } id='btnE'/> 
                                 </div>
                             </td>
                         </tr>
@@ -170,8 +144,14 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                 </table>
             <div className='AccordionContent' style={{ display: display }}>
                 <p>Prospects:</p>
-                {/* <DisplayProspects prospects={prospects} /> */}
+                <DisplayProspects prospects={prospects} />
             </div>
+            <ModalEdit
+            title={'Edit Seller'}
+                isOpen={isModalEditOpen}
+                onClose={toggleEdit}
+                seller={seller}
+            />
         </div>
     );
 };
