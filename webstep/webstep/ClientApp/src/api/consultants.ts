@@ -4,6 +4,10 @@ export interface AddConsultantPayload {
     addConsultant: { consultant: { id: number } };
 }
 
+export interface EditConsultantPayload {
+    editConsultant: { consultant: { id: number } };
+}
+
 export interface DeleteConsultantPayload {
     deleteConsultant: { consultant: { id: number } };
 }
@@ -76,6 +80,16 @@ export const DELETE_TEAMCONSULTANT = gql`
     mutation($input: DeleteTeamConsultantInput) {
         deleteTeamConsultant(input: $input) {
             teamConsultant {
+                id
+            }
+        }
+    }
+`;
+
+export const EDIT_CONSULTANT = gql`
+    mutation EditConsultant($input: EditConsultantInput) {
+        editConsultant(input: $input) {
+            consultant {
                 id
             }
         }

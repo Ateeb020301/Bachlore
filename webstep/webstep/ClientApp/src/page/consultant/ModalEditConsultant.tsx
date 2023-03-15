@@ -4,16 +4,27 @@ import { FormProvider } from '../../components/FormInfo/context/FormContext';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import './AddModal.css';
 import { Consultant } from './consultant';
-import { AddForm } from './addForm';
+import { EditForm } from './editForm';
 import CloseIcon from '@mui/icons-material/Close';
+import { Contract } from '../../logic/interfaces';
+
+interface Consultants {
+    id: number;
+    firstName: string;
+    lastName: string;
+    employmentDate: string;
+    resignationDate?: any;
+    workdays: number;
+}
 
 interface ModalEditConsultantProps {
     title: string;
     isOpen: boolean;
+    consultant: Consultants;
     onClose: () => void;
 }
 
-export const ModalEditConsultant: React.FC<ModalEditConsultantProps> = ({ title, isOpen, onClose }) => {
+export const ModalEditConsultant: React.FC<ModalEditConsultantProps> = ({ title,consultant, isOpen, onClose }) => {
     const outsideRef = React.useRef(null);
     const navigate = useNavigate();
 
@@ -41,7 +52,7 @@ export const ModalEditConsultant: React.FC<ModalEditConsultantProps> = ({ title,
                 <div className={'modalWrapper'}>
                     <div className={'header'}>
                         <div className={'headerTextCont'}>
-                            <span className={'headerText'}>Add New Consultant</span>
+                            <span className={'headerText'}>Edit {consultant.firstName} {consultant.lastName}</span>
                         </div>
                         <div className={'headerButton'}>
                             <CloseIcon onClick={closeIcon} className={'modal__closeIcon'} />
@@ -49,7 +60,7 @@ export const ModalEditConsultant: React.FC<ModalEditConsultantProps> = ({ title,
                     </div>
 
                     <div className={'modalBody'}>
-                        <AddForm onClose={onClose} />
+                        <EditForm onClose={onClose} consultant={consultant} />
                     </div>
                 </div>
 

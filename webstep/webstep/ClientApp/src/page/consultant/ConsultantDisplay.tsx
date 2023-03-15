@@ -35,6 +35,15 @@ const pStyleUnder = {
     padding: 0
 }
 
+let consultantEdit: Consultant = {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    employmentDate: '',
+    resignationDate: null,
+    workdays: 0,
+};
+
 interface ConsultantDisplayContainerProps {
     consultant: Consultant;
 }
@@ -117,6 +126,11 @@ export const ConsultantDisplay: React.FC = () => {
             });
     };
 
+    const openModal = (consultant: Consultant) => {
+        consultantEdit = consultant;
+        toggleModal();
+    }
+
     return (
         <>
             {!loading && !error && data ? (
@@ -174,7 +188,7 @@ export const ConsultantDisplay: React.FC = () => {
                                                     </MenuItem>
                                                     <MenuItem sx={{display: 'flex', justifyContent: 'space-between', padding: '5px', mt:1 }} onClick={popupState.close}>
                                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                            <ButtonBase onClick={toggleModal}>Edit Consultant</ButtonBase>
+                                                            <ButtonBase onClick={() => openModal(consultant)}>Edit Consultant</ButtonBase>
                                                         </Box>
                                                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                             <EditIcon fontSize={'small'} />
@@ -183,7 +197,7 @@ export const ConsultantDisplay: React.FC = () => {
                                                 </Menu>
                                             </React.Fragment>
                                         )}
-                                    </PopupState>     
+                                    </PopupState>
                                 </Box>
 
                             </Box>
@@ -196,6 +210,7 @@ export const ConsultantDisplay: React.FC = () => {
                 title={'Edit Kontakt form'}
                 isOpen={isModalOpen}
                 onClose={toggleModal}
+                consultant={consultantEdit}
             />
         </>
     );

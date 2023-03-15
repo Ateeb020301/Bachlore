@@ -4,7 +4,7 @@ import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
+import { AddConsultantPayload, ADD_CONSULTANT, EditConsultantPayload, EDIT_CONSULTANT } from '../../api/consultants';
 import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
 import { ModalSlett } from '../seller/SlettModal';
 import { ConsultantContainer } from './ConsultantContainer';
@@ -12,9 +12,14 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { ConsultantDisplay } from './ConsultantDisplay';
 import { Form, useNavigate } from 'react-router-dom';
 import { ModalConsultant } from './ModalConsultant'
-import { GET_CONSULTANTS_INFO } from '../../api/contract/queries';
+import { GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY, GET_TEAMCONS_CONTRACTS } from '../../api/contract/queries';
+import { EditSubProspectPayload } from '../../api/prospects/payloads';
+import { EditSubProspectInput } from '../../api/prospects/inputs';
+import { EDIT_SUBPROSPECT } from '../../api/prospects/queries';
+import { constants } from '../../logic/constants';
 
 interface ConsultantNoId {
+    id: number;
     firstName: string;
     lastName: string;
     employmentDate: string;
@@ -30,9 +35,10 @@ function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
 
 interface ModalEditConsultantProps {
     onClose: () => void;
+    consultant: ConsultantNoId;
 }
 
-export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose}) => {
+export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose, consultant}) => {
 
     //Date shenanigans
     let d = new Date();
@@ -44,7 +50,8 @@ export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose}) => {
         '-' +
         d.getDate().toString().padStart(2, '0');
 
-    let defaultConsultant: ConsultantNoId = {
+    let newConsultant: ConsultantNoId = {
+        id: 0,
         firstName: '',
         lastName: '',
         employmentDate: today,
@@ -55,18 +62,20 @@ export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose}) => {
     const outsideRef = React.useRef(null);
     const navigate = useNavigate();
 
-    const [currentConsultant, setCurrentConsultant] = useState<ConsultantNoId>(defaultConsultant);
+    const [currentConsultant, setCurrentConsultant] = useState<ConsultantNoId>(consultant);
     const [displayValidation, setDisplayValidation] = useState<string>('');
-    const [addConsultant] = useMutation<AddConsultantPayload, { input: ConsultantNoId }>(
-        ADD_CONSULTANT, {
-            refetchQueries: [
-                {
-                    query: GET_CONSULTANTS_INFO,
-                },
-            ],
-            awaitRefetchQueries: true,
-        }
-    );
+    const [editConsultant] = useMutation<EditConsultantPayload, { input: ConsultantNoId }>(EDIT_CONSULTANT, {
+        refetchQueries: [
+            {
+                query: GET_CONSULTANT_CAPACITY,
+                variables: { startYear: constants.currentYear, endYear: constants.currentYear + 2, id: consultant.id },
+            },
+            {
+                query: GET_CONSULTANTS_INFO,
+            },
+        ],
+        awaitRefetchQueries: true,
+    });
 
     //Adds or removes validation field on resignationDate depending on if its empty or not
     useEffect(() => {
@@ -106,19 +115,27 @@ export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose}) => {
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-
+        console.log(currentConsultant);
         if (isValidConsultant()) {
-            addConsultant({ variables: { input: currentConsultant } })
+            newConsultant.id = currentConsultant.id;
+            newConsultant.firstName = currentConsultant.firstName;
+            newConsultant.lastName = currentConsultant.lastName;
+            newConsultant.employmentDate = currentConsultant.employmentDate;
+            newConsultant.resignationDate = currentConsultant.resignationDate;
+            newConsultant.workdays = parseInt(currentConsultant.workdays.toString());
+
+            editConsultant({ variables: { input: newConsultant } })
                 .then((res) => {
-                    toast.success('Konsulent opprettet', {
+                    toast.success('Konsulenten ble redigert', {
                         position: toast.POSITION.BOTTOM_RIGHT
                     })
                     onClose();
                 })
-                .catch((err) => {
-                    toast.error('Noe gikk galt med oppretting av en konsulent.', {
+                .catch((e) => {
+                    toast.error('Noe gikk galt ved redigering av Konsulenten', {
                         position: toast.POSITION.BOTTOM_RIGHT
                     })
+                    console.log(e);
                 });
         }
     };
@@ -153,9 +170,17 @@ export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose}) => {
         }
     };
 
+    const isValidWorkdays = (days: number) => {
+        if (days <= 5 || days >= 0) {
+            return true;
+        }
+        return false;
+    }
+
     const isValidConsultant = (): boolean => {
         let hasTruthyValues =
             currentConsultant.firstName &&
+            currentConsultant.workdays &&
             currentConsultant.lastName &&
             isValidStartDate(currentConsultant.employmentDate);
 
@@ -203,6 +228,21 @@ export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose}) => {
                     </FormGroup>
 
                     <FormGroup>
+                        <Label for='workdays'>Workdays</Label><br />
+                        <Input
+                            type='number'
+                            id='workdays'
+                            min={0}
+                            max={5}
+                            valid={isValidWorkdays(currentConsultant.workdays)}
+                            invalid={!isValidWorkdays(currentConsultant.workdays)}
+                            value={currentConsultant.workdays}
+                            onChange={handleChange}
+                            name='workdays'
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
                         <Label for='employmentDate'>Start dato:</Label>
                         <Input
                             type='date'
@@ -211,7 +251,7 @@ export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose}) => {
                             invalid={!isValidStartDate(currentConsultant.employmentDate)}
                             value={currentConsultant.employmentDate}
                             onChange={handleChange}
-                            name='inpEmploymentDate'
+                            name='employmentDate'
                         />
                     </FormGroup>
 
@@ -223,7 +263,7 @@ export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose}) => {
                             className={displayValidation}
                             value={currentConsultant.resignationDate ? currentConsultant.resignationDate : ''}
                             onChange={handleChange}
-                            name='inpResignationDate'
+                            name='resignationDate'
                         />
                     </FormGroup>
 
