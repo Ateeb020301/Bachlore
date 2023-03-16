@@ -5,17 +5,9 @@ import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { AddConsultantPayload, ADD_CONSULTANT, EditConsultantPayload, EDIT_CONSULTANT } from '../../api/consultants';
-import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
-import { ModalSlett } from '../seller/SlettModal';
-import { ConsultantContainer } from './ConsultantContainer';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { ConsultantDisplay } from './ConsultantDisplay';
+import { Box } from '@mui/material';
 import { Form, useNavigate } from 'react-router-dom';
-import { ModalConsultant } from './ModalConsultant'
 import { GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY, GET_TEAMCONS_CONTRACTS } from '../../api/contract/queries';
-import { EditSubProspectPayload } from '../../api/prospects/payloads';
-import { EditSubProspectInput } from '../../api/prospects/inputs';
-import { EDIT_SUBPROSPECT } from '../../api/prospects/queries';
 import { constants } from '../../logic/constants';
 
 interface ConsultantNoId {

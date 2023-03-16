@@ -8,8 +8,8 @@ interface CalendarRowProps {
 export const CalendarRow: React.FC<CalendarRowProps> = ({ sidebarContent, timelineContent }) => {
     return (
         <>
-            <div className='sidebar-content'>{sidebarContent}</div>
-            <div className='timeline-content'>{timelineContent}</div>
+                <div className='sidebar-content'>{sidebarContent}</div>
+                <div className='timeline-content'>{timelineContent}</div>
         </>
     );
 };
