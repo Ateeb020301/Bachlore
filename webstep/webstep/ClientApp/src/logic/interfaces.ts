@@ -1,3 +1,5 @@
+import { Prospects } from "../page/prospect/Prospects/ProspectDescription";
+
 export interface SellerProspects {
     id: number;
     fullName: string;
@@ -53,7 +55,7 @@ export interface Seller {
     fullName: string;
     email: string;
     employmentDate: string;
-    resignationDate: any;
+    resignationDate?: any;
 }
 
 export interface Customer {
@@ -67,7 +69,7 @@ export interface Customer {
 
 export interface SellerJustProspects {
     id: number;
-    prospects: Prospect[];
+    prospects: Prospects[];
 }
 
 export interface Contract {

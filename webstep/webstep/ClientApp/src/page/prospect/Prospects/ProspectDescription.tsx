@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { EditProspectInput } from '../../../api/prospects/inputs';
 import { EditProspectPayload } from '../../../api/prospects/payloads';
 import { EDIT_PROSPECT, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
-import { Customer, Prospect } from '../../../logic/interfaces';
+import { Customer, Prospect, SubProspect } from '../../../logic/interfaces';
 import { defaultMessagePlacement } from '../../../logic/toast';
 import { EditableField } from '../../Utils/EditableField';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,15 +11,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { GET_CUSTOMERS } from '../../../api/customer';
 
 interface ProspectDescriptionProps {
-    prospect: Prospect;
+    prospect: Prospects;
     sellerId: number;
 }
-interface GetCustomersPayload {
-    sellers: Sellers;
-}
-
-interface Sellers {
-    items: Customer;
+export interface Prospects {
+    id: number;
+    projectName: string;
+    customer: Customer;
+    subProspects: SubProspect[];
 }
 
 const contentStyle = {

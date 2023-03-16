@@ -4,21 +4,23 @@ import { toast } from 'react-toastify';
 import { DeleteSellerPayload, DELETE_SELLER, EditSellerPayload, EditSellerInput, EDIT_SELLER, GET_SELLERS, GET_SELLER } from '../../api/sellers';
 import { defaultMessagePlacement } from '../../logic/toast';
 import { DisplayProspects } from './DisplayProspects';
-import { Prospects, SellerInterface } from './SellerContainer';
+import { SellerInterface } from './SellerContainer';
 import './Seller.css';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { isTokenKind, TypeOfExpression } from 'typescript';
-import { SellerProspects } from '../../logic/interfaces';
+import { Seller, SellerProspects } from '../../logic/interfaces';
 import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries';
-import { Seller } from './seller';
-import { SchemaMetaFieldDef } from 'graphql/type';
-import { Modal } from '../Utils/ModalComponent';
+import { Customer, PageInfo, Prospect, SubProspect } from '../../logic/interfaces';
+import { ModalEdit } from './EditModal';
+import { Box, Modal, Typography } from '@mui/material';
+import { style } from '@mui/system';
 
 interface SellerFields {
     seller: SellerInterface;
     // prospect: Prospects;
-    prospects: Prospects[];
+    prospects: Prospect[];
+
 }
 
 //GQL pagination skip const
@@ -27,6 +29,10 @@ const skipAmount = 0;
 const takeAmount = 50;
 
 export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => {
+    const [isModalEditOpen, setState] = React.useState(false);
+
+    const toggleEdit = () => setState(!isModalEditOpen);
+
 
     const [deleteProspect] = useMutation<number, { input: { id: number } }>(DELETE_PROSPECT, {
         refetchQueries: [
@@ -56,37 +62,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
         awaitRefetchQueries: true,
     });
 
-    const [editSeller] = useMutation<EditSellerPayload, { input: EditSellerInput }>(EDIT_SELLER, {
-        refetchQueries: [
-            {
-                query: GET_SELLER  
-            },
-        ],
-        awaitRefetchQueries: true,
-    });
-
-    const sendEditRequest = ()=>{
-        let newSeller: EditSellerInput = {
-            id: seller.id,
-            fullName: seller.fullName,
-            email: seller.email ,
-            employmentDate: seller.employmentDate,
-            resignationDate: seller.resignationDate,
-        };
-        console.log(newSeller);
-        editSeller({ variables: { input: newSeller  } })
-            .then((res) => {
-                toast.success('Seller ble redigert', {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
-            })
-            .catch((e) => {
-                toast.error('Noe gikk galt ved redigering av Seller', {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
-                console.log(e);
-            });
-    }
+    
 
     //used for toggling consultant info on/off
     const [isHidden, setIsHidden] = useState(true);
@@ -134,6 +110,18 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
             });
     }
     let display = isHidden ? 'none' : 'block';
+    let sellerEdit: Seller = {
+        id: 0,
+        fullName: '',
+        email: '',
+        employmentDate: '',
+        resignationDate: null,
+    };
+
+    const handleOpen = (seller: Seller) => {
+        sellerEdit = seller;
+        toggleEdit();
+    }
 
     return (
         <div key={'Seller_' + seller.id} className='AccordionHolder'>
@@ -148,9 +136,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                             <td>
                                 <div className="btnContainer">
                                     <DeleteForeverIcon onClick={() => sendDeleteRequest(seller) } id='btnR' />
-                                    <button onClick={sendEditRequest} className='btnDelete'>
-                                        <ModeEditIcon id='btnE'/>
-                                    </button>   
+                                    <ModeEditIcon onClick={toggleEdit } id='btnE'/> 
                                 </div>
                             </td>
                         </tr>
@@ -160,6 +146,12 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                 <p>Prospects:</p>
                 <DisplayProspects prospects={prospects} />
             </div>
+            <ModalEdit
+            title={'Edit Seller'}
+                isOpen={isModalEditOpen}
+                onClose={toggleEdit}
+                seller={seller}
+            />
         </div>
     );
 };

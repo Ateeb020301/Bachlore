@@ -1,25 +1,21 @@
 import React from 'react';
-import { Prospects } from './SellerContainer'
+import { Customer, PageInfo, Prospect } from '../../logic/interfaces';
 import './Seller.css'
 
 interface ProspectDisplay {
-    prospects: Prospects[];
+    prospects: Prospect[];
 }
 
-const getProspectElements = (prospects: Prospects[]): JSX.Element => {
+const getProspectElements = (prospects: Prospect[]): JSX.Element => {
+    console.log(prospects);
     return (
         <>
-            {prospects.forEach((prospect) => {
-                prospect.customer.forEach((custom)=>{
-                <div key={'Prospect_Container_' + prospect.id} className='projectContainer'>
+            {prospects.map((prospect) => (
+                <div key={'Prospect_Container_' + prospect.id} className='container-sub-element'>
                     <p key={'Prospect_Name_' + prospect.id}>Prosjekt navn: {prospect.projectName}</p>
-                    <p key={'Prospect_Customer_' + prospect.id}>Kunde: {custom.firstName}</p>
+                    <p key={'Prospect_Customer_' + prospect.id}>Kunde: {prospect.customer.firstName}</p>
                 </div>
-                })
-
-            })}
-
-    
+            ))}
         </>
     );
 };
