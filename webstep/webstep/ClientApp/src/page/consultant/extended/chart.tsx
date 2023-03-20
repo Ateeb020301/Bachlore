@@ -40,9 +40,8 @@ export const ChartDoughnut: React.FC<ChartDoughnutProps> = ({dataSalary}) => {
               "#993300",
               "#CCCC99",
               "#666666",
-              "#FFFFFF",
-              "#FFFFFF",
-              "#FFFFFF"
+              "#666666",
+              "#666666",
             ],
             display: true,
             borderColor: "#D1D6DC"

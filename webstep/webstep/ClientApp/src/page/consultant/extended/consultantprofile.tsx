@@ -6,13 +6,16 @@ import { GET_CONSULTANT } from '../../../api/contract/queries';
 import { useQuery } from '@apollo/client';
 import { GetConsultantContractsPayload } from '../../../api/contract/payloads';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { url } from 'inspector';
 import './profile.css'
-import { border } from '@mui/system';
 import ChartDoughnut from './chart';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export const Profile = () => {
     let countProjects = 0;
+    let sumSalary = 0;
+    let percentage = 0;
+    let todayDate = new Date().getMonth();
     let monthlySalary = [{month: 'January', salary: 0}, {month: 'February', salary: 0}, {month: 'March', salary: 0}, {month: 'April', salary: 0}, {month: 'May', salary: 0}, {month: 'June', salary: 0}, 
                         {month: 'July', salary: 0}, {month: 'August', salary: 0}, {month: 'September', salary: 0}, {month: 'October', salary: 0}, {month: 'November', salary: 0}, {month: 'December', salary: 0}]
     const navigate = useNavigate();
@@ -48,26 +51,31 @@ export const Profile = () => {
         }
     );
 
-    console.log(data);
     let contractsLength = data?.consultant[0].contracts.length ?? 0;
     for (let i = 0; i < contractsLength; i++) {
         let startWeek = data?.consultant[0].contracts[i].startWeek ?? 0;
         let endWeek = data?.consultant[0].contracts[i].endWeek ?? 0;
-        const date = new Date(1000 * 60 * 60 * 24 * 7 * startWeek);
-        const month = date.toLocaleString('en-us', { month: 'long' });
-
         for (let z = 0; z < monthlySalary.length; z++) {
-            for (let x = startWeek; x < endWeek; x++) {
+            for (let x = startWeek; x <= endWeek; x++) {
+                const date = new Date(1000 * 60 * 60 * 24 * 7 * x);
+                const month = date.toLocaleString('en-us', { month: 'long' });
                 if (month == monthlySalary[z].month) {
                     monthlySalary[z].salary += (((data?.consultant[0].contracts[i].daysOfWeek ?? 0) * (data?.consultant[0].contracts[i].hourlyRate ?? 0)) * 8);
+                    sumSalary += (((data?.consultant[0].contracts[i].daysOfWeek ?? 0) * (data?.consultant[0].contracts[i].hourlyRate ?? 0)) * 8);
                 }
             }
         }
     }
     
     console.log(monthlySalary)
-
-
+    {todayDate = 0 ? (13) : (todayDate)}
+    percentage = (monthlySalary[todayDate].salary-monthlySalary[todayDate-1].salary)/(monthlySalary[todayDate-1].salary+1);
+    let colorPercentage;
+    if (percentage > 0) {
+        colorPercentage = 'green'
+    } else {
+        colorPercentage = 'red';
+    }
     return (
         <Box sx={{height: '100%'} }>
             <Box sx={{ display: 'flex', /*boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)',*/ justifyContent: 'space-between',flex: 1, m: 2,  color: 'black', fontWeight: '950', letterSpacing: '.5px', fontSize: '14px' }}>
@@ -150,17 +158,25 @@ export const Profile = () => {
                         </Box>
                     </Box>
 
-                    <Box className={'infoBox'} sx={{my: 1, py: 1, borderRadius: '3px', border: 'solid', display: 'flex'}}>
-                        <Box sx={{flex: '1', border: 'solid'}}>
-
+                    <Box className={'infoBox'} sx={{my: 1, py: 1, borderRadius: '3px', display: 'flex'}}>
+                        <Box sx={{flex: '1', padding: '10px'}}>
+                            <p style={{fontSize: '17px', fontWeight: 600, letterSpacing: '1px'}}>Monthly Salary</p>
+                            <p style={{fontSize: '18px', letterSpacing: '1px', margin: '30px 0px 20px 0px'}}>{sumSalary} NOK</p>
+                            <p style={{fontSize: '15px', letterSpacing: '0.5px', margin: '30px 0px 20px 0px', color: colorPercentage, display: 'flex', alignItems: 'center'}}>
+                                {percentage > 0 ? (`+${(percentage*100).toFixed(2)}%`)  : (`${(percentage*100).toFixed(2)}%`)}
+                                {percentage > 0 ? (<ArrowDropUpIcon />)  : (<ArrowDropDownIcon />)}
+                                {percentage > 0 ? ('Increase')  : ('Decrease')}
+                                </p>
                         </Box>
-                        <Box sx={{flex: '1',  border: 'solid', display: 'flex', justifyContent: 'center'}}>
-                            <ChartDoughnut dataSalary={monthlySalary} />
+                        <Box sx={{flex: '1', display: 'flex', justifyContent: 'center'}}>
+                            <Box sx={{flex: 1, display: 'flex', justifyContent: 'center'}}>
+                                <ChartDoughnut dataSalary={monthlySalary} />
+                            </Box>
                         </Box>
                     </Box>
                 </Box>
 
-                <Box className={'row'} sx={{flex: 3, border: 'solid', ml: 1, alignSelf: 'flex-start'}}>
+                <Box className={'row'} sx={{flex: 2, border: 'solid', ml: 1, alignSelf: 'flex-start'}}>
                         
                 </Box>
             </Box>
