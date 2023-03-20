@@ -16,7 +16,7 @@ namespace webstep.GraphQL.Entities
         }
     }
 
-    public record AddProjectInput(string CustomerName, string ProjectName, int teamId);
+    public record AddProjectInput(string CustomerName, string ProjectName);
     #nullable enable
     public record EditProjectInput(int Id, string? CustomerName, string? ProjectName);
     public record DeleteProjectInput(int Id);

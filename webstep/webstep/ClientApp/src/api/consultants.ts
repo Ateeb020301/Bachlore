@@ -76,10 +76,10 @@ export const DELETE_CONSULTANT = gql`
     }
 `;
 
-export const DELETE_TEAMCONSULTANT = gql`
-    mutation($input: DeleteTeamConsultantInput) {
-        deleteTeamConsultant(input: $input) {
-            teamConsultant {
+export const DELETE_PROJECTCONSULTANT = gql`
+    mutation($input: DeleteProjectConsultantInput) {
+        deleteProjectConsultant(input: $input) {
+            projectconsultant {
                 id
             }
         }

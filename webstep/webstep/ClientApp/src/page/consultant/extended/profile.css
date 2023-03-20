@@ -1,0 +1,73 @@
+.column {
+    flex: 1;
+    display: 'flex';
+    flex-direction: 'column';
+    justify-content: space-evenly;
+}
+
+.welcomeBox {
+    border-radius: 10px;
+    box-shadow: 0 0.75rem 1.5rem rgba(18,38,63,.03);
+}
+
+.welcomeHeader {
+    display: flex;
+    background-color: #d4daf8;
+    padding: 10px 0px 0px 10px;
+}
+
+.headerText {
+    flex: 1;
+}
+
+.headerImg {
+    flex: 1;
+    background-image: url(../../../components/images/profile.png);
+    background-size: cover;
+}
+
+.welcomeHeader .headerText p {
+    color: #547eea;
+}
+
+.welcomeBody {
+    padding-right: 75px;
+    padding-left: 15px;
+    background-color: #fffefe;
+}
+
+.welcomeBody p {
+    color: #485157;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.infoBox {
+    box-shadow: 0 0.75rem 1.5rem rgba(18,38,63,.03);
+    background-color: #fffefe;
+}
+
+.infoBox p {
+    color: #485157;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.experienceBox {
+    border: solid;
+    box-shadow: 0 0.75rem 1.5rem rgba(18,38,63,.03);
+    background-color: #fffefe;
+
+}
+
+.welcomeInitials {
+    position: relative;
+    top: -35px;
+    display: flex;
+    flex-direction: column;
+}
+

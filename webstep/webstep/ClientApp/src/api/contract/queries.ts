@@ -57,12 +57,43 @@ export const GET_CONSULTANTS_INFO = gql`
                 employmentDate
                 resignationDate
                 workdays
-                teamConsultants {
+                projectConsultants {
                     id
                 }
                 contracts {
                     id
+                    startYear
+                    startWeek
+                    endYear
+                    endWeek
+                    hourlyRate
+                    daysOfWeek
                 }
+            }
+        }
+    }
+`;
+
+export const GET_CONSULTANT = gql`
+    query GetConsultant($id: Int!) {
+        consultant(id: $id) {
+            id
+            firstName
+            lastName
+            employmentDate
+            resignationDate
+            workdays
+            projectConsultants {
+                id
+            }
+            contracts {
+                id
+                startYear
+                startWeek
+                endYear
+                endWeek
+                hourlyRate
+                daysOfWeek
             }
         }
     }
@@ -155,13 +186,11 @@ export const ADD_PROJECT = gql`
     }
 `;
 
-export const ADD_TEAMCONSULTANT = gql`
-    mutation AddTeamConsultant($input: AddTeamConsultantInput) {
-        addTeamConsultant(input: $input) {
-            teamConsultant {
-                team {
-                    id
-                }
+export const ADD_PROJECTCONSULTANT = gql`
+    mutation AddProjectConsultant($input: AddProjectConsultantInput) {
+        addProjectConsultant(input: $input) {
+            projectconsultant {
+                id
             }
         }
     }

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQuery } from '@apollo/client';
 import { AddContractPayload, GetTeamContractPayload } from '../../../api/contract/payloads';
 import { AddContractInput, GetConsultantContractsInput } from '../../../api/contract/inputs';
-import { ADD_CONTRACT, GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY, GET_CONSULTANT_CONTRACTS, GET_TEAMCONS_CONTRACTS } from '../../../api/contract/queries';
+import { ADD_CONTRACT, GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY, GET_TEAMCONS_CONTRACTS } from '../../../api/contract/queries';
 import { Loading } from '../../Utils/Loading';
 import { CalendarRow } from '../../CalendarSystem/CalendarRow';
 import { ProjectDescription } from './ProjectDescription';
@@ -13,11 +13,7 @@ import { CalendarTimelineBackground } from '../../CalendarSystem/CalendarTimelin
 import { constants } from '../../../logic/constants';
 import { getDefaultNewContract } from '../../../api/contract/logic';
 import { toast } from 'react-toastify';
-import { defaultMessagePlacement } from '../../../logic/toast';
 import { isContractValid } from '../../../logic/validationFunctions';
-import { boolean } from 'yup/lib/locale';
-import { forEachChild } from 'typescript';
-import { Consultant } from '../../consultant/consultant';
 
 interface ConsultantContractRowListProps {
     consultantId: number;

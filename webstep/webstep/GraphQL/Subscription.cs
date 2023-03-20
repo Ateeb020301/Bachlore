@@ -57,11 +57,5 @@
         [Subscribe, Topic]
         public Financial OnFinancialDeleted([EventMessage] Financial financial) => financial;
 
-        public TeamConsultant OnTeamConsultantAdded([EventMessage] TeamConsultant teamconsultant) => teamconsultant;
-        [Subscribe, Topic]
-        public TeamConsultant OnTeamConsultantEdited([EventMessage] TeamConsultant teamconsultant) => teamconsultant;
-        [Subscribe, Topic]
-        public TeamConsultant OnTeamConsultantDeleted([EventMessage] TeamConsultant teamconsultant) => teamconsultant;
-
     }
 }

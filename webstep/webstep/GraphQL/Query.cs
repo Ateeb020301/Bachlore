@@ -157,32 +157,6 @@ namespace webstep.GraphQL
             return this._repo.SelectSingle<Project>(id);
         }
 
-        /// <summary>
-        /// Fetches a single team base on the consulentId, from that you can get projects
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [UseProjection]
-        public IQueryable<Team> GetTeam(int id)
-        {
-            var teamConsultant = _repo.SelectAll<TeamConsultant>().Where(x => x.Consultant.Id == id);
-            var team = _repo.SelectAll<Team>();
-            var values = teamConsultant.Select(z => z.Team).ToList();
-
-            return team.Select(x => x).Where(p => values.Contains(p)).Include("projects");
-        }
-
-        [UseProjection]
-        public IQueryable<Consultant> GetConsInTeams()
-        {
-            var consultant = _repo.SelectAll<Consultant>();
-           
-            var teams = _repo.SelectAll<TeamConsultant>();
-            var values = teams.Select(z => z.Consultant).ToList();
-
-            return consultant.Select(x => x).Where(p => values.Contains(p));
-        }
-
         [UseProjection]
         public IQueryable<Project> GetProjectConsultants(int id)
         {
@@ -193,22 +167,6 @@ namespace webstep.GraphQL
             return project.Select(x => x).Where(p => values.Contains(p)).Include("Contracts");
         }
 
-        [UseProjection]
-        public IQueryable<Consultant> GetConsSingleInTeams(int id)
-        {
-            var consultant = _repo.SelectSingle<Consultant>(id);
-
-            var teams = _repo.SelectAll<TeamConsultant>();
-            var values = teams.Select(z => z.Consultant).Where(x => x.Id == id).ToList();
-
-            return consultant.Select(x => x).Where(p => values.Contains(p));
-        }
-
-        [UseProjection]
-        public IQueryable<TeamConsultant> GetAllTeams(int id)
-        {
-            return this._repo.SelectAll<TeamConsultant>().Where(x => x.Consultant.Id == id);
-        }
 
         [UseOffsetPaging(MaxPageSize = 20), UseProjection]
         public IQueryable<Project> GetProjects() => _repo.SelectAll<Project>();
@@ -228,7 +186,17 @@ namespace webstep.GraphQL
         [UseProjection]
         public IQueryable<Vacancy> GetVacancy(int id) => this._repo.SelectSingle<Vacancy>(id);
 
-        
+        [UseProjection]
+        public IQueryable<Consultant> GetConsInTeams()
+        {
+            var consultant = _repo.SelectAll<Consultant>();
+
+            var projectConsultants = _repo.SelectAll<ProjectConsultant>();
+            var values = projectConsultants.Select(z => z.Consultant).ToList();
+
+            return consultant.Select(x => x).Where(p => values.Contains(p));
+        }
+
         /// <summary>
         /// Fetches one or more consultants and calculates their free time
         /// </summary>
