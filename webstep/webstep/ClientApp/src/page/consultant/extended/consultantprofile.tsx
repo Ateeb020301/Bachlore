@@ -10,6 +10,9 @@ import './profile.css'
 import ChartDoughnut from './chart';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import BorderLinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+
+
 
 export const Profile = () => {
     let countProjects = 0;
@@ -70,12 +73,25 @@ export const Profile = () => {
     console.log(monthlySalary)
     {todayDate = 0 ? (13) : (todayDate)}
     percentage = (monthlySalary[todayDate].salary-monthlySalary[todayDate-1].salary)/(monthlySalary[todayDate-1].salary+1);
+    let lastMonth = 0;
+    let thisMonth = 0;
     let colorPercentage;
+
     if (percentage > 0) {
         colorPercentage = 'green'
-    } else {
+        thisMonth = 100;
+        lastMonth = 100-(percentage*100);
+    } else if(percentage == 0) {
+        thisMonth = 0;
+        lastMonth = 0;
+    } 
+    else {
         colorPercentage = 'red';
+        lastMonth = 100;
+        thisMonth = (percentage*100)+100;
     }
+
+    console.log(percentage)
     return (
         <Box sx={{height: '100%'} }>
             <Box sx={{ display: 'flex', /*boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)',*/ justifyContent: 'space-between',flex: 1, m: 2,  color: 'black', fontWeight: '950', letterSpacing: '.5px', fontSize: '14px' }}>
@@ -159,14 +175,32 @@ export const Profile = () => {
                     </Box>
 
                     <Box className={'infoBox'} sx={{my: 1, py: 1, borderRadius: '3px', display: 'flex'}}>
-                        <Box sx={{flex: '1', padding: '10px'}}>
-                            <p style={{fontSize: '17px', fontWeight: 600, letterSpacing: '1px'}}>Monthly Salary</p>
-                            <p style={{fontSize: '18px', letterSpacing: '1px', margin: '30px 0px 20px 0px'}}>{sumSalary} NOK</p>
-                            <p style={{fontSize: '15px', letterSpacing: '0.5px', margin: '30px 0px 20px 0px', color: colorPercentage, display: 'flex', alignItems: 'center'}}>
-                                {percentage > 0 ? (`+${(percentage*100).toFixed(2)}%`)  : (`${(percentage*100).toFixed(2)}%`)}
-                                {percentage > 0 ? (<ArrowDropUpIcon />)  : (<ArrowDropDownIcon />)}
-                                {percentage > 0 ? ('Increase')  : ('Decrease')}
-                                </p>
+                        <Box sx={{flex: '1', padding: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly'}}>
+                            <p style={{fontWeight: 600, letterSpacing: '1px'}}>Estimated Anually Salary</p>
+                            <p style={{fontSize: '20px', color: 'green', fontWeight: 600, letterSpacing: '1px', margin: '5px 0px 0px 0px'}}>{sumSalary.toLocaleString()} NOK</p>
+                            <p style={{fontSize: '14px', letterSpacing: '0.5px', margin: '5px 0px 0px 0px', color: colorPercentage}}>
+                                {percentage > 0 ? ('Increased')  : (`Decreased from ${monthlySalary[todayDate-1].month}`)}                           
+                                <span style={{display: 'flex', alignItems: 'center'}}>                                
+                                    {percentage > 0 ? (`By +${(percentage*100).toFixed(2)}%`)  : (`By ${(percentage*100).toFixed(2)}%`)}
+                                    {percentage > 0 ? (<ArrowDropUpIcon />)  : (<ArrowDropDownIcon />)}
+                                </span>
+                            </p>
+                            <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                <Box sx={{width: '50%', p: 1}}>
+                                    <BorderLinearProgress sx={{height: '5px'}} color="success" variant="determinate" value={thisMonth} />
+                                </Box>
+                                <Box>
+                                    <p style={{flex: 1, fontWeight: 600, letterSpacing: '1px'}}>{monthlySalary[todayDate].salary.toLocaleString()} kr</p>
+                                </Box>
+                            </Box>
+                            <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                <Box sx={{width: '50%', p: 1}}>
+                                    <BorderLinearProgress sx={{height: '5px'}} color="success" variant="determinate" value={lastMonth} />
+                                </Box>
+                                <Box>
+                                    <p style={{flex: 1, fontWeight: 600, letterSpacing: '1px'}}>{monthlySalary[todayDate-1].salary.toLocaleString()} kr</p>
+                                </Box>
+                            </Box>
                         </Box>
                         <Box sx={{flex: '1', display: 'flex', justifyContent: 'center'}}>
                             <Box sx={{flex: 1, display: 'flex', justifyContent: 'center'}}>

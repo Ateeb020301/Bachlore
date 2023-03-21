@@ -116,6 +116,8 @@ namespace webstep.Data
         {
             DateTimeZone zone = DateTimeZoneProviders.Tzdb["Europe/London"];
             ZonedClock clock = SystemClock.Instance.InZone(zone);
+            Period period = Period.FromMonths(1);
+            
             builder.Entity<Contract>().ToTable("Contract");
 
             builder.Entity<Contract>().Property<int>(x => x.StartWeek).HasComputedColumnSql("Datepart(isowk, [StartDate])");
@@ -126,7 +128,7 @@ namespace webstep.Data
             builder.Entity<Contract>().Property<bool>("isDeleted");
             builder.Entity<Contract>()
                 .HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false && 
-                                     m.EndDate >= clock.GetCurrentDate());
+                                     m.EndDate >= clock.GetCurrentDate().Minus(period));
             builder.Entity<Contract>().Property(x => x.DaysOfWeek).HasColumnType("decimal(18,2)");
         }
 
