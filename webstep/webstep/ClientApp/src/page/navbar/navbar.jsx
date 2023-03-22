@@ -51,7 +51,7 @@ export const Navbar = () => {
   {!isCollapsed && (setNavCollapse = false)};
 
   return (
-      <Box sx={{display: 'flex'}}>
+      <Box sx={{display: 'flex', zIndex: 1}}>
         <Box
         sx={{
           "& .pro-sidebar-inner": {
