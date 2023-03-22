@@ -12,7 +12,6 @@ export interface Prospect {
     customer: Customer;
     subProspects: SubProspect[];
 }
-
 export interface SubProspect {
     id: number;
     probability: number;

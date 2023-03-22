@@ -58,6 +58,10 @@ export const GET_PROSPECTS = gql`
                 customer {
                   id
                   firstName
+                  lastName
+                  adresse
+                  tlf
+                  email
                 }
                 subProspects {
                     id

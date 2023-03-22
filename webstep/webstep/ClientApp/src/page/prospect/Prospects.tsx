@@ -9,7 +9,9 @@ export const Prospects = () => {
             <div style={{width: '100%'}}>
                 <h2>Prospekter</h2>
             </div>
-            <ProspectsCalendarContainer/>
+            <div style={{height: '500px', overflow: 'auto', border: 'solid'}}>
+                <ProspectsCalendarContainer/>
+            </div>
             <ToastContainer />
             
         </div>

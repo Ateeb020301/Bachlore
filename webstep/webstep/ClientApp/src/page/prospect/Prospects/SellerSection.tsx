@@ -9,12 +9,14 @@ import { CreateProspectButton } from './CreateProspectButton';
 import { ProspectDescription } from './ProspectDescription';
 import { SubProspectEvents } from './SubProspectEvents';
 import { v4 as uuidv4 } from 'uuid';
+import { Prospect } from '../../../logic/interfaces';
 
 interface SellerSectionProps {
     id: number;
     name: string;
     showProspects: boolean;
 }
+
 
 export const SellerSection: React.FC<SellerSectionProps> = ({ id, name, showProspects }) => {
     const { loading, error, data } = useQuery<GetSellerProspectsPayload>(GET_SELLER_PROSPECTS, {
@@ -29,7 +31,7 @@ export const SellerSection: React.FC<SellerSectionProps> = ({ id, name, showPros
             <CalendarRow
                 sidebarContent={
                     <CalendarSidebarHeader header={name}>
-                        <CreateProspectButton sellerId={id} customerId={id} />
+                        <CreateProspectButton sellerId={id} customerId={id}/>
                     </CalendarSidebarHeader>
                 }
                 timelineContent={<CalendarTimelineBlocker />}

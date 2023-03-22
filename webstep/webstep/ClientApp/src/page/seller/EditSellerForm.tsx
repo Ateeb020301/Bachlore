@@ -7,7 +7,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
 import { Form, useNavigate } from 'react-router-dom';
 import { EditSellerInput, EditSellerPayload, EDIT_SELLER, GET_SELLER } from '../../api/sellers';
-
+import '../consultant/AddModal.css'
+import './Seller.css'
 function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
     event.preventDefault();
     console.info('You clicked a breadcrumb.');
@@ -165,28 +166,28 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
                         <Label for='fullName'>Seller</Label><br />
                         <Input
                             type='text'
-                            id='firstName'
+                            id='fullName'
                             valid={isValidText(currentSeller.fullName)}
                             invalid={!isValidText(currentSeller.fullName)}
                             value={currentSeller.fullName}
                             onChange={handleChange}
-                            name='firstName'
+                            name='fullName'
                         />
                     </FormGroup>
                     <FormGroup>
-                    <Label for='lastName'>Etternavn</Label><br />
+                    <Label for='email'>Etternavn</Label><br />
                         <Input
                             type='text'
-                            id='lastName'
+                            id='email'
                             valid={isValidText(currentSeller.email)}
                             invalid={!isValidText(currentSeller.email)}
                             value={currentSeller.email}
                             onChange={handleChange}
-                            name='lastName'
+                            name='email'
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for='employmentDate'>Start dato:</Label>
+                        <Label for='inpEmploymentDate'>Start dato:</Label>
                         <Input
                             type='date'
                             id='inpEmploymentDate'
@@ -199,7 +200,7 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
                     </FormGroup>
 
                     <FormGroup>
-                        <Label for='resignationDate'>Slutt dato:</Label>
+                        <Label for='inpResignationDate'>Slutt dato:</Label>
                         <Input
                             type='date'
                             id='inpResignationDate'

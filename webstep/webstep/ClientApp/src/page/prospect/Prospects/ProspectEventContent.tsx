@@ -50,3 +50,4 @@ export const ProspectEventContent: React.FC<ProspectEventContentProps> = ({
         </div>
     );
 };
+

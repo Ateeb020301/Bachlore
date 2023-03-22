@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AddProspectPayload, AddSubProspectPayload } from '../../../api/prospects/payloads';
 import { AddProspectInput, AddSubProspectInput } from '../../../api/prospects/inputs';
 import { Button } from 'reactstrap';
+import { ModalAddProspect } from './ModalAddProspect';
+import { Prospect } from '../../../logic/interfaces';
 
 interface CreateProspectButtonProps {
     customerId: number;
@@ -20,6 +22,10 @@ const addButtonStyle = {
     backgroundSize: 'cover',
 };
 export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({ sellerId, customerId}) => {
+    const [isModalProspectOpen, setState] = React.useState(false);
+
+    const toggleAddprospect = () => setState(!isModalProspectOpen);
+
     const [addProspect] = useMutation<AddProspectPayload, { input: AddProspectInput }>(ADD_PROSPECT);
     const [addSubProspect] = useMutation<AddSubProspectPayload, { input: AddSubProspectInput }>(ADD_SUBPROSPECT, {
         refetchQueries: [
@@ -59,19 +65,31 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({ sell
             });
     };
     return (
-        <Button onClick={handleClick} size='sm' color='primary'>
-            + prospekt
-        </Button>
+        <>
+              <Button onClick={toggleAddprospect} size='sm' color='primary'>
+                + prospekt
+            </Button>
+            
+            <ModalAddProspect
+                title={'Edit Seller'}
+                isOpen={isModalProspectOpen}
+                onClose={toggleAddprospect}
+                sellerId={sellerId}
+                customerId={customerId}
+            />
+        </>
+          
     );
 };
 
 const getDefaultProspect = (sellerId: number, customerId:number) => {
     let projectName = 'Prosjektnavn';
-    let customerName = 'Kunde';
+    customerId = 0;
     let defaultProspect: AddProspectInput = {
-        sellerId: sellerId,
         projectName: projectName,
         customerId: customerId,
+        sellerId:sellerId,
+        id: 0
     };
     return defaultProspect;
 };

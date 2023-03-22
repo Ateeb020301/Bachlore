@@ -14,7 +14,7 @@
     grid-column-start: 1;
     left: 0;
     background-color: white;
-    z-index: 99;
+    z-index: 98;
 }
 
 .timeline-content {

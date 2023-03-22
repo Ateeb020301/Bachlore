@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { Customer } from '../logic/interfaces';
 
 export interface CustomerQuery {
     data: {
@@ -14,6 +13,19 @@ export interface AddCustomerPayload {
 export interface DeleteCustomerPayload {
     deleteCustomer: { customer: { id: number } };
 }
+export interface Customer {
+    id: number,
+    firstName:string, 
+    lastName:string,
+    adresse:string,
+    email:string,
+    tlf:string,
+}
+export interface GetCustomerItemsContractsPayload {
+    customers: { items: Customer[] }
+}
+
+
 
 export const GET_CUSTOMER = gql`
     query {

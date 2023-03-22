@@ -1,8 +1,13 @@
 import { WeekYear } from './types';
 
 export interface AddProspectInput {
-    sellerId: number;
+    id: number;
+    projectName: string;
     customerId: number;
+    sellerId:number;
+}
+export interface AddProspectCustomerInput {
+    id: number;
     projectName: string;
 }
 export interface AddSubProspectInput {
