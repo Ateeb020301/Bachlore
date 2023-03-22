@@ -91,7 +91,6 @@ export const Profile = () => {
         thisMonth = (percentage*100)+100;
     }
 
-    console.log(percentage)
     return (
         <Box sx={{height: '100%'} }>
             <Box sx={{ display: 'flex', /*boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)',*/ justifyContent: 'space-between',flex: 1, m: 2,  color: 'black', fontWeight: '950', letterSpacing: '.5px', fontSize: '14px' }}>
