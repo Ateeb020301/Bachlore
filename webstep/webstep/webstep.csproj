@@ -10,6 +10,14 @@
     <UserSecretsId>c4947a9d-da81-41bd-8d39-4834c1138c13</UserSecretsId>
 	 <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>6</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>6</WarningLevel>
+  </PropertyGroup>
   
 
 

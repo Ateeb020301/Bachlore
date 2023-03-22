@@ -10,12 +10,10 @@ import {
     EDIT_CONTRACT,
     GET_CONSULTANTS_INFO,
     GET_CONSULTANT_CAPACITY,
-    GET_CONSULTANT_CONTRACTS,
     GET_TEAMCONS_CONTRACTS,
 } from '../../../api/contract/queries';
 import { constants } from '../../../logic/constants';
 import { Contract } from '../../../logic/interfaces';
-import { defaultMessagePlacement } from '../../../logic/toast';
 import { ContractEventContent } from './ContractEventContent';
 import { Eventable, CalendarEvent } from '../../CalendarSystem/CalendarEvent';
 

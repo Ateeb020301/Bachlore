@@ -10,6 +10,7 @@
     {
         protected override void Configure(IObjectTypeDescriptor<Consultant> descriptor)
         {
+          
         }
     }
 

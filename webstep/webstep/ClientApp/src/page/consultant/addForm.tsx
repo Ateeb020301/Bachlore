@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
-import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
-import { ConsultantContainer } from './ConsultantContainer';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { ConsultantDisplay } from './ConsultantDisplay';
-import { Form, useNavigate } from 'react-router-dom';
-import { ModalConsultant } from './ModalConsultant'
+import { Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { GET_CONSULTANTS_INFO } from '../../api/contract/queries';
 
 interface ConsultantNoId {

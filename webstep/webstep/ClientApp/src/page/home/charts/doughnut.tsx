@@ -56,6 +56,7 @@ function DoughnutChart(yearOut: React.Key | null | undefined) {
     actRev.push(data.actualRevenue)
     estRev.push(data.revenue)
   })
+
   const dataDoughnut = {
     labels,
     datasets: [
@@ -83,12 +84,19 @@ function DoughnutChart(yearOut: React.Key | null | undefined) {
     ],
   };
 
+
+  
+
   const optionsDoughnut = {
     type: 'doughnut',
     data: dataDoughnut,
-    plugins: { legend: { display: false, }},
+    plugins: { 
+      legend: { 
+        display: false, 
+      },
+    },
     options: {
-        responsive: true
+        responsive: true,
     }
   }
   

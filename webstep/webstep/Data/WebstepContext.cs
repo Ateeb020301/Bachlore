@@ -25,8 +25,6 @@ namespace webstep.Data
         public DbSet<Consultant> Consultants { get; set; }
         
         public DbSet<Project> Projects { get; set; }
-        public DbSet<Team> Teams { get; set; }
-        public DbSet<TeamConsultant> TeamsConsultant { get; set; }
 
         public DbSet<Contract> Contracts { get; set; }
 
@@ -40,12 +38,11 @@ namespace webstep.Data
         
         public DbSet<Vacancy> Vacancies { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<ProjectConsultant> ProjectConsultants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ProjectTable(modelBuilder);
-            TeamTable(modelBuilder);
-            TeamConsultantTable(modelBuilder);
             SellerTable(modelBuilder);
             ConsultantTable(modelBuilder);
             ContractTable(modelBuilder);
@@ -54,6 +51,7 @@ namespace webstep.Data
             FinancialTable(modelBuilder);
             VacancyTable(modelBuilder);
             CustomerTable(modelBuilder);
+            ProjectConsultantTable(modelBuilder);
         }
 
 
@@ -75,26 +73,19 @@ namespace webstep.Data
             builder.Entity<Customer>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         }
 
+        private void ProjectConsultantTable(ModelBuilder builder)
+        {
+            builder.Entity<ProjectConsultant>().ToTable("ProjectConsultants");
+            builder.Entity<ProjectConsultant>().Property<bool>("isDeleted");
+            builder.Entity<ProjectConsultant>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
+        }
+
         private void ProjectTable(ModelBuilder builder) 
         {
             builder.Entity<Project>().ToTable("Project");
             builder.Entity<Project>().Property<bool>("isDeleted");
             builder.Entity<Project>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         } 
-        
-        private void TeamTable(ModelBuilder builder) 
-        {
-            builder.Entity<Team>().ToTable("Teams");
-            builder.Entity<Team>().Property<bool>("isDeleted");
-            builder.Entity<Team>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
-        }
-
-        private void TeamConsultantTable(ModelBuilder builder)
-        {
-            builder.Entity<TeamConsultant>().ToTable("TeamsConsultant");
-            builder.Entity<TeamConsultant>().Property<bool>("isDeleted");
-        }
-
 
         private void ProspectTable(ModelBuilder builder) 
         {
@@ -125,6 +116,8 @@ namespace webstep.Data
         {
             DateTimeZone zone = DateTimeZoneProviders.Tzdb["Europe/London"];
             ZonedClock clock = SystemClock.Instance.InZone(zone);
+            Period period = Period.FromMonths(1);
+            
             builder.Entity<Contract>().ToTable("Contract");
 
             builder.Entity<Contract>().Property<int>(x => x.StartWeek).HasComputedColumnSql("Datepart(isowk, [StartDate])");
@@ -135,7 +128,7 @@ namespace webstep.Data
             builder.Entity<Contract>().Property<bool>("isDeleted");
             builder.Entity<Contract>()
                 .HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false && 
-                                     m.EndDate >= clock.GetCurrentDate());
+                                     m.EndDate >= clock.GetCurrentDate().Minus(period));
             builder.Entity<Contract>().Property(x => x.DaysOfWeek).HasColumnType("decimal(18,2)");
         }
 

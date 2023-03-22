@@ -37,12 +37,9 @@ namespace webstep.Models
 
         [Required]
         public int Workdays { get; set; }
-        public ICollection<TeamConsultant> TeamConsultants { get; set; }
-
         public ICollection<Contract> Contracts{ get; set; }
         public ICollection<Vacancy> Vacancies { get; set; } = new List<Vacancy>();
-
-
+        public ICollection<ProjectConsultant> ProjectConsultants { get; set; }
 
         public void Validate()
         {

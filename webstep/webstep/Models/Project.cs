@@ -20,10 +20,6 @@ namespace webstep.Models
 
         [Required]
         public string ProjectName { get; set; }
-
-        [Required]
-        public Team Team { get; set; }
-
         public ICollection<Contract> Contracts { get; set; }
 
         public List<Contract> GetContracts(int id)
