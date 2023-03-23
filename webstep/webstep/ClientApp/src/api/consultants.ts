@@ -65,6 +65,19 @@ query GetConsultant($skipAmount: Int!, $takeAmount: Int!) {
     }
   }  
 `;
+export const GET_SINGLECONSULTANTS = gql`
+query GetSingleConsultant($id: Int!) {
+    consultant(id: $id) {
+		projectConsultants {
+            project {
+                id
+                customerName
+                projectName
+            }
+        }
+    }
+  }  
+`;
 
 export const DELETE_CONSULTANT = gql`
     mutation($input: DeleteConsultantInput) {
