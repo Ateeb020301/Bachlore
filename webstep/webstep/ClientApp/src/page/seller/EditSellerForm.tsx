@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
 import { Form, useNavigate } from 'react-router-dom';
-import { EditSellerInput, EditSellerPayload, EDIT_SELLER, GET_SELLER } from '../../api/sellers';
+import { EditSellerInput, EditSellerPayload, EDIT_SELLER, GET_SELLER, GET_SELLERS } from '../../api/sellers';
 import '../consultant/AddModal.css'
 import './Seller.css'
 function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
@@ -19,6 +19,9 @@ interface ModalEditProps {
     onClose: () => void;
     seller: EditSellerInput;
 }
+const skipAmount = 0;
+//GQL pagination take const
+const takeAmount = 50;
 
 export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
 
@@ -31,7 +34,8 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
     const [editSeller] = useMutation<EditSellerPayload, { input: EditSellerInput }>(EDIT_SELLER, {
         refetchQueries: [
             {
-                query: GET_SELLER  
+                query: GET_SELLERS,
+                variables: { skipAmount: skipAmount, takeAmount: takeAmount },
             },
         ],
         awaitRefetchQueries: true,
