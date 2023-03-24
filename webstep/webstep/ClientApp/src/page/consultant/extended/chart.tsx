@@ -16,7 +16,6 @@ interface ChartDoughnutProps {
 }
 
 export const ChartDoughnut: React.FC<ChartDoughnutProps> = ({dataSalary}) => {
-    console.log(dataSalary);
     let arraySalary: any[] = [];
     let labels: any[] = [];
     for (let i = 0; i < dataSalary.length; i++) {

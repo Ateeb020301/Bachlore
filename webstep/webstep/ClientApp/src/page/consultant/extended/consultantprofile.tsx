@@ -11,6 +11,8 @@ import ChartDoughnut from './chart';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BorderLinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions';
+import CustomPaginationActionsTable from './profileTable';
 
 
 
@@ -70,7 +72,6 @@ export const Profile = () => {
         }
     }
     
-    console.log(monthlySalary)
     {todayDate = 0 ? (13) : (todayDate)}
     percentage = (monthlySalary[todayDate].salary-monthlySalary[todayDate-1].salary)/(monthlySalary[todayDate-1].salary+1);
     let lastMonth = 0;
@@ -209,8 +210,8 @@ export const Profile = () => {
                     </Box>
                 </Box>
 
-                <Box className={'row'} sx={{flex: 2, border: 'solid', ml: 1, alignSelf: 'flex-start'}}>
-                        
+                <Box className={'row'} sx={{flex: 2, ml: 1, background: '#f2f6f8',alignSelf: 'flex-start'}}>
+                        <CustomPaginationActionsTable />
                 </Box>
             </Box>
 
