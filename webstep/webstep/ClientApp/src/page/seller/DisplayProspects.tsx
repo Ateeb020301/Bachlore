@@ -1,6 +1,6 @@
 import React from 'react';
 import { Customer, PageInfo, Prospect } from '../../logic/interfaces';
-import './Seller.css'
+import './Seller.css';
 
 interface ProspectDisplay {
     prospects: Prospect[];
@@ -23,7 +23,7 @@ const getProspectElements = (prospects: Prospect[]): JSX.Element => {
 export const DisplayProspects: React.FC<ProspectDisplay> = ({ prospects }) => {
     let noProspectsMessage = <p className='container-sub-element'>Selger har ingen prospekter.</p>;
     return (
-        <div className='display-prospects'>
+        <div className='displayProspects'>
             {prospects.length > 0 ? getProspectElements(prospects) : noProspectsMessage}
         </div>
     );

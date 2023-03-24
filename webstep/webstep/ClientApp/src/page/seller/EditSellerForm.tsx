@@ -159,66 +159,60 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
     };
 
     return (
-        <Box>
-            <Box>
-            <form>
-                    <FormGroup>
-                        <Label for='fullName'>Seller</Label><br />
-                        <Input
-                            type='text'
-                            id='fullName'
-                            valid={isValidText(currentSeller.fullName)}
-                            invalid={!isValidText(currentSeller.fullName)}
-                            value={currentSeller.fullName}
-                            onChange={handleChange}
-                            name='fullName'
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                    <Label for='email'>Etternavn</Label><br />
-                        <Input
-                            type='text'
-                            id='email'
-                            valid={isValidText(currentSeller.email)}
-                            invalid={!isValidText(currentSeller.email)}
-                            value={currentSeller.email}
-                            onChange={handleChange}
-                            name='email'
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for='inpEmploymentDate'>Start dato:</Label>
-                        <Input
-                            type='date'
-                            id='inpEmploymentDate'
-                            valid={isValidStartDate(currentSeller.employmentDate)}
-                            invalid={!isValidStartDate(currentSeller.employmentDate)}
-                            value={currentSeller.employmentDate}
-                            onChange={handleChange}
-                            name='employmentDate'
-                        />
-                    </FormGroup>
+            <div>
+                <FormGroup>
+                    <Label for='fullName'>Seller</Label><br />
+                    <Input
+                        type='text'
+                        id='fullName'
+                        valid={isValidText(currentSeller.fullName)}
+                        invalid={!isValidText(currentSeller.fullName)}
+                        value={currentSeller.fullName}
+                        onChange={handleChange}
+                        name='fullName'
+                    />
+                </FormGroup>
+                <FormGroup>
+                <Label for='email'>Etternavn</Label><br />
+                    <Input
+                        type='text'
+                        id='email'
+                        valid={isValidText(currentSeller.email)}
+                        invalid={!isValidText(currentSeller.email)}
+                        value={currentSeller.email}
+                        onChange={handleChange}
+                        name='email'
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for='inpEmploymentDate'>Start dato:</Label>
+                    <Input
+                        type='date'
+                        id='inpEmploymentDate'
+                        valid={isValidStartDate(currentSeller.employmentDate)}
+                        invalid={!isValidStartDate(currentSeller.employmentDate)}
+                        value={currentSeller.employmentDate}
+                        onChange={handleChange}
+                        name='employmentDate'
+                    />
+                </FormGroup>
 
-                    <FormGroup>
-                        <Label for='inpResignationDate'>Slutt dato:</Label>
-                        <Input
-                            type='date'
-                            id='inpResignationDate'
-                            className={displayValidation}
-                            value={currentSeller.resignationDate ? currentSeller.resignationDate : ''}
-                            onChange={handleChange}
-                            name='resignationDate'
-                        />
-                    </FormGroup>
+                <FormGroup>
+                    <Label for='inpResignationDate'>Slutt dato:</Label>
+                    <Input
+                        type='date'
+                        id='inpResignationDate'
+                        className={displayValidation}
+                        value={currentSeller.resignationDate ? currentSeller.resignationDate : ''}
+                        onChange={handleChange}
+                        name='resignationDate'
+                    />
+                </FormGroup>
 
-                    <Button color='primary' onClick={ handleSubmit } disabled={!isValidSeller()}>
-                        Legg til
-                    </Button>
-                </form>
-
-
-            </Box>
-        </Box>
+                <Button color='primary' onClick={ handleSubmit } disabled={!isValidSeller()}>
+                    Legg til
+                </Button>
+            </div>
     );
 
 }

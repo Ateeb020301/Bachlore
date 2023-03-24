@@ -2,7 +2,7 @@ import React from 'react';
 import iconX from '../Utils/x.png';
 import { FormProvider } from '../../components/FormInfo/context/FormContext';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
-import '../consultant/AddModal.css';
+import './Seller.css'
 import CloseIcon from '@mui/icons-material/Close';
 import { Contract } from '../../logic/interfaces';
 import { EditSellerForm } from './EditSellerForm';
