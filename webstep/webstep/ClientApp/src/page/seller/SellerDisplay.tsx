@@ -71,6 +71,11 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
 
     const sendDeleteRequest = (sellers: SellerInterface)=>{
         console.log(sellers);
+        // sellers.prospects.forEach((prospect) => {
+        //     prospect.subProspects.forEach((subprospect) => {
+        //         if(subprospect.)
+        //     }) 
+        // })
         deleteSeller({ variables: { input: {id: sellers.id} } })
             .then((res) => {
                 sellers.prospects.forEach((prospect) => {

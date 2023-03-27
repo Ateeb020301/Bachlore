@@ -1,8 +1,7 @@
 
 #email, #fullName, #resignationDate, #employmentDate {
     width: 80%;
-    
-    background-color: #CFD1D4;
+    background-color: white;
     color: black;
     padding: 14px 20px;
     margin: 8px 0;

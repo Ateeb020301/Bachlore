@@ -9,10 +9,6 @@ import { Form, useNavigate } from 'react-router-dom';
 import { EditSellerInput, EditSellerPayload, EDIT_SELLER, GET_SELLER, GET_SELLERS } from '../../api/sellers';
 import '../consultant/AddModal.css'
 import './Seller.css'
-function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-}
 
 
 interface ModalEditProps {
@@ -41,7 +37,6 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
         awaitRefetchQueries: true,
     });
 
-    //Adds or removes validation field on resignationDate depending on if its empty or not
     useEffect(() => {
         resignationDateValidationToggle();
     });
@@ -50,18 +45,12 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
         let isValidatedStr = '';
 
         //returns true if its a valid end date, false if its not
-        let isValidResignationDate = isValidEndDate(
-            currentSeller.resignationDate ? currentSeller.resignationDate : ''
-        );
+        let isValidResignationDate = isValidEndDate(currentSeller.resignationDate ? currentSeller.resignationDate : '');
 
         //Checks if date is not empty and is a valid endDate
         if (currentSeller.resignationDate && currentSeller.resignationDate !== '' && isValidResignationDate) {
             isValidatedStr = 'is-valid';
-        } else if (
-            currentSeller.resignationDate &&
-            currentSeller.resignationDate !== '' &&
-            !isValidResignationDate
-        ) {
+        } else if (currentSeller.resignationDate && currentSeller.resignationDate !== '' && !isValidResignationDate) {
             isValidatedStr = 'is-invalid';
         }
 
@@ -88,6 +77,7 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
                     employmentDate: currentSeller.employmentDate,
                     resignationDate: currentSeller.resignationDate,
                 };
+                console.log(currentSeller.resignationDate);
                 console.log(newSeller);
                 editSeller({ variables: { input: newSeller  } })
                     .then((res) => {
@@ -135,18 +125,10 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
         }
     };
 
-    const isValidWorkdays = (days: number) => {
-        if (days <= 5 || days >= 0) {
-            return true;
-        }
-        return false;
-    }
 
     const isValidSeller = (): boolean => {
         let hasTruthyValues =
-        currentSeller.fullName &&
-        currentSeller.email &&
-            isValidStartDate(currentSeller.employmentDate);
+            currentSeller.fullName && currentSeller.email && isValidStartDate(currentSeller.employmentDate);
 
         let resignDate = currentSeller.resignationDate?.toString();
         if (hasTruthyValues) {
