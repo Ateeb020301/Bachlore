@@ -81,7 +81,8 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
         //         if(subprospect.)
         //     }) 
         // })
-        deleteSeller({ variables: { input: {id: sellers.id} } })
+        if(seller.prospects.length==0){
+            deleteSeller({ variables: { input: {id: sellers.id} } })
             .then((res) => {
                 sellers.prospects.forEach((prospect) => {
                     deleteProspect({ variables: { input: {id: prospect.id} } })
@@ -118,6 +119,10 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                 })
                 console.log(e);
             });
+        }else{
+            alert("Desverre har selleren Prospects");
+        }
+        
     }
     let display = isHidden ? 'none' : 'block';
     let sellerEdit: Seller = {
