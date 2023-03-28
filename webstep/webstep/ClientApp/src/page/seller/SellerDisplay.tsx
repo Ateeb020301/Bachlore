@@ -10,7 +10,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { isTokenKind, TypeOfExpression } from 'typescript';
 import { Seller, SellerProspects } from '../../logic/interfaces';
-import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries';
+import { DELETE_PROSPECT, DELETE_SUBPROSPECT, GET_SELLER_NAMES } from '../../api/prospects/queries';
 import { Customer, PageInfo, Prospect, SubProspect } from '../../logic/interfaces';
 import { ModalEdit } from './EditModal';
 import { Box, Modal, Typography } from '@mui/material';
@@ -46,7 +46,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
     const [deleteSubProspect] = useMutation<number, { input: { id: number } }>(DELETE_SUBPROSPECT, {
         refetchQueries: [
             {
-                query: GET_SELLERS,
+                query: GET_SELLERS, 
                 variables: { skipAmount: skipAmount, takeAmount: takeAmount },
             },
         ],
@@ -55,12 +55,17 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
     const [deleteSeller] = useMutation<number, { input: { id: number } }>(DELETE_SELLER, {
         refetchQueries: [
             {
-                query: GET_SELLERS,
+                query: GET_SELLERS ,
                 variables: { skipAmount: skipAmount, takeAmount: takeAmount },
             },
+            {
+                query: GET_SELLER_NAMES,
+                variables: { skipAmount: skipAmount, takeAmount: takeAmount },
+            }
         ],
         awaitRefetchQueries: true,
     });
+    
 
     
 

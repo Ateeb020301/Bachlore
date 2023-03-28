@@ -6,6 +6,7 @@
     overflow-x: scroll;
     background-color: #f8f9f9;
     overflow-y: hidden;
+    border: solid black 1px;
 }
 
 .sidebar-content {

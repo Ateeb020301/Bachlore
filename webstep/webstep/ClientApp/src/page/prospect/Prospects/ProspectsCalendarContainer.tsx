@@ -8,14 +8,21 @@ import { v4 as uuidv4 } from 'uuid'
 import { Prospect } from '../../../logic/interfaces';
 
 
+//GQL pagination skip const
+const skipAmount = 0;
+//GQL pagination take const
+const takeAmount = 50;
 export const ProspectsCalendarContainer = () => {
-    const { loading, error, data } = useQuery<GetSellerNamesPayload>(GET_SELLER_NAMES);
-
+    const { loading, error, data } = useQuery<GetSellerNamesPayload>(GET_SELLER_NAMES,{
+        variables: { skipAmount: skipAmount, takeAmount: takeAmount },
+    });
+    console.log(data)
     return (
         <Calendar
             title={'Selgere'}
             render={(b: boolean) =>
                 data?.sellers.items.map((seller) => {
+                    console.log(seller.fullName)
                     return <SellerSection id={seller.id} name={seller.fullName} showProspects={b} key={uuidv4()}/>;
                 })
             }></Calendar>

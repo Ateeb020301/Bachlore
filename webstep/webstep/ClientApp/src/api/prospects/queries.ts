@@ -11,8 +11,8 @@ export const GET_SELLER_IDS = gql`
 `;
 
 export const GET_SELLER_NAMES = gql`
-    query GetSellersWithNames {
-        sellers {
+    query GetSellersWithNames($skipAmount: Int! $takeAmount: Int!) {
+        sellers(skip: $skipAmount take: $takeAmount) {
             items {
                 id
                 fullName
@@ -20,6 +20,7 @@ export const GET_SELLER_NAMES = gql`
         }
     }
 `;
+
 
 export const GET_SELLER_PROSPECTS = gql`
     query GetSellerProspects($id: Int!) {

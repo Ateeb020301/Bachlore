@@ -39,7 +39,7 @@ namespace webstep.GraphQL
         /// Fetches all sellers
         /// </summary>
         /// <returns></returns>
-        [UseOffsetPaging(MaxPageSize = 50), UseProjection, UseSorting]
+        [UseOffsetPaging(MaxPageSize = 80), UseProjection, UseSorting]
         public IQueryable<Seller> GetSellers(LocalDate? date) => date == null ? _repo.SelectAll<Seller>() : _repo.SelectAll<Seller>().Where(x => x.EmploymentDate <= date && (x.ResignationDate >= date || x.ResignationDate == null));
 
         /// <summary>

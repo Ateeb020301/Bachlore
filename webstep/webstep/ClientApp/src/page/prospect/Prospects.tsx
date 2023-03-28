@@ -23,7 +23,7 @@ export const Prospects = () => {
                 <h2>Prospekter</h2> 
                 <div>                     
                     <select id="dds" name="sellerId" defaultValue=''>
-                        <option  selected value='' disabled>Choose a Seller</option>
+                        <option  value='' disabled>Choose a Seller</option>
                             {data?.sellers.items.map((aSeller) => (
                         <option key={aSeller.id} value={aSeller.id}>{aSeller.fullName}</option>
                         ))}
