@@ -10,6 +10,7 @@ import { AddProspectInput, AddSubProspectInput } from '../../../api/prospects/in
 import { Button } from 'reactstrap';
 import { ModalAddProspect } from './ModalAddProspect';
 import { Prospect } from '../../../logic/interfaces';
+import { GET_SELLERS } from '../../../api/sellers';
 
 interface CreateProspectButtonProps {
     customerId: number;
@@ -21,6 +22,7 @@ const addButtonStyle = {
     backgroundImage: 'url(' + PlusIcon + ')',
     backgroundSize: 'cover',
 };
+
 export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({ sellerId, customerId}) => {
     const [isModalProspectOpen, setState] = React.useState(false);
 
