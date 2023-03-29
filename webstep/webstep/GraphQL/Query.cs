@@ -26,7 +26,7 @@ namespace webstep.GraphQL
         private readonly IRepository _repo;
         private readonly Forecast _forecast;
         private readonly ILogger _logger;
-        
+
 
         public Query(IRepository repo, ILogger<Query> logger)
         {
@@ -48,8 +48,7 @@ namespace webstep.GraphQL
         /// <param name="id"></param>
         /// <returns></returns>
         [UseProjection]
-        public IQueryable<Seller> GetSeller(
-            int id) => this._repo.SelectSingle<Seller>(id);
+        public IQueryable<Seller> GetSeller(int id) => this._repo.SelectSingle<Seller>(id);
 
         /// <summary>
         /// Fetches all customer

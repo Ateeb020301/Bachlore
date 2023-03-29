@@ -1,5 +1,6 @@
-import { SellerJustProspects } from '../../logic/interfaces';
+import { Seller, SellerJustProspects } from '../../logic/interfaces';
 import { Prospect, SellerProspects } from '../../logic/interfaces';
+import { SellerInterface } from '../../page/seller/SellerContainer';
 
 export interface AddProspectPayload {
     addProspect: { prospect: { id: number } };
@@ -26,6 +27,9 @@ export interface GetProspectsPayload {
 
 export interface GetSellerIDsPayload {
     sellers: { items: [{ id: number }] };
+}
+export interface GetSellerPayload {
+    seller: SellerInterface[];
 }
 
 export interface GetSellerNamesPayload {

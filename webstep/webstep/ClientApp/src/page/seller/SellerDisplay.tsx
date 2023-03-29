@@ -15,6 +15,8 @@ import { Customer, PageInfo, Prospect, SubProspect } from '../../logic/interface
 import { ModalEdit } from './EditModal';
 import { Box, Modal, Typography } from '@mui/material';
 import { style } from '@mui/system';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { useNavigate } from 'react-router-dom';
 
 interface SellerFields {
     seller: SellerInterface;
@@ -30,7 +32,7 @@ const takeAmount = 50;
 
 export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => {
     const [isModalEditOpen, setState] = React.useState(false);
-
+    const navigate = useNavigate();
     const toggleEdit = () => setState(!isModalEditOpen);
 
 
@@ -43,6 +45,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
         ],
         awaitRefetchQueries: true,
     });
+
     const [deleteSubProspect] = useMutation<number, { input: { id: number } }>(DELETE_SUBPROSPECT, {
         refetchQueries: [
             {
@@ -76,11 +79,6 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
 
     const sendDeleteRequest = (sellers: SellerInterface)=>{
         console.log(sellers);
-        // sellers.prospects.forEach((prospect) => {
-        //     prospect.subProspects.forEach((subprospect) => {
-        //         if(subprospect.)
-        //     }) 
-        // })
         if(seller.prospects.length==0){
             deleteSeller({ variables: { input: {id: sellers.id} } })
             .then((res) => {
@@ -152,6 +150,8 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                                 <div className="btnContainer">
                                     <DeleteForeverIcon onClick={() => sendDeleteRequest(seller) } id='btnR' />
                                     <ModeEditIcon onClick={toggleEdit } id='btnE'/> 
+                                    <AccountBoxIcon  onClick={() => navigate(`profile/${seller.id}`)} id='btnP'/>
+
                                 </div>
                             </td>
                         </tr>
