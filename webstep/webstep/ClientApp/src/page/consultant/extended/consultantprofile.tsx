@@ -107,8 +107,8 @@ export const Profile = () => {
 
             </Box>
 
-            <Box sx={{display: 'flex', m: 2 }}>
-                <Box className={'column'}>
+            <Box sx={{ display: 'flex', m: 2 }}>
+                <Box className={'column'} sx={{ position: 'sticky', top: 0 }}>
                     <Box className={'welcomeBox'}>
                         <Box className={'welcomeHeader'} sx={{borderTopRightRadius: '3px', borderTopLeftRadius: '3px'}}>
                             <Box className={'headerText'}>
@@ -179,7 +179,7 @@ export const Profile = () => {
                             <p style={{fontWeight: 600, letterSpacing: '1px'}}>Estimated Anually Salary</p>
                             <p style={{fontSize: '20px', color: 'green', fontWeight: 600, letterSpacing: '1px', margin: '5px 0px 0px 0px'}}>{sumSalary.toLocaleString()} NOK</p>
                             <p style={{fontSize: '14px', letterSpacing: '0.5px', margin: '5px 0px 0px 0px', color: colorPercentage}}>
-                                {percentage > 0 ? ('Increased')  : (`Decreased from ${monthlySalary[todayDate-1].month}`)}                           
+                                {percentage > 0 ? (`Increased from ${monthlySalary[todayDate-1].month}`)  : (`Decreased from ${monthlySalary[todayDate-1].month}`)}                           
                                 <span style={{display: 'flex', alignItems: 'center'}}>                                
                                     {percentage > 0 ? (`By +${(percentage*100).toFixed(2)}%`)  : (`By ${(percentage*100).toFixed(2)}%`)}
                                     {percentage > 0 ? (<ArrowDropUpIcon />)  : (<ArrowDropDownIcon />)}

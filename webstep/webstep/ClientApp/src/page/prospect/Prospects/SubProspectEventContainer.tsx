@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { EditSubProspectInput } from '../../../api/prospects/inputs';
 import { getEditSubProspectInput } from '../../../api/prospects/logic';
 import { EditSubProspectPayload } from '../../../api/prospects/payloads';
-import { DELETE_SUBPROSPECT, EDIT_SUBPROSPECT, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
+import { DELETE_SUBPROSPECT, EDIT_SUBPROSPECT, GET_PROSPECTS, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
 import { constants } from '../../../logic/constants';
 import { defaultMessagePlacement } from '../../../logic/toast';
 import { CalendarEvent, Eventable } from '../../CalendarSystem/CalendarEvent';
@@ -25,6 +25,9 @@ export const SubProspectEventContainer: React.FC<SubProspectEventContainerProps>
                 query: GET_SELLER_PROSPECTS,
                 variables: { id: sellerId },
             },
+            {
+                query: GET_PROSPECTS
+            }
         ],
         awaitRefetchQueries: true,
     });
@@ -35,6 +38,9 @@ export const SubProspectEventContainer: React.FC<SubProspectEventContainerProps>
                 query: GET_SELLER_PROSPECTS,
                 variables: { id: sellerId },
             },
+            {
+                query: GET_PROSPECTS
+            }
             /*
             {
                 query: GET_SELLER_PROSPECTS,

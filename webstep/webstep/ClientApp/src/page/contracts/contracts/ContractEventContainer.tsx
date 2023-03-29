@@ -7,6 +7,7 @@ import { getEditContractInput } from '../../../api/contract/logic';
 import { EditContractPayload } from '../../../api/contract/payloads';
 import {
     DELETE_CONTRACT,
+    DELETE_PROJECT,
     EDIT_CONTRACT,
     GET_CONSULTANTS_INFO,
     GET_CONSULTANT_CAPACITY,
@@ -39,6 +40,23 @@ export const ContractEventContainer: React.FC<ContractEventContainerProps> = ({ 
     });
 
     const [deleteContract] = useMutation<number, { input: { id: number } }>(DELETE_CONTRACT, {
+        refetchQueries: [
+            {
+                query: GET_TEAMCONS_CONTRACTS,
+                variables: { id: consultantId },
+            },
+            {
+                query: GET_CONSULTANT_CAPACITY,
+                variables: { startYear: constants.currentYear, endYear: constants.currentYear + 2, id: consultantId },
+            },
+            {
+                query: GET_CONSULTANTS_INFO
+            },
+        ],
+        awaitRefetchQueries: true,
+    });
+
+    const [deleteProject] = useMutation<number, { input: { id: number } }>(DELETE_PROJECT, {
         refetchQueries: [
             {
                 query: GET_TEAMCONS_CONTRACTS,
@@ -95,6 +113,7 @@ export const ContractEventContainer: React.FC<ContractEventContainerProps> = ({ 
     };
 
     const deleteContractWrapper = async () => {
+        console.log(contract)
         deleteContract({ variables: { input: { id: contract.id } } })
             .then((res) => {
                 toast.success('Kontrakten ble slettet', {

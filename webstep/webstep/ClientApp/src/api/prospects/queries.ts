@@ -55,6 +55,13 @@ export const GET_PROSPECTS = gql`
             items {
                 id
                 projectName
+                seller {
+                    id
+                    fullName
+                    email
+                    employmentDate
+                    resignationDate
+                  }
                 customer {
                   id
                   firstName
@@ -85,7 +92,6 @@ export const GET_ALL_SELLER_PROSPECTS = gql`
                 fullName
                 prospects {
                     id
-                    customerId
                     projectName
                     subProspects {
                         id

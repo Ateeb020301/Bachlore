@@ -9,6 +9,7 @@ export interface SellerProspects {
 export interface Prospect {
     id: number;
     projectName: string;
+    seller: Seller;
     customer: Customer;
     subProspects: SubProspect[];
 }
@@ -40,7 +41,7 @@ export interface NewProspect {
 
 export interface ProjectConsultant {
     id: number;
-    projects: Project[];
+    project: Project;
     consultant: Consultant[];
 }
 

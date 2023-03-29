@@ -73,6 +73,12 @@ query GetSingleConsultant($id: Int!) {
                 id
                 customerName
                 projectName
+                contracts(id: $id) {
+                    consultant {
+                      id
+                    }
+                    id
+                }
             }
         }
     }
