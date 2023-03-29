@@ -388,7 +388,7 @@ export const Deals = () => {
                 {
                     data?.prospects.items.map((prospects) => 
                         (prospects.subProspects.length > 0 ? (
-                            (prospects.subProspects[0].probability == 50 ? (
+                            (prospects.subProspects[0].probability == 70 ? (
                                 <Accordion key={prospects.id} sx={{boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', borderRadius: '5px', mb: 1, fontWeight: '950', letterSpacing: '.5px',  display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff'}}>
                                 <AccordionSummary
                                 sx={{maxHeight: '70px'}}
@@ -465,7 +465,7 @@ export const Deals = () => {
                 {
                         data?.prospects.items.map((prospects) => 
                             (prospects.subProspects.length > 0 ? (
-                                (prospects.subProspects[0].probability == 70 ? (
+                                (prospects.subProspects[0].probability == 100 ? (
                                     <Accordion key={prospects.id} sx={{boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', borderRadius: '5px', mb: 1, fontWeight: '950', letterSpacing: '.5px',  display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff'}}>
                                     <AccordionSummary
                                     sx={{maxHeight: '70px'}}

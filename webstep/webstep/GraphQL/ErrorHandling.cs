@@ -20,7 +20,7 @@
                 NotFoundException notFound => error.WithMessage($"{notFound.Entity} with id {notFound.Id} not found"),
 
                 ProbabilityOutOfBoundsException probabilityException => error.WithMessage(
-                    $"Invalid value for probability, valid values are {String.Join(", ", probabilityException.Probability)}"),
+                    $"Invalids value for probability, valid values are {String.Join(", ", probabilityException.Probability)}"),
 
                 StartDateGreaterThanEndDateException => error.WithMessage("Start date can't be greater than end date"),
                 

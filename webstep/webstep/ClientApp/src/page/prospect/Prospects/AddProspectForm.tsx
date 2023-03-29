@@ -72,6 +72,9 @@ export const AddProspectForm: React.FC<ModalNewProspectProps> = ({onClose, selle
                 query: GET_SELLER_PROSPECTS,
                 variables: { id: sellerId },
             },
+            {
+                query: GET_PROSPECTS,
+            }
         ],
         awaitRefetchQueries: true,
     });
