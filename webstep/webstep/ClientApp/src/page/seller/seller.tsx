@@ -189,6 +189,7 @@ export const Seller: React.FC= () => {
                         value={currentSeller.fullName}
                         onChange={handleChange}
                         name='fullName'
+                        placeholder='Pablo Escobar'
                     />
                 </FormGroup>
                 <FormGroup>
@@ -201,6 +202,7 @@ export const Seller: React.FC= () => {
                         value={currentSeller.email}
                         onChange={handleChange}
                         name='email'
+                        placeholder='user@email.com'
                     />
                 </FormGroup>
 
@@ -222,7 +224,8 @@ export const Seller: React.FC= () => {
                     <Input
                         type='date'
                         id='resignationDate'
-                        className={displayValidation}
+                        valid={isValidStartDate(currentSeller.resignationDate)}
+                        invalid={!isValidStartDate(currentSeller.resignationDate)}
                         value={currentSeller.resignationDate ? currentSeller.resignationDate : ''}
                         onChange={handleChange}
                         name='resignationDate'

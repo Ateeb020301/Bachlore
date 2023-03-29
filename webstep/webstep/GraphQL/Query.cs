@@ -26,7 +26,7 @@ namespace webstep.GraphQL
         private readonly IRepository _repo;
         private readonly Forecast _forecast;
         private readonly ILogger _logger;
-        
+
 
         public Query(IRepository repo, ILogger<Query> logger)
         {
@@ -39,7 +39,7 @@ namespace webstep.GraphQL
         /// Fetches all sellers
         /// </summary>
         /// <returns></returns>
-        [UseOffsetPaging(MaxPageSize = 50), UseProjection, UseSorting]
+        [UseOffsetPaging(MaxPageSize = 80), UseProjection, UseSorting]
         public IQueryable<Seller> GetSellers(LocalDate? date) => date == null ? _repo.SelectAll<Seller>() : _repo.SelectAll<Seller>().Where(x => x.EmploymentDate <= date && (x.ResignationDate >= date || x.ResignationDate == null));
 
         /// <summary>
@@ -48,8 +48,7 @@ namespace webstep.GraphQL
         /// <param name="id"></param>
         /// <returns></returns>
         [UseProjection]
-        public IQueryable<Seller> GetSeller(
-            int id) => this._repo.SelectSingle<Seller>(id);
+        public IQueryable<Seller> GetSeller(int id) => this._repo.SelectSingle<Seller>(id);
 
         /// <summary>
         /// Fetches all customer

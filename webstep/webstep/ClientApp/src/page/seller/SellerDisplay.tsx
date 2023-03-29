@@ -10,11 +10,13 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { isTokenKind, TypeOfExpression } from 'typescript';
 import { Seller, SellerProspects } from '../../logic/interfaces';
-import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries';
+import { DELETE_PROSPECT, DELETE_SUBPROSPECT, GET_SELLER_NAMES } from '../../api/prospects/queries';
 import { Customer, PageInfo, Prospect, SubProspect } from '../../logic/interfaces';
 import { ModalEdit } from './EditModal';
 import { Box, Modal, Typography } from '@mui/material';
 import { style } from '@mui/system';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { useNavigate } from 'react-router-dom';
 
 interface SellerFields {
     seller: SellerInterface;
@@ -30,7 +32,7 @@ const takeAmount = 50;
 
 export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => {
     const [isModalEditOpen, setState] = React.useState(false);
-
+    const navigate = useNavigate();
     const toggleEdit = () => setState(!isModalEditOpen);
 
 
@@ -43,10 +45,11 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
         ],
         awaitRefetchQueries: true,
     });
+
     const [deleteSubProspect] = useMutation<number, { input: { id: number } }>(DELETE_SUBPROSPECT, {
         refetchQueries: [
             {
-                query: GET_SELLERS,
+                query: GET_SELLERS, 
                 variables: { skipAmount: skipAmount, takeAmount: takeAmount },
             },
         ],
@@ -55,12 +58,17 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
     const [deleteSeller] = useMutation<number, { input: { id: number } }>(DELETE_SELLER, {
         refetchQueries: [
             {
-                query: GET_SELLERS,
+                query: GET_SELLERS ,
                 variables: { skipAmount: skipAmount, takeAmount: takeAmount },
             },
+            {
+                query: GET_SELLER_NAMES,
+                variables: { skipAmount: skipAmount, takeAmount: takeAmount },
+            }
         ],
         awaitRefetchQueries: true,
     });
+    
 
     
 
@@ -71,7 +79,8 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
 
     const sendDeleteRequest = (sellers: SellerInterface)=>{
         console.log(sellers);
-        deleteSeller({ variables: { input: {id: sellers.id} } })
+        if(seller.prospects.length==0){
+            deleteSeller({ variables: { input: {id: sellers.id} } })
             .then((res) => {
                 sellers.prospects.forEach((prospect) => {
                     deleteProspect({ variables: { input: {id: prospect.id} } })
@@ -108,6 +117,10 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                 })
                 console.log(e);
             });
+        }else{
+            alert("Desverre har selleren Prospects");
+        }
+        
     }
     let display = isHidden ? 'none' : 'block';
     let sellerEdit: Seller = {
@@ -137,6 +150,8 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                                 <div className="btnContainer">
                                     <DeleteForeverIcon onClick={() => sendDeleteRequest(seller) } id='btnR' />
                                     <ModeEditIcon onClick={toggleEdit } id='btnE'/> 
+                                    <AccountBoxIcon  onClick={() => navigate(`profile/${seller.id}`)} id='btnP'/>
+
                                 </div>
                             </td>
                         </tr>

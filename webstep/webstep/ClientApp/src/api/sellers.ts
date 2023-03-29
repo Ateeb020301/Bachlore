@@ -30,15 +30,29 @@ export interface EditSellerInput {
 }
 
 export const GET_SELLER = gql`
-    query {
-        sellers {
-        items {
+query GetSeller($id: Int!) {
+    seller(id: $id) {
             id
             fullName
             email
             employmentDate
             resignationDate
-        }
+            prospects {
+                id
+                customer {
+                    id
+                    firstName
+                    lastName
+                    email
+                    adresse
+                    tlf
+                }
+                projectName
+                subProspects {
+                    id
+                }
+            }
+    
         }
     }
 `;

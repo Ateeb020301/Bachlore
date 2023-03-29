@@ -7,7 +7,7 @@ import { SellerDisplay } from './SellerDisplay';
 import './Seller.css'
 
 
-interface GetSellersPayload {
+export interface GetSellersPayload {
     sellers: Sellers;
 }
 

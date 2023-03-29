@@ -1,9 +1,8 @@
 
 #email, #fullName, #resignationDate, #employmentDate {
     width: 80%;
-    
-    background-color: #707070;
-    color: whitesmoke;
+    background-color: white;
+    color: black;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
@@ -11,6 +10,13 @@
     cursor: pointer;
     margin-left: 20px;
 }
+
+/* #F2F6F8 white 
+#6A96E9 gray
+#B7AEAF dark blue
+#CFD1D4 light blue */
+
+
 #registrerTitle,#titleSlett{
     color: black;
     font-weight: 700;
@@ -20,15 +26,16 @@
     width: 30%;
     border-radius: 5px;
     padding: 20px;
-    background-color: white;
+    background-color: #F2F6F8;
     box-shadow: 10px 10px 10px 10px rgb(190, 183, 183);
 }
 .formContainer .form2{
     width: 100%;
     height: 50vh;
     overflow-y:auto;
-    background-color: rgb(74, 72, 72);
+    background-color: #CFD1D4; 
     color: black;
+    border-radius: 10px;
 }
 .formContainer {
 
@@ -63,9 +70,13 @@
     color: rgb(237, 44, 44);
     cursor: pointer;
 }
+#btnP:hover {
+    color: rgb(44, 237, 67);
+    cursor: pointer;
+}
 
 .btnContainer{
-    background-color: rgb(74, 72, 72);
+    background-color: #CFD1D4;
 }
 
 #btnB{
@@ -77,17 +88,25 @@
 }
 #btnE{
     border-radius: 5px;
-    color: white;
+    color: black;
     padding: 10px;
     margin: 10px;
+    border-left: white solid 1px;
 }
 .btnDelete{
     background-color: rgb(74, 72, 72);
 }
 #btnR{
-    color: white;
+    color: black;
     padding: 10px;
     margin: 10px;
+    border-left: white solid 1px;
+}
+#btnP{
+    color: black;
+    padding: 10px;
+    margin: 10px;
+    border-left: white solid 1px;
 }
 h1{
     font-size: 30px;
@@ -100,17 +119,27 @@ table{
     width:100%;
     table-layout: fixed;
 }
+.tableContent{
+    color: white;
+}
 .stickyHead thead{
-    background-color: rgba(255,255,255,0.3);
+    background-color: #d1cece;
     position: sticky;
     top: 10px;
+    color: white;
 }
 .stickyHead{
-    background-color: rgb(72, 71, 71);
-    border-radius: 5px;
+    background-color: #CFD1D4;
+    border-radius: 10px;
     padding: 20px;
     width: 97%;
     margin-left: 20px;
+    color: white;
+}
+
+.displayProspects{
+    color: black;
+    border-top: black solid 1px;
 }
 
 tbody{
@@ -124,8 +153,9 @@ th{
     text-align: left;
     font-weight: 500;
     font-size: 12px;
-    color: white;
+    color: black;
     text-transform: uppercase;
+    border-bottom: white solid 1px;
 }
 td{
     padding: 10px;
@@ -133,16 +163,27 @@ td{
     vertical-align:middle;
     font-weight: 400;
     font-size: 12px;
-    color: white;
-    border-bottom: solid 1px rgba(255,255,255,0.1);
+    color: black;
+    border-bottom: solid 1px white;
+    border-left: white solid 1px;
 }
-
+.header {
+    display: flex;
+    background: url('../../components/images/addconsultant.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    object-fit: cover;
+    height: 30%;
+}
+.modalBox{
+    width: 100%;
+}
 tr{
     cursor: pointer;
 }
 
 .AccordionContent{
-    background-color: rgba(255,255,255,0.3);;
+    background-color: #B7AEAF;
     color: black;
     padding: 10px;
     border-radius: 3px;

@@ -14,6 +14,7 @@ import { Customer, GetCustomerItemsContractsPayload, GET_CUSTOMERS } from '../..
 import { SubProspect } from '../../../logic/interfaces';
 import { AddProspectCustomerInput, AddProspectInput, AddSubProspectInput } from '../../../api/prospects/inputs';
 import { getCurrentWeek } from '../../../logic/dateFunctions';
+import { GET_SELLERS } from '../../../api/sellers';
 
 interface ProspectNoId {
     projectName: string;
@@ -56,6 +57,10 @@ export const AddProspectForm: React.FC<ModalNewProspectProps> = ({onClose, selle
             refetchQueries: [
                 {
                     query: GET_PROSPECTS,
+                },
+                {
+                    query: GET_SELLERS,
+                    variables: {skipAmount: skipAmount, takeAmount: takeAmount  },
                 },
             ],
             awaitRefetchQueries: true,
