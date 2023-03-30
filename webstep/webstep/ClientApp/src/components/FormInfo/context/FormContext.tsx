@@ -36,12 +36,14 @@ const initialData: State = {
 const FormContext = createContext<ContextType | undefined>(undefined)
 
 // Reducer
+
 export enum FormActions {
     setCurrentStep,
     setName,
     setLevel,
     setEmail,
-    setGithub
+    setGithub,
+    setConsultant
 }
 
 const formReducer = (state: State, action: Action) => {
