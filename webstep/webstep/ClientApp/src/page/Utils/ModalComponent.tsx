@@ -47,9 +47,6 @@ export const Modal: React.FC<ModalProps> = ({ title, isOpen, onClose }) => {
         >
           <img src={iconX} alt={'close'} />
         </button>
-        {/* <div className={'modalTitle'}>
-          {title}
-        </div> */}
         <div className={'modalContent'}>
           <FormProvider>
               <Routes>

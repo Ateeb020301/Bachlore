@@ -13,6 +13,7 @@ import { Contracts } from './page/contracts/contracts';
 import { Seller } from './page/seller/seller';
 import { Consultant } from './page/consultant/consultant';
 import { Profile } from './page/consultant/extended/consultantprofile';
+import { SellerProfile } from './page/seller/extended/sellerprofile';
 
 const client = new ApolloClient({
   uri: document.baseURI + 'graphql',
@@ -38,6 +39,8 @@ export const App: React.FC = () => {
                     <Route path="/seller/*" element={<Seller />} />
                     <Route path="/consultant" element={<Consultant />} />
                     <Route path="/profile/:id" element={<Profile />} />
+                    <Route path="/sellerprofile/:id" element={<SellerProfile />} />
+                    
                   </Routes>
                 </main>
               </div>

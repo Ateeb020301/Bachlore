@@ -140,6 +140,8 @@ table{
 .displayProspects{
     color: black;
     border-top: black solid 1px;
+    border-bottom: black solid 1px;
+    font-weight: 600;
 }
 
 tbody{
@@ -151,18 +153,20 @@ tbody{
 th{
     padding:10px;
     text-align: left;
-    font-weight: 500;
-    font-size: 12px;
+    font-weight: 600;
+    font-size: 14px;
     color: black;
     text-transform: uppercase;
     border-bottom: white solid 1px;
 }
+
 td{
     padding: 10px;
     text-align: left;
     vertical-align:middle;
-    font-weight: 400;
-    font-size: 12px;
+    align-content: center;
+    font-weight: 600;
+    font-size: 14px;
     color: black;
     border-bottom: solid 1px white;
     border-left: white solid 1px;

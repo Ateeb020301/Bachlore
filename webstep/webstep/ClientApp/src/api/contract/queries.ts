@@ -1,5 +1,9 @@
 import { gql } from '@apollo/client';
+import { Project } from '../../logic/interfaces';
 
+export interface GetProjectItemsPayload {
+    projects: { items: Project[] }
+}
 export const GET_CONSULTANT_CAPACITY = gql`
     query GetConsultantCapacity($startYear: Int!, $endYear: Int!, $id: Int!) {
         consultantsCapacity(startYear: $startYear, endYear: $endYear, consultantId: $id) {
@@ -130,6 +134,44 @@ export const GET_TEAMCONS_CONTRACTS = gql`
             daysOfWeek
             hourlyRate
           }
+        }
+    }
+`;
+export const GET_PROJECTS = gql`
+    query GetProjects($skipAmount: Int! $takeAmount: Int!) {
+        projects(skip: $skipAmount take: $takeAmount) {
+            items {
+                id
+                projectName
+                customerName
+            }
+        }
+    }
+`;
+export const GET_PROJECTCONSULTANTS = gql`
+    query {
+        prospects {
+            items {
+                id
+                projectName
+                customer {
+                  id
+                  firstName
+                  lastName
+                  adresse
+                  tlf
+                  email
+                }
+                subProspects {
+                    id
+                    probability
+                    numOfConsultants
+                    startYear
+                    startWeek
+                    endYear
+                    endWeek
+                }
+            }
         }
     }
 `;

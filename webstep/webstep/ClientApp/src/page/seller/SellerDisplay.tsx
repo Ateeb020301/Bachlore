@@ -1,20 +1,17 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { DeleteSellerPayload, DELETE_SELLER, EditSellerPayload, EditSellerInput, EDIT_SELLER, GET_SELLERS, GET_SELLER } from '../../api/sellers';
-import { defaultMessagePlacement } from '../../logic/toast';
+import { DELETE_SELLER, GET_SELLERS } from '../../api/sellers';
 import { DisplayProspects } from './DisplayProspects';
 import { SellerInterface } from './SellerContainer';
 import './Seller.css';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import { isTokenKind, TypeOfExpression } from 'typescript';
-import { Seller, SellerProspects } from '../../logic/interfaces';
+import { Seller } from '../../logic/interfaces';
 import { DELETE_PROSPECT, DELETE_SUBPROSPECT, GET_SELLER_NAMES } from '../../api/prospects/queries';
-import { Customer, PageInfo, Prospect, SubProspect } from '../../logic/interfaces';
+import { Prospect } from '../../logic/interfaces';
 import { ModalEdit } from './EditModal';
-import { Box, Modal, Typography } from '@mui/material';
-import { style } from '@mui/system';
+
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useNavigate } from 'react-router-dom';
 
@@ -131,11 +128,6 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
         resignationDate: null,
     };
 
-    const handleOpen = (seller: Seller) => {
-        sellerEdit = seller;
-        toggleEdit();
-    }
-
     return (
         <div key={'Seller_' + seller.id} className='AccordionHolder'>
             <table className="tableContent">
@@ -150,8 +142,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
                                 <div className="btnContainer">
                                     <DeleteForeverIcon onClick={() => sendDeleteRequest(seller) } id='btnR' />
                                     <ModeEditIcon onClick={toggleEdit } id='btnE'/> 
-                                    <AccountBoxIcon  onClick={() => navigate(`profile/${seller.id}`)} id='btnP'/>
-
+                                    <AccountBoxIcon  onClick={() => navigate(`/sellerprofile/${seller.id}`)} id='btnP'/>
                                 </div>
                             </td>
                         </tr>

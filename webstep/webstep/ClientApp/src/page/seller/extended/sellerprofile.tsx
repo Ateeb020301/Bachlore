@@ -4,15 +4,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Box, Breadcrumbs, Link } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import BorderLinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
-import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions';
 import { GET_SELLER, GET_SELLERS } from '../../../api/sellers';
-import { GetSellerIDsPayload, GetSellerPayload } from '../../../api/prospects/payloads';
+import { GetSellerPayload } from '../../../api/prospects/payloads';
 import '../../consultant/extended/profile.css';
 
-export const Profile = () => {
+export const SellerProfile = () => {
     const navigate = useNavigate();
     const breadcrumbs = [
         <Link underline="none" sx={{':hover': {cursor: 'pointer'}}} fontSize="12px" key="1" color="inherit" onClick={() => navigate("/")}>
@@ -40,7 +36,7 @@ export const Profile = () => {
     const getId = useParams();
 
     const { loading, error, data } = useQuery<GetSellerPayload>(
-        GET_SELLERS,
+        GET_SELLER,
         {
             variables: { id: Number(getId.id) },
         }
@@ -68,7 +64,6 @@ export const Profile = () => {
                         <Box className={'welcomeHeader'} sx={{borderTopRightRadius: '3px', borderTopLeftRadius: '3px'}}>
                             <Box className={'headerText'}>
                                 <p style={{fontSize: '14px'}}>Welcome back!</p>
-                                <p style={{fontSize: '11px', paddingBottom: '35px', width: '100px'}}>Lorem ipsum dolor</p>
                             </Box>
 
                             <Box className={'headerImg'}>
