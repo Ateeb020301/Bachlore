@@ -31,7 +31,7 @@ export const ProspectEventContent: React.FC<ProspectEventContentProps> = ({
                     isNumber
                     fieldToEdit={subProspect.probability.toString()}
                     objectToEdit={subProspect}
-                    validValues={['10', '30', '70']}
+                    validValues={['10', '30', '70', '100']}
                     editCallBack={editSubProspect}
                     color={eventColor}
                 />

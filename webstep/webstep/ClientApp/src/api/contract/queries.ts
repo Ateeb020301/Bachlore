@@ -126,6 +126,9 @@ export const GET_TEAMCONS_CONTRACTS = gql`
             consultant {
               id
             }
+            project {
+              id
+            }
             id
             startYear
             startWeek
@@ -272,6 +275,16 @@ export const DELETE_VACANCY = gql`
     mutation DeleteVacancy($input: DeleteVacancyInput) {
         deleteVacancy(input: $input) {
             vacancy {
+                id
+            }
+        }
+    }
+`;
+
+export const DELETE_PROJECT = gql`
+    mutation DeleteProject($input: DeleteProjectInput) {
+        deleteProject(input: $input) {
+            project {
                 id
             }
         }

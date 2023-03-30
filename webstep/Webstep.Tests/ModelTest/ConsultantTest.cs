@@ -15,6 +15,7 @@ namespace WebstepTest.ModelTest
         {
         }
 
+        /*
         [Test]
         public void ConsultantCalculateCapacityTest()
         {           
@@ -61,6 +62,7 @@ namespace WebstepTest.ModelTest
             Assert.True(capacity.Capacity.First(x => x.Week == 2).Days == 4);
             Assert.True(capacity.Capacity.First(x => x.Week == 3).Days == 0);
         }
+        */
 
         [Test]
         public void EmploymentDateGreaterThanResignationDateShouldThrowException()

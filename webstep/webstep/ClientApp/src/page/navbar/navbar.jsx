@@ -16,8 +16,9 @@ import MenuOpen from '@mui/icons-material/MenuOpen';
 import './navbar.css';
 import "react-pro-sidebar/dist/css/styles.css"; 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
+import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
@@ -161,6 +162,13 @@ export const Navbar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
+              <Item
+                title={!isCollapsed &&("Deals")}
+                to="/deals"
+                icon={<LocalOfferOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
 
               {!isCollapsed && (
                 <p
@@ -172,23 +180,23 @@ export const Navbar = () => {
                 </p>
               )}
               <Item
-                title={!isCollapsed &&("Add Customer")}
+                title={!isCollapsed &&("Customers")}
                 to="/customer"
-                icon={<PeopleAltIcon />}
+                icon={<PeopleOutlineOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title={!isCollapsed &&("Add Seller")}
+                title={!isCollapsed &&("Sellers")}
                 to="/seller"
                 icon={<PersonAddAltIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title={!isCollapsed &&("Add Consultant")}
+                title={!isCollapsed &&("Consultants")}
                 to="/consultant"
-                icon={<AddBusinessIcon />}
+                icon={<BadgeOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />

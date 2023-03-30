@@ -4,7 +4,7 @@ import { CalendarTimelineGrid } from '../../CalendarSystem/CalendarTimelineGrid'
 import { SubProspect } from '../../../logic/interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import { SubProspectEventContainer } from './SubProspectEventContainer';
-import { ADD_SUBPROSPECT, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
+import { ADD_SUBPROSPECT, GET_PROSPECTS, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
 import { AddSubProspectInput } from '../../../api/prospects/inputs';
 import { useMutation } from '@apollo/client';
 import { AddSubProspectPayload } from '../../../api/prospects/payloads';
@@ -27,6 +27,9 @@ export const SubProspectEvents: React.FC<SubProspectEventsProps> = ({ subProspec
                 query: GET_SELLER_PROSPECTS,
                 variables: { id: sellerId },
             },
+            {
+                query: GET_PROSPECTS
+            }
         ],
         awaitRefetchQueries: true,
     });
