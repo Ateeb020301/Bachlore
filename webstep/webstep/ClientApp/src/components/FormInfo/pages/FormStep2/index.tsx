@@ -15,7 +15,7 @@ import { GET_CONSULTANTS } from '../../../../api/financials/queries'
 //GQL pagination skip const
 const skipAmount = 0;
 //GQL pagination take const
-const takeAmount = 50;
+const takeAmount = 20;
 interface ProjectConsultantsNoId {
     projectId: number;
     consultantId: string;
@@ -27,30 +27,16 @@ export const FormStep2 = () => {
         variables: { skipAmount: skipAmount, takeAmount: takeAmount }
     });
     const { loading: loadingC, error: errorC, data: dataC } = useQuery<GetConsultantItemsContractsPayload>(GET_CONSULTANTS_INFO);
-    console.log(dataC)
-
+       let projectN=0;
     
-    const handleNextStep = () => {
+    const handleNextStep = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        handleSubmit(e);
         navigate('../step3')
     }
 
     const {state, dispatch} = useForm()
     const navigate = useNavigate()
 
-
-    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) =>{
-        dispatch({
-            type: FormActions.setEmail,
-            payload: e.target.value
-        })
-    }
-
-    const handleUrlChange = (e: ChangeEvent<HTMLInputElement>) =>{
-        dispatch({
-            type: FormActions.setGithub,
-            payload: e.target.value
-        })
-    }
 
     useEffect(()=>{
         if(state.name === '') {
@@ -100,24 +86,35 @@ export const FormStep2 = () => {
             [name]: value,
         }));
 
-        console.log(value)
+        // console.log(value)
     };
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        // defaultProjectConsultants.projectName=currenProject.projectName;
-        // defaultProjectConsultants.customerName = currenProject.customerName;
-        // console.log(defaultProjectConsultants);
-
+        console.log(state.name)
+        console.log(state.projectName)
+        data?.projects.items.map((aProject) => {
+            console.log(aProject.customerName)
+            if(aProject.projectName==state.projectName && aProject.customerName==state.name){
+                defaultProjectConsultants.projectId=aProject.id;
+                console.log('hei');
+                console.log(aProject.id);
+                dispatch({
+                    type: FormActions.setProjectId,
+                    payload: aProject.id
+                })
+            }
+        })
+        defaultProjectConsultants.consultantId=currenProject.consultantId;
         addProjectConsultants({ variables: { input: defaultProjectConsultants } })
         .then((res) => {
             // let newProspectId = res.data?.addProjectConsultants;
-            toast.success('Prospekt opprettet', {
+            toast.success(' Project og consultant lagt til', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
         })
         .catch((e) => {
-            toast.error('Noe gikk galt ved oppretting av prospektet', {
+            toast.error('Noe gikk galt ved legging av Prospect og Consultant', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
         });
@@ -131,31 +128,28 @@ export const FormStep2 = () => {
     }
 
 
+
     return(
         <Theme>
                 <C.Container>
                 <p className='passo'>Passo 3/3</p>
-                <h4>Legal {state.name}, Her kan du fylle inn informasjon om deg</h4>
-                <p>Oppgi Email og URL til din GitHub</p>
-
-                <label>Email</label>
-                <input 
-                type="email" 
-                onChange={handleEmailChange}
-                />
+                <h4>Hei {state.name}, </h4>
+                <p>Velg teamet ditt:</p>
 
                 <FormGroup>
-                    <Select id="ddc" name="customerId" defaultValue='' value={currenProject.consultantId} onChange={handleSelect} >
+                    <Select id="ddc" name="consultantId" defaultValue='' value={currenProject.consultantId} onChange={handleSelect} >
                         <MenuItem value="" disabled>Choose a Customer</MenuItem>
-                        {dataC?.consultants.items.map((aCustomer) => (
-                        <MenuItem key={aCustomer.id} value={aCustomer.id}>{aCustomer.firstName} {aCustomer.lastName}</MenuItem>
+                        {dataC?.consultants.items.map((aConsultant) => (
+                            <MenuItem key={aConsultant.id} value={aConsultant.id}>{aConsultant.firstName} {aConsultant.lastName}</MenuItem>
                         ))}
                     </Select>
                 </FormGroup>
-
+                <div className='utskrift'>
+                        
+                </div>
                 <div>
                     {/* <Link to='/step2'>Voltar</Link> */}
-                    <button onClick={handleNextStep}>Ferdig</button>
+                    <button onClick={handleNextStep}>Next</button>
                 </div>
 
             </C.Container>
