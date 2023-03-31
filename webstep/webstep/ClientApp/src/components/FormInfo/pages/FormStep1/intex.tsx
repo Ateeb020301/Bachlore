@@ -27,14 +27,6 @@ export const FormStep1 = () => {
     const navigate = useNavigate()
     const { state, dispatch} = useForm()
 
-    const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch({
-            type: FormActions.setName,
-            payload: e.target.value 
-
-        })
-    }
-
     const handleNextStep = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
         if(state.name !== '') {
             handleSubmit(e);
@@ -71,18 +63,25 @@ export const FormStep1 = () => {
         }
     );
 
-    const handleSelect=(e: SelectChangeEvent) =>{
-        const { name, value } = e.target;    
-        setCurrentProject((prevProject) => ({
-            ...prevProject,
-            [name]: value,
-        }));
-    }
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         dispatch({
             type: FormActions.setName,
+            payload: e.target.value 
+
+        })
+        setCurrentProject((prevProject) => ({
+            ...prevProject,
+            [name]: value,
+        }));
+
+        console.log(value)
+    };
+    const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
+        dispatch({
+            type: FormActions.setProjectName,
             payload: e.target.value 
 
         })
@@ -98,18 +97,18 @@ export const FormStep1 = () => {
         e.preventDefault();
         defaultProject.projectName=currenProject.projectName;
         defaultProject.customerName = currenProject.customerName;
-        console.log(defaultProject);
+        
 
         addProject({ variables: { input: defaultProject } })
         .then((res) => {
             let newProspectId = res.data?.addProject.project.id;
-            toast.success('Prospekt opprettet', {
+            toast.success('Project er opprettet', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
             currenProject.projectName = "";
         })
         .catch((e) => {
-            toast.error('Noe gikk galt ved oppretting av prospektet', {
+            toast.error('Noe gikk galt ved oppretting av Project', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
         });
@@ -130,7 +129,7 @@ export const FormStep1 = () => {
                         valid={isValidText(currenProject.projectName)}
                         invalid={!isValidText(currenProject.projectName)}
                         value={currenProject.projectName}
-                        onChange={handleChange}
+                        onChange={handleChange2}
                         name='projectName'
                     />
                 
