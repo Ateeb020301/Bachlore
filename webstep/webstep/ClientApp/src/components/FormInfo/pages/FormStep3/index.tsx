@@ -7,7 +7,7 @@ import React from 'react'
 import { Input, Label } from 'reactstrap'
 import { toast } from 'react-toastify'
 import { useMutation } from '@apollo/client'
-import { ADD_CONTRACT, GET_CONSULTANT_CONTRACTS } from '../../../../api/contract/queries'
+import { ADD_CONTRACT, GET_CONSULTANT_CONTRACT } from '../../../../api/contract/queries'
 import { AddContractPayload } from '../../../../api/contract/payloads'
 import { color } from '@mui/system'
 interface ContractNoId {
@@ -68,7 +68,7 @@ export const FormStep3 = () => {
             const [addContract] = useMutation<AddContractPayload, { input: ContractNoId }>(ADD_CONTRACT,{
                 refetchQueries: [
                     {
-                        query: GET_CONSULTANT_CONTRACTS,
+                        query: GET_CONSULTANT_CONTRACT,
                         variables: { skipAmount: 0, takeAmount: 50 },
                     },
                 ],

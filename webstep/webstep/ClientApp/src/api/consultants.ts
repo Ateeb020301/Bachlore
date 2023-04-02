@@ -98,7 +98,7 @@ export const DELETE_CONSULTANT = gql`
 export const DELETE_PROJECTCONSULTANT = gql`
     mutation($input: DeleteProjectConsultantInput) {
         deleteProjectConsultant(input: $input) {
-            projectconsultant {
+            projectConsultant {
                 id
             }
         }

@@ -9,6 +9,7 @@ type State = {
     projectName: string
     projectId:number
     consultantId:number
+    consultantName: string;
 
 }
 
@@ -35,7 +36,8 @@ const initialData: State = {
     github: '',
     projectName:'',
     projectId:0,
-    consultantId:0
+    consultantId:0,
+    consultantName:'',
 }
 
 // Context API
@@ -52,6 +54,7 @@ export enum FormActions {
     setConsultantId,
     setProjectName,
     setProjectId,
+    setConsultantName,
 }
 
 const formReducer = (state: State, action: Action) => {
@@ -72,6 +75,8 @@ const formReducer = (state: State, action: Action) => {
             return {...state, projectId: action.payload}
         case FormActions.setConsultantId: 
             return {...state, consultantId: action.payload}
+        case FormActions.setConsultantName: 
+            return {...state, consultantName: action.payload}
         default:
             return state
         

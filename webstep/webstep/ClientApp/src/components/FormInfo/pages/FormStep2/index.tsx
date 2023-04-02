@@ -7,13 +7,14 @@ import {ChangeEvent, useEffect, useState} from 'react'
 import React from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import { ADD_PROJECTCONSULTANT, GetProjectItemsPayload, GET_CONSULTANTS_INFO, GET_PROJECTS, GET_PROJECTCONSULTANTS } from '../../../../api/contract/queries'
-import { AddProjectConsultantPayload, GetConsultantItemsContractsPayload } from '../../../../api/contract/payloads'
+import { AddProjectConsultantPayload, GetConsultantItemsContractsPayload, GetProjectConsultantPayload } from '../../../../api/contract/payloads'
 import { GET_PROSPECTS } from '../../../../api/prospects/queries'
 import { FormGroup, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { toast } from 'react-toastify'
 import { GET_CONSULTANTS } from '../../../../api/financials/queries'
 import { Consultant } from '../../../../logic/interfaces'
-import { ConsultantChosen } from './ConsultantChosen'
+import { DELETE_PROJECTCONSULTANT } from '../../../../api/consultants'
+import { number, string } from 'yup'
 //GQL pagination skip const
 const skipAmount = 0;
 //GQL pagination take const
@@ -30,32 +31,23 @@ interface ProjectConsultantsNoId {
 
 }
 export const FormStep2 = () => {
+    const navigate = useNavigate()
     const { loading, error, data, refetch } = useQuery<GetProjectItemsPayload>(GET_PROJECTS, {
         pollInterval: 500,
         variables: { skipAmount: skipAmount, takeAmount: takeAmount }
     });
     const { loading: loadingC, error: errorC, data: dataC } = useQuery<GetConsultantItemsContractsPayload>(GET_CONSULTANTS_INFO);
-    
+    const { data: dataD  } = useQuery<GetProjectConsultantPayload>(GET_PROJECTCONSULTANTS,{
+        pollInterval: 500,
+        variables: { skipAmount: skipAmount, takeAmount: takeAmount }
+    });
+    const [deletePC] = useMutation<number, { input: { id: number } }>(DELETE_PROJECTCONSULTANT)
     const handleNextStep = () => {
         navigate('../step3')
     }
 
     const {state, dispatch} = useForm()
-    const navigate = useNavigate()
 
-
-    useEffect(()=>{
-        if(state.name === '') {
-            navigate('/')
-        } else{
-            dispatch({
-                type: FormActions.setCurrentStep,
-                payload: 2
-            })
-        }
-        
-
-    },[])
     let defaultProjectConsultants: ProjectConsultantsNoId={
         consultantId:'',
         projectId:0,
@@ -71,57 +63,39 @@ export const FormStep2 = () => {
             awaitRefetchQueries: true,
         }
     );
-    let dataConsultant =[];
     const handleSelect=(e: SelectChangeEvent) =>{
         const { name, value } = e.target;  
-        dataC?.consultants.items.map((aConsultant)=>{
-            if(aConsultant.id==parseInt(currenProject.consultantId)){
-                dispatch({
-                    type: FormActions.setConsultantName,
-                    payload: aConsultant.firstName+' '+ aConsultant.lastName 
-        
-                })
-            }
-        })  
         setCurrentProject((prevProject) => ({
             ...prevProject,
             [name]: value,
         }));
     }
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        dispatch({
-            type: FormActions.setName,
-            payload: e.target.value 
-
-        })
-        setCurrentProject((prevProject) => ({
-            ...prevProject,
-            [name]: value,
-        }));
-
-        // console.log(value)
-    };
+    
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
         e.preventDefault();
         console.log(state.name)
         console.log(state.projectName)
         data?.projects.items.map((aProject) => {
-            console.log(aProject.customerName)
             if(aProject.projectName==state.projectName && aProject.customerName==state.name){
                 defaultProjectConsultants.projectId=aProject.id;
-                console.log('hei');
-                console.log('prosjekt id '+aProject.id);
-                
                 dispatch({
                     type: FormActions.setProjectId,
                     payload: aProject.id
                 })
             }
         })
+        let tempName='';
+        dataC?.consultants.items.map((aConsultant)=>{
+            if(aConsultant.id==parseInt(currenProject.consultantId)){
+                
+                tempName= aConsultant.firstName+aConsultant.lastName;
+            }
+        })
+        setEmployees(current => [...current, {id: parseInt(currenProject.consultantId), name: tempName}]);
         defaultProjectConsultants.consultantId=currenProject.consultantId;
+        console.log(currenProject.consultantId)
         addProjectConsultants({ variables: { input: defaultProjectConsultants } })
         .then((res) => {
             // let newProspectId = res.data?.addProjectConsultants;
@@ -152,6 +126,38 @@ export const FormStep2 = () => {
     //     );
     // };
 
+
+    // const droppDown = ()=>{
+    //     newConsultant.map((newCon=>{
+            
+    //     }))
+    // }
+
+
+    const sendDeleteRequest = (id:number)=>{
+        let deleteId=0;
+        
+        dataD &&dataD.projectConsultant.items.map((a)=>{
+            console.log(a.project.id)
+        })
+    
+        deletePC({ variables: { input: {id: deleteId} } })
+        .then((res) => {
+            toast.success('Consultant fra Project slettet', {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+        })
+        .catch((e) => {
+            toast.error('Noe gikk galt ved sletting av Consultant fra Projects', {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+        });
+    }
+    const initialState = [
+        {id: 1, name: 'Alice'},
+        {id: 2, name: 'Bob'},
+      ];
+      const [employees, setEmployees] = useState(initialState);
     return(
         <Theme>
                 <C.Container>
@@ -167,8 +173,17 @@ export const FormStep2 = () => {
                         ))}
                     </Select>
                 </FormGroup>
+                
+                    {employees.map((element, index) => {
+                        return (
+                        <div key={index}>
+                            <h2>{element.name}</h2>
+                            <button id='btnPC' onClick={() => sendDeleteRequest(element.id)}>Delete</button>
+                        </div>
+                        );
+                    })}
 
-                <ConsultantChosen consultantid={currenProject.consultantId}/>
+
                 <div>
                     {/* <Link to='/step2'>Voltar</Link> */}
                     <button onClick={handleSubmit}>Add Consultant</button>

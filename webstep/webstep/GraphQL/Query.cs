@@ -149,24 +149,36 @@ namespace webstep.GraphQL
         [UseProjection]
         public IQueryable<SubProspect> GetSubProspect(int id) => this._repo.SelectSingle<SubProspect>(id);
 
-        
+        /// <summary>
+        /// Fetches a single Project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [UseProjection]                                                                  
         public IQueryable<Project> GetProject(int id)
         {
             return this._repo.SelectSingle<Project>(id);
         }
 
+        /// <summary>
+        /// Fetches a single ProjectConsultant
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [UseProjection]
-        public IQueryable<Project> GetProjectConsultants(int id)
-        {
-            var contracts = _repo.SelectAll<Contract>().Where(x => x.Consultant.Id == id);
-            var project = _repo.SelectAll<Project>();
-            var values = contracts.Select(x => x.Project).ToList();
+        public IQueryable<ProjectConsultant> GetProjectConsultant(int id) => this._repo.SelectSingle<ProjectConsultant>(id);
 
-            return project.Select(x => x).Where(p => values.Contains(p)).Include("Contracts");
-        }
+        /// <summary>
+        /// Fetches all ProjectConsultant
+        /// </summary>
+        /// <returns></returns>
+        [UseProjection]
+        public IQueryable<ProjectConsultant> GetProjectConsultants() => this._repo.SelectAll<ProjectConsultant>();
 
-
+        /// <summary>
+        /// Fetches all Projects
+        /// </summary>
+        /// <returns></returns>
         [UseOffsetPaging(MaxPageSize = 20), UseProjection]
         public IQueryable<Project> GetProjects() => _repo.SelectAll<Project>();
         

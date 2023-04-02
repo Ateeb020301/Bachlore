@@ -151,29 +151,42 @@ export const GET_PROJECTS = gql`
         }
     }
 `;
-export const GET_PROJECTCONSULTANTS = gql`
+export const GET_PROJECTCONSULTANT = gql`
     query {
-        prospects {
-            items {
-                id
-                projectName
-                customer {
-                  id
-                  firstName
-                  lastName
-                  adresse
-                  tlf
-                  email
-                }
-                subProspects {
-                    id
-                    probability
-                    numOfConsultants
-                    startYear
-                    startWeek
-                    endYear
-                    endWeek
-                }
+        projectConsultant(id:$id){
+            id
+            project{
+              id
+              projectName
+              customerName
+            }
+            consultant{
+              id
+              firstName
+              lastName
+              employmentDate
+              resignationDate
+              workdays
+            }
+          }
+    }
+`;
+export const GET_PROJECTCONSULTANTS = gql`
+query {
+    projectConsultants{
+            id
+            project{
+              id
+              customerName
+              projectName
+            }
+            consultant{
+              id
+              firstName
+              lastName
+              resignationDate
+              employmentDate
+              workdays
             }
         }
     }
@@ -181,7 +194,7 @@ export const GET_PROJECTCONSULTANTS = gql`
 
 
 
-export const GET_CONSULTANT_CONTRACTS = gql`
+export const GET_CONSULTANT_CONTRACT = gql`
     query GetConsultantContracts($id: Int!) {
           consultantContracts(id: $id) {
             items {
