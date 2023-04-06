@@ -11,6 +11,11 @@ export interface Consultant {
     workdays: number;
     contracts: Contract;
 }
+export interface ProjectConsultant {
+    id: number;
+    project: Project;
+    consultant: Consultant[];
+}
 
 interface Contract {
     id: number;
@@ -35,7 +40,9 @@ export interface GetConsultantVacancyPayload {
         }
     ];
 }
-
+export interface GetProjectConsultantPayload {
+    projectConsultant: ProjectConsultant[];
+}
 export interface GetConsultantContractsPayload {
     consultant: Consultant[];
 }
@@ -68,6 +75,9 @@ export interface GetProjectConsultantIDS {
 
 export interface AddProjectPayload {
     addProject: { project: { id: number } };
+}
+export interface AddProjectConsultantPayload {
+    addProjectConsultant: { projectconsultant: { id: number } };
 }
 
 export interface AddTeamConsultantPayload {

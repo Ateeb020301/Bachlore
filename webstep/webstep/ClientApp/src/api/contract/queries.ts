@@ -1,5 +1,9 @@
 import { gql } from '@apollo/client';
+import { Project } from '../../logic/interfaces';
 
+export interface GetProjectItemsPayload {
+    projects: { items: Project[] }
+}
 export const GET_CONSULTANT_CAPACITY = gql`
     query GetConsultantCapacity($startYear: Int!, $endYear: Int!, $id: Int!) {
         consultantsCapacity(startYear: $startYear, endYear: $endYear, consultantId: $id) {
@@ -51,14 +55,49 @@ export const GET_CONSULTANTS_INFO = gql`
     query {
         consultants {
             items {
+                id
                 firstName
                 lastName
                 employmentDate
                 resignationDate
                 workdays
-                contracts {
+                projectConsultants {
                     id
                 }
+                contracts {
+                    id
+                    startYear
+                    startWeek
+                    endYear
+                    endWeek
+                    hourlyRate
+                    daysOfWeek
+                }
+            }
+        }
+    }
+`;
+
+export const GET_CONSULTANT = gql`
+    query GetConsultant($id: Int!) {
+        consultant(id: $id) {
+            id
+            firstName
+            lastName
+            employmentDate
+            resignationDate
+            workdays
+            projectConsultants {
+                id
+            }
+            contracts {
+                id
+                startYear
+                startWeek
+                endYear
+                endWeek
+                hourlyRate
+                daysOfWeek
             }
         }
     }
@@ -87,6 +126,9 @@ export const GET_TEAMCONS_CONTRACTS = gql`
             consultant {
               id
             }
+            project {
+              id
+            }
             id
             startYear
             startWeek
@@ -98,10 +140,63 @@ export const GET_TEAMCONS_CONTRACTS = gql`
         }
     }
 `;
+export const GET_PROJECTS = gql`
+    query GetProjects($skipAmount: Int! $takeAmount: Int!) {
+        projects(skip: $skipAmount take: $takeAmount) {
+            items {
+                id
+                projectName
+                customerName
+            }
+        }
+    }
+`;
+
+export const GET_PROJECTCONSULTANT = gql`
+    query {
+        projectConsultant(id:$id){
+            id
+            project{
+              id
+              projectName
+              customerName
+            }
+            consultant{
+              id
+              firstName
+              lastName
+              employmentDate
+              resignationDate
+              workdays
+            }
+          }
+    }
+`;
+export const GET_PROJECTCONSULTANTS = gql`
+query {
+    projectConsultants{
+            id
+            project{
+              id
+              customerName
+              projectName
+            }
+            consultant{
+              id
+              firstName
+              lastName
+              resignationDate
+              employmentDate
+              workdays
+            }
+        }
+    }
+`;
 
 
 
-export const GET_CONSULTANT_CONTRACTS = gql`
+
+export const GET_CONSULTANT_CONTRACT = gql`
     query GetConsultantContracts($id: Int!) {
           consultantContracts(id: $id) {
             items {
@@ -151,13 +246,11 @@ export const ADD_PROJECT = gql`
     }
 `;
 
-export const ADD_TEAMCONSULTANT = gql`
-    mutation AddTeamConsultant($input: AddTeamConsultantInput) {
-        addTeamConsultant(input: $input) {
-            teamConsultant {
-                team {
-                    id
-                }
+export const ADD_PROJECTCONSULTANT = gql`
+    mutation AddProjectConsultant($input: AddProjectConsultantInput) {
+        addProjectConsultant(input: $input) {
+            projectconsultant {
+                id
             }
         }
     }
@@ -197,6 +290,25 @@ export const DELETE_VACANCY = gql`
     mutation DeleteVacancy($input: DeleteVacancyInput) {
         deleteVacancy(input: $input) {
             vacancy {
+                id
+            }
+        }
+    }
+`;
+
+export const DELETE_PROJECT = gql`
+    mutation DeleteProject($input: DeleteProjectInput) {
+        deleteProject(input: $input) {
+            project {
+                id
+            }
+        }
+    }
+`;
+export const DELETE_PROJECTCONSULTANT = gql`
+    mutation DeleteProjectConsultant($input: DeleteProjectInput) {
+        deleteProjectConsultant(input: $input) {
+            projectConsultant {
                 id
             }
         }
