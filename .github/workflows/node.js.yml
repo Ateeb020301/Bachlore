@@ -23,6 +23,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm i ../webstep/webstep/ClientApp
+    - run: npm i 
+      working-directory: ../webstep/webstep/ClientApp
     - run: npm run build ../webstep/webstep/ClientApp
+      working-directory: ../webstep/webstep/ClientApp
     - run: npm test
+      working-directory: ../webstep/Webstep.Test
