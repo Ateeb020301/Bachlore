@@ -181,7 +181,7 @@ export const FormStep2 = () => {
                         </div>
                         );
                     })}
-                <ProjectConsultantContainer key={change}/>
+                <ProjectConsultantContainer/>
 
 
                 <div>
