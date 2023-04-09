@@ -23,6 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: ./webstep/webstep/package-lock.json
     - run: npm i 
       working-directory: ../webstep/webstep/ClientApp
     - run: npm run build ../webstep/webstep/ClientApp
