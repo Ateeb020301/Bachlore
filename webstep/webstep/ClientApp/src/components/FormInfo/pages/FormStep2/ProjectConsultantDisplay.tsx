@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import './Seller.css';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
