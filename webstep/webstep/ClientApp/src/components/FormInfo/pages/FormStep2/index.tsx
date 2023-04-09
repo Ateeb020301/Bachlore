@@ -1,24 +1,22 @@
 import * as C from './styles'
-import {useNavigate, Link} from 'react-router-dom'
+import {useNavigate, Link, useLocation} from 'react-router-dom'
 import { Theme } from '../../components/Theme/intex'
-import { SelectOption } from '../../components/SelectOption'
 import {useForm, FormActions} from '../../context/FormContext'
 import {ChangeEvent, useEffect, useState} from 'react'
 import React from 'react'
 import { useMutation, useQuery } from '@apollo/client'
-import { ADD_PROJECTCONSULTANT, GetProjectItemsPayload, GET_CONSULTANTS_INFO, GET_PROJECTS, GET_PROJECTCONSULTANTS } from '../../../../api/contract/queries'
-import { AddProjectConsultantPayload, GetConsultantItemsContractsPayload, GetProjectConsultantPayload } from '../../../../api/contract/payloads'
-import { GET_PROSPECTS } from '../../../../api/prospects/queries'
+import { ADD_PROJECTCONSULTANT, GetProjectItemsPayload, GET_CONSULTANTS_INFO, GET_PROJECTS, GET_PROJECTCONSULTANTS, DELETE_PROJECTCONSULTANT } from '../../../../api/contract/queries'
+import { AddProjectConsultantPayload, GetConsultantItemsContractsPayload, GetProjectConsultantPayload2, GetProjectConsultantPayload } from '../../../../api/contract/payloads'
 import { FormGroup, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { toast } from 'react-toastify'
-import { GET_CONSULTANTS } from '../../../../api/financials/queries'
-import { Consultant } from '../../../../logic/interfaces'
-import { DELETE_PROJECTCONSULTANT } from '../../../../api/consultants'
-import { number, string } from 'yup'
+import './index.css'
+import { ProjectConsultantContainer } from './ProjectConsultantContainer'
+
 //GQL pagination skip const
 const skipAmount = 0;
 //GQL pagination take const
 const takeAmount = 20;
+
 export interface ProjectConsultants {
     id: number;
     projectId: number;
@@ -32,12 +30,15 @@ interface ProjectConsultantsNoId {
 }
 export const FormStep2 = () => {
     const navigate = useNavigate()
+    const location = useLocation();
+    console.log(location.state.id)
+
     const { loading, error, data, refetch } = useQuery<GetProjectItemsPayload>(GET_PROJECTS, {
         pollInterval: 500,
         variables: { skipAmount: skipAmount, takeAmount: takeAmount }
     });
     const { loading: loadingC, error: errorC, data: dataC } = useQuery<GetConsultantItemsContractsPayload>(GET_CONSULTANTS_INFO);
-    const { data: dataD  } = useQuery<GetProjectConsultantPayload>(GET_PROJECTCONSULTANTS,{
+    const { data: dataD  } = useQuery<GetProjectConsultantPayload2>(GET_PROJECTCONSULTANTS,{
         pollInterval: 500,
         variables: { skipAmount: skipAmount, takeAmount: takeAmount }
     });
@@ -45,13 +46,13 @@ export const FormStep2 = () => {
     const handleNextStep = () => {
         navigate('../step3')
     }
-
+    let change=0;
     const {state, dispatch} = useForm()
 
     let defaultProjectConsultants: ProjectConsultantsNoId={
         consultantId:'',
-        projectId:0,
-    }
+        projectId: location.state.id,
+    }       
     const [currenProject, setCurrentProject] = useState<ProjectConsultantsNoId>(defaultProjectConsultants);
     //const [displayValidation, setDisplayValidation] = useState<string>(' ');
     const [addProjectConsultants] = useMutation<AddProjectConsultantPayload, { input: ProjectConsultantsNoId }>(ADD_PROJECTCONSULTANT, {
@@ -93,12 +94,11 @@ export const FormStep2 = () => {
                 tempName= aConsultant.firstName+aConsultant.lastName;
             }
         })
-        setEmployees(current => [...current, {id: parseInt(currenProject.consultantId), name: tempName}]);
         defaultProjectConsultants.consultantId=currenProject.consultantId;
-        console.log(currenProject.consultantId)
         addProjectConsultants({ variables: { input: defaultProjectConsultants } })
         .then((res) => {
-            // let newProspectId = res.data?.addProjectConsultants;
+            setEmployees(current => [...current, {id: parseInt(currenProject.consultantId), name: tempName, projectConsid: res.data?.addProjectConsultant.projectconsultant.id ?? 0}]);
+            change++;
             toast.success(' Project og consultant lagt til', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
@@ -107,6 +107,7 @@ export const FormStep2 = () => {
             toast.error('Noe gikk galt ved legging av Project og Consultant', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
+            console.log(e)
         });
     };
     const isValidText = (s: string) => {
@@ -135,13 +136,9 @@ export const FormStep2 = () => {
 
 
     const sendDeleteRequest = (id:number)=>{
-        let deleteId=0;
+        console.log(id);
         
-        dataD &&dataD.projectConsultant.items.map((a)=>{
-            console.log(a.project.id)
-        })
-    
-        deletePC({ variables: { input: {id: deleteId} } })
+        deletePC({ variables: { input: {id: id} } })
         .then((res) => {
             toast.success('Consultant fra Project slettet', {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -151,13 +148,15 @@ export const FormStep2 = () => {
             toast.error('Noe gikk galt ved sletting av Consultant fra Projects', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
+            console.log(e);
         });
     }
+
     const initialState = [
-        {id: 1, name: 'Alice'},
-        {id: 2, name: 'Bob'},
+        {id: 0, name: '', projectConsid: 0}
       ];
       const [employees, setEmployees] = useState(initialState);
+
     return(
         <Theme>
                 <C.Container>
@@ -178,10 +177,11 @@ export const FormStep2 = () => {
                         return (
                         <div key={index}>
                             <h2>{element.name}</h2>
-                            <button id='btnPC' onClick={() => sendDeleteRequest(element.id)}>Delete</button>
+                            <button id='btnPC' onClick={() => sendDeleteRequest(element.projectConsid)}>Delete</button>
                         </div>
                         );
                     })}
+                <ProjectConsultantContainer key={change}/>
 
 
                 <div>

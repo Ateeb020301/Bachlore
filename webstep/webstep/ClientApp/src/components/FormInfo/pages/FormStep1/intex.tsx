@@ -22,20 +22,14 @@ const skipAmount = 0;
 //GQL pagination take const
 const takeAmount = 50;
 export const FormStep1 = () => {
-    
+    let newProspectid = 0;
+    let defaultProject: ProjectNoId={
+        projectName: '',
+        customerName: '',
+    }
 
     const navigate = useNavigate()
     const { state, dispatch} = useForm()
-
-    const handleNextStep = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
-        if(state.name !== '') {
-            handleSubmit(e);
-            navigate('./step2')
-        } else{
-            alert('Feil')
-        }
-
-    }
 
     useEffect(()=>{
         dispatch({
@@ -45,11 +39,6 @@ export const FormStep1 = () => {
 
     },[])
 
-
-    let defaultProject: ProjectNoId={
-        projectName: '',
-        customerName: '',
-    }
 
     const [currenProject, setCurrentProject] = useState<ProjectNoId>(defaultProject);
     //const [displayValidation, setDisplayValidation] = useState<string>(' ');
@@ -75,7 +64,6 @@ export const FormStep1 = () => {
             [name]: value,
         }));
 
-        console.log(value)
     };
     const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -90,7 +78,6 @@ export const FormStep1 = () => {
             [name]: value,
         }));
 
-        console.log(value)
     };
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -101,11 +88,17 @@ export const FormStep1 = () => {
 
         addProject({ variables: { input: defaultProject } })
         .then((res) => {
-            let newProspectId = res.data?.addProject.project.id;
-            toast.success('Project er opprettet', {
-                position: toast.POSITION.BOTTOM_RIGHT
-            })
-            currenProject.projectName = "";
+            if(state.name !== '') {
+                let newProspectId = res.data?.addProject.project.id;
+                newProspectid = newProspectId ?? 0;
+                toast.success('Project er opprettet', {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
+                currenProject.projectName = "";
+                navigate(`./step2/${newProspectid}`, {state:{ id: newProspectid, data: res}})
+            } else{
+                alert('Feil')
+            }
         })
         .catch((e) => {
             toast.error('Noe gikk galt ved oppretting av Project', {
@@ -113,6 +106,8 @@ export const FormStep1 = () => {
             })
         });
     };
+
+
     const isValidText = (s: string) => {
         return s !== '';
     };
@@ -151,7 +146,7 @@ export const FormStep1 = () => {
                     
                     /> */}
                     
-                <button onClick={handleNextStep}>Fortsett</button>
+                <button onClick={handleSubmit}>Fortsett</button>
             </C.Container>
         </Theme>
     )

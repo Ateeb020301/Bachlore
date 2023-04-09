@@ -10,14 +10,18 @@ import { useMutation } from '@apollo/client'
 import { ADD_CONTRACT, GET_CONSULTANT_CONTRACT } from '../../../../api/contract/queries'
 import { AddContractPayload } from '../../../../api/contract/payloads'
 import { color } from '@mui/system'
+import '../FormStep2/index.css';
+import { getDefaultNewContract } from '../../../../api/contract/logic'
 interface ContractNoId {
-    startYear: any;
+    startDate: Date;
+    startYear: number;
     startWeek:number;
-    endYear:any;
+    endDate:Date;
+    endYear:number;
     endWeek:number;
-    daysOfWeek:number;
     hourlyRate:number;
     projectId: number;
+    consultantId:number;
 }
 export const FormStep3 = () => {
     const {state, dispatch} = useForm()
@@ -53,14 +57,17 @@ export const FormStep3 = () => {
                 d.getDate().toString().padStart(2, '0');
         
             // you dont put id yourself
+            
             let defaultContract: ContractNoId = {
-                startYear: today,
+                startDate: today,
+                startYear: 0,
                 startWeek:0,
+                endDate:'',
                 endYear:0,
                 endWeek:0,
-                daysOfWeek:0,
                 hourlyRate:0,
-                projectId:0
+                projectId:0,
+                consultantId:0,
             };
         
             const [currentContract, setCurrentContract] = useState<ContractNoId>(defaultContract);
@@ -112,24 +119,26 @@ export const FormStep3 = () => {
         
                 if (isValidSeller()) {
                     // console.log(currentSeller);
-                    defaultContract.daysOfWeek=currentContract.daysOfWeek;
-                    defaultContract.startYear=currentContract.startYear;
-                    defaultContract.endYear=currentContract.endYear;
-                    defaultContract.startWeek=currentContract.startWeek;
-                    defaultContract.endWeek=currentContract.endWeek;
-                    defaultContract.hourlyRate=currentContract.hourlyRate;
+                    // defaultContract.daysOfWeek=currentContract.daysOfWeek;
+                    // defaultContract.startYear=currentContract.startYear;
+                    // defaultContract.endYear=currentContract.endYear;
+                    // defaultContract.startWeek=currentContract.startWeek;
+                    // defaultContract.endWeek=currentContract.endWeek;
+                    // defaultContract.hourlyRate=currentContract.hourlyRate;
+                    const newContract = getDefaultNewContract(state.projectId, state.consultantId)
                     defaultContract.projectId=state.projectId;
+                    defaultContract.consultantId=state.consultantId
 
-                    addContract({ variables: { input: defaultContract } })
+                    addContract({ variables: { input: newContract } })
                         .then((res) => {
                             toast.success('Contract opprettet', {
                                 position: toast.POSITION.BOTTOM_RIGHT
                             })
-                            currentContract.endYear = "";
-                            currentContract.startWeek = 0;
-                            currentContract.endWeek=0;
-                            currentContract.hourlyRate = 0;
-                            currentContract.daysOfWeek=0;
+                            // currentContract.endYear = "";
+                            // currentContract.startWeek = 0;
+                            // currentContract.endWeek=0;
+                            // currentContract.hourlyRate = 0;
+                            // currentContract.daysOfWeek=0;
                             
                         })
                         .catch((err) => {
@@ -252,9 +261,9 @@ export const FormStep3 = () => {
                         placeholder='2002'
                     />
                     
-                    <Label for='email'>End Week</Label><br />
+                    <Label for='daysOfWeek'>End Week</Label><br />
                     <Input
-                        type='text'
+                        type='number'
                         id='daysOfWeek'
                         min={0}
                         max={5}
@@ -266,7 +275,7 @@ export const FormStep3 = () => {
 
                 <div>
                     {/* <Link to='/step2'>Voltar</Link> */}
-                    <button onClick={handleNextStep}>Next</button>
+                    <button onClick={handleSubmit}>Next</button>
                 </div>
             </div>
         </Theme>
