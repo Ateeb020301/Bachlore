@@ -5,7 +5,6 @@ import { GetProjectConsultantPayload2 } from '../../../../api/contract/payloads'
 
 import { Loading } from '../../../../page/Utils/Loading';
 import { useForm } from '../../context/FormContext';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { toast } from 'react-toastify';
 import { ProjectConsultantDisplay } from './ProjectConsultantDisplay';
 
