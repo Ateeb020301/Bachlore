@@ -9,7 +9,6 @@ import { toast } from 'react-toastify'
 import { useMutation } from '@apollo/client'
 import { ADD_CONTRACT, GET_CONSULTANT_CONTRACT } from '../../../../api/contract/queries'
 import { AddContractPayload } from '../../../../api/contract/payloads'
-import { color } from '@mui/system'
 import '../FormStep2/index.css';
 import { getDefaultNewContract } from '../../../../api/contract/logic'
 interface ContractNoId {
@@ -47,162 +46,162 @@ export const FormStep3 = () => {
 
     },[])
             //Date shenanigans
-            let d = new Date();
-            //Get todays date
-            let today =
-                d.getFullYear() +
-                '-' +
-                (d.getMonth() + 1).toString().padStart(2, '0') +
-                '-' +
-                d.getDate().toString().padStart(2, '0');
+    //         let d = new Date();
+    //         //Get todays date
+    //         let today =
+    //             d.getFullYear() +
+    //             '-' +
+    //             (d.getMonth() + 1).toString().padStart(2, '0') +
+    //             '-' +
+    //             d.getDate().toString().padStart(2, '0');
         
-            // you dont put id yourself
+    //         // you dont put id yourself
             
-            let defaultContract: ContractNoId = {
-                startDate: today,
-                startYear: 0,
-                startWeek:0,
-                endDate:'',
-                endYear:0,
-                endWeek:0,
-                hourlyRate:0,
-                projectId:0,
-                consultantId:0,
-            };
+    //         let defaultContract: ContractNoId = {
+    //             startDate: today,
+    //             startYear: 0,
+    //             startWeek:0,
+    //             endDate:'',
+    //             endYear:0,
+    //             endWeek:0,
+    //             hourlyRate:0,
+    //             projectId:0,
+    //             consultantId:0,
+    //         };
         
-            const [currentContract, setCurrentContract] = useState<ContractNoId>(defaultContract);
-            const [displayValidation, setDisplayValidation] = useState<string>('');
-            const [addContract] = useMutation<AddContractPayload, { input: ContractNoId }>(ADD_CONTRACT,{
-                refetchQueries: [
-                    {
-                        query: GET_CONSULTANT_CONTRACT,
-                        variables: { skipAmount: 0, takeAmount: 50 },
-                    },
-                ],
-                awaitRefetchQueries: true,
+    //         const [currentContract, setCurrentContract] = useState<ContractNoId>(defaultContract);
+    //         const [displayValidation, setDisplayValidation] = useState<string>('');
+    //         const [addContract] = useMutation<AddContractPayload, { input: ContractNoId }>(ADD_CONTRACT,{
+    //             refetchQueries: [
+    //                 {
+    //                     query: GET_CONSULTANT_CONTRACT,
+    //                     variables: { skipAmount: 0, takeAmount: 50 },
+    //                 },
+    //             ],
+    //             awaitRefetchQueries: true,
             
-        }
-    );
+    //     }
+    // );
     
-            //Adds or removes validation field on resignationDate depending on if its empty or not
-            useEffect(() => {
-                resignationDateValidationToggle();
-            });
+    //         //Adds or removes validation field on resignationDate depending on if its empty or not
+    //         useEffect(() => {
+    //             resignationDateValidationToggle();
+    //         });
         
-            const resignationDateValidationToggle = () => {
-                let isValidatedStr = '';
+    //         const resignationDateValidationToggle = () => {
+    //             let isValidatedStr = '';
         
-                //returns true if its a valid end date, false if its not
-                let isValidResignationDate = isValidEndDate(currentContract.endYear ? currentContract.endYear : '');
+    //             //returns true if its a valid end date, false if its not
+    //             let isValidResignationDate = isValidEndDate(currentContract.endYear ? currentContract.endYear : '');
         
-                //Checks if date is not empty and is a valid endDate
-                if (currentContract.endYear && currentContract.endYear !== '' && isValidResignationDate) {
-                    isValidatedStr = 'is-valid';
-                } else if (currentContract.endYear && currentContract.endYear !== '' && !isValidResignationDate) {
-                    isValidatedStr = 'is-invalid';
-                }
+    //             //Checks if date is not empty and is a valid endDate
+    //             if (currentContract.endYear && currentContract.endYear !== '' && isValidResignationDate) {
+    //                 isValidatedStr = 'is-valid';
+    //             } else if (currentContract.endYear && currentContract.endYear !== '' && !isValidResignationDate) {
+    //                 isValidatedStr = 'is-invalid';
+    //             }
         
-                setDisplayValidation(isValidatedStr);
-            };
+    //             setDisplayValidation(isValidatedStr);
+    //         };
         
-            const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-                const { name, value } = e.target;
+    //         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //             const { name, value } = e.target;
         
-                setCurrentContract((prevContract) => ({
-                    ...prevContract,
-                    [name]: value,
-                }));
-            };
+    //             setCurrentContract((prevContract) => ({
+    //                 ...prevContract,
+    //                 [name]: value,
+    //             }));
+    //         };
         
-            const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                e.preventDefault();
+    //         const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    //             e.preventDefault();
         
-                if (isValidSeller()) {
-                    // console.log(currentSeller);
-                    // defaultContract.daysOfWeek=currentContract.daysOfWeek;
-                    // defaultContract.startYear=currentContract.startYear;
-                    // defaultContract.endYear=currentContract.endYear;
-                    // defaultContract.startWeek=currentContract.startWeek;
-                    // defaultContract.endWeek=currentContract.endWeek;
-                    // defaultContract.hourlyRate=currentContract.hourlyRate;
-                    const newContract = getDefaultNewContract(state.projectId, state.consultantId)
-                    defaultContract.projectId=state.projectId;
-                    defaultContract.consultantId=state.consultantId
+    //             if (isValidSeller()) {
+    //                 // console.log(currentSeller);
+    //                 // defaultContract.daysOfWeek=currentContract.daysOfWeek;
+    //                 // defaultContract.startYear=currentContract.startYear;
+    //                 // defaultContract.endYear=currentContract.endYear;
+    //                 // defaultContract.startWeek=currentContract.startWeek;
+    //                 // defaultContract.endWeek=currentContract.endWeek;
+    //                 // defaultContract.hourlyRate=currentContract.hourlyRate;
+    //                 const newContract = getDefaultNewContract(state.projectId, state.consultantId)
+    //                 defaultContract.projectId=state.projectId;
+    //                 defaultContract.consultantId=state.consultantId
 
-                    addContract({ variables: { input: newContract } })
-                        .then((res) => {
-                            toast.success('Contract opprettet', {
-                                position: toast.POSITION.BOTTOM_RIGHT
-                            })
-                            // currentContract.endYear = "";
-                            // currentContract.startWeek = 0;
-                            // currentContract.endWeek=0;
-                            // currentContract.hourlyRate = 0;
-                            // currentContract.daysOfWeek=0;
+    //                 addContract({ variables: { input: newContract } })
+    //                     .then((res) => {
+    //                         toast.success('Contract opprettet', {
+    //                             position: toast.POSITION.BOTTOM_RIGHT
+    //                         })
+    //                         // currentContract.endYear = "";
+    //                         // currentContract.startWeek = 0;
+    //                         // currentContract.endWeek=0;
+    //                         // currentContract.hourlyRate = 0;
+    //                         // currentContract.daysOfWeek=0;
                             
-                        })
-                        .catch((err) => {
-                            toast.error('Noe gikk galt med oppretting av en Contract.', {
-                                position: toast.POSITION.BOTTOM_RIGHT
-                            })                    
-                        });
-                }
-            };
+    //                     })
+    //                     .catch((err) => {
+    //                         toast.error('Noe gikk galt med oppretting av en Contract.', {
+    //                             position: toast.POSITION.BOTTOM_RIGHT
+    //                         })                    
+    //                     });
+    //             }
+    //         };
         
-            const isValidText = (s: string) => {
-                return s !== '';
-            };
+    //         const isValidText = (s: string) => {
+    //             return s !== '';
+    //         };
         
-            //checks only if the start date is empty
-            const isValidStartDate = (s: string) => {
-                if (s === '') {
-                    return false;
-                }
-                return true;
-            };
+    //         //checks only if the start date is empty
+    //         const isValidStartDate = (s: string) => {
+    //             if (s === '') {
+    //                 return false;
+    //             }
+    //             return true;
+    //         };
         
-            const isValidEndDate = (s: string) => {
-                if (s === '') {
-                    return true;
-                }
+    //         const isValidEndDate = (s: string) => {
+    //             if (s === '') {
+    //                 return true;
+    //             }
         
-                // If the startdate doesnt exist, any valid date is a valid start date
-                if (currentContract.startYear === '') {
-                    //change to date when its ready
-                    return isValidText(s);
-                } else {
-                    // assumes startdate is formatted correctly
-                    let tempSD = new Date(currentContract.startYear);
-                    // assumes enddate is formatted correctly
-                    let tempED = new Date(s);
-                    return tempED > tempSD;
-                }
-            };
+    //             // If the startdate doesnt exist, any valid date is a valid start date
+    //             if (currentContract.startYear === '') {
+    //                 //change to date when its ready
+    //                 return isValidText(s);
+    //             } else {
+    //                 // assumes startdate is formatted correctly
+    //                 let tempSD = new Date(currentContract.startYear);
+    //                 // assumes enddate is formatted correctly
+    //                 let tempED = new Date(s);
+    //                 return tempED > tempSD;
+    //             }
+    //         };
         
-            const isValidSeller = (): boolean => {
-                let hasTruthyValues =
-                currentContract.daysOfWeek && currentContract.hourlyRate && isValidStartDate(currentContract.startYear);
+    //         const isValidSeller = (): boolean => {
+    //             let hasTruthyValues =
+    //             currentContract.daysOfWeek && currentContract.hourlyRate && isValidStartDate(currentContract.startYear);
         
-                let resignDate = currentContract.endYear?.toString();
-                if (hasTruthyValues) {
-                    if (resignDate !== '') {
-                        return (
-                            isValidText(currentContract.startYear) &&
-                            isValidEndDate(currentContract.endYear ? currentContract.endYear : '')
-                        );
-                    } else {
-                        return isValidText(currentContract.startYear);
-                    }
-                }
-                return false;
-            };
+    //             let resignDate = currentContract.endYear?.toString();
+    //             if (hasTruthyValues) {
+    //                 if (resignDate !== '') {
+    //                     return (
+    //                         isValidText(currentContract.startYear) &&
+    //                         isValidEndDate(currentContract.endYear ? currentContract.endYear : '')
+    //                     );
+    //                 } else {
+    //                     return isValidText(currentContract.startYear);
+    //                 }
+    //             }
+    //             return false;
+    //         };
     return(
         <Theme>
             <div>
                 <p className='passo' >Passo 3/3</p>
                 <h4>Hei {state.name}, Kontract Planning</h4>
 
-                    <Label for='startYear'>Start Date</Label><br />
+                    {/* <Label for='startYear'>Start Date</Label><br />
                     <Input
                         type='date'
                         id='startYear'
@@ -271,11 +270,11 @@ export const FormStep3 = () => {
                         onChange={handleChange}
                         name='daysOfWeek'
                         placeholder='0'
-                    />
+                    /> */}
 
                 <div>
                     {/* <Link to='/step2'>Voltar</Link> */}
-                    <button onClick={handleSubmit}>Next</button>
+                    {/* <button onClick={handleSubmit}>Next</button> */}
                 </div>
             </div>
         </Theme>

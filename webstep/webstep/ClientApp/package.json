@@ -21,6 +21,7 @@
     "formik": "^2.2.9",
     "graphql": "^16.6.0",
     "material-ui-popup-state": "^1.9.3",
+    "nginx": "^1.0.8",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-chartjs-2": "^5.2.0",
