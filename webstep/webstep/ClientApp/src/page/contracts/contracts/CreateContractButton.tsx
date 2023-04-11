@@ -15,6 +15,7 @@ import {
     ADD_PROJECTCONSULTANT,
 } from '../../../api/contract/queries';
 import { defaultMessagePlacement } from '../../../logic/toast';
+import { Modal } from '../../Utils/ModalComponent';
 
 interface CreateContractButtonProps {
     consultantId: number;
@@ -23,6 +24,10 @@ interface CreateContractButtonProps {
 const currentYear = new Date().getFullYear();
 // Adds a default contract with a default project to a consultant
 export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ consultantId }) => {
+    const [isModalOpen, setModalState] = React.useState(false);
+
+    const toggleModal = () => setModalState(!isModalOpen);
+     
     const [addProjectConsultant] = useMutation<AddProjectConsultantPayload, { input: AddProjectConsultantInput }>(ADD_PROJECTCONSULTANT);
     const [addProject] = useMutation<AddProjectPayload, { input: AddProjectInput }>(ADD_PROJECT);
     const [addContract] = useMutation<AddContractPayload, { input: AddContractInput }>(ADD_CONTRACT, {
@@ -77,10 +82,24 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
             });
 
     };
+// <Button onClick={handleClick} size='sm' color='primary'>
+//     + kontrakt
+// </Button>
+
 
     return (
-        <Button onClick={handleClick} size='sm' color='primary'>
-            + kontrakt
-        </Button>
+        <div className='modalContainer'>
+        <button
+                className={'app__btn'}
+                onClick={toggleModal}
+            >
+                Kontrakt 
+            </button>
+            <Modal
+                title={'Kontrakt form'}
+                isOpen={isModalOpen}
+                onClose={toggleModal}
+            />
+        </div>
     );
 };

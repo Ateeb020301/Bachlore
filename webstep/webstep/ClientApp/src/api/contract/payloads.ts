@@ -24,7 +24,12 @@ interface Contract {
     daysOfWeek: number;
     hourlyRate: number;
 }
-
+export interface GetProjectConsultantPayload {
+    projectConsultant: { items: ProjectConsultant[] };
+}
+export interface GetProjectConsultantPayload2 {
+    projectConsultant: ProjectConsultant[];
+}
 export interface GetConsultantCapacityPayload {
     consultantsCapacity: { items: ConsultantCapacity[] };
 }

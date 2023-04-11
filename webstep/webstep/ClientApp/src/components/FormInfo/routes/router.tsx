@@ -10,8 +10,8 @@ export const Router = () => {
     return(
         <BrowserRouter>
             <Routes>
-                <Route path='/'  element={<FormStep1/>} />
-                <Route path='/step2' element={<FormStep2/>} />
+                <Route path='/step1'  element={<FormStep1/>} />
+                <Route path='/step2/:id' element={<FormStep2/>} />
                 <Route path='/step3' element={<FormStep3/>} />
                 <Route path='/step4' element={<FormStep4/>} />
             </Routes>

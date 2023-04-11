@@ -94,7 +94,6 @@ export const DELETE_CONSULTANT = gql`
         }
     }
 `;
-
 export const DELETE_PROJECTCONSULTANT = gql`
     mutation($input: DeleteProjectConsultantInput) {
         deleteProjectConsultant(input: $input) {
@@ -104,6 +103,7 @@ export const DELETE_PROJECTCONSULTANT = gql`
         }
     }
 `;
+
 
 export const EDIT_CONSULTANT = gql`
     mutation EditConsultant($input: EditConsultantInput) {

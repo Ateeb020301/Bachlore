@@ -164,7 +164,7 @@ export const AddProspectForm: React.FC<ModalNewProspectProps> = ({onClose, selle
     
 
     return (
-        <div id='form'>
+
             <form>
                 <FormGroup>
                     <Label for='projectName'>Project Name</Label><br />
@@ -193,7 +193,7 @@ export const AddProspectForm: React.FC<ModalNewProspectProps> = ({onClose, selle
                     Legg til
                 </Button>
             </form>
-        </div>
+
     );
 
 }

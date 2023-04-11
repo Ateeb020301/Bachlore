@@ -13,6 +13,7 @@ import { Contracts } from './page/contracts/contracts';
 import { Seller } from './page/seller/seller';
 import { Consultant } from './page/consultant/consultant';
 import { Profile } from './page/consultant/extended/consultantprofile';
+import { SellerProfile } from './page/seller/extended/sellerprofile';
 import { Deals } from './page/deals/deals';
 import { Customers } from './page/customer/customer';
 
@@ -42,6 +43,8 @@ export const App: React.FC = () => {
                     <Route path="/consultant" element={<Consultant />} />
                     <Route path="/customer" element={<Customers />} />
                     <Route path="/profile/:id" element={<Profile />} />
+                    <Route path="/sellerprofile/:id" element={<SellerProfile />} />
+                    
                   </Routes>
                 </main>
               </div>
