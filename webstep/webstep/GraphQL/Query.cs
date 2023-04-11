@@ -173,7 +173,14 @@ namespace webstep.GraphQL
         /// </summary>
         /// <returns></returns>
         [UseProjection]
-        public IQueryable<ProjectConsultant> GetProjectConsultants() => this._repo.SelectAll<ProjectConsultant>();
+        public IQueryable<Project> GetProjectConsultants(int id)
+        {
+            var contracts = _repo.SelectAll<Contract>().Where(x => x.Consultant.Id == id);
+            var project = _repo.SelectAll<Project>();
+            var values = contracts.Select(x => x.Project).ToList();
+
+            return project.Select(x => x).Where(p => values.Contains(p)).Include("Contracts");
+        }
 
         /// <summary>
         /// Fetches all Projects
