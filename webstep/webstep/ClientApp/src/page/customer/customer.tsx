@@ -1,128 +1,253 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
-import { AddCustomerPayload, ADD_CUSTOMER } from '../../api/customer';
-import { useMutation } from '@apollo/client';
+import { AddCustomerPayload, ADD_CUSTOMER, GET_CUSTOMER, CustomerPayload } from '../../api/customer';
+import { useMutation, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
+import { Box, Breadcrumbs, IconButton, Link, TableHead, useTheme } from '@mui/material';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { CustomerContainer } from './CustomerContainer';
+import GetInfo from './CustomerInfo';
+import { Prospects } from '../prospect/Prospects/ProspectDescription';
+import { Loading } from '../Utils/Loading';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import { Customer } from '../../api/customer';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableFooter from '@mui/material/TableFooter';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
-interface CustomerNoId {
+  interface TablePaginationActionsProps {
+      count: number;
+      page: number;
+      rowsPerPage: number;
+      onPageChange: (
+        event: React.MouseEvent<HTMLButtonElement>,
+        newPage: number,
+      ) => void;
+    }
+  let inpCustomer : Customer;
+  export const Customers = () => {
     
-    firstName: string;
-    lastName: string;
-    email: string;
-    adresse: string;
-    tlf: string;
-}
 
-export const Customer = () => {
 
-    // you dont put id yourself
-    let defaultCustomer: CustomerNoId = {
+    const breadcrumbs = [
+        <Link underline="none" fontSize="12px" key="1" color="inherit" href="/">
+            Home
+        </Link>,
+        <Link
+            underline="none"
+            fontSize="12px"
+            key="3"
+            color="inherit">
+            Customer
+        </Link>,
+    ];
+    const { loading, error, data } = useQuery<CustomerPayload>(GET_CUSTOMER);
+    if (inpCustomer == undefined && data) {
+      inpCustomer = data?.customers.items[0];
+    }
+    
+    const [customers, setCustomer] = React.useState(inpCustomer);
+    
 
-        firstName: '',
-        lastName: '',
-        email: '',
-        adresse: '',
-        tlf: '',
 
-    };
+    function TablePaginationActions(props: TablePaginationActionsProps) {
+        const theme = useTheme();
+        const { count, page, rowsPerPage, onPageChange } = props;
+      
+        const handleFirstPageButtonClick = (
+          event: React.MouseEvent<HTMLButtonElement>,
+        ) => {
+          onPageChange(event, 0);
+        };
+      
+        const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+          onPageChange(event, page - 1);
+        };
+      
+        const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+          onPageChange(event, page + 1);
+        };
+      
+        const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+          onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+        };
+      
+        return (
+          <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+            <IconButton
+              onClick={handleFirstPageButtonClick}
+              disabled={page === 0}
+              aria-label="first page"
+            >
+              {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+            </IconButton>
+            <IconButton
+              onClick={handleBackButtonClick}
+              disabled={page === 0}
+              aria-label="previous page"
+            >
+              {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            </IconButton>
+            <IconButton
+              onClick={handleNextButtonClick}
+              disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+              aria-label="next page"
+            >
+              {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+            </IconButton>
+            <IconButton
+              onClick={handleLastPageButtonClick}
+              disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+              aria-label="last page"
+            >
+              {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+            </IconButton>
+          </Box>
+        );
+      }
+      
+      function createData(id: number, firstName: string, lastName: string, adresse:string, email: string, tlf: string, prospects: any[]) {
+        return { id, firstName, lastName, adresse, email, tlf, prospects };
+      }
+      
+      const rows: any[] = [];
 
-    const [currentCustomer, setCurrentCustomer] = useState<CustomerNoId>(defaultCustomer);
-    const [displayValidation, setDisplayValidation] = useState<string>('');
-    const [addCustomer] = useMutation<AddCustomerPayload, { input: CustomerNoId }>(ADD_CUSTOMER);
+      data?.customers.items.map((customer) => {
+          rows.push(createData(customer.id, customer.firstName, customer.lastName,customer.adresse, customer.email, customer.tlf, customer.prospects))
+      })
 
-    //Adds or removes validation field on resignationDate depending on if its empty or not
 
-    //checks only if the start date is empty
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+      const [page, setPage] = React.useState(0);
+      const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-        setCurrentCustomer((prevCustomer) => ({
-            ...prevCustomer,
-            [name]: value,
-        }));
-    };
+      // Avoid a layout jump when reaching the last page with empty rows.
+      const emptyRows =
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
+      const handleChangePage = (
+        event: React.MouseEvent<HTMLButtonElement> | null,
+        newPage: number,
+      ) => {
+        setPage(newPage);
+      };
 
-            // console.log(currentSeller);
-            addCustomer({ variables: { input: currentCustomer } })
-                .then((res) => {
-                    toast.success('Customer opprettet', {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    })
-                })
-                .catch((err) => {
-                    toast.error('Noe gikk galt med oppretting av en customer.', {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    })                    
-                });
-    };
+      const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      ) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      };
+      
+      function CustomerInform(customer: Customer) {
+        inpCustomer = customer;
+        setCustomer(customer)
+        return GetInfo(inpCustomer);
+      } 
+      return (
+          <>
+          {data?.customers.items ? (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 2}}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between',flex: 1, mx: 1, mt:1, color: 'black', fontWeight: '950', letterSpacing: '.5px', fontSize: '14px' }}>
+                      <Box>
+                          CUSTOMERS
+                      </Box>
+                      <Box>
+                          <Breadcrumbs separator={<KeyboardArrowRightIcon fontSize="inherit" />} aria-label="breadcrumb">
+                              {breadcrumbs}
+                          </Breadcrumbs>
+                      </Box>
+                  </Box>
+      
+                  <Box sx={{boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', display: 'flex', m: 1, flexBasis: '100%', flexWrap:'wrap', background: "#ffffff", borderRadius: '5px', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <CustomerContainer />
+                  </Box>
+      
+                  <Box sx={{display: 'flex', flexBasis: '100%', m: 1}}>
+                      <Box className={'table'} sx={{flex: 3, mr: 1, boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', borderRadius: '5px', alignSelf: 'self-start', background: '#ffffff'}}>
+                          <TableContainer>
+                              <Table aria-label="custom pagination table">
+                              <TableHead>
+                                  <TableRow>
+                                      <TableCell>Id</TableCell> 
+                                      <TableCell>Full Name</TableCell>
+                                      <TableCell>Address</TableCell>
+                                      <TableCell>Email</TableCell>
+                                      <TableCell style={{textAlign: 'right'}}>Phone Number</TableCell>
+                                  
+                                  </TableRow>
+                                  </TableHead>
+                                  <TableBody sx={{border: 'none'}}>
+                                  {(rowsPerPage > 0
+                                      ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                      : rows
+                                  ).map((row) => (
+                                      <TableRow key={row.id}  hover>
+                                      <TableCell onClick={() => CustomerInform(row)} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+                                          {row.id}
+                                      </TableCell>
+                                      <TableCell onClick={() => CustomerInform(row)} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+                                          {row.firstName + " " + row.lastName} 
+                                      </TableCell>
+                                      <TableCell onClick={() => CustomerInform(row)} style={{border: 'none', borderBottom: '1px solid #e0e0e0', borderRight: 'none'}}>
+                                          {row.adresse}
+                                      </TableCell>
+                                      <TableCell onClick={() => CustomerInform(row)} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+                                          {row.email}
+                                      </TableCell>
+                                      <TableCell onClick={() => CustomerInform(row)} style={{textAlign: 'right', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
+                                          {`(+47) ${row.tlf.slice(0,3)} ${row.tlf.slice(3,5)} ${row.tlf.slice(5,8)} `}
+                                      </TableCell>
 
-    return (
-        <div style={{width: '100%', border: 'solid'}}>
-            <form>
-                <FormGroup>
-                    <Label for='firstName'>Selgers Fornavn:</Label>
-                    <Input
-                        type='text'
-                        id='firstName'
-                        value={currentCustomer.firstName}
-                        onChange={handleChange}
-                        name='firstName'
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for='lastName'>Selgers Etternavn:</Label>
-                    <Input
-                        type='text'
-                        id='lastName'
-                        value={currentCustomer.lastName}
-                        onChange={handleChange}
-                        name='lastName'
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for='email'>Selgers email:</Label>
-                    <Input
-                        type='text'
-                        id='email'
-                        value={currentCustomer.email}
-                        onChange={handleChange}
-                        name='email'
-                    />
-                </FormGroup>
 
-                <FormGroup>
-                    <Label for='adresse'>Start dato:</Label>
-                    <Input
-                        type='date'
-                        id='adresse'
-                        value={currentCustomer.adresse}
-                        onChange={handleChange}
-                        name='adresse'
-                    />
-                </FormGroup>
+                                      </TableRow>
+                                  ))}
 
-                <FormGroup>
-                    <Label for='tlf'>Slutt dato:</Label>
-                    <Input
-                        type='date'
-                        id='tlf'
-                        value={currentCustomer.tlf}
-                        onChange={handleChange}
-                        name='tlf'
-                    />
-                </FormGroup>
-
-                <Button color='primary' onClick={handleSubmit}>
-                    Legg til
-                </Button>
-            </form>
-            <ToastContainer />
-        </div>
-    );
-}
+                                  </TableBody>
+                                  <TableFooter sx={{color: 'black'}}>
+                                  <TableRow>
+                                      <TablePagination
+                                      sx={{color: 'black'}}
+                                      rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                      colSpan={5}
+                                      count={rows.length}
+                                      rowsPerPage={rowsPerPage}
+                                      page={page}
+                                      SelectProps={{
+                                          inputProps: {
+                                          'aria-label': 'rows per page',
+                                          'className': 'pTable'
+                                          },
+                                          native: true,
+                                      }}
+                                      onPageChange={handleChangePage}
+                                      onRowsPerPageChange={handleChangeRowsPerPage}
+                                      ActionsComponent={TablePaginationActions}
+                                      />
+                                  </TableRow>
+                                  </TableFooter>
+                              </Table>
+                          </TableContainer>
+                      </Box>
+      
+                      <Box sx={{flex: 1, borderRadius: '5px', ml: 1, boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', alignSelf: 'self-start', background: '#ffffff'}}>
+                          {GetInfo(inpCustomer)}
+                      </Box>
+                  </Box>
+              </Box>
+          ) : (
+              <Loading />
+          )}
+          </>
+        
+      );
+  }
