@@ -182,6 +182,7 @@ export const Deals = () => {
         let date = new Date(y, 0, d).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });;
         return <span>{date}</span>;
     }
+    let count = 0;
 
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 2}}>
@@ -382,7 +383,7 @@ export const Deals = () => {
                                                 {prospects.subProspects.length > 1 ? (
                                                 <>
                                                     {prospects.subProspects.map((subProspects) => 
-                                                        <Accordion key={prospects.id} sx={{boxShadow: '0px 0px 0px 0px rgba(0,0,0,0)', borderRadius: '5px', mb: 1, fontWeight: '950', letterSpacing: '.5px',  display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff'}}>
+                                                        <Accordion key={prospects.id + '.' + count++} sx={{boxShadow: '0px 0px 0px 0px rgba(0,0,0,0)', borderRadius: '5px', mb: 1, fontWeight: '950', letterSpacing: '.5px',  display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff'}}>
                                                             <AccordionSummary
                                                             sx={{maxHeight: '70px', padding: 0}}
                                                             aria-controls="panel1a-content"

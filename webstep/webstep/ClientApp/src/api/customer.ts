@@ -1,9 +1,8 @@
 import { gql } from '@apollo/client';
+import { Prospect } from '../logic/interfaces';
 
-export interface CustomerQuery {
-    data: {
-        customers: Customer[];
-    };
+export interface CustomerPayload {
+    customers: { items: Customer[] }
 }
 
 export interface AddCustomerPayload {
@@ -13,6 +12,11 @@ export interface AddCustomerPayload {
 export interface DeleteCustomerPayload {
     deleteCustomer: { customer: { id: number } };
 }
+
+export interface EditCustomerPayload {
+    editCustomer: { customer: { id: number } };
+}
+
 export interface Customer {
     id: number,
     firstName:string, 
@@ -20,6 +24,7 @@ export interface Customer {
     adresse:string,
     email:string,
     tlf:string,
+    prospects: Prospect[];
 }
 export interface GetCustomerItemsContractsPayload {
     customers: { items: Customer[] }
@@ -37,6 +42,13 @@ export const GET_CUSTOMER = gql`
                 adresse
                 email
                 tlf
+                prospects {
+                    id
+                    projectName
+                    subProspects {
+                        id
+                    }
+                }
             }
         }
     }
@@ -52,31 +64,47 @@ export const GET_CUSTOMERS = gql`
                 email
                 adresse
                 tlf
+                prospects {
+                    projectName
+                    subProspects {
+                        id
+                    }
+                }
             }
         }
     }
 `;
 
 export const ADD_CUSTOMER = gql `
-mutation($input: AddCustomerInput){
-    addCustomer(input: $input){
-      customer{
-        firstName
-        lastName
-        email
-        adresse
-        tlf
+mutation($input: AddCustomerInput) {
+    addCustomer(input: $input) {
+        customer {
+            firstName
+            lastName
+            email
+            adresse
+            tlf
         }
     }
 }
 `;
 
 export const DELETE_CUSTOMER = gql `
-mutation($input: DeleteCustomerInput){
-    deleteCustomer(input: $input){
-        customer{
+mutation($input: DeleteCustomerInput) {
+    deleteCustomer(input: $input) {
+        customer {
             id
         }
     }
 }
+`;
+
+export const EDIT_CUSTOMER = gql`
+    mutation EditCustomer($input: EditCustomerInput) {
+        editCustomer(input: $input) {
+            customer {
+                id
+            }
+        }
+    }
 `;

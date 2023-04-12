@@ -39,5 +39,7 @@ namespace webstep.Models
         [Required]
         public string Tlf { get; set; }
 
+        public ICollection<Prospect> Prospects { get; set; }
+
     }
 }

@@ -26,7 +26,7 @@ jobs:
         cache-dependency-path: './webstep/webstep/ClientApp/package-lock.json'
     - run: npm i 
       working-directory: ./webstep/webstep/ClientApp
-    - run: npm run build 
+    - run: npm run build --if-present
       working-directory: ./webstep/webstep/ClientApp
     - run: npm test
       working-directory: ./webstep/Webstep.Test
