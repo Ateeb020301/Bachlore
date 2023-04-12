@@ -6,6 +6,8 @@ import { PageInfo, Project } from '../../logic/interfaces';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { ModalCustomer } from './ModalCustomer';
+import { ModalEditCustomer } from './ModalEditCustomer';
 
 export const CustomerContainer: React.FC = () => {
     const [isModalOpen, setModalState] = React.useState(false);
@@ -38,6 +40,11 @@ export const CustomerContainer: React.FC = () => {
                     </Button>
                 </Box>
             </Box>
+            <ModalCustomer
+                title={'Kontrakt form'}
+                isOpen={isModalOpen}
+                onClose={toggleModal}
+            />
         </>
     );
 };

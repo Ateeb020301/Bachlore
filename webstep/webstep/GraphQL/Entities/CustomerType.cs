@@ -10,6 +10,7 @@ namespace webstep.GraphQL.Entities
     {
         protected override void Configure(IObjectTypeDescriptor<Customer> descriptor)
         {
+
         }
     }
 
@@ -22,7 +23,7 @@ namespace webstep.GraphQL.Entities
         [Required] public string Tlf { get; set; }
     }
 #nullable enable
-    public record EditCustomerInput(int Id, string? FirstName, string? LastName,string? Adresse, string? Email,string? Tlf);
+    public record EditCustomerInput(int Id, string? FirstName, string? LastName, string? Adresse, string? Email, string? Tlf);
     public record DeleteCustomerInput(int Id);
     public record CustomerPayload(Customer Customer);
 }

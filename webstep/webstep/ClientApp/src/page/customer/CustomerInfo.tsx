@@ -5,9 +5,9 @@ import { Loading } from "../Utils/Loading";
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import PhoneEnabledOutlinedIcon from '@mui/icons-material/PhoneEnabledOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
+import { ModalCustomer } from "./ModalCustomer";
 
 function GetInfo(customer: Customer) {
-    console.log(customer);
     let subProspectlen = 0;
     let str = customer.firstName + ' ' + customer.lastName;
     let acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
@@ -95,7 +95,6 @@ function GetInfo(customer: Customer) {
             </Box>
 
           </Box>
-
         </Box>
       )
 

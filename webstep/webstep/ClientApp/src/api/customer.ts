@@ -12,6 +12,11 @@ export interface AddCustomerPayload {
 export interface DeleteCustomerPayload {
     deleteCustomer: { customer: { id: number } };
 }
+
+export interface EditCustomerPayload {
+    editCustomer: { customer: { id: number } };
+}
+
 export interface Customer {
     id: number,
     firstName:string, 
@@ -38,6 +43,7 @@ export const GET_CUSTOMER = gql`
                 email
                 tlf
                 prospects {
+                    id
                     projectName
                     subProspects {
                         id
@@ -91,4 +97,14 @@ mutation($input: DeleteCustomerInput) {
         }
     }
 }
+`;
+
+export const EDIT_CUSTOMER = gql`
+    mutation EditCustomer($input: EditCustomerInput) {
+        editCustomer(input: $input) {
+            customer {
+                id
+            }
+        }
+    }
 `;

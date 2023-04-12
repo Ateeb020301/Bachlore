@@ -33,8 +33,8 @@ namespace webstep.GraphQL.Mutations
             {
                 FirstName = input.FirstName,
                 LastName = input.LastName,
-                Adresse = input.Adresse,
                 Email = input.Email,
+                Adresse = input.Adresse,
                 Tlf = input.Tlf
             };
 
@@ -56,10 +56,10 @@ namespace webstep.GraphQL.Mutations
 
             customer.FirstName = input.FirstName ?? customer.FirstName;
             customer.LastName = input.LastName ?? customer.LastName;
-            customer.Adresse = input.Adresse ?? customer.Adresse;
             customer.Email = input.Email ?? customer.Email;
+            customer.Adresse = input.Adresse ?? customer.Adresse;
             customer.Tlf = input.Tlf ?? customer.Tlf;
-            
+
             await _repo
                 .UpdateAsync(customer, context, cancellationToken)
                 .ConfigureAwait(false);
@@ -68,8 +68,8 @@ namespace webstep.GraphQL.Mutations
         }
 
         [UseDbContext(typeof(WebstepContext))]
-        public async Task<CustomerPayload> DeleteConsultantAsync(
-            DeleteConsultantInput input,
+        public async Task<CustomerPayload> DeleteCustomerAsync(
+            DeleteCustomerInput input,
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
