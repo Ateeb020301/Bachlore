@@ -7,14 +7,9 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { DELETE_CONTRACT, GET_CONSULTANTS_INFO, GET_TEAMCONS_CONTRACTS } from '../../api/contract/queries';
 import { GetConsultantContractsPayload, GetConsultantItemsContractsPayload } from '../../api/contract/payloads';
 import { Loading } from '../Utils/Loading';
-import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { Link, useNavigate } from 'react-router-dom';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { DELETE_CONSULTANT, DELETE_PROJECTCONSULTANT } from '../../api/consultants';
 import { Consultant, ConsultantWithContracts } from '../../logic/interfaces';
 import { DisplayConsultant } from './DisplayConsultants';
-import { ModalEditConsultant } from './ModalEditConsultant';
 
 const pStyleHead = {
     color: '#495057',
