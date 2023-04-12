@@ -30,6 +30,6 @@ jobs:
         run: dotnet build ./webstep/webstep --configuration Release --no-restore
         
       - name: Publish
-        run: dotnet publish ./webstep/webstep --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        run: dotnet publish ./webstep/webstep --configuration Release --no-build 
         
      
