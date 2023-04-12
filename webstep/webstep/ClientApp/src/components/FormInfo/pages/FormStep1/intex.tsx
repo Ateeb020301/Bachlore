@@ -2,25 +2,19 @@ import * as C from './styles'
 import {useNavigate} from 'react-router-dom'
 import { useForm, FormActions } from '../../context/FormContext'
 import { Theme } from '../../components/Theme/intex'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import React from 'react'
-import { FormGroup, Input, Label } from 'reactstrap'
-import { FormStep2 } from '../FormStep2'
-import { useMutation, useQuery } from '@apollo/client'
+import {  Input, Label } from 'reactstrap'
+import { useMutation } from '@apollo/client'
 import { AddProjectPayload } from '../../../../api/contract/payloads'
 import { ADD_PROJECT } from '../../../../api/contract/queries'
 import { GET_PROSPECTS } from '../../../../api/prospects/queries'
 import { toast } from 'react-toastify'
-import { SelectChangeEvent } from '@mui/material'
 
 interface ProjectNoId {
     projectName: string;
     customerName: string;
 }
-//GQL pagination skip const
-const skipAmount = 0;
-//GQL pagination take const
-const takeAmount = 50;
 export const FormStep1 = () => {
     let newProspectid = 0;
     let defaultProject: ProjectNoId={
@@ -30,14 +24,6 @@ export const FormStep1 = () => {
 
     const navigate = useNavigate()
     const { state, dispatch} = useForm()
-
-    useEffect(()=>{
-        dispatch({
-            type: FormActions.setCurrentStep,
-            payload: 1
-        })
-
-    },[])
 
 
     const [currenProject, setCurrentProject] = useState<ProjectNoId>(defaultProject);
