@@ -1,30 +1,35 @@
 # .github/workflows/publish.yml
-name: Generate a build and push to another branch
+name: Publish 🚀
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - main # Remove this line if your primary branch is "master"
+    - main
+
+env:
+  AZURE_WEBAPP_NAME: current-time-service
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
-    name: Build and Push
-    steps:
-      - name: git-checkout
-        uses: actions/checkout@v2
-
-      - name: Install all dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build # The build command of your project
     
-      - name: Push
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: self
-          BRANCH: build Ateeb
-          FOLDER: build /Dokumenter/Github
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
-          MESSAGE: "Build: ({sha}) {msg}" # The commit message
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+          
+      - name: Restore
+        run: dotnet restore ./CurrentTimeService.sln
+        
+      - name: Build
+        run: dotnet build ./CurrentTimeService.sln --configuration Release --no-restore
+        
+      - name: Publish
+        run: dotnet publish ./CurrentTimeService.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        
+     
