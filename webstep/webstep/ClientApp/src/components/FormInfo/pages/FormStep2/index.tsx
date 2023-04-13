@@ -95,7 +95,6 @@ export const FormStep2 = () => {
         addProjectConsultants({ variables: { input: defaultProjectConsultants } })
         .then((res) => {
             setEmployees(current => [...current, {id: parseInt(currenProject.consultantId), name: tempName, projectConsid: res.data?.addProjectConsultant.projectconsultant.id ?? 0}]);
-            change++;
             toast.success(' Project og consultant lagt til', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
