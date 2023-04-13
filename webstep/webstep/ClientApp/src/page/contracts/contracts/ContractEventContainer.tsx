@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { EditContractInput } from '../../../api/contract/inputs';
 import { getEditContractInput } from '../../../api/contract/logic';
@@ -40,23 +40,6 @@ export const ContractEventContainer: React.FC<ContractEventContainerProps> = ({ 
     });
 
     const [deleteContract] = useMutation<number, { input: { id: number } }>(DELETE_CONTRACT, {
-        refetchQueries: [
-            {
-                query: GET_TEAMCONS_CONTRACTS,
-                variables: { id: consultantId },
-            },
-            {
-                query: GET_CONSULTANT_CAPACITY,
-                variables: { startYear: constants.currentYear, endYear: constants.currentYear + 2, id: consultantId },
-            },
-            {
-                query: GET_CONSULTANTS_INFO
-            },
-        ],
-        awaitRefetchQueries: true,
-    });
-
-    const [deleteProject] = useMutation<number, { input: { id: number } }>(DELETE_PROJECT, {
         refetchQueries: [
             {
                 query: GET_TEAMCONS_CONTRACTS,

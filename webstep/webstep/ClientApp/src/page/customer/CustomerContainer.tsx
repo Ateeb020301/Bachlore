@@ -1,13 +1,9 @@
-import { useQuery } from '@apollo/client';
 import { Box, Button, InputAdornment, OutlinedInput } from '@mui/material';
 import React from 'react';
-import { GET_CONSULTANTS } from '../../api/consultants';
-import { PageInfo, Project } from '../../logic/interfaces';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ModalCustomer } from './ModalCustomer';
-import { ModalEditCustomer } from './ModalEditCustomer';
 
 export const CustomerContainer: React.FC = () => {
     const [isModalOpen, setModalState] = React.useState(false);

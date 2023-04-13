@@ -1,11 +1,9 @@
 import React from "react";
 import { Customer } from "../../api/customer";
 import { Box } from "@mui/material";
-import { Loading } from "../Utils/Loading";
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import PhoneEnabledOutlinedIcon from '@mui/icons-material/PhoneEnabledOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
-import { ModalCustomer } from "./ModalCustomer";
 
 function GetInfo(customer: Customer) {
     let subProspectlen = 0;

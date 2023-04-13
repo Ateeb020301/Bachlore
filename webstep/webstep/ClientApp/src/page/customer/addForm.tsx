@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { ADD_CUSTOMER, AddCustomerPayload, GET_CUSTOMER } from '../../api/customer';
 
 interface DefaultCustomer {
@@ -29,11 +28,7 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
         tlf: '',
     };
 
-    const outsideRef = React.useRef(null);
-    const navigate = useNavigate();
-
     const [currentCustomer, setCurrentCustomer] = useState<DefaultCustomer>(defaultCustomer);
-    const [displayValidation, setDisplayValidation] = useState<string>('');
     const [addCustomer] = useMutation<AddCustomerPayload, { input: DefaultCustomer }>(
         ADD_CUSTOMER, {
             refetchQueries: [
@@ -154,7 +149,6 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
                         <Input
                             type='text'
                             id='inpTlf'
-                            className={displayValidation}
                             value={currentCustomer.tlf ? currentCustomer.tlf : ''}
                             onChange={handleChange}
                             name='tlf'

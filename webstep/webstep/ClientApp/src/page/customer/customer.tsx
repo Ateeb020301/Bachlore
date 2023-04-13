@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
-import { Button, FormGroup, Input, Label } from 'reactstrap';
-import { AddCustomerPayload, ADD_CUSTOMER, GET_CUSTOMER, CustomerPayload, DELETE_CUSTOMER, Customer } from '../../api/customer';
+import React from 'react';
+import {  GET_CUSTOMER, CustomerPayload, DELETE_CUSTOMER, Customer } from '../../api/customer';
 import { useMutation, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
@@ -9,7 +7,6 @@ import { Box, Breadcrumbs, IconButton, Link, TableHead, useTheme } from '@mui/ma
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { CustomerContainer } from './CustomerContainer';
 import GetInfo from './CustomerInfo';
-import { Prospects } from '../prospect/Prospects/ProspectDescription';
 import { Loading } from '../Utils/Loading';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
@@ -22,7 +19,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { ModalEditCustomer } from './ModalEditCustomer';
@@ -70,7 +66,7 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
             Customer
         </Link>,
     ];
-    const { loading, error, data } = useQuery<CustomerPayload>(GET_CUSTOMER);
+    const { data } = useQuery<CustomerPayload>(GET_CUSTOMER);
     if (inpCustomer == undefined && data) {
       inpCustomer = data?.customers.items[0];
     }
@@ -217,10 +213,6 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,

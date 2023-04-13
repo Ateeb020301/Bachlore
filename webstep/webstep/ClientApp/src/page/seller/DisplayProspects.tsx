@@ -1,5 +1,5 @@
 import React from 'react';
-import { Customer, PageInfo, Prospect } from '../../logic/interfaces';
+import { Prospect } from '../../logic/interfaces';
 import './Seller.css';
 
 interface ProspectDisplay {

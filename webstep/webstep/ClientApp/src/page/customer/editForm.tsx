@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
+import React, {useState } from 'react';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
-import { AddConsultantPayload, ADD_CONSULTANT, EditConsultantPayload, EDIT_CONSULTANT } from '../../api/consultants';
+import { toast } from 'react-toastify';
 import { Box } from '@mui/material';
-import { Form, useNavigate } from 'react-router-dom';
-import { GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY, GET_TEAMCONS_CONTRACTS } from '../../api/contract/queries';
-import { constants } from '../../logic/constants';
+import { GET_CONSULTANTS_INFO } from '../../api/contract/queries';
 import { EDIT_CUSTOMER, EditCustomerPayload, GET_CUSTOMER } from '../../api/customer';
 
 interface DefaultCustomer {
@@ -20,10 +16,6 @@ interface DefaultCustomer {
     tlf: string;
 }
 
-function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-}
 
 
 interface ModalEditCustomerProps {
@@ -36,12 +28,6 @@ export const EditForm: React.FC<ModalEditCustomerProps> = ({onClose, customer}) 
     //Date shenanigans
     let d = new Date();
     //Get todays date
-    let today =
-        d.getFullYear() +
-        '-' +
-        (d.getMonth() + 1).toString().padStart(2, '0') +
-        '-' +
-        d.getDate().toString().padStart(2, '0');
 
     let newCustomer: DefaultCustomer = {
         id: 0,
@@ -52,11 +38,7 @@ export const EditForm: React.FC<ModalEditCustomerProps> = ({onClose, customer}) 
         tlf: ''
     };
 
-    const outsideRef = React.useRef(null);
-    const navigate = useNavigate();
-
     const [currentCustomer, setCurrentCustomer] = useState<DefaultCustomer>(customer);
-    const [displayValidation, setDisplayValidation] = useState<string>('');
     const [editCustomer] = useMutation<EditCustomerPayload, { input: DefaultCustomer }>(EDIT_CUSTOMER, {
         refetchQueries: [
             {
@@ -185,7 +167,6 @@ export const EditForm: React.FC<ModalEditCustomerProps> = ({onClose, customer}) 
                         <Input
                             type='text'
                             id='inpTlf'
-                            className={displayValidation}
                             value={currentCustomer.tlf ? currentCustomer.tlf : ''}
                             onChange={handleChange}
                             name='tlf'

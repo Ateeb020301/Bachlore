@@ -1,14 +1,12 @@
-import { useMutation, useQuery } from '@apollo/client';
-import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import React from 'react';
 import { EditProspectInput } from '../../../api/prospects/inputs';
 import { EditProspectPayload } from '../../../api/prospects/payloads';
 import { EDIT_PROSPECT, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
 import { Customer, Prospect, SubProspect } from '../../../logic/interfaces';
-import { defaultMessagePlacement } from '../../../logic/toast';
 import { EditableField } from '../../Utils/EditableField';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { GET_CUSTOMERS } from '../../../api/customer';
 
 interface ProspectDescriptionProps {
     prospect: Prospects;
@@ -39,10 +37,7 @@ const centeredSpan = {
     justifyContent: 'flex-start',
     alignItems: 'center',
 };
-//GQL pagination skip const
-const skipAmount = 0;
-//GQL pagination take const
-const takeAmount = 50;
+
 
 export const ProspectDescription: React.FC<ProspectDescriptionProps> = ({ prospect, sellerId}) => {
     const [editProspect] = useMutation<EditProspectPayload, { input: EditProspectInput }>(EDIT_PROSPECT, {

@@ -1,32 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
-import { Button, FormGroup, Input, Label } from 'reactstrap';
-import { useMutation, useQuery } from '@apollo/client';
+import React from 'react';
+import { useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
-import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Breadcrumbs, InputAdornment, Link, OutlinedInput, Typography } from '@mui/material';
+import { ToastContainer } from 'react-toastify';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Breadcrumbs, Link } from '@mui/material';
 import { DealsContainer } from './DealsContainer';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import NumbersOutlinedIcon from '@mui/icons-material/NumbersOutlined';
 import PercentOutlinedIcon from '@mui/icons-material/PercentOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
-import { GetAllSellerProspectsPayload, GetProspectsPayload } from '../../api/prospects/payloads';
-import { GET_ALL_SELLER_PROSPECTS, GET_PROSPECTS } from '../../api/prospects/queries';
+import { GetProspectsPayload } from '../../api/prospects/payloads';
+import { GET_PROSPECTS } from '../../api/prospects/queries';
 
-interface ConsultantNoId {
-    firstName: string;
-    lastName: string;
-    employmentDate: string;
-    resignationDate?: any;
-    workdays: number;
-}
-
-function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-}
 
 export const Deals = () => {
 
@@ -43,142 +28,10 @@ export const Deals = () => {
         </Link>,
     ];
 
-    const [isModalOpen, setModalState] = React.useState(false);
-
-
-    const toggleModal = () => setModalState(!isModalOpen);
-    //Date shenanigans
-    let d = new Date();
-    
-    //Get todays date
-    let today =
-        d.getFullYear() +
-        '-' +
-        (d.getMonth() + 1).toString().padStart(2, '0') +
-        '-' +
-        d.getDate().toString().padStart(2, '0');
-
-    let defaultConsultant: ConsultantNoId = {
-        firstName: '',
-        lastName: '',
-        employmentDate: today,
-        resignationDate: null,
-        workdays: 0,
-    };
-
-    const [currentConsultant, setCurrentConsultant] = useState<ConsultantNoId>(defaultConsultant);
-    const [displayValidation, setDisplayValidation] = useState<string>('');
-    const [addConsultant] = useMutation<AddConsultantPayload, { input: ConsultantNoId }>(ADD_CONSULTANT);
-
-    //Adds or removes validation field on resignationDate depending on if its empty or not
-    useEffect(() => {
-        resignationDateValidationToggle();
-    });
-
-    const resignationDateValidationToggle = () => {
-        let isValidatedStr = '';
-
-        //returns true if its a valid end date, false if its not
-        let isValidResignationDate = isValidEndDate(
-            currentConsultant.resignationDate ? currentConsultant.resignationDate : ''
-        );
-
-        //Checks if date is not empty and is a valid endDate
-        if (currentConsultant.resignationDate && currentConsultant.resignationDate !== '' && isValidResignationDate) {
-            isValidatedStr = 'is-valid';
-        } else if (
-            currentConsultant.resignationDate &&
-            currentConsultant.resignationDate !== '' &&
-            !isValidResignationDate
-        ) {
-            isValidatedStr = 'is-invalid';
-        }
-
-        setDisplayValidation(isValidatedStr);
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-
-        setCurrentConsultant((prevConsultant) => ({
-            ...prevConsultant,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-
-        if (isValidConsultant()) {
-            addConsultant({ variables: { input: currentConsultant } })
-                .then((res) => {
-                    toast.success('Konsulent opprettet', {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    })
-                })
-                .catch((err) => {
-                    toast.error('Noe gikk galt med oppretting av en konsulent.', {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    })             
-                });
-        }
-    };
-
-    const isValidText = (s: string) => {
-        return s !== '';
-    };
-
-    //checks only if the start date is empty
-    const isValidStartDate = (s: string) => {
-        if (s === '') {
-            return false;
-        }
-        return true;
-    };
-
-    const isValidEndDate = (s: string) => {
-        if (s === '') {
-            return true;
-        }
-
-        // If the startdate doesnt exist, any valid date is a valid start date
-        if (currentConsultant.employmentDate === '') {
-            //change to date when its ready
-            return isValidText(s);
-        } else {
-            // assumes startdate is formatted correctly
-            let tempSD = new Date(currentConsultant.employmentDate);
-            // assumes enddate is formatted correctly
-            let tempED = new Date(s);
-            return tempED > tempSD;
-        }
-    };
-
-    const isValidConsultant = (): boolean => {
-        let hasTruthyValues =
-            currentConsultant.firstName &&
-            currentConsultant.lastName &&
-            isValidStartDate(currentConsultant.employmentDate);
-
-        let resignDate = currentConsultant.resignationDate?.toString();
-        if (hasTruthyValues) {
-            if (resignDate !== '') {
-                return (
-                    isValidText(currentConsultant.employmentDate) &&
-                    isValidEndDate(currentConsultant.resignationDate ? currentConsultant.resignationDate : '')
-                );
-            } else {
-                return isValidText(currentConsultant.employmentDate);
-            }
-        }
-        return false;
-    };
-
-    const { loading, error, data } = useQuery<GetProspectsPayload>(GET_PROSPECTS);
+    const { data } = useQuery<GetProspectsPayload>(GET_PROSPECTS);
 
     function getDateOfWeek(w : any, y : any) {
         var d = (1 + (w - 1) * 7); // 1st of January + 7 days for each week
-        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let date = new Date(y, 0, d).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });;
         return <span>{date}</span>;
     }

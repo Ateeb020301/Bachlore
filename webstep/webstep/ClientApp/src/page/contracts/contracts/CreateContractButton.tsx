@@ -1,8 +1,7 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Button } from 'reactstrap';
 import { AddContractInput, AddProjectConsultantInput, AddProjectInput } from '../../../api/contract/inputs';
 import { getDefaultNewContract } from '../../../api/contract/logic';
 import { AddContractPayload, AddProjectConsultantPayload, AddProjectPayload } from '../../../api/contract/payloads';
@@ -14,7 +13,6 @@ import {
     GET_CONSULTANTS_INFO,
     ADD_PROJECTCONSULTANT,
 } from '../../../api/contract/queries';
-import { defaultMessagePlacement } from '../../../logic/toast';
 import { Modal } from '../../Utils/ModalComponent';
 
 interface CreateContractButtonProps {
@@ -46,47 +44,6 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({ cons
         ],
         awaitRefetchQueries: true,
     });
-
-    const handleClick = () => {
-        addProject({ variables: { input: { customerName: 'Kunde', projectName: 'Prosjekt' }, } }).then((res) => {
-            if (!res.data) throw Error;
-            let projectId = res.data.addProject.project.id;
-            console.log(projectId);
-            let defaultContract = getDefaultNewContract(projectId, consultantId);
-            addProjectConsultant({ variables: { input: { consultantId: consultantId, projectId: projectId } } }).then((res) => {
-                if (!res.data) throw Error;
-                addContract({ variables: { input: defaultContract } })
-                    .then((res) => {
-                        toast.success('Kontrakten ble opprettet', {
-                            position: toast.POSITION.BOTTOM_RIGHT
-                        })
-                    })
-                    .catch((e) => {
-                        console.log(e);
-                        toast.error('Noe gikk galt ved oppretting av kontrakten', {
-                            position: toast.POSITION.BOTTOM_RIGHT
-                        })
-                    });
-            }).catch((e) => {
-                console.log(e)
-                toast.error('Noe gikk galt ved inlegging av konsulent til prosjekt', {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
-            });
-        })
-            .catch((e) => {
-                console.log(e)
-                toast.error('Noe gikk galt med oppretting av prosjekt til den nye kontrakten.', {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
-            });
-
-    };
-// <Button onClick={handleClick} size='sm' color='primary'>
-//     + kontrakt
-// </Button>
-
-
     return (
         <div className='modalContainer'>
         <button

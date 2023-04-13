@@ -1,9 +1,7 @@
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { faker } from '@faker-js/faker';
 import { useQuery } from '@apollo/client';
 import { GET_REVENUE } from '../../../api/financials/queries';
-import { yearOut } from './mutliaxis';
 import { Doughnut } from 'react-chartjs-2';
 import { Financial } from '../../../components/ChartLogic/chartlogic';
 import { getMonthName } from '../../../logic/getMonth';
@@ -29,7 +27,7 @@ export function SumAnually(yearOut: React.Key | null | undefined) {
   sum = 0;
   estSum = 0;
 
-  const { loading, error, data, refetch } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
+  const { data } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
   data?.financial.forEach((data) => {
     labels.push(getMonthName(data.month) + " " + yearOut);
     actRev.push(data.actualRevenue)
@@ -50,7 +48,7 @@ function DoughnutChart(yearOut: React.Key | null | undefined) {
   labels = [];
   actRev = [];
   estRev = [];
-  const { loading, error, data, refetch } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
+  const { data } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
   data?.financial.forEach((data) => {
     labels.push(getMonthName(data.month) + " " + yearOut);
     actRev.push(data.actualRevenue)

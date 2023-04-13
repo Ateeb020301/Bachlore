@@ -1,6 +1,5 @@
 ﻿import React from 'react';
-import { FormProvider } from '../../components/FormInfo/context/FormContext';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './AddModal.css';
 import { AddForm } from './addForm';
 import CloseIcon from '@mui/icons-material/Close';

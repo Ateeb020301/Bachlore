@@ -8,19 +8,17 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import KeyIcon from '@mui/icons-material/Key';
 import AddIcon from '@mui/icons-material/Add';
 import MultiAxis from './charts/mutliaxis'
-import { faker } from '@faker-js/faker';
 import { CollapsibleTable } from "./table/projects";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import DoughnutChart, {SumAnually, targetPercentage} from "./charts/doughnut";
 import ProfitLine, { SumProfit } from "./charts/linechart";
 import { Link } from "react-router-dom";
 import './home.css'
 import { FormControl, InputLabel, Select, SelectChangeEvent } from "@mui/material";
-import useForceUpdate from "use-force-update";
   
 let yearOut = 2017;
 

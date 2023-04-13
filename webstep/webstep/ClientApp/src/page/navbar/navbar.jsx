@@ -1,16 +1,9 @@
 import { Box, IconButton } from '@mui/material'
-import { useContext } from 'react'
 import { useState } from 'react'
-import InputBase from '@mui/material/InputBase'
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from 'react-router-dom'
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpen from '@mui/icons-material/MenuOpen';
 import './navbar.css';

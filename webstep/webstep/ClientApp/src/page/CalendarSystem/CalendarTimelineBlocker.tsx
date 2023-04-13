@@ -1,6 +1,5 @@
 import React from 'react';
 
-interface CalendarTimelineBlockerProps { }
 
 const style = {
     display: 'block',
@@ -8,6 +7,7 @@ const style = {
     width: '100%',
     backgroundColor: '#637081',
 };
-export const CalendarTimelineBlocker: React.FC<CalendarTimelineBlockerProps> = ({ }) => {
+
+export const CalendarTimelineBlocker: React.FC = () => {
     return <span style={style}></span>;
 };
