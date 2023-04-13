@@ -1,3 +1,4 @@
+import { Customer } from '../customer';
 import { WeekYear } from './types';
 
 export interface AddProspectInput {
@@ -21,6 +22,12 @@ export interface AddSubProspectInput {
 export interface EditProspectInput {
     id: number;
     projectName: string;
+}
+
+export interface EditProspectCustomerInput {
+    id: number;
+    projectName: string;
+    customerId: number;
 }
 
 export interface EditSubProspectInput {

@@ -10,7 +10,7 @@ import { Form, useNavigate } from 'react-router-dom';
 import { AddProspectPayload, AddSubProspectPayload } from '../../../api/prospects/payloads';
 import { ADD_PROSPECT, ADD_SUBPROSPECT, GET_PROSPECTS, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
 import { Prospects } from '../Prospects';
-import { Customer, GetCustomerItemsContractsPayload, GET_CUSTOMERS } from '../../../api/customer';
+import { Customer, GetCustomerItemsContractsPayload, GET_CUSTOMERS, GET_CUSTOMER } from '../../../api/customer';
 import { SubProspect } from '../../../logic/interfaces';
 import { AddProspectCustomerInput, AddProspectInput, AddSubProspectInput } from '../../../api/prospects/inputs';
 import { getCurrentWeek } from '../../../logic/dateFunctions';
@@ -62,6 +62,9 @@ export const AddProspectForm: React.FC<ModalNewProspectProps> = ({onClose, selle
                     query: GET_SELLERS,
                     variables: {skipAmount: skipAmount, takeAmount: takeAmount  },
                 },
+                {
+                    query: GET_CUSTOMER
+                }
             ],
             awaitRefetchQueries: true,
         }
@@ -74,6 +77,9 @@ export const AddProspectForm: React.FC<ModalNewProspectProps> = ({onClose, selle
             },
             {
                 query: GET_PROSPECTS,
+            }, 
+            {
+                query: GET_CUSTOMER
             }
         ],
         awaitRefetchQueries: true,

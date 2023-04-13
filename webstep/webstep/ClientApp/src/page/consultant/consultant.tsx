@@ -100,33 +100,6 @@ export const Consultant = () => {
         setDisplayValidation(isValidatedStr);
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-
-        setCurrentConsultant((prevConsultant) => ({
-            ...prevConsultant,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-
-        if (isValidConsultant()) {
-            addConsultant({ variables: { input: currentConsultant } })
-                .then((res) => {
-                    toast.success('Konsulent opprettet', {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    })
-                })
-                .catch((err) => {
-                    toast.error('Noe gikk galt med oppretting av en konsulent.', {
-                        position: toast.POSITION.BOTTOM_RIGHT
-                    })             
-                });
-        }
-    };
-
     const isValidText = (s: string) => {
         return s !== '';
     };

@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { ADD_CUSTOMER, AddCustomerPayload, GET_CUSTOMER } from '../../api/customer';
+import { ADD_CUSTOMER, AddCustomerPayload, GET_CUSTOMER, GET_CUSTOMERS } from '../../api/customer';
 
 interface DefaultCustomer {
     firstName: string;
@@ -19,6 +19,11 @@ interface DefaultCustomer {
 interface ModalConsultantProps {
     onClose: () => void;
 }
+
+//GQL pagination skip const
+const skipAmount = 0;
+//GQL pagination take const
+const takeAmount = 50;
 
 export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
     let defaultCustomer: DefaultCustomer = {
@@ -40,6 +45,11 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
                 {
                     query: GET_CUSTOMER,
                 },
+                {
+                    query: GET_CUSTOMERS,
+                    pollInterval: 500,
+                    variables: { skipAmount: skipAmount, takeAmount: takeAmount }
+                  }
             ],
             awaitRefetchQueries: true,
         }
