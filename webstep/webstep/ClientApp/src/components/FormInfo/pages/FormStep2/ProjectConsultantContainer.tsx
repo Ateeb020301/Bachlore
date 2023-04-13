@@ -41,6 +41,7 @@ export const ProjectConsultantContainer: React.FC = () => {
             </div>
         );
     }
+    containerContent=0;
 
     return <div>{containerContent}</div>
 }
