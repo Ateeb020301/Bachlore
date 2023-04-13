@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
 import { Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { GET_CONSULTANTS_INFO } from '../../api/contract/queries';
 
 interface ConsultantNoId {

@@ -3,7 +3,6 @@ import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
-import {  useNavigate } from 'react-router-dom';
 import { EditSellerInput, EditSellerPayload, EDIT_SELLER, GET_SELLERS } from '../../api/sellers';
 import '../consultant/AddModal.css'
 import './Seller.css'

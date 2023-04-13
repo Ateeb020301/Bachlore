@@ -25,9 +25,6 @@ interface ModalEditCustomerProps {
 
 export const EditForm: React.FC<ModalEditCustomerProps> = ({onClose, customer}) => {
 
-    //Date shenanigans
-    let d = new Date();
-    //Get todays date
 
     let newCustomer: DefaultCustomer = {
         id: 0,

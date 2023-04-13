@@ -1,12 +1,12 @@
 import * as C from './styles'
-import {useNavigate, Link, useLocation} from 'react-router-dom'
+import {useNavigate, useLocation} from 'react-router-dom'
 import { Theme } from '../../components/Theme/intex'
 import {useForm, FormActions} from '../../context/FormContext'
-import {ChangeEvent, useEffect, useState} from 'react'
+import {useState} from 'react'
 import React from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import { ADD_PROJECTCONSULTANT, GetProjectItemsPayload, GET_CONSULTANTS_INFO, GET_PROJECTS, GET_PROJECTCONSULTANTS, DELETE_PROJECTCONSULTANT } from '../../../../api/contract/queries'
-import { AddProjectConsultantPayload, GetConsultantItemsContractsPayload, GetProjectConsultantPayload2, GetProjectConsultantPayload } from '../../../../api/contract/payloads'
+import { AddProjectConsultantPayload, GetConsultantItemsContractsPayload, GetProjectConsultantPayload2 } from '../../../../api/contract/payloads'
 import { FormGroup, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { toast } from 'react-toastify'
 import './index.css'
@@ -33,20 +33,17 @@ export const FormStep2 = () => {
     const location = useLocation();
     console.log(location.state.id)
 
-    const { loading, error, data, refetch } = useQuery<GetProjectItemsPayload>(GET_PROJECTS, {
+    const { data } = useQuery<GetProjectItemsPayload>(GET_PROJECTS, {
         pollInterval: 500,
         variables: { skipAmount: skipAmount, takeAmount: takeAmount }
     });
-    const { loading: loadingC, error: errorC, data: dataC } = useQuery<GetConsultantItemsContractsPayload>(GET_CONSULTANTS_INFO);
-    const { data: dataD  } = useQuery<GetProjectConsultantPayload2>(GET_PROJECTCONSULTANTS,{
-        pollInterval: 500,
-        variables: { skipAmount: skipAmount, takeAmount: takeAmount }
-    });
+    const { data: dataC } = useQuery<GetConsultantItemsContractsPayload>(GET_CONSULTANTS_INFO);
+
     const [deletePC] = useMutation<number, { input: { id: number } }>(DELETE_PROJECTCONSULTANT)
     const handleNextStep = () => {
         navigate('../step3')
     }
-    let change=0;
+
     const {state, dispatch} = useForm()
 
     let defaultProjectConsultants: ProjectConsultantsNoId={
@@ -79,7 +76,7 @@ export const FormStep2 = () => {
         console.log(state.name)
         console.log(state.projectName)
         data?.projects.items.map((aProject) => {
-            if(aProject.projectName==state.projectName && aProject.customerName==state.name){
+            if(aProject.projectName===state.projectName && aProject.customerName===state.name){
                 defaultProjectConsultants.projectId=aProject.id;
                 dispatch({
                     type: FormActions.setProjectId,
@@ -89,7 +86,7 @@ export const FormStep2 = () => {
         })
         let tempName='';
         dataC?.consultants.items.map((aConsultant)=>{
-            if(aConsultant.id==parseInt(currenProject.consultantId)){
+            if(aConsultant.id===parseInt(currenProject.consultantId)){
                 
                 tempName= aConsultant.firstName+aConsultant.lastName;
             }
@@ -110,29 +107,6 @@ export const FormStep2 = () => {
             console.log(e)
         });
     };
-    const isValidText = (s: string) => {
-        return s !== '';
-    };
-
-    // const getConsultantElements = (consultant: Consultant[]): JSX.Element => {
-    //     return (
-    //         <>
-    //             {consultant.map((aConsultant) => (
-    //                 <div key={'Consultant_Container_' + aConsultant.id} className='container-sub-element'>
-    //                     <p key={'Consultant_Name_' + aConsultant.id}>Prosjekt navn: {aConsultant.firstName} {aConsultant.lastName}</p>
-    //                     <button key={aConsultant.id}>Delete</button>
-    //                 </div>
-    //             ))}
-    //         </>
-    //     );
-    // };
-
-
-    // const droppDown = ()=>{
-    //     newConsultant.map((newCon=>{
-            
-    //     }))
-    // }
 
 
     const sendDeleteRequest = (id:number)=>{

@@ -7,7 +7,6 @@ import { getEditContractInput } from '../../../api/contract/logic';
 import { EditContractPayload } from '../../../api/contract/payloads';
 import {
     DELETE_CONTRACT,
-    DELETE_PROJECT,
     EDIT_CONTRACT,
     GET_CONSULTANTS_INFO,
     GET_CONSULTANT_CAPACITY,

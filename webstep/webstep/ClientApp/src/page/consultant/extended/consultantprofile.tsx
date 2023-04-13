@@ -69,7 +69,7 @@ export const Profile = () => {
         }
     }
     
-    {todayDate = 0 ? (13) : (todayDate)}
+    {todayDate = 0 ? (13) : (todayDate)};
     percentage = (monthlySalary[todayDate].salary-monthlySalary[todayDate-1].salary)/(monthlySalary[todayDate-1].salary+1);
     let lastMonth = 0;
     let thisMonth = 0;
@@ -79,7 +79,7 @@ export const Profile = () => {
         colorPercentage = 'green'
         thisMonth = 100;
         lastMonth = 100-(percentage*100);
-    } else if(percentage == 0) {
+    } else if(percentage === 0) {
         thisMonth = 0;
         lastMonth = 0;
     } 

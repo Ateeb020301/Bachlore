@@ -1,14 +1,11 @@
 import * as C from './styles'
 import { Theme } from '../../components/Theme/intex'
-import {useForm, FormActions} from '../../context/FormContext'
-import { useEffect} from 'react'
+import {useForm} from '../../context/FormContext'
 import {ReactComponent as CheckIcon} from '../../svgs/check.svg'
-import {useNavigate} from 'react-router-dom'
 import React from 'react'
 
 export const FormStep4 = () => {
     const {state} = useForm()
-    const navigate = useNavigate()
 
 
 

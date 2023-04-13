@@ -10,7 +10,7 @@ function GetInfo(customer: Customer) {
     let str;
     let acronym;
     
-    if (customer != undefined) {
+    if (customer !== undefined) {
        str = customer.firstName + ' ' + customer.lastName;
        acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
        customer.prospects.forEach(element => {
@@ -20,7 +20,7 @@ function GetInfo(customer: Customer) {
 
 
 
-    const element = (customer != undefined ? (
+    const element = (customer !== undefined ? (
       <Box sx={{p: 1}}>
 
       <Box sx={{display: 'flex', alignItems: 'center', flexDirection: 'column', borderBottom: '1px dotted #e0e0e0'}}>

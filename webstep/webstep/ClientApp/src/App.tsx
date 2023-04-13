@@ -1,14 +1,11 @@
 import React from 'react';
 import './App.css';
-import GuardedRoute from './components/Auth/GuardedRoute';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import isAuthenticated from './utils/auth_check';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HeaderBar } from './page/navbar/header'; 
 import { Navbar } from './page/navbar/navbar';
 import { Home } from './page/home/home';
 import { Prospects } from './page/prospect/Prospects'
-import { setNavCollapse } from './page/navbar/navbar';
 import { Contracts } from './page/contracts/contracts';
 import { Seller } from './page/seller/seller';
 import { Consultant } from './page/consultant/consultant';

@@ -5,8 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { EditConsultantPayload, EDIT_CONSULTANT } from '../../api/consultants';
 import { Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY, GET_TEAMCONS_CONTRACTS } from '../../api/contract/queries';
+import { GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY } from '../../api/contract/queries';
 import { constants } from '../../logic/constants';
 
 interface ConsultantNoId {

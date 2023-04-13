@@ -63,7 +63,6 @@ export const Consultant = () => {
 
     const [currentConsultant, setCurrentConsultant] = useState<ConsultantNoId>(defaultConsultant);
     const [displayValidation, setDisplayValidation] = useState<string>('');
-    const [addConsultant] = useMutation<AddConsultantPayload, { input: ConsultantNoId }>(ADD_CONSULTANT);
 
     //Adds or removes validation field on resignationDate depending on if its empty or not
     useEffect(() => {
@@ -120,26 +119,6 @@ export const Consultant = () => {
             let tempED = new Date(s);
             return tempED > tempSD;
         }
-    };
-
-    const isValidConsultant = (): boolean => {
-        let hasTruthyValues =
-            currentConsultant.firstName &&
-            currentConsultant.lastName &&
-            isValidStartDate(currentConsultant.employmentDate);
-
-        let resignDate = currentConsultant.resignationDate?.toString();
-        if (hasTruthyValues) {
-            if (resignDate !== '') {
-                return (
-                    isValidText(currentConsultant.employmentDate) &&
-                    isValidEndDate(currentConsultant.resignationDate ? currentConsultant.resignationDate : '')
-                );
-            } else {
-                return isValidText(currentConsultant.employmentDate);
-            }
-        }
-        return false;
     };
 
     return (

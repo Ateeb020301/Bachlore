@@ -23,7 +23,6 @@ export const getDefaultNewContract = (projectId: number, consultantId: number) =
          
     var weekNumber = Math.ceil(days / 7);
 
-    let currentWeek = getCurrentWeek();
     let currentYear = new Date().getFullYear();
 
     let defaultContract: AddContractInput = {

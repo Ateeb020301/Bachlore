@@ -9,7 +9,7 @@ import { CreateProspectButton } from './CreateProspectButton';
 import { ProspectDescription } from './ProspectDescription';
 import { SubProspectEvents } from './SubProspectEvents';
 import { v4 as uuidv4 } from 'uuid';
-import { Prospect } from '../../../logic/interfaces';
+
 
 interface SellerSectionProps {
     id: number;
@@ -19,7 +19,7 @@ interface SellerSectionProps {
 
 
 export const SellerSection: React.FC<SellerSectionProps> = ({ id, name, showProspects }) => {
-    const { loading, error, data } = useQuery<GetSellerProspectsPayload>(GET_SELLER_PROSPECTS, {
+    const {data } = useQuery<GetSellerProspectsPayload>(GET_SELLER_PROSPECTS, {
         variables: { id: id },
         pollInterval: 3000,
     });
