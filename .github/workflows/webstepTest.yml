@@ -24,12 +24,12 @@ jobs:
           dotnet-version: '5.0.x'
           
       - name: Restore
-        run: dotnet restore ./webstep/webstep
+        run: dotnet restore ./webstep/webstep/ClientApp
         
       - name: Build
-        run: dotnet build ./webstep/webstep --configuration Release --no-restore
+        run: dotnet build ./webstep/webstep/ClientApp --configuration Release --no-restore
         
       - name: Publish
-        run: dotnet publish ./webstep/webstep --configuration Release --no-build 
+        run: dotnet publish ./webstep/webstep/ClientApp --configuration Release --no-build 
         
      
