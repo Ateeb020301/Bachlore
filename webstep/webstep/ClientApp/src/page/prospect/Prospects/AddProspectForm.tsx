@@ -6,15 +6,10 @@ import { toast } from 'react-toastify';
 import {  MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { AddProspectPayload, AddSubProspectPayload } from '../../../api/prospects/payloads';
 import { ADD_PROSPECT, ADD_SUBPROSPECT, GET_PROSPECTS, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
-<<<<<<< HEAD
-import {  GetCustomerItemsContractsPayload, GET_CUSTOMERS } from '../../../api/customer';
-import { AddSubProspectInput } from '../../../api/prospects/inputs';
-=======
 import { Prospects } from '../Prospects';
 import { Customer, GetCustomerItemsContractsPayload, GET_CUSTOMERS, GET_CUSTOMER } from '../../../api/customer';
 import { SubProspect } from '../../../logic/interfaces';
 import { AddProspectCustomerInput, AddProspectInput, AddSubProspectInput } from '../../../api/prospects/inputs';
->>>>>>> 3c626bf1625f34c65eb34797c2d59d49de43694c
 import { getCurrentWeek } from '../../../logic/dateFunctions';
 import { GET_SELLERS } from '../../../api/sellers';
 

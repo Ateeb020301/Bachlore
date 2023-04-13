@@ -4,12 +4,8 @@ import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { Box } from '@mui/material';
-<<<<<<< HEAD
-import { ADD_CUSTOMER, AddCustomerPayload, GET_CUSTOMER } from '../../api/customer';
-=======
 import { useNavigate } from 'react-router-dom';
 import { ADD_CUSTOMER, AddCustomerPayload, GET_CUSTOMER, GET_CUSTOMERS } from '../../api/customer';
->>>>>>> 3c626bf1625f34c65eb34797c2d59d49de43694c
 
 interface DefaultCustomer {
     firstName: string;

@@ -6,8 +6,16 @@ import './Consultant.css';
 import { ConsultantContainer } from './ConsultantContainer';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { ConsultantDisplay } from './ConsultantDisplay';
+import { useMutation } from '@apollo/client';
+import { ADD_CONSULTANT, AddConsultantPayload } from '../../api/consultants';
 
-
+interface ConsultantNoId {
+    firstName: string;
+    lastName: string;
+    employmentDate: string;
+    resignationDate?: any;
+    workdays: number;
+}
 export const Consultant = () => {
 
     const breadcrumbs = [
@@ -30,8 +38,6 @@ export const Consultant = () => {
         </Link>,
     ];
 
-<<<<<<< HEAD
-=======
     const [isModalOpen, setModalState] = React.useState(false);
 
 
@@ -136,7 +142,6 @@ export const Consultant = () => {
         return false;
     };
 
->>>>>>> 3c626bf1625f34c65eb34797c2d59d49de43694c
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: 2}}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between',flex: 1, mx: 1, mt:1, color: 'black', fontWeight: '950', letterSpacing: '.5px', fontSize: '14px' }}>
