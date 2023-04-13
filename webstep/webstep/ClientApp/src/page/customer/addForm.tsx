@@ -4,7 +4,12 @@ import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { Box } from '@mui/material';
+<<<<<<< HEAD
 import { ADD_CUSTOMER, AddCustomerPayload, GET_CUSTOMER } from '../../api/customer';
+=======
+import { useNavigate } from 'react-router-dom';
+import { ADD_CUSTOMER, AddCustomerPayload, GET_CUSTOMER, GET_CUSTOMERS } from '../../api/customer';
+>>>>>>> 3c626bf1625f34c65eb34797c2d59d49de43694c
 
 interface DefaultCustomer {
     firstName: string;
@@ -18,6 +23,11 @@ interface DefaultCustomer {
 interface ModalConsultantProps {
     onClose: () => void;
 }
+
+//GQL pagination skip const
+const skipAmount = 0;
+//GQL pagination take const
+const takeAmount = 50;
 
 export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
     let defaultCustomer: DefaultCustomer = {
@@ -35,6 +45,11 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
                 {
                     query: GET_CUSTOMER,
                 },
+                {
+                    query: GET_CUSTOMERS,
+                    pollInterval: 500,
+                    variables: { skipAmount: skipAmount, takeAmount: takeAmount }
+                  }
             ],
             awaitRefetchQueries: true,
         }

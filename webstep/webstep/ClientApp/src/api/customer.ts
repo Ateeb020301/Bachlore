@@ -45,6 +45,9 @@ export const GET_CUSTOMER = gql`
                 prospects {
                     id
                     projectName
+                    customer {
+                        id
+                    }
                     subProspects {
                         id
                     }
@@ -66,6 +69,9 @@ export const GET_CUSTOMERS = gql`
                 tlf
                 prospects {
                     projectName
+                    customer {
+                        id
+                    }
                     subProspects {
                         id
                     }

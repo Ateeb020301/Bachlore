@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 import React from 'react';
 import {  GET_CUSTOMER, CustomerPayload, DELETE_CUSTOMER, Customer } from '../../api/customer';
+=======
+import React, { useEffect, useState } from 'react'
+import { useFormik } from 'formik';
+import { Button, FormGroup, Input, Label } from 'reactstrap';
+import { AddCustomerPayload, ADD_CUSTOMER, GET_CUSTOMER, CustomerPayload, DELETE_CUSTOMER, Customer, GET_CUSTOMERS } from '../../api/customer';
+>>>>>>> 3c626bf1625f34c65eb34797c2d59d49de43694c
 import { useMutation, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { Box, Breadcrumbs, IconButton, Link, TableHead, useTheme } from '@mui/material';
+import { Box, Breadcrumbs, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, FormControl, FormControlLabel, FormHelperText, IconButton, InputLabel, Link, MenuItem, Select, SelectChangeEvent, Switch, TableHead, useTheme } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { CustomerContainer } from './CustomerContainer';
 import GetInfo from './CustomerInfo';
@@ -22,7 +29,11 @@ import TableRow from '@mui/material/TableRow';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { ModalEditCustomer } from './ModalEditCustomer';
-import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries';
+import { DELETE_PROSPECT, DELETE_SUBPROSPECT, EDIT_PROSPECT } from '../../api/prospects/queries';
+import { Prospect } from '../../logic/interfaces';
+import { EditProspectCustomerInput, EditProspectInput } from '../../api/prospects/inputs';
+import { EditProspectPayload } from '../../api/prospects/payloads';
+import CheckIcon from '@mui/icons-material/Check';
 
   interface TablePaginationActionsProps {
       count: number;
@@ -32,15 +43,16 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
         event: React.MouseEvent<HTMLButtonElement>,
         newPage: number,
       ) => void;
-    }
+  }
 
-    interface DefaultCustomer {
-      id: number;
-      firstName: string;
-      lastName: string;
-      adresse: string;
-      email: string;
-      tlf: string;
+  interface DefaultCustomer {
+    id: number;
+    firstName: string;
+    lastName: string;
+    adresse: string;
+    email: string;
+    tlf: string;
+    prospects: Prospect[];
   }
 
   let customerEdit: DefaultCustomer = {
@@ -49,9 +61,25 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
     lastName: '',
     adresse: '',
     email:'',
-    tlf: ''
-};
+    tlf: '',
+    prospects: []
+  };
+  let newCustomer: DefaultCustomer = {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    adresse: '',
+    email:'',
+    tlf: '',
+    prospects: []
+  };
   let inpCustomer : Customer;
+
+//GQL pagination skip const
+const skipAmount = 0;
+//GQL pagination take const
+const takeAmount = 50;
+
   export const Customers = () => {
 
     const breadcrumbs = [
@@ -76,6 +104,11 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
           {
               query: GET_CUSTOMER
           },
+          {
+              query: GET_CUSTOMERS,
+              pollInterval: 500,
+              variables: { skipAmount: skipAmount, takeAmount: takeAmount }
+          }
       ],
       awaitRefetchQueries: true,
   });
@@ -85,6 +118,11 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
           {
               query: GET_CUSTOMER
           },
+          {
+            query: GET_CUSTOMERS,
+            pollInterval: 500,
+            variables: { skipAmount: skipAmount, takeAmount: takeAmount }
+          }
       ],
       awaitRefetchQueries: true,
   });
@@ -94,6 +132,11 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
         {
             query: GET_CUSTOMER
         },
+        {
+          query: GET_CUSTOMERS,
+          pollInterval: 500,
+          variables: { skipAmount: skipAmount, takeAmount: takeAmount }
+        }
     ],
     awaitRefetchQueries: true,
   });
@@ -102,7 +145,8 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
     deleteCustomer({ variables: { input: { id:  customer.id } } })
         .then((res) => {;
           console.log(customer);
-            customer.prospects.forEach((prospects) => {
+            (data?.customers.items.length == 1 ?? (
+              customer.prospects.forEach((prospects) => {
                 deleteProspect({ variables: { input: { id: prospects.id } } })
                     .then((res) => {
                       prospects.subProspects.forEach((subProspects) => {
@@ -126,6 +170,7 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
                         console.log(e);
                     });
             })
+            ));
 
             toast.success('Customer og deres prospects ble slettet', {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -243,7 +288,58 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
     toggleModal();
   }
 
+  const [open, setOpen] = React.useState(false);
+  const [customerDel, setCustomerDel] = React.useState(customerEdit)
+  const [customerID, setCustomerID] = React.useState('');
+  let input: EditProspectCustomerInput;
+  let [accept, setAccept] = React.useState(false);
 
+  const handleClickOpen = (customer: Customer) => {
+    setCustomerDel(customer)
+    console.log(data?.customers.items.length)
+    setOpen(true);
+    (data?.customers.items.length == 1 ? (
+        setAccept(true)
+    ) : (
+        setAccept(false)
+    ))
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setCustomerID('');
+  };
+  const handleCloseButton = () => {
+    setOpen(false);
+    setCustomerID('');
+    customerDel.prospects.map((prospects) => {
+      input = { id: prospects.id, projectName: prospects.projectName, customerId: parseInt(customerID)};
+      editProspect({ variables: { input: input } })
+      .then((res) => {
+      })
+      .catch((e) => {
+          toast.error('Noe gikk galt ved redigering av prospektet', {
+              position: toast.POSITION.BOTTOM_RIGHT
+          })
+      });
+    })
+    deleteWrapper(customerDel)
+  };
+
+  const [editProspect] = useMutation<EditProspectPayload, { input: EditProspectInput }>(EDIT_PROSPECT, {
+    refetchQueries: [
+        {
+            query: GET_CUSTOMER,
+        },
+    ],
+    awaitRefetchQueries: true,
+  });
+  
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setCustomerID(event.target.value);
+    setAccept(true);
+  };
 
   return (
       <>
@@ -304,7 +400,7 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
                                     <IconButton onClick={() => openModal(row)} aria-label="edit" disableTouchRipple>
                                       <EditOutlinedIcon />
                                     </IconButton>
-                                    <IconButton onClick={() => deleteWrapper(row)} aria-label="delete" disableRipple>
+                                    <IconButton onClick={() => {(row.prospects.length > 0 ? (handleClickOpen(row)) : (deleteWrapper(row)))}} aria-label="delete" disableTouchRipple>
                                       <DeleteOutlineOutlinedIcon />
                                     </IconButton>
                                   </TableCell>
@@ -348,6 +444,53 @@ import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries
                   onClose={toggleModal}
                   customer={customerEdit}
                 />
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                maxWidth={'sm'}
+                aria-labelledby="responsive-dialog-title"
+              >
+              <DialogTitle id="responsive-dialog-title" sx={{borderBottom: '1px solid #e0e0e0'}}>
+                Are you sure you want to delete this customer?
+              </DialogTitle>
+              <DialogContent sx={{my: 2, borderBottom: '1px solid #e0e0e0' }}>
+                <DialogContentText sx={{mb: 1}}>
+                  {`${customerDel.firstName} ${customerDel.lastName} has ongoing prospects. Before deleting this customer, moving the following prospects will be neccessary`}
+                </DialogContentText>
+                <Box sx={{display: 'flex'}}>
+                  <Box sx={{flex: 1, display: 'flex', justifyContent: 'center', flexDirection: 'column', borderRight: '1px solid #e0e0e0'}}>
+                    {customerDel.prospects.map((prospects) => 
+                        <Box key={prospects.id} sx={{display: 'flex', alignItems: 'center'}}>
+                          <Box sx={{flex: 1}}>{prospects.projectName}</Box>
+                        </Box>
+
+                    )}
+                  </Box>
+                  <Box sx={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                      <FormControl sx={{minWidth: '50%' }} size='small'>
+                        <Select
+                          value={customerID}
+                          onChange={handleChange}
+                          displayEmpty
+                          inputProps={{ 'aria-label': 'Without label' }}
+                        >
+                          <MenuItem value="" disabled>
+                            {customerDel.firstName}
+                          </MenuItem>
+                          {data?.customers.items.map((customers) => 
+                            (customers.firstName != customerDel.firstName ? (<MenuItem key={`${customers.id}__${customers.firstName}`} value={customers.id}>{customers.firstName}</MenuItem>) : (null) )
+                          )}
+                        </Select>
+                      </FormControl>
+                    </Box>
+                  </Box>
+              </DialogContent>
+              <DialogActions>
+              <IconButton onClick={handleCloseButton}  disabled={!accept} aria-label="delete" disableTouchRipple>
+                  <CheckIcon />
+              </IconButton>
+              </DialogActions>
+            </Dialog>
               <ToastContainer />
           </Box>
       ) : (
