@@ -19,6 +19,10 @@ steps:
     command: build
     projects: 'webstep/webstep/webstep.csproj'
     arguments: '--configuration $(buildConfiguration)' # Update this to match your need
+- task: NodeTool@0
+  inputs:
+    versionSource: 'spec'
+    versionSpec: '14.x'
 - task: Npm@1
   inputs:
     command: 'custom'
