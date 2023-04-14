@@ -1,9 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { ProspectsCalendarContainer } from './Prospects/ProspectsCalendarContainer';
-import { FullPageContent } from '../Utils/FullPageContent';
-import { ToastContainer, toast } from 'react-toastify';
-import { MenuItem, Select } from '@mui/material';
+import { ToastContainer } from 'react-toastify';
 import { GET_SELLERS } from '../../api/sellers';
 import { GetSellersPayload } from '../seller/SellerContainer';
 
@@ -13,7 +11,7 @@ const skipAmount = 0;
 const takeAmount = 50;
 
 export const Prospects = () => {
-    const { loading, error, data, refetch } = useQuery<GetSellersPayload>(GET_SELLERS, {
+    const {data} = useQuery<GetSellersPayload>(GET_SELLERS, {
         pollInterval: 500,
         variables: { skipAmount: skipAmount, takeAmount: takeAmount }
     });

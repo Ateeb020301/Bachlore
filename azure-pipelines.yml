@@ -21,7 +21,8 @@ steps:
     arguments: '--configuration $(buildConfiguration)' # Update this to match your need
 - task: Npm@1
   inputs:
-    command: 'install'
+    command: 'custom'
+    customCommand: 'install --legacy-peer-deps'
     workingDir: "webstep/webstep/ClientApp"
 - task: DotNetCoreCLI@2
   inputs:

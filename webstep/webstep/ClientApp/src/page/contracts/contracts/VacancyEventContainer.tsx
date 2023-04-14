@@ -1,13 +1,12 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { EditVacancyInput } from '../../../api/contract/inputs';
 import { getEditVacancyInput } from '../../../api/contract/logic';
 import { EditVacancyPayload } from '../../../api/contract/payloads';
 import { DELETE_VACANCY, EDIT_VACANCY, GET_CONSULTANT_VACANCY } from '../../../api/contract/queries';
 import { Vacancy } from '../../../api/contract/types';
-import { defaultMessagePlacement } from '../../../logic/toast';
 import { VacancyEventContent } from './VacancyEventContent';
 import { Eventable, CalendarEvent } from '../../CalendarSystem/CalendarEvent';
 

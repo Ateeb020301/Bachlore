@@ -16,7 +16,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { useParams } from 'react-router-dom';
-import { GET_CONSULTANT, GET_SINGLECONSULTANTS } from '../../../api/consultants';
+import { GET_SINGLECONSULTANTS } from '../../../api/consultants';
 import { GetConsultantContractsPayload } from '../../../api/contract/payloads';
 import { TableHead } from '@mui/material';
 
@@ -33,7 +33,7 @@ interface TablePaginationActionsProps {
 export default function CustomPaginationActionsTable() {
     const getId = useParams();
 
-    const { loading, error, data } = useQuery<GetConsultantContractsPayload>(
+    const {  data } = useQuery<GetConsultantContractsPayload>(
         GET_SINGLECONSULTANTS,
         {
             variables: { id: Number(getId.id) },
@@ -112,9 +112,7 @@ export default function CustomPaginationActionsTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
+  
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
@@ -128,11 +126,7 @@ export default function CustomPaginationActionsTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-
-  let dataP;
-  dataP = data?.consultant[0].projectConsultants.length ?? 0;
-  return (
+ return (
     <TableContainer component={Paper} sx={{borderCollapse: 'none'}}>
       <Table sx={{ minWidth: 100, borderCollapse: 'unset'}} aria-label="custom pagination table">
       <TableHead>

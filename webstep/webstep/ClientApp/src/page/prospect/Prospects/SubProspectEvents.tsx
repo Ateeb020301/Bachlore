@@ -9,8 +9,7 @@ import { AddSubProspectInput } from '../../../api/prospects/inputs';
 import { useMutation } from '@apollo/client';
 import { AddSubProspectPayload } from '../../../api/prospects/payloads';
 import { getAddSubProspectInput, getDefaultNewSubProspect } from '../../../api/prospects/logic';
-import { defaultMessagePlacement } from '../../../logic/toast';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface SubProspectEventsProps {

@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormGroup, Input, Label, UncontrolledDropdown } from 'reactstrap';
+import React, { useState } from 'react'
+import { Button,FormGroup, Input, Label } from 'reactstrap';
 import { useMutation, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
-import { Box, Breadcrumbs, FormControl, InputAdornment, InputLabel, Link, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { Form, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import {  MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { AddProspectPayload, AddSubProspectPayload } from '../../../api/prospects/payloads';
 import { ADD_PROSPECT, ADD_SUBPROSPECT, GET_PROSPECTS, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
-import { Prospects } from '../Prospects';
-import { Customer, GetCustomerItemsContractsPayload, GET_CUSTOMERS, GET_CUSTOMER } from '../../../api/customer';
-import { SubProspect } from '../../../logic/interfaces';
-import { AddProspectCustomerInput, AddProspectInput, AddSubProspectInput } from '../../../api/prospects/inputs';
-import { getCurrentWeek } from '../../../logic/dateFunctions';
+import { GetCustomerItemsContractsPayload, GET_CUSTOMERS, GET_CUSTOMER } from '../../../api/customer';
+import { AddSubProspectInput } from '../../../api/prospects/inputs';
 import { GET_SELLERS } from '../../../api/sellers';
 
 interface ProspectNoId {
@@ -38,7 +32,7 @@ const skipAmount = 0;
 const takeAmount = 50;
 
 export const AddProspectForm: React.FC<ModalNewProspectProps> = ({onClose, sellerId, customerId}) => {
-    const { loading, error, data, refetch } = useQuery<GetCustomerItemsContractsPayload>(GET_CUSTOMERS, {
+    const { data } = useQuery<GetCustomerItemsContractsPayload>(GET_CUSTOMERS, {
         pollInterval: 500,
         variables: { skipAmount: skipAmount, takeAmount: takeAmount }
     });
@@ -85,32 +79,7 @@ export const AddProspectForm: React.FC<ModalNewProspectProps> = ({onClose, selle
         awaitRefetchQueries: true,
     });
 
-    const handleClick = () => {
-        addProspect({ variables: { input: defaultProspect } })
-            .then((res) => {
-                let newProspectId = res.data?.addProspect.prospect.id;
-
-                if (newProspectId !== undefined) {
-                    let defaultSubProspect = getDefaultSubProspect(newProspectId);
-                    addSubProspect({ variables: { input: defaultSubProspect } })
-                        .then((res) => {
-                            toast.success('Prospekt opprettet', {
-                                position: toast.POSITION.BOTTOM_RIGHT
-                            })
-                        })
-                        .catch((e) => {
-                            toast.error('Noe gikk galt ved oppretting av sub-prospektet', {
-                                position: toast.POSITION.BOTTOM_RIGHT
-                            })
-                        });
-                }
-            })
-            .catch((e) => {
-                toast.error('Noe gikk galt ved oppretting av prospektet', {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
-            });
-    };
+    
 
     const handleSelect=(e: SelectChangeEvent) =>{
         const { name, value } = e.target;    
@@ -211,8 +180,7 @@ const getDefaultSubProspect = (prospectId: number) => {
         (24 * 60 * 60 * 1000));
          
     var weekNumber = Math.ceil(days / 7);
-
-    let currentWeek = getCurrentWeek();
+    // let currentWeek = getCurrentWeek();
     let currentYear = new Date().getFullYear();
     let prospectDurationInWeeks = 3;
 

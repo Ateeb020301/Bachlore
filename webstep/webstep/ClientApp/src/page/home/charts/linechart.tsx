@@ -1,8 +1,6 @@
 import {Chart as ChartJS,CategoryScale,LinearScale,PointElement,LineElement,Title,Tooltip,Legend} from 'chart.js';
-import { faker } from '@faker-js/faker';
 import { Line } from 'react-chartjs-2';
 import React from 'react';
-import { yearOut } from './mutliaxis';
 import { getMonthName } from '../../../logic/getMonth';
 import { Financial } from '../../../components/ChartLogic/chartlogic';
 import { GET_REVENUE } from '../../../api/financials/queries';
@@ -31,7 +29,7 @@ export function SumProfit(yearOut: React.Key | null | undefined) {
   profit = [];
   sum = 0;
 
-  const { loading, error, data, refetch } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
+  const { data } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
   data?.financial.forEach((data) => {
     labels.push(getMonthName(data.month) + " " + yearOut);
     profit.push((data.actualRevenue-data.revenue));
@@ -45,7 +43,7 @@ export function SumProfit(yearOut: React.Key | null | undefined) {
 }
 
   function ProfitLine(yearOut: React.Key | null | undefined) {
-    const { loading, error, data, refetch } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
+    const { data } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
     data?.financial.forEach((data) => {
       labels.push(getMonthName(data.month) + " " + yearOut);
       profit.push((data.actualRevenue-data.revenue));

@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
 import { Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { GET_CONSULTANTS_INFO } from '../../api/contract/queries';
 
 interface ConsultantNoId {
@@ -16,10 +15,7 @@ interface ConsultantNoId {
     workdays: number;
 }
 
-function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-}
+
 
 
 interface ModalConsultantProps {
@@ -46,8 +42,6 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
         workdays: 0,
     };
 
-    const outsideRef = React.useRef(null);
-    const navigate = useNavigate();
 
     const [currentConsultant, setCurrentConsultant] = useState<ConsultantNoId>(defaultConsultant);
     const [displayValidation, setDisplayValidation] = useState<string>('');
@@ -92,7 +86,7 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let { name, value } : any = e.target;
 
-        if (name == 'workdays') {
+        if (name === 'workdays') {
             value = parseInt(e.target.value);
         }
 

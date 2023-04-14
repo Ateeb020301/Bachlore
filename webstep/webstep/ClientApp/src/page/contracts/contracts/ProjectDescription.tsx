@@ -1,18 +1,16 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { EditContractInput, EditProjectInput } from '../../../api/contract/inputs';
 import { EditContractPayload, EditProjectPayload } from '../../../api/contract/payloads';
 import { EDIT_CONTRACT, EDIT_PROJECT, GET_TEAMCONS_CONTRACTS } from '../../../api/contract/queries';
-import { Contract, Project } from '../../../logic/interfaces';
-import { defaultMessagePlacement } from '../../../logic/toast';
+import {  Project } from '../../../logic/interfaces';
 import { HourlyRateImage } from '../../../components/images/HourlyRateImage';
 import { EditableField } from '../../Utils/EditableField';
 import { EditableNumberField } from '../../Utils/EditableNumberField';
 import { ImageAndContent } from '../../Utils/ImageAndContent';
 import { getEditContractInput } from '../../../api/contract/logic';
-import { constants } from '../../../logic/constants';
 
 interface ProjectDescriptionProps {
     project: Project;

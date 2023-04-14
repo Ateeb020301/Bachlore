@@ -1,12 +1,8 @@
 ﻿import React from 'react';
-import iconX from '../Utils/x.png';
-import { FormProvider } from '../../components/FormInfo/context/FormContext';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './AddModal.css';
-import { Consultant } from './consultant';
 import { EditForm } from './editForm';
 import CloseIcon from '@mui/icons-material/Close';
-import { Contract } from '../../logic/interfaces';
 
 interface Consultants {
     id: number;

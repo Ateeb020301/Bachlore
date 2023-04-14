@@ -1,11 +1,8 @@
 import React from 'react';
-import iconX from '../Utils/x.png';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import '../../consultant/AddModal.css'
 import CloseIcon from '@mui/icons-material/Close';
 import { AddProspectForm } from './AddProspectForm';
-import { number, string } from 'yup';
-import { Prospect } from '../../../logic/interfaces';
 
 interface ModalCProspectProps {
     title: string;

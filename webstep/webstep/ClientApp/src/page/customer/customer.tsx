@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
-import { Button, FormGroup, Input, Label } from 'reactstrap';
-import { AddCustomerPayload, ADD_CUSTOMER, GET_CUSTOMER, CustomerPayload, DELETE_CUSTOMER, Customer, GET_CUSTOMERS } from '../../api/customer';
+import React from 'react'
+import { GET_CUSTOMER, CustomerPayload, DELETE_CUSTOMER, Customer } from '../../api/customer';
 import { useMutation, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { Box, Breadcrumbs, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, FormControl, FormControlLabel, FormHelperText, IconButton, InputLabel, Link, MenuItem, Select, SelectChangeEvent, Switch, TableHead, useTheme } from '@mui/material';
+import { Box, Breadcrumbs, IconButton, Link, TableHead, useTheme } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { CustomerContainer } from './CustomerContainer';
 import GetInfo from './CustomerInfo';
-import { Prospects } from '../prospect/Prospects/ProspectDescription';
 import { Loading } from '../Utils/Loading';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
@@ -22,15 +19,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { ModalEditCustomer } from './ModalEditCustomer';
-import { DELETE_PROSPECT, DELETE_SUBPROSPECT, EDIT_PROSPECT } from '../../api/prospects/queries';
-import { Prospect } from '../../logic/interfaces';
-import { EditProspectCustomerInput, EditProspectInput } from '../../api/prospects/inputs';
-import { EditProspectPayload } from '../../api/prospects/payloads';
-import CheckIcon from '@mui/icons-material/Check';
+import { DELETE_PROSPECT, DELETE_SUBPROSPECT } from '../../api/prospects/queries';
 
   interface TablePaginationActionsProps {
       count: number;
@@ -40,16 +32,15 @@ import CheckIcon from '@mui/icons-material/Check';
         event: React.MouseEvent<HTMLButtonElement>,
         newPage: number,
       ) => void;
-  }
+    }
 
-  interface DefaultCustomer {
-    id: number;
-    firstName: string;
-    lastName: string;
-    adresse: string;
-    email: string;
-    tlf: string;
-    prospects: Prospect[];
+    interface DefaultCustomer {
+      id: number;
+      firstName: string;
+      lastName: string;
+      adresse: string;
+      email: string;
+      tlf: string;
   }
 
   let customerEdit: DefaultCustomer = {
@@ -58,25 +49,9 @@ import CheckIcon from '@mui/icons-material/Check';
     lastName: '',
     adresse: '',
     email:'',
-    tlf: '',
-    prospects: []
-  };
-  let newCustomer: DefaultCustomer = {
-    id: 0,
-    firstName: '',
-    lastName: '',
-    adresse: '',
-    email:'',
-    tlf: '',
-    prospects: []
-  };
+    tlf: ''
+};
   let inpCustomer : Customer;
-
-//GQL pagination skip const
-const skipAmount = 0;
-//GQL pagination take const
-const takeAmount = 50;
-
   export const Customers = () => {
 
     const breadcrumbs = [
@@ -91,7 +66,7 @@ const takeAmount = 50;
             Customer
         </Link>,
     ];
-    const { loading, error, data } = useQuery<CustomerPayload>(GET_CUSTOMER);
+    const {data } = useQuery<CustomerPayload>(GET_CUSTOMER);
     if (inpCustomer == undefined && data) {
       inpCustomer = data?.customers.items[0];
     }
@@ -101,11 +76,6 @@ const takeAmount = 50;
           {
               query: GET_CUSTOMER
           },
-          {
-              query: GET_CUSTOMERS,
-              pollInterval: 500,
-              variables: { skipAmount: skipAmount, takeAmount: takeAmount }
-          }
       ],
       awaitRefetchQueries: true,
   });
@@ -115,11 +85,6 @@ const takeAmount = 50;
           {
               query: GET_CUSTOMER
           },
-          {
-            query: GET_CUSTOMERS,
-            pollInterval: 500,
-            variables: { skipAmount: skipAmount, takeAmount: takeAmount }
-          }
       ],
       awaitRefetchQueries: true,
   });
@@ -129,11 +94,6 @@ const takeAmount = 50;
         {
             query: GET_CUSTOMER
         },
-        {
-          query: GET_CUSTOMERS,
-          pollInterval: 500,
-          variables: { skipAmount: skipAmount, takeAmount: takeAmount }
-        }
     ],
     awaitRefetchQueries: true,
   });
@@ -142,8 +102,7 @@ const takeAmount = 50;
     deleteCustomer({ variables: { input: { id:  customer.id } } })
         .then((res) => {;
           console.log(customer);
-            (data?.customers.items.length == 1 ?? (
-              customer.prospects.forEach((prospects) => {
+            customer.prospects.forEach((prospects) => {
                 deleteProspect({ variables: { input: { id: prospects.id } } })
                     .then((res) => {
                       prospects.subProspects.forEach((subProspects) => {
@@ -167,7 +126,6 @@ const takeAmount = 50;
                         console.log(e);
                     });
             })
-            ));
 
             toast.success('Customer og deres prospects ble slettet', {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -256,6 +214,10 @@ const takeAmount = 50;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
@@ -285,58 +247,7 @@ const takeAmount = 50;
     toggleModal();
   }
 
-  const [open, setOpen] = React.useState(false);
-  const [customerDel, setCustomerDel] = React.useState(customerEdit)
-  const [customerID, setCustomerID] = React.useState('');
-  let input: EditProspectCustomerInput;
-  let [accept, setAccept] = React.useState(false);
 
-  const handleClickOpen = (customer: Customer) => {
-    setCustomerDel(customer)
-    console.log(data?.customers.items.length)
-    setOpen(true);
-    (data?.customers.items.length == 1 ? (
-        setAccept(true)
-    ) : (
-        setAccept(false)
-    ))
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setCustomerID('');
-  };
-  const handleCloseButton = () => {
-    setOpen(false);
-    setCustomerID('');
-    customerDel.prospects.map((prospects) => {
-      input = { id: prospects.id, projectName: prospects.projectName, customerId: parseInt(customerID)};
-      editProspect({ variables: { input: input } })
-      .then((res) => {
-      })
-      .catch((e) => {
-          toast.error('Noe gikk galt ved redigering av prospektet', {
-              position: toast.POSITION.BOTTOM_RIGHT
-          })
-      });
-    })
-    deleteWrapper(customerDel)
-  };
-
-  const [editProspect] = useMutation<EditProspectPayload, { input: EditProspectInput }>(EDIT_PROSPECT, {
-    refetchQueries: [
-        {
-            query: GET_CUSTOMER,
-        },
-    ],
-    awaitRefetchQueries: true,
-  });
-  
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setCustomerID(event.target.value);
-    setAccept(true);
-  };
 
   return (
       <>
@@ -397,7 +308,7 @@ const takeAmount = 50;
                                     <IconButton onClick={() => openModal(row)} aria-label="edit" disableTouchRipple>
                                       <EditOutlinedIcon />
                                     </IconButton>
-                                    <IconButton onClick={() => {(row.prospects.length > 0 ? (handleClickOpen(row)) : (deleteWrapper(row)))}} aria-label="delete" disableTouchRipple>
+                                    <IconButton onClick={() => deleteWrapper(row)} aria-label="delete" disableRipple>
                                       <DeleteOutlineOutlinedIcon />
                                     </IconButton>
                                   </TableCell>
@@ -441,53 +352,6 @@ const takeAmount = 50;
                   onClose={toggleModal}
                   customer={customerEdit}
                 />
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                maxWidth={'sm'}
-                aria-labelledby="responsive-dialog-title"
-              >
-              <DialogTitle id="responsive-dialog-title" sx={{borderBottom: '1px solid #e0e0e0'}}>
-                Are you sure you want to delete this customer?
-              </DialogTitle>
-              <DialogContent sx={{my: 2, borderBottom: '1px solid #e0e0e0' }}>
-                <DialogContentText sx={{mb: 1}}>
-                  {`${customerDel.firstName} ${customerDel.lastName} has ongoing prospects. Before deleting this customer, moving the following prospects will be neccessary`}
-                </DialogContentText>
-                <Box sx={{display: 'flex'}}>
-                  <Box sx={{flex: 1, display: 'flex', justifyContent: 'center', flexDirection: 'column', borderRight: '1px solid #e0e0e0'}}>
-                    {customerDel.prospects.map((prospects) => 
-                        <Box key={prospects.id} sx={{display: 'flex', alignItems: 'center'}}>
-                          <Box sx={{flex: 1}}>{prospects.projectName}</Box>
-                        </Box>
-
-                    )}
-                  </Box>
-                  <Box sx={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                      <FormControl sx={{minWidth: '50%' }} size='small'>
-                        <Select
-                          value={customerID}
-                          onChange={handleChange}
-                          displayEmpty
-                          inputProps={{ 'aria-label': 'Without label' }}
-                        >
-                          <MenuItem value="" disabled>
-                            {customerDel.firstName}
-                          </MenuItem>
-                          {data?.customers.items.map((customers) => 
-                            (customers.firstName != customerDel.firstName ? (<MenuItem key={`${customers.id}__${customers.firstName}`} value={customers.id}>{customers.firstName}</MenuItem>) : (null) )
-                          )}
-                        </Select>
-                      </FormControl>
-                    </Box>
-                  </Box>
-              </DialogContent>
-              <DialogActions>
-              <IconButton onClick={handleCloseButton}  disabled={!accept} aria-label="delete" disableTouchRipple>
-                  <CheckIcon />
-              </IconButton>
-              </DialogActions>
-            </Dialog>
               <ToastContainer />
           </Box>
       ) : (
