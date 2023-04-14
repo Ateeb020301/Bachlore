@@ -76,7 +76,7 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
 
     const sendDeleteRequest = (sellers: SellerInterface)=>{
         console.log(sellers);
-        if(seller.prospects.length==0){
+        if(seller.prospects.length === 0){
             deleteSeller({ variables: { input: {id: sellers.id} } })
             .then((res) => {
                 sellers.prospects.forEach((prospect) => {
@@ -120,13 +120,6 @@ export const SellerDisplay: React.FC<SellerFields> = ({ seller, prospects }) => 
         
     }
     let display = isHidden ? 'none' : 'block';
-    let sellerEdit: Seller = {
-        id: 0,
-        fullName: '',
-        email: '',
-        employmentDate: '',
-        resignationDate: null,
-    };
 
     return (
         <div key={'Seller_' + seller.id} className='AccordionHolder'>

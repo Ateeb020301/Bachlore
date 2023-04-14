@@ -1,10 +1,9 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom'
-import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Breadcrumbs, Link } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { GET_SELLER, GET_SELLERS } from '../../../api/sellers';
+import { GET_SELLER } from '../../../api/sellers';
 import { GetSellerPayload } from '../../../api/prospects/payloads';
 import '../../consultant/extended/profile.css';
 
@@ -35,7 +34,7 @@ export const SellerProfile = () => {
 
     const getId = useParams();
 
-    const { loading, error, data } = useQuery<GetSellerPayload>(
+    const { data } = useQuery<GetSellerPayload>(
         GET_SELLER,
         {
             variables: { id: Number(getId.id) },

@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
-import { Form, useNavigate } from 'react-router-dom';
 import { EditSellerInput, EditSellerPayload, EDIT_SELLER, GET_SELLER, GET_SELLERS } from '../../api/sellers';
 import '../consultant/AddModal.css'
 import './Seller.css'
@@ -23,7 +20,6 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({onClose, seller}) => {
 
 
     const outsideRef = React.useRef(null);
-    const navigate = useNavigate();
 
     const [currentSeller, setCurrentSeller] = useState<EditSellerInput>(seller);
     const [displayValidation, setDisplayValidation] = useState<string>('');
