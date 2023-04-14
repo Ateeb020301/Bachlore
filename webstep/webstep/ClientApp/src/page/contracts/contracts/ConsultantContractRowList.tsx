@@ -21,6 +21,7 @@ interface ConsultantContractRowListProps {
 
 export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps> = ({ consultantId }) => {
     let projectArr: any[] = [{ projects: [] }];
+    let checkData = false;
     const { loading, error, data } = useQuery<GetTeamContractPayload, GetConsultantContractsInput>(
         GET_TEAMCONS_CONTRACTS,
         {
@@ -81,7 +82,7 @@ export const ConsultantContractRowList: React.FC<ConsultantContractRowListProps>
                                     <CalendarTimelineGrid>
                                         {
                                             project.contracts.map((contract: any) => {
-                                                if (contract.consultant.id === consultantId) {
+                                                if (contract.consultant.id == consultantId) {
                                                     return (
                                                         isContractValid(contract) && (
                                                             <ContractEventContainer

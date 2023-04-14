@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { GET_SELLERS } from '../../api/sellers';
-import { PageInfo, Prospect } from '../../logic/interfaces';
+import { Customer, PageInfo, Prospect, SubProspect } from '../../logic/interfaces';
 import { Loading } from '../Utils/Loading';
 import { SellerDisplay } from './SellerDisplay';
 import './Seller.css'
@@ -32,7 +32,7 @@ const skipAmount = 0;
 const takeAmount = 50;
 
 export const SellerContainer: React.FC = () => {
-    const { loading, error, data } = useQuery<GetSellersPayload>(GET_SELLERS, {
+    const { loading, error, data, refetch } = useQuery<GetSellersPayload>(GET_SELLERS, {
         pollInterval: 500,
         variables: { skipAmount: skipAmount, takeAmount: takeAmount },
     });

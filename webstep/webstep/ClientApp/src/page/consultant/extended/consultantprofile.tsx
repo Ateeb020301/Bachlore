@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
+import CloseIcon from '@mui/icons-material/Close';
 import { Box, Breadcrumbs, Link } from '@mui/material';
 import { GET_CONSULTANT } from '../../../api/contract/queries';
 import { useQuery } from '@apollo/client';
@@ -9,12 +10,14 @@ import './profile.css'
 import ChartDoughnut from './chart';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import BorderLinearProgress from '@mui/material/LinearProgress';
+import BorderLinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions';
 import CustomPaginationActionsTable from './profileTable';
 
 
 
 export const Profile = () => {
+    let countProjects = 0;
     let sumSalary = 0;
     let percentage = 0;
     let todayDate = new Date().getMonth();
@@ -46,7 +49,7 @@ export const Profile = () => {
 
     const getId = useParams();
 
-    const { data } = useQuery<GetConsultantContractsPayload>(
+    const { loading, error, data } = useQuery<GetConsultantContractsPayload>(
         GET_CONSULTANT,
         {
             variables: { id: Number(getId.id) },
@@ -61,7 +64,7 @@ export const Profile = () => {
             for (let x = startWeek; x <= endWeek; x++) {
                 const date = new Date(1000 * 60 * 60 * 24 * 7 * x);
                 const month = date.toLocaleString('en-us', { month: 'long' });
-                if (month === monthlySalary[z].month) {
+                if (month == monthlySalary[z].month) {
                     monthlySalary[z].salary += (((data?.consultant[0].contracts[i].daysOfWeek ?? 0) * (data?.consultant[0].contracts[i].hourlyRate ?? 0)) * 8);
                     sumSalary += (((data?.consultant[0].contracts[i].daysOfWeek ?? 0) * (data?.consultant[0].contracts[i].hourlyRate ?? 0)) * 8);
                 }
@@ -69,7 +72,7 @@ export const Profile = () => {
         }
     }
     
-    {todayDate = 0 ? (13) : (todayDate)};
+    {todayDate = 0 ? (13) : (todayDate)}
     percentage = (monthlySalary[todayDate].salary-monthlySalary[todayDate-1].salary)/(monthlySalary[todayDate-1].salary+1);
     let lastMonth = 0;
     let thisMonth = 0;
@@ -79,7 +82,7 @@ export const Profile = () => {
         colorPercentage = 'green'
         thisMonth = 100;
         lastMonth = 100-(percentage*100);
-    } else if(percentage === 0) {
+    } else if(percentage == 0) {
         thisMonth = 0;
         lastMonth = 0;
     } 

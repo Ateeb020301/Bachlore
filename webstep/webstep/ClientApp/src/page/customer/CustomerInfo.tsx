@@ -1,16 +1,18 @@
 import React from "react";
 import { Customer } from "../../api/customer";
 import { Box } from "@mui/material";
+import { Loading } from "../Utils/Loading";
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import PhoneEnabledOutlinedIcon from '@mui/icons-material/PhoneEnabledOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
+import { ModalCustomer } from "./ModalCustomer";
 
 function GetInfo(customer: Customer) {
     let subProspectlen = 0;
     let str;
     let acronym;
     
-    if (customer !== undefined) {
+    if (customer != undefined) {
        str = customer.firstName + ' ' + customer.lastName;
        acronym = str.split(/\s/).reduce((response,word)=> response+=word.slice(0,1),'')
        customer.prospects.forEach(element => {
@@ -20,7 +22,7 @@ function GetInfo(customer: Customer) {
 
 
 
-    const element = (customer !== undefined ? (
+    const element = (customer != undefined ? (
       <Box sx={{p: 1}}>
 
       <Box sx={{display: 'flex', alignItems: 'center', flexDirection: 'column', borderBottom: '1px dotted #e0e0e0'}}>

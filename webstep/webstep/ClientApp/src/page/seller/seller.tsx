@@ -7,7 +7,15 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Modal } from '../Utils/ModalComponent';
 import './Seller.css'
 import { SellerContainer } from './SellerContainer';
-import { Prospect } from '../../logic/interfaces';
+import { PageInfo, Prospect } from '../../logic/interfaces';
+
+interface GetSellersPayload {
+    sellers: Sellers;
+}
+interface Sellers {
+    items: SellerInterface[];
+    pageInfo: PageInfo;
+}
 
 export interface SellerInterface {
     prospects: Prospect[];
@@ -176,7 +184,6 @@ export const Seller: React.FC= () => {
                     <Input
                         type='text'
                         id='fullName'
-                        className={displayValidation}
                         valid={isValidText(currentSeller.fullName)}
                         invalid={!isValidText(currentSeller.fullName)}
                         value={currentSeller.fullName}

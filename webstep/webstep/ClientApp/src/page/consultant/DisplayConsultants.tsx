@@ -1,12 +1,13 @@
-import { useMutation } from '@apollo/client';
-import React from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import './Consultant.css'
 import { Box, Button, ButtonBase, Menu, MenuItem } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { DELETE_CONTRACT, DELETE_PROJECTCONSULTANT, GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY, GET_TEAMCONS_CONTRACTS } from '../../api/contract/queries';
+import { Loading } from '../Utils/Loading';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { DELETE_CONSULTANT } from '../../api/consultants';

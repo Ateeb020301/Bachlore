@@ -3,8 +3,9 @@ import { DeleteCornerButton } from '../Utils/DeleteCornerButton';
 import { getCurrentWeek, getWeeksInYear } from '../../logic/dateFunctions';
 import '../Utils/Normalize.css';
 import { DragBar } from '../Utils/DragBar';
+import { DocumentNode } from '@apollo/client';
 import { constants } from '../../logic/constants';
-
+import { HourlyRateImage } from '../../components/images/HourlyRateImage';
 
 export interface Eventable {
     id: number;
@@ -119,7 +120,7 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({ eventObj, render, 
     };
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (!isMoving && isDragging.side === 'none') return;
+        if (!isMoving && isDragging.side == 'none') return;
 
         let distance = e.pageX - lastMousePosition.x;
         let columnSize = 38; // should be slightly less than columnWidth to allow movement of small events
@@ -130,7 +131,7 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({ eventObj, render, 
             if (isMoving) {
                 incrementStartWeek();
                 incrementEndWeek();
-            } else if (isDragging.side === 'left') {
+            } else if (isDragging.side == 'left') {
                 incrementStartWeek();
             }
             setLastMousePosition({ x: e.pageX, y: e.pageY });
@@ -140,7 +141,7 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({ eventObj, render, 
             if (isMoving) {
                 decrementStartWeek();
                 decrementEndWeek();
-            } else if (isDragging.side === 'right') {
+            } else if (isDragging.side == 'right') {
                 decrementEndWeek();
             }
 

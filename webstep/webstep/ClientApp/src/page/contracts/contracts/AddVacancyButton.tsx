@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button } from 'reactstrap';
 import { AddVacancyInput } from '../../../api/contract/inputs';

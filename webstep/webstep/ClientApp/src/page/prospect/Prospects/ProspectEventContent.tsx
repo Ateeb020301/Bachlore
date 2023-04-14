@@ -12,13 +12,11 @@ const contentStyle = {
     justifyContent: 'center',
     overflowX: 'hidden' as 'hidden',
 };
-
 interface ProspectEventContentProps {
     subProspect: SubProspect;
     eventColor: string;
     editSubProspect: (p: SubProspect) => void;
 }
-
 export const ProspectEventContent: React.FC<ProspectEventContentProps> = ({
     subProspect,
     eventColor,

@@ -1,7 +1,8 @@
 import React from 'react';
 import './contracts.css';
+import { FullPageContent } from '../Utils/FullPageContent';
 import { ContractCalendarContainer } from './contracts/ContractCalendarContainer';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const Contracts: React.FC = () => {

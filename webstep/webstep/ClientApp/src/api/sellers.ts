@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { date } from 'yup';
 import { Seller } from '../logic/interfaces';
 
 export interface SellerQuery {

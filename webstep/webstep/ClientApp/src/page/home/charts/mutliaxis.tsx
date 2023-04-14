@@ -14,6 +14,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { GET_REVENUE } from '../../../api/financials/queries';
 import { Financial } from '../../../components/ChartLogic/chartlogic';
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -41,7 +42,7 @@ function MultiAxis(yearOut: React.Key | null | undefined) {
   estRevenue = [];
   labels = [];
 
-  const { data } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
+  const { loading, error, data } = useQuery<GetRevenuePayload>(GET_REVENUE, { variables: { input: yearOut } });
   data?.financial.forEach((data) => {
     labels.push(getMonthName(data.month));
     actRevenue.push(data.actualRevenue);

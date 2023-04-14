@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { useFormik } from 'formik';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
-import { EditConsultantPayload, EDIT_CONSULTANT } from '../../api/consultants';
+import { toast, ToastContainer } from 'react-toastify';
+import { AddConsultantPayload, ADD_CONSULTANT, EditConsultantPayload, EDIT_CONSULTANT } from '../../api/consultants';
 import { Box } from '@mui/material';
-import { GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY } from '../../api/contract/queries';
+import { Form, useNavigate } from 'react-router-dom';
+import { GET_CONSULTANTS_INFO, GET_CONSULTANT_CAPACITY, GET_TEAMCONS_CONTRACTS } from '../../api/contract/queries';
 import { constants } from '../../logic/constants';
 
 interface ConsultantNoId {
@@ -17,7 +19,10 @@ interface ConsultantNoId {
     workdays: number;
 }
 
-
+function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    event.preventDefault();
+    console.info('You clicked a breadcrumb.');
+}
 
 
 interface ModalEditConsultantProps {
@@ -46,6 +51,8 @@ export const EditForm: React.FC<ModalEditConsultantProps> = ({onClose, consultan
         workdays: 0,
     };
 
+    const outsideRef = React.useRef(null);
+    const navigate = useNavigate();
 
     const [currentConsultant, setCurrentConsultant] = useState<ConsultantNoId>(consultant);
     const [displayValidation, setDisplayValidation] = useState<string>('');

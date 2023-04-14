@@ -1,50 +1,50 @@
-// import * as C from './styles'
+import * as C from './styles'
 import { Theme } from '../../components/Theme/intex'
-// import {Link, useNavigate} from 'react-router-dom'
-// import {useForm, FormActions} from '../../context/FormContext'
-// import {ChangeEvent, useEffect, useState} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+import {useForm, FormActions} from '../../context/FormContext'
+import {ChangeEvent, useEffect, useState} from 'react'
 import React from 'react'
-// import { Input, Label } from 'reactstrap'
-// import { toast } from 'react-toastify'
-// import { useMutation } from '@apollo/client'
-// import { ADD_CONTRACT, GET_CONSULTANT_CONTRACT } from '../../../../api/contract/queries'
-// import { AddContractPayload } from '../../../../api/contract/payloads'
+import { Input, Label } from 'reactstrap'
+import { toast } from 'react-toastify'
+import { useMutation } from '@apollo/client'
+import { ADD_CONTRACT, GET_CONSULTANT_CONTRACT } from '../../../../api/contract/queries'
+import { AddContractPayload } from '../../../../api/contract/payloads'
 import '../FormStep2/index.css';
-// import { getDefaultNewContract } from '../../../../api/contract/logic'
-// interface ContractNoId {
-//     startDate: Date;
-//     startYear: number;
-//     startWeek:number;
-//     endDate:Date;
-//     endYear:number;
-//     endWeek:number;
-//     hourlyRate:number;
-//     projectId: number;
-//     consultantId:number;
-// }
+import { getDefaultNewContract } from '../../../../api/contract/logic'
+interface ContractNoId {
+    startDate: Date;
+    startYear: number;
+    startWeek:number;
+    endDate:Date;
+    endYear:number;
+    endWeek:number;
+    hourlyRate:number;
+    projectId: number;
+    consultantId:number;
+}
 export const FormStep3 = () => {
-    // const {state, dispatch} = useForm()
-    // const navigate = useNavigate()
+    const {state, dispatch} = useForm()
+    const navigate = useNavigate()
 
-    // const handleNextStep = () =>{
-    //     navigate('../step4')
+    const handleNextStep = () =>{
+        navigate('../step4')
 
-    // }
+    }
 
 
 
-    // useEffect(()=>{
-    //     if(state.name === '') {
-    //         navigate('/')
-    //     } else{
-    //         dispatch({
-    //             type: FormActions.setCurrentStep,
-    //             payload: 3
-    //         })
-    //     }
+    useEffect(()=>{
+        if(state.name === '') {
+            navigate('/')
+        } else{
+            dispatch({
+                type: FormActions.setCurrentStep,
+                payload: 3
+            })
+        }
         
 
-    // },[])
+    },[])
             //Date shenanigans
     //         let d = new Date();
     //         //Get todays date
@@ -199,7 +199,7 @@ export const FormStep3 = () => {
         <Theme>
             <div>
                 <p className='passo' >Passo 3/3</p>
-                <h4>Hei, Kontract Planning</h4>
+                <h4>Hei {state.name}, Kontract Planning</h4>
 
                     {/* <Label for='startYear'>Start Date</Label><br />
                     <Input

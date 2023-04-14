@@ -1,13 +1,15 @@
 import React from 'react';
 import iconX from '../Utils/x.png';
 import { FormProvider } from '../../components/FormInfo/context/FormContext';
+import { Router } from '../../components/FormInfo/routes/router';
 import GlobalStyled from '../../components/FormInfo/components/styles/GlobalStyledComponents/GlobalStyled';
 import { FormStep1 } from '../../components/FormInfo/pages/FormStep1/intex';
 import { FormStep2 } from '../../components/FormInfo/pages/FormStep2';
 import { FormStep3 } from '../../components/FormInfo/pages/FormStep3';
 import { FormStep4 } from '../../components/FormInfo/pages/FormStep4';
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import './ModalComponent.css';
+import { Seller } from '../seller/seller';
 
 interface ModalProps {
   title: string;

@@ -1,9 +1,16 @@
+import { useQuery } from '@apollo/client';
 import { Box, Button, InputAdornment, OutlinedInput } from '@mui/material';
 import React from 'react';
+import { GET_CONSULTANTS } from '../../api/consultants';
+import { PageInfo, Project } from '../../logic/interfaces';
+import { Loading } from '../Utils/Loading';
+import { ConsultantDisplay } from './ConsultantDisplay';
 import SearchIcon from '@mui/icons-material/Search';
+import { hover } from '@testing-library/user-event/dist/hover';
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ModalConsultant } from './ModalConsultant';
+import { ModalEditConsultant } from './ModalEditConsultant';
 
 export const ConsultantContainer: React.FC = () => {
     const [isModalOpen, setModalState] = React.useState(false);

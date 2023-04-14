@@ -2,12 +2,12 @@ import { useQuery } from '@apollo/client';
 import { Calendar } from '../../CalendarSystem/Calendar';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import {  GetProjectConsultantIDS } from '../../../api/contract/payloads';
-import { GET_PROJECTCONSULTANT_IDS } from '../../../api/contract/queries';
+import { GetConsultantIDsPayload, GetProjectConsultantIDS } from '../../../api/contract/payloads';
+import { GET_CONSULTANT_IDS, GET_PROJECTCONSULTANT_IDS } from '../../../api/contract/queries';
 import { ConsultantSection } from './ConsultantSection';
 
 export const ContractCalendarContainer = () => {
-    const { data } = useQuery<GetProjectConsultantIDS>(GET_PROJECTCONSULTANT_IDS);
+    const { loading, error, data } = useQuery<GetProjectConsultantIDS>(GET_PROJECTCONSULTANT_IDS);
 
     return (
         <Calendar

@@ -1,11 +1,13 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { EditSubProspectInput } from '../../../api/prospects/inputs';
 import { getEditSubProspectInput } from '../../../api/prospects/logic';
 import { EditSubProspectPayload } from '../../../api/prospects/payloads';
 import { DELETE_SUBPROSPECT, EDIT_SUBPROSPECT, GET_PROSPECTS, GET_SELLER_PROSPECTS } from '../../../api/prospects/queries';
+import { constants } from '../../../logic/constants';
+import { defaultMessagePlacement } from '../../../logic/toast';
 import { CalendarEvent, Eventable } from '../../CalendarSystem/CalendarEvent';
 import { ProspectEventContent } from './ProspectEventContent';
 import { SubProspect } from '../../../logic/interfaces';
