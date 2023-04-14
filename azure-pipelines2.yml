@@ -23,7 +23,7 @@ steps:
 - task: Npm@1
   inputs:
     command: 'custom'
-    customCommand: 'install --force'
+    customCommand: 'install --legacy-peer-deps'
     workingDir: "webstep/webstep/ClientApp"
 - task: Npm@1
   inputs:
