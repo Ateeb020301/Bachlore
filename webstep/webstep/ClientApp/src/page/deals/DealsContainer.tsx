@@ -40,4 +40,4 @@ export const DealsContainer: React.FC = () => {
             </Box>
         </>
     );
-};
+};az
