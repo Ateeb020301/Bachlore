@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import React, { useState } from 'react';
+import React from 'react';
 import { toast } from 'react-toastify';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
@@ -12,17 +12,12 @@ interface ProjectConsultantProps {
     consultant: Consultant;
 }
 
-//GQL pagination skip const
-const skipAmount = 0;
-//GQL pagination take const
-const takeAmount = 50;
 
 export const ProjectConsultantDisplay: React.FC<ProjectConsultantProps> = ({ consultant }) => {
     const [isModalEditOpen, setState] = React.useState(false);
-    const navigate = useNavigate();
-    const {state, dispatch} = useForm()
-    const toggleEdit = () => setState(!isModalEditOpen);
-    const { loading, error, data, refetch } = useQuery<GetProjectConsultantPayload2>(GET_PROJECTCONSULTANTS)
+    const {state} = useForm()
+
+    const { data} = useQuery<GetProjectConsultantPayload2>(GET_PROJECTCONSULTANTS)
 
     const [deletePC] = useMutation<number, { input: { id: number } }>(DELETE_PROJECTCONSULTANT,{
         refetchQueries: [
@@ -38,7 +33,7 @@ export const ProjectConsultantDisplay: React.FC<ProjectConsultantProps> = ({ con
         let deleteId=0;
         data?.projectConsultant.map((aPC)=>{
             aPC.consultant.map((aConsultant)=>{
-                if(aConsultant.id==id && state.projectId==aPC.project.id){
+                if(aConsultant.id===id && state.projectId===aPC.project.id){
                     deleteId=aPC.id;
 
                 }

@@ -1,4 +1,3 @@
-import { getCurrentWeek } from '../../logic/dateFunctions';
 import { NewSubProspect, SubProspect } from '../../logic/interfaces';
 import { AddSubProspectInput, EditSubProspectInput } from './inputs';
 

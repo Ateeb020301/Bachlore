@@ -1,9 +1,6 @@
 ﻿import React from 'react';
-import iconX from '../Utils/x.png';
-import { FormProvider } from '../../components/FormInfo/context/FormContext';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './AddModal.css';
-import { Consultant } from './consultant';
 import { AddForm } from './addForm';
 import CloseIcon from '@mui/icons-material/Close';
 

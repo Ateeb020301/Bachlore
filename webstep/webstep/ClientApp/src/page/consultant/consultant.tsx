@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
-import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { useMutation } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { AddConsultantPayload, ADD_CONSULTANT } from '../../api/consultants';
-import { Box, Breadcrumbs, InputAdornment, Link, OutlinedInput } from '@mui/material';
+import { Box, Breadcrumbs, Link } from '@mui/material';
 import './Consultant.css';
 import { ConsultantContainer } from './ConsultantContainer';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -17,11 +15,6 @@ interface ConsultantNoId {
     employmentDate: string;
     resignationDate?: any;
     workdays: number;
-}
-
-function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
 }
 
 export const Consultant = () => {
@@ -49,7 +42,6 @@ export const Consultant = () => {
     const [isModalOpen, setModalState] = React.useState(false);
 
 
-    const toggleModal = () => setModalState(!isModalOpen);
     //Date shenanigans
     let d = new Date();
     
@@ -71,7 +63,6 @@ export const Consultant = () => {
 
     const [currentConsultant, setCurrentConsultant] = useState<ConsultantNoId>(defaultConsultant);
     const [displayValidation, setDisplayValidation] = useState<string>('');
-    const [addConsultant] = useMutation<AddConsultantPayload, { input: ConsultantNoId }>(ADD_CONSULTANT);
 
     //Adds or removes validation field on resignationDate depending on if its empty or not
     useEffect(() => {
@@ -128,26 +119,6 @@ export const Consultant = () => {
             let tempED = new Date(s);
             return tempED > tempSD;
         }
-    };
-
-    const isValidConsultant = (): boolean => {
-        let hasTruthyValues =
-            currentConsultant.firstName &&
-            currentConsultant.lastName &&
-            isValidStartDate(currentConsultant.employmentDate);
-
-        let resignDate = currentConsultant.resignationDate?.toString();
-        if (hasTruthyValues) {
-            if (resignDate !== '') {
-                return (
-                    isValidText(currentConsultant.employmentDate) &&
-                    isValidEndDate(currentConsultant.resignationDate ? currentConsultant.resignationDate : '')
-                );
-            } else {
-                return isValidText(currentConsultant.employmentDate);
-            }
-        }
-        return false;
     };
 
     return (

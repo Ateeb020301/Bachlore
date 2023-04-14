@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React from 'react';
 
 export function getMonthName(month: number){
     const d = new Date();

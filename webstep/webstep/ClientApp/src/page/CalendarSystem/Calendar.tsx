@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { render } from 'react-dom';
 import './Calendar.css';
 import { CalendarHeader } from './CalendarHeader';
 import { CalendarRow } from './CalendarRow';
