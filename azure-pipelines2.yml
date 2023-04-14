@@ -25,6 +25,11 @@ steps:
     command: 'custom'
     customCommand: 'install --force'
     workingDir: "webstep/webstep/ClientApp"
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'install react-bootstrap bootstrap styled-components material-ui-popup-state@^1.9.3 typescript @faker-js/faker react-pro-sidebar@0.7.1 react-router-dom @apollo/client @mui/material @mui/icons-material @mui/x-data-grid apollo react-chartjs-2 react-dom chart.js formik graphql react react-scripts react-toastify yup'
+    workingDir: "webstep/webstep/ClientApp"
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
