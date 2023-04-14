@@ -23,9 +23,8 @@ steps:
 - task: Npm@1
   inputs:
     command: 'custom'
-    customCommand: 'install --legacy-peer-deps'
+    customCommand: 'install --force'
     workingDir: "webstep/webstep/ClientApp"
-
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
