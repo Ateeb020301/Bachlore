@@ -76,7 +76,7 @@ export const FormStep2 = () => {
         console.log(state.name)
         console.log(state.projectName)
         data?.projects.items.map((aProject) => {
-            if(aProject.projectName===state.projectName && aProject.customerName===state.name){
+            if(aProject.projectName==state.projectName && aProject.customerName===state.name){
                 defaultProjectConsultants.projectId=aProject.id;
                 dispatch({
                     type: FormActions.setProjectId,
