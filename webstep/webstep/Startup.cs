@@ -174,7 +174,7 @@ namespace webstep
                     x => x.UseNodaTime()));
 
             /*
-            string connectionString = this.Configuration.GetConnectionString("default");
+             string connectionString = this.Configuration.GetConnectionString("default");
             services.AddPooledDbContextFactory<WebstepContext>(o => o.UseSqlServer(connectionString, x=> x.UseNodaTime()).LogTo(Console.WriteLine));
             */
         }

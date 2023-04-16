@@ -17,6 +17,7 @@ namespace webstep
             var host = CreateHostBuilder(args).Build();
             CreateDbIfNotExists(host);
 
+
             host.Run();
         }
 
