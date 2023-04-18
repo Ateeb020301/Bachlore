@@ -15,7 +15,7 @@
     {
         public static void Initialize(WebstepContext context)
         {
-            
+
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 

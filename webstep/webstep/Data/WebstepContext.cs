@@ -91,6 +91,7 @@ namespace webstep.Data
         {
             builder.Entity<Prospect>().ToTable("Prospect");
             builder.Entity<Prospect>().Property<bool>("isDeleted");
+            builder.Entity<Prospect>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         }
 
         private void SubProspectTable(ModelBuilder builder)

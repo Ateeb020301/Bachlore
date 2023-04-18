@@ -167,16 +167,16 @@ namespace webstep
         protected virtual void ConfigureDatabase(IServiceCollection services)
         {
             services.AddTransient<IRepository, Repository>();
-
+            /*
             services.AddPooledDbContextFactory<WebstepContext>(
                 options => options.UseSqlServer(
                     this.Configuration.GetConnectionString("DefaultConnection"),
                     x => x.UseNodaTime()));
 
-            /*
-             string connectionString = this.Configuration.GetConnectionString("default");
-            services.AddPooledDbContextFactory<WebstepContext>(o => o.UseSqlServer(connectionString, x=> x.UseNodaTime()).LogTo(Console.WriteLine));
             */
+            string connectionString = this.Configuration.GetConnectionString("DefaultConnection");
+            services.AddPooledDbContextFactory<WebstepContext>(o => o.UseSqlServer(connectionString, x=> x.UseNodaTime()).LogTo(Console.WriteLine));
+            
         }
         private void AddTypes(IServiceCollection services)
         {
