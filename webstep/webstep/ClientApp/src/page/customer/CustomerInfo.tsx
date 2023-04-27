@@ -1,13 +1,20 @@
 import React from "react";
 import { Customer } from "../../api/customer";
-import { Box } from "@mui/material";
+import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, IconButton } from "@mui/material";
 import { Loading } from "../Utils/Loading";
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import PhoneEnabledOutlinedIcon from '@mui/icons-material/PhoneEnabledOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import { ModalCustomer } from "./ModalCustomer";
+import CheckIcon from '@mui/icons-material/Check';
 
-function GetInfo(customer: Customer) {
+interface CustomerInfoProps {
+  onClose: () => void;
+  customer: Customer;
+}
+
+
+const GetInfo: React.FC<CustomerInfoProps> = ({customer, onClose}) =>  {
     let subProspectlen = 0;
     let str;
     let acronym;
@@ -19,7 +26,6 @@ function GetInfo(customer: Customer) {
         subProspectlen += element.subProspects.length;
       });
     }
-
 
 
     const element = (customer != undefined ? (
@@ -38,13 +44,20 @@ function GetInfo(customer: Customer) {
 
         <Box sx={{my: 2, display: 'flex'}}>
           <Box sx={{padding: '5px',width: '30px', height: '30px', borderRadius: '5px', background: '#d5f4e4', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
-            <MailOutlineOutlinedIcon sx={{color: '#3cc987', fontSize: '18px'}}/>
+            <IconButton onClick={onClose} aria-label="delete" disableTouchRipple disableRipple>
+              <MailOutlineOutlinedIcon sx={{color: '#3cc987', fontSize: '18px'}}/>
+            </IconButton>
           </Box>
           <Box sx={{padding: '5px',width: '30px', height: '30px', borderRadius: '5px', background: '#fde3e2', mx: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
-            <PhoneEnabledOutlinedIcon sx={{color: '#f17967', fontSize: '18px'}}/>
+            <IconButton onClick={onClose} aria-label="delete" disableTouchRipple disableRipple>
+              <PhoneEnabledOutlinedIcon sx={{color: '#f17967', fontSize: '18px'}}/>
+            </IconButton>
+            
           </Box>
           <Box sx={{padding: '5px',width: '30px', height: '30px', borderRadius: '5px', background: '#fbf3e0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
-            <ChatOutlinedIcon sx={{color: '#e8bf62', fontSize: '18px'}}/>
+            <IconButton onClick={onClose} aria-label="delete" disableTouchRipple disableRipple>
+              <ChatOutlinedIcon sx={{color: '#e8bf62', fontSize: '18px'}}/>
+            </IconButton>
           </Box>
         </Box>
       </Box>
@@ -99,7 +112,6 @@ function GetInfo(customer: Customer) {
             <p style={{opacity: .6, fontWeight: 600, color: 'black', fontSize: '14px', padding: '0px', margin: '0px'}}>{subProspectlen}</p>
           </Box>
         </Box>
-
       </Box>
     </Box>
     ) : (

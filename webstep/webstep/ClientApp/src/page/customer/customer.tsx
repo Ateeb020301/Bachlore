@@ -273,8 +273,14 @@ const takeAmount = 50;
   function CustomerInform(customer: Customer) {
     inpCustomer = customer;
     setCustomer(customer)
-    return GetInfo(inpCustomer);
+    return (
+      <GetInfo customer={customer} onClose={test}/>
+    );
   } 
+
+  function test() {
+    console.log('closed');
+  }
 
   const [isModalOpen, setModalState] = React.useState(false);
 
@@ -432,7 +438,7 @@ const takeAmount = 50;
                   </Box>
   
                   <Box sx={{flex: 1, borderRadius: '10px', ml: 1, boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', alignSelf: 'self-start', background: '#ffffff'}}>
-                      {GetInfo(inpCustomer)}
+                      <GetInfo customer={inpCustomer} onClose={test}/>
                   </Box>
               </Box>
               <ModalEditCustomer
@@ -447,47 +453,47 @@ const takeAmount = 50;
                 maxWidth={'sm'}
                 aria-labelledby="responsive-dialog-title"
               >
-              <DialogTitle id="responsive-dialog-title" sx={{borderBottom: '1px solid #e0e0e0'}}>
-                Are you sure you want to delete this customer?
-              </DialogTitle>
-              <DialogContent sx={{my: 2, borderBottom: '1px solid #e0e0e0' }}>
-                <DialogContentText sx={{mb: 1}}>
-                  {`${customerDel.firstName} ${customerDel.lastName} has ongoing prospects. Before deleting this customer, moving the following prospects will be neccessary`}
-                </DialogContentText>
-                <Box sx={{display: 'flex'}}>
-                  <Box sx={{flex: 1, display: 'flex', justifyContent: 'center', flexDirection: 'column', borderRight: '1px solid #e0e0e0'}}>
-                    {customerDel.prospects.map((prospects) => 
-                        <Box key={prospects.id} sx={{display: 'flex', alignItems: 'center'}}>
-                          <Box sx={{flex: 1}}>{prospects.projectName}</Box>
-                        </Box>
+                <DialogTitle id="responsive-dialog-title" sx={{borderBottom: '1px solid #e0e0e0'}}>
+                  Are you sure you want to delete this customer?
+                </DialogTitle>
+                <DialogContent sx={{my: 2, borderBottom: '1px solid #e0e0e0' }}>
+                  <DialogContentText sx={{mb: 1}}>
+                    {`${customerDel.firstName} ${customerDel.lastName} has ongoing prospects. Before deleting this customer, moving the following prospects will be neccessary`}
+                  </DialogContentText>
+                  <Box sx={{display: 'flex'}}>
+                    <Box sx={{flex: 1, display: 'flex', justifyContent: 'center', flexDirection: 'column', borderRight: '1px solid #e0e0e0'}}>
+                      {customerDel.prospects.map((prospects) => 
+                          <Box key={prospects.id} sx={{display: 'flex', alignItems: 'center'}}>
+                            <Box sx={{flex: 1}}>{prospects.projectName}</Box>
+                          </Box>
 
-                    )}
-                  </Box>
-                  <Box sx={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                      <FormControl sx={{minWidth: '50%' }} size='small'>
-                        <Select
-                          value={customerID}
-                          onChange={handleChange}
-                          displayEmpty
-                          inputProps={{ 'aria-label': 'Without label' }}
-                        >
-                          <MenuItem value="" disabled>
-                            {customerDel.firstName}
-                          </MenuItem>
-                          {data?.customers.items.map((customers) => 
-                            (customers.firstName != customerDel.firstName ? (<MenuItem key={`${customers.id}__${customers.firstName}`} value={customers.id}>{customers.firstName}</MenuItem>) : (null) )
-                          )}
-                        </Select>
-                      </FormControl>
+                      )}
                     </Box>
-                  </Box>
-              </DialogContent>
-              <DialogActions>
-              <IconButton onClick={handleCloseButton}  disabled={!accept} aria-label="delete" disableTouchRipple>
-                  <CheckIcon />
-              </IconButton>
-              </DialogActions>
-            </Dialog>
+                    <Box sx={{display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <FormControl sx={{minWidth: '50%' }} size='small'>
+                          <Select
+                            value={customerID}
+                            onChange={handleChange}
+                            displayEmpty
+                            inputProps={{ 'aria-label': 'Without label' }}
+                          >
+                            <MenuItem value="" disabled>
+                              {customerDel.firstName}
+                            </MenuItem>
+                            {data?.customers.items.map((customers) => 
+                              (customers.firstName != customerDel.firstName ? (<MenuItem key={`${customers.id}__${customers.firstName}`} value={customers.id}>{customers.firstName}</MenuItem>) : (null) )
+                            )}
+                          </Select>
+                        </FormControl>
+                      </Box>
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                <IconButton onClick={handleCloseButton}  disabled={!accept} aria-label="delete" disableTouchRipple>
+                    <CheckIcon />
+                </IconButton>
+                </DialogActions>
+              </Dialog>
               <ToastContainer />
           </Box>
       ) : (
