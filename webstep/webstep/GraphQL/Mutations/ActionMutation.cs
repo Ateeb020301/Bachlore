@@ -36,11 +36,6 @@ namespace webstep.GraphQL.Mutations
             {
                 Comment = input.Comment,
                 Customer = customer,
-                IsInsert = input.IsInsert,
-                IsUpdate = input.IsUpdate,
-                IsDelete = input.IsDelete,
-                IsMessage = input.IsMessage,
-                IsPhone = input.IsPhone
             };
 
 
@@ -60,11 +55,6 @@ namespace webstep.GraphQL.Mutations
                                  .ConfigureAwait(false);
 
             action.Comment = input.Comment ?? action.Comment;
-            action.IsInsert = input.IsInsert ?? action.IsInsert;
-            action.IsUpdate = input.IsUpdate ?? action.IsUpdate;
-            action.IsDelete = input.IsDelete ?? action.IsDelete;
-            action.IsMessage = input.IsMessage ?? action.IsMessage;
-            action.IsPhone = input.IsPhone ?? action.IsPhone;
 
             await _repo
                 .UpdateAsync(action, context, cancellationToken)

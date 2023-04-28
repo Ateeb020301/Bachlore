@@ -30,14 +30,5 @@ namespace webstep.Models
         [Required]
         public Customer Customer { get; set; }
 
-        public int IsInsert { get; set; }
-        public int IsUpdate { get; set; }
-        public int IsDelete { get; set; }
-        public int IsMessage { get; set; }
-        public int IsPhone { get; set; }
-
-
-
-
     }
 }

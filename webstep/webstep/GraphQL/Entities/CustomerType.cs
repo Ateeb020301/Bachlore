@@ -21,9 +21,10 @@ namespace webstep.GraphQL.Entities
         [Required] public string Adresse { get; set; }
         [Required] public string Email { get; set; }
         [Required] public string Tlf { get; set; }
+        [Required] public int SellerId { get; set; }
     }
 #nullable enable
-    public record EditCustomerInput(int Id, string? FirstName, string? LastName, string? Adresse, string? Email, string? Tlf);
+    public record EditCustomerInput(int Id, string? FirstName, string? LastName, string? Adresse, string? Email, string? Tlf, int? SellerId);
     public record DeleteCustomerInput(int Id);
     public record CustomerPayload(Customer Customer);
 }

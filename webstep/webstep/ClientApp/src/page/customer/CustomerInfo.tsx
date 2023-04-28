@@ -48,17 +48,6 @@ const GetInfo: React.FC<CustomerInfoProps> = ({customer, onClose}) =>  {
               <MailOutlineOutlinedIcon sx={{color: '#3cc987', fontSize: '18px'}}/>
             </IconButton>
           </Box>
-          <Box sx={{padding: '5px',width: '30px', height: '30px', borderRadius: '5px', background: '#fde3e2', mx: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
-            <IconButton onClick={onClose} aria-label="delete" disableTouchRipple disableRipple>
-              <PhoneEnabledOutlinedIcon sx={{color: '#f17967', fontSize: '18px'}}/>
-            </IconButton>
-            
-          </Box>
-          <Box sx={{padding: '5px',width: '30px', height: '30px', borderRadius: '5px', background: '#fbf3e0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
-            <IconButton onClick={onClose} aria-label="delete" disableTouchRipple disableRipple>
-              <ChatOutlinedIcon sx={{color: '#e8bf62', fontSize: '18px'}}/>
-            </IconButton>
-          </Box>
         </Box>
       </Box>
 

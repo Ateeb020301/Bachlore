@@ -90,6 +90,13 @@ namespace webstep.GraphQL
         public IQueryable<Contract> GetContracts() => this._repo.SelectAll<Contract>();
 
         /// <summary>
+        /// Fetches all action
+        /// </summary>
+        /// <returns></returns>
+        [UseOffsetPaging(MaxPageSize = 250), UseProjection, UseSorting]
+        public IQueryable<Action> GetActions() => this._repo.SelectAll<Action>();
+
+        /// <summary>
         /// Fetches a single contract
         /// </summary>
         /// <param name="id"></param>

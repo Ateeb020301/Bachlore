@@ -5,7 +5,7 @@ import { AddCustomerPayload, ADD_CUSTOMER, GET_CUSTOMER, CustomerPayload, DELETE
 import { useMutation, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { Box, Breadcrumbs, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, FormControl, FormControlLabel, FormHelperText, IconButton, InputLabel, Link, MenuItem, Select, SelectChangeEvent, Switch, TableHead, useTheme } from '@mui/material';
+import { Box, Breadcrumbs, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, FormControl, FormControlLabel, FormHelperText, IconButton, InputLabel, Link, MenuItem, Select, SelectChangeEvent, Switch, TableHead, TextField, useTheme } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { CustomerContainer } from './CustomerContainer';
 import GetInfo from './CustomerInfo';
@@ -31,6 +31,7 @@ import { Prospect } from '../../logic/interfaces';
 import { EditProspectCustomerInput, EditProspectInput } from '../../api/prospects/inputs';
 import { EditProspectPayload } from '../../api/prospects/payloads';
 import CheckIcon from '@mui/icons-material/Check';
+import { ADD_ACTION, Action, AddActionPayload, GET_ACTION } from '../../api/action';
 
   interface TablePaginationActionsProps {
       count: number;
@@ -52,6 +53,11 @@ import CheckIcon from '@mui/icons-material/Check';
     prospects: Prospect[];
   }
 
+  interface ActionInterface {
+    comment: string;
+    customerId: number;
+  }
+
   let customerEdit: DefaultCustomer = {
     id: 0,
     firstName: '',
@@ -61,14 +67,9 @@ import CheckIcon from '@mui/icons-material/Check';
     tlf: '',
     prospects: []
   };
-  let newCustomer: DefaultCustomer = {
-    id: 0,
-    firstName: '',
-    lastName: '',
-    adresse: '',
-    email:'',
-    tlf: '',
-    prospects: []
+  let defaultAction: ActionInterface = {
+    comment: '',
+    customerId: 0
   };
   let inpCustomer : Customer;
 
@@ -137,6 +138,17 @@ const takeAmount = 50;
     ],
     awaitRefetchQueries: true,
   });
+
+  const [addAction] = useMutation<AddActionPayload, { input: ActionInterface }>(
+    ADD_ACTION, {
+        refetchQueries: [
+            {
+                query: GET_ACTION,
+            },
+        ],
+        awaitRefetchQueries: true,
+    }
+);
 
   const deleteWrapper = (customer: Customer) => {
     deleteCustomer({ variables: { input: { id:  customer.id } } })
@@ -278,14 +290,16 @@ const takeAmount = 50;
     );
   } 
 
+  const [isMessageOpen, setMessageOpen] = React.useState(false);
+
+  const toggleMessageModal = () => setMessageOpen(!isMessageOpen);
   function test() {
-    console.log('closed');
+      toggleMessageModal();
   }
 
   const [isModalOpen, setModalState] = React.useState(false);
 
   const toggleModal = () => setModalState(!isModalOpen);
-
   const openModal = (customer: Customer) => {
     customerEdit = customer;
     toggleModal();
@@ -310,11 +324,45 @@ const takeAmount = 50;
 
   const handleClose = () => {
     setOpen(false);
+    setMessageOpen(false);
     setCustomerID('');
   };
+
+  const [currentAction, setCurrentAction] = useState<ActionInterface>(defaultAction);
+
+  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      let { name, value } : any = e.target;
+
+      defaultAction.comment = value;
+      defaultAction.customerId = inpCustomer.id;
+
+      setCurrentAction((prevAction) => ({
+          ...prevAction,
+          [name]: value,
+      }));
+
+      console.log(defaultAction)
+  };
+
+  const handleCloseMessage = () => {
+    handleClose();
+    console.log(defaultAction)
+    addAction({ variables: { input: defaultAction } })
+        .then((res) => {
+            toast.success('Kommentar lagt til', {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+        })
+        .catch((err) => {
+            toast.error('Noe gikk galt med innlegging av en kommentar.', {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+            console.log(err)
+        });
+  }
+
   const handleCloseButton = () => {
-    setOpen(false);
-    setCustomerID('');
+    handleClose();
     customerDel.prospects.map((prospects) => {
       input = { id: prospects.id, projectName: prospects.projectName, customerId: parseInt(customerID)};
       editProspect({ variables: { input: input } })
@@ -494,6 +542,36 @@ const takeAmount = 50;
                 </IconButton>
                 </DialogActions>
               </Dialog>
+              <Dialog
+                open={isMessageOpen}
+                onClose={handleClose}
+                maxWidth={'sm'}
+                aria-labelledby="responsive-dialog-title"
+              >
+                <DialogTitle id="responsive-dialog-title" sx={{ borderBottom: '1px solid #e0e0e0' }}>
+                    Comment
+                </DialogTitle>
+                <DialogContent sx={{ my: 2, borderBottom: '1px solid #e0e0e0' }}>
+                    <DialogContentText sx={{ mb: 1 }}>
+                        {`Leave a comment for ${inpCustomer.firstName} ${inpCustomer.lastName}`}
+                    </DialogContentText>
+                    <TextField
+                      id="comment"
+                      name="comment"
+                      label="Comment"
+                      placeholder="Write a comment"
+                      multiline
+                      fullWidth
+                      onChange={handleMessageChange}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <IconButton onClick={handleCloseMessage} aria-label="delete" disableTouchRipple>
+                        <CheckIcon />
+                    </IconButton>
+                </DialogActions>
+              </Dialog>
+
               <ToastContainer />
           </Box>
       ) : (

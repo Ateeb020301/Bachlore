@@ -203,7 +203,9 @@ namespace webstep
                 .AddType<ProjectConsultantType>()
                 .AddType<ProjectConsultantMutation>()
                 .AddType<CustomerType>()
-                .AddType<CustomerMutation>();
+                .AddType<CustomerMutation>()
+                .AddType<ActionType>()
+                .AddType<ActionMutation>();
 
         }
     }
