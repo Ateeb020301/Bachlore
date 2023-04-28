@@ -39,7 +39,6 @@ namespace webstep.Data
         public DbSet<Vacancy> Vacancies { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<ProjectConsultant> ProjectConsultants { get; set; }
-        public DbSet<Models.Action> Actions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,7 +52,6 @@ namespace webstep.Data
             VacancyTable(modelBuilder);
             CustomerTable(modelBuilder);
             ProjectConsultantTable(modelBuilder);
-            ActionTable(modelBuilder);
         }
 
 
@@ -93,7 +91,6 @@ namespace webstep.Data
         {
             builder.Entity<Prospect>().ToTable("Prospect");
             builder.Entity<Prospect>().Property<bool>("isDeleted");
-            builder.Entity<Prospect>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         }
 
         private void SubProspectTable(ModelBuilder builder)
@@ -180,13 +177,6 @@ namespace webstep.Data
             builder.Entity<Vacancy>()
                 .HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false &&
                                      m.EndDate >= clock.GetCurrentDate());
-        }
-
-        private void ActionTable(ModelBuilder builder)
-        {
-            builder.Entity<Models.Action>().ToTable("Actions");
-            builder.Entity<Models.Action>().Property<bool>("isDeleted");
-            builder.Entity<Models.Action>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         }
 
         public override int SaveChanges()
