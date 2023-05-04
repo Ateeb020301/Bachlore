@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
-import { Button, FormGroup, Input, Label } from 'reactstrap';
-import { AddCustomerPayload, ADD_CUSTOMER, GET_CUSTOMER, CustomerPayload, DELETE_CUSTOMER, Customer, GET_CUSTOMERS } from '../../api/customer';
+import React, { useState } from 'react'
+import { GET_CUSTOMER, CustomerPayload, DELETE_CUSTOMER, Customer, GET_CUSTOMERS } from '../../api/customer';
 import { useMutation, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { Box, Breadcrumbs, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, FormControl, FormControlLabel, FormHelperText, IconButton, InputLabel, Link, MenuItem, Select, SelectChangeEvent, Switch, TableHead, TextField, useTheme } from '@mui/material';
+import { Box, Breadcrumbs, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, FormControl, FormControlLabel, FormHelperText, IconButton, InputLabel, Link, MenuItem, Select, SelectChangeEvent, Switch, TableHead, TextField, useTheme } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { CustomerContainer } from './CustomerContainer';
 import GetInfo from './CustomerInfo';
@@ -27,11 +25,12 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { ModalEditCustomer } from './ModalEditCustomer';
 import { DELETE_PROSPECT, DELETE_SUBPROSPECT, EDIT_PROSPECT } from '../../api/prospects/queries';
-import { Prospect } from '../../logic/interfaces';
+import { Prospect, Seller } from '../../logic/interfaces';
 import { EditProspectCustomerInput, EditProspectInput } from '../../api/prospects/inputs';
 import { EditProspectPayload } from '../../api/prospects/payloads';
 import CheckIcon from '@mui/icons-material/Check';
 import { ADD_ACTION, Action, AddActionPayload, GET_ACTION } from '../../api/action';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
   interface TablePaginationActionsProps {
       count: number;
@@ -43,29 +42,22 @@ import { ADD_ACTION, Action, AddActionPayload, GET_ACTION } from '../../api/acti
       ) => void;
   }
 
-  interface DefaultCustomer {
-    id: number;
-    firstName: string;
-    lastName: string;
-    adresse: string;
-    email: string;
-    tlf: string;
-    prospects: Prospect[];
-  }
-
   interface ActionInterface {
     comment: string;
     customerId: number;
   }
 
-  let customerEdit: DefaultCustomer = {
+  let customerEdit: Customer = {
     id: 0,
     firstName: '',
     lastName: '',
     adresse: '',
     email:'',
     tlf: '',
-    prospects: []
+    prospects: [],
+    seller: {id: 0, fullName: '', email: '', employmentDate: '', resignationDate: ''},
+    action: []
+
   };
   let defaultAction: ActionInterface = {
     comment: '',
@@ -254,16 +246,17 @@ const takeAmount = 50;
     );
   }
     
-  function createData(id: number, firstName: string, lastName: string, adresse:string, email: string, tlf: string, prospects: any[]) {
-    return { id, firstName, lastName, adresse, email, tlf, prospects };
+  function createData(id: number, firstName: string, lastName: string, adresse:string, email: string, tlf: string, prospects: any[], seller: Seller, action: any[]) {
+    return { id, firstName, lastName, adresse, email, tlf, prospects, seller, action };
   }
 
   const rows: any[] = [];
 
   data?.customers.items.map((customer) => {
-      rows.push(createData(customer.id, customer.firstName, customer.lastName,customer.adresse, customer.email, customer.tlf, customer.prospects))
+      rows.push(createData(customer.id, customer.firstName, customer.lastName,customer.adresse, customer.email, customer.tlf, customer.prospects, customer.seller, customer.action))
   })
 
+  console.log(rows)
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -284,6 +277,7 @@ const takeAmount = 50;
 
   function CustomerInform(customer: Customer) {
     inpCustomer = customer;
+    console.log(inpCustomer)
     setCustomer(customer)
     return (
       <GetInfo customer={customer} onClose={test}/>
@@ -392,6 +386,8 @@ const takeAmount = 50;
     setAccept(true);
   };
 
+  let [openCollapse, setOpenCollapse] = React.useState(false);
+
   return (
       <>
       {data?.customers.items ? (
@@ -423,7 +419,6 @@ const takeAmount = 50;
                                   <TableCell>Email</TableCell>
                                   <TableCell style={{textAlign: 'right'}}>Phone Number</TableCell>
                                   <TableCell style={{textAlign: 'center'}}>Actions</TableCell>
-                              
                               </TableRow>
                               </TableHead>
                               <TableBody sx={{border: 'none'}}>
@@ -432,31 +427,69 @@ const takeAmount = 50;
                                   : rows
                               ).map((row) => (
                                   <TableRow key={row.id}  hover>
-                                  <TableCell onClick={() => CustomerInform(row)} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
-                                      {row.id}
-                                  </TableCell>
-                                  <TableCell onClick={() => CustomerInform(row)} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
-                                      {row.firstName + " " + row.lastName} 
-                                  </TableCell>
-                                  <TableCell onClick={() => CustomerInform(row)} style={{border: 'none', borderBottom: '1px solid #e0e0e0', borderRight: 'none'}}>
-                                      {row.adresse}
-                                  </TableCell>
-                                  <TableCell onClick={() => CustomerInform(row)} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
-                                      {row.email}
-                                  </TableCell>
-                                  <TableCell onClick={() => CustomerInform(row)} style={{textAlign: 'right', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
-                                      {`(+47) ${row.tlf.slice(0,3)} ${row.tlf.slice(3,5)} ${row.tlf.slice(5,8)} `}
-                                  </TableCell>
-                                  <TableCell style={{display: 'flex', justifyContent: 'center', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
-                                    <IconButton onClick={() => openModal(row)} aria-label="edit" disableTouchRipple>
-                                      <EditOutlinedIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => {(row.prospects.length > 0 ? (handleClickOpen(row)) : (deleteWrapper(row)))}} aria-label="delete" disableTouchRipple>
-                                      <DeleteOutlineOutlinedIcon />
-                                    </IconButton>
-                                  </TableCell>
+                                    <TableCell  onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+                                        {row.id}
+                                    </TableCell>
+                                    <TableCell onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+                                        {row.firstName + " " + row.lastName} 
+                                    </TableCell>
+                                    <TableCell onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}}  style={{border: 'none', borderBottom: '1px solid #e0e0e0', borderRight: 'none'}}>
+                                        {row.adresse}
+                                    </TableCell>
+                                    <TableCell onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+                                        {row.email}
+                                    </TableCell>
+                                    <TableCell onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}} style={{textAlign: 'right', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
+                                        {`(+47) ${row.tlf.slice(0,3)} ${row.tlf.slice(3,5)} ${row.tlf.slice(5,8)} `}
+                                    </TableCell>
+                                    <TableCell style={{display: 'flex', justifyContent: 'center', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
+                                      <IconButton onClick={() => openModal(row)} aria-label="edit" disableTouchRipple>
+                                        <EditOutlinedIcon />
+                                      </IconButton>
+                                      <IconButton onClick={() => {(row.prospects.length > 0 ? (handleClickOpen(row)) : (deleteWrapper(row)))}} aria-label="delete" disableTouchRipple>
+                                        <DeleteOutlineOutlinedIcon />
+                                      </IconButton>
+                                      <IconButton onClick={() => CustomerInform(row)} aria-label="delete" disableTouchRipple>
+                                        <VisibilityIcon />
+                                      </IconButton>
+                                    </TableCell>
                                   </TableRow>
                               ))}
+                               <TableRow>
+                                  <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                                    <Collapse in={openCollapse} timeout="auto" unmountOnExit>
+                                      <Box sx={{ margin: 1 }}>
+                                        <h1>
+                                          Comment History
+                                        </h1>
+                                        <Table size="small" aria-label="purchases">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell>Date</TableCell>
+                                              <TableCell>Customer</TableCell>
+                                              <TableCell align="right">Amount</TableCell>
+                                              <TableCell align="right">Total price ($)</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody sx={{border: 'none'}}>
+                                           
+                                              <TableRow key={"1"}>
+                                                <TableCell component="th" scope="row">
+                                                  s
+                                                </TableCell>
+                                                <TableCell>s</TableCell>
+                                                <TableCell align="right">s</TableCell>
+                                                <TableCell align="right">
+                                                  s
+                                                </TableCell>
+                                              </TableRow>
+                                            
+                                          </TableBody>
+                                        </Table>
+                                      </Box>
+                                    </Collapse>
+                                  </TableCell>
+                                </TableRow>
 
                               </TableBody>
                               <TableFooter sx={{color: 'black'}}>

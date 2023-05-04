@@ -101,6 +101,14 @@ const GetInfo: React.FC<CustomerInfoProps> = ({customer, onClose}) =>  {
             <p style={{opacity: .6, fontWeight: 600, color: 'black', fontSize: '14px', padding: '0px', margin: '0px'}}>{subProspectlen}</p>
           </Box>
         </Box>
+        <Box sx={{display: 'flex', my: 3}}>
+          <Box sx={{flex: 1}}>
+            <p style={{fontWeight: 600, color: 'black', fontSize: '14px', padding: '0px', margin: '0px'}}>Contact Information</p>
+          </Box>
+          <Box sx={{flex: 1}}>
+            <p style={{opacity: .6, fontWeight: 600, color: 'black', fontSize: '14px', padding: '0px', margin: '0px'}}>{customer.seller.fullName}</p>
+          </Box>
+        </Box>
       </Box>
     </Box>
     ) : (

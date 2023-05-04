@@ -42,6 +42,7 @@ namespace webstep.Models
         public Seller Seller { get; set; }
 
         public ICollection<Prospect> Prospects { get; set; }
+        public ICollection<Action> Action { get; set; }
 
     }
 }

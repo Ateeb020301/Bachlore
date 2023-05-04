@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
-import { Prospect } from '../logic/interfaces';
+import { Prospect, Seller } from '../logic/interfaces';
+import { Action } from './action';
 
 export interface CustomerPayload {
     customers: { items: Customer[] }
@@ -25,6 +26,9 @@ export interface Customer {
     email:string,
     tlf:string,
     prospects: Prospect[];
+    seller: Seller;
+    action: Action[];
+
 }
 export interface GetCustomerItemsContractsPayload {
     customers: { items: Customer[] }
@@ -42,6 +46,14 @@ export const GET_CUSTOMER = gql`
                 adresse
                 email
                 tlf
+                action {
+                    id
+                    comment
+                }
+                seller {
+                    id
+                    fullName
+                }
                 prospects {
                     id
                     projectName

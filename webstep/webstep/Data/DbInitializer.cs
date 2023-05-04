@@ -55,7 +55,7 @@
                     Adresse = "Snypemyrlia 9",
                     Email = "ateeb@live.no",
                     Tlf = "40749470",
-                    Seller = seller[1]
+                    Seller = seller[4]
                 },
                 new Customer
                 {
@@ -64,7 +64,7 @@
                     Adresse = "Byggveien 7",
                     Email = "mohammedabo0102@hotmail.com",
                     Tlf = "45418389",
-                    Seller = seller[2]
+                    Seller = seller[10]
                 },
                 new Customer
                 {
@@ -82,7 +82,7 @@
                     Adresse = "Havreveien 32",
                     Email = "naveen150301@gmail.com",
                     Tlf = "46762686",
-                    Seller = seller[1]
+                    Seller = seller[5]
                 },
             };
         }
