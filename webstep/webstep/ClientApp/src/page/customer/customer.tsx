@@ -31,6 +31,8 @@ import { EditProspectPayload } from '../../api/prospects/payloads';
 import CheckIcon from '@mui/icons-material/Check';
 import { ADD_ACTION, Action, AddActionPayload, GET_ACTION } from '../../api/action';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
   interface TablePaginationActionsProps {
       count: number;
@@ -386,7 +388,65 @@ const takeAmount = 50;
     setAccept(true);
   };
 
-  let [openCollapse, setOpenCollapse] = React.useState(false);
+
+  function Row(props: { row: ReturnType<typeof createData> }) {
+    const { row } = props;
+    const [openCollapse, setOpenCollapse] = React.useState(false);
+  
+    return (
+      <React.Fragment>
+        <TableRow key={row.id}  hover>
+          <TableCell style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+            <IconButton
+                aria-label="expand row"
+                size="small"
+                onClick={() => (row.action.length > 0 ? setOpenCollapse(!openCollapse) : (null))}
+              >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <TableCell style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+              {row.firstName + " " + row.lastName} 
+          </TableCell>
+          <TableCell style={{border: 'none', borderBottom: '1px solid #e0e0e0', borderRight: 'none'}}>
+              {row.adresse}
+          </TableCell>
+          <TableCell style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+              {row.email}
+          </TableCell>
+          <TableCell></TableCell>
+          <TableCell style={{textAlign: 'right', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
+              {`(+47) ${row.tlf.slice(0,3)} ${row.tlf.slice(3,5)} ${row.tlf.slice(5,8)} `}
+          </TableCell>
+          <TableCell style={{display: 'flex', justifyContent: 'center', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
+            <IconButton onClick={() => openModal(row)} aria-label="edit" disableTouchRipple>
+              <EditOutlinedIcon />
+            </IconButton>
+            <IconButton onClick={() => {(row.prospects.length > 0 ? (handleClickOpen(row)) : (deleteWrapper(row)))}} aria-label="delete" disableTouchRipple>
+              <DeleteOutlineOutlinedIcon />
+            </IconButton>
+            <IconButton onClick={() => CustomerInform(row)} aria-label="delete" disableTouchRipple>
+              <VisibilityIcon />
+            </IconButton>
+          </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+          <Collapse in={openCollapse} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <h2>
+                Comment
+              </h2>
+              {row.action.map((rows) => 
+                <h3 key={rows.id}>{rows.comment}</h3>
+              )}
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+    );
+  }
 
   return (
       <>
@@ -409,112 +469,25 @@ const takeAmount = 50;
   
               <Box sx={{display: 'flex', flexBasis: '100%', m: 1}}>
                   <Box className={'table'} sx={{flex: 3, mr: 1, boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.1)', borderRadius: '10px', alignSelf: 'self-start', background: '#ffffff'}}>
-                      <TableContainer>
-                          <Table aria-label="custom pagination table">
-                          <TableHead>
-                              <TableRow>
-                                  <TableCell>Id</TableCell> 
-                                  <TableCell>Full Name</TableCell>
-                                  <TableCell>Address</TableCell>
-                                  <TableCell>Email</TableCell>
-                                  <TableCell style={{textAlign: 'right'}}>Phone Number</TableCell>
-                                  <TableCell style={{textAlign: 'center'}}>Actions</TableCell>
-                              </TableRow>
-                              </TableHead>
-                              <TableBody sx={{border: 'none'}}>
-                              {(rowsPerPage > 0
-                                  ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                  : rows
-                              ).map((row) => (
-                                  <TableRow key={row.id}  hover>
-                                    <TableCell  onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
-                                        {row.id}
-                                    </TableCell>
-                                    <TableCell onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
-                                        {row.firstName + " " + row.lastName} 
-                                    </TableCell>
-                                    <TableCell onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}}  style={{border: 'none', borderBottom: '1px solid #e0e0e0', borderRight: 'none'}}>
-                                        {row.adresse}
-                                    </TableCell>
-                                    <TableCell onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}} style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
-                                        {row.email}
-                                    </TableCell>
-                                    <TableCell onClick={() => {row.action.length > 0 ? setOpenCollapse(!openCollapse) : setOpenCollapse(openCollapse)}} style={{textAlign: 'right', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
-                                        {`(+47) ${row.tlf.slice(0,3)} ${row.tlf.slice(3,5)} ${row.tlf.slice(5,8)} `}
-                                    </TableCell>
-                                    <TableCell style={{display: 'flex', justifyContent: 'center', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
-                                      <IconButton onClick={() => openModal(row)} aria-label="edit" disableTouchRipple>
-                                        <EditOutlinedIcon />
-                                      </IconButton>
-                                      <IconButton onClick={() => {(row.prospects.length > 0 ? (handleClickOpen(row)) : (deleteWrapper(row)))}} aria-label="delete" disableTouchRipple>
-                                        <DeleteOutlineOutlinedIcon />
-                                      </IconButton>
-                                      <IconButton onClick={() => CustomerInform(row)} aria-label="delete" disableTouchRipple>
-                                        <VisibilityIcon />
-                                      </IconButton>
-                                    </TableCell>
-                                  </TableRow>
-                              ))}
-                               <TableRow>
-                                  <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                                    <Collapse in={openCollapse} timeout="auto" unmountOnExit>
-                                      <Box sx={{ margin: 1 }}>
-                                        <h1>
-                                          Comment History
-                                        </h1>
-                                        <Table size="small" aria-label="purchases">
-                                          <TableHead>
-                                            <TableRow>
-                                              <TableCell>Date</TableCell>
-                                              <TableCell>Customer</TableCell>
-                                              <TableCell align="right">Amount</TableCell>
-                                              <TableCell align="right">Total price ($)</TableCell>
-                                            </TableRow>
-                                          </TableHead>
-                                          <TableBody sx={{border: 'none'}}>
-                                           
-                                              <TableRow key={"1"}>
-                                                <TableCell component="th" scope="row">
-                                                  s
-                                                </TableCell>
-                                                <TableCell>s</TableCell>
-                                                <TableCell align="right">s</TableCell>
-                                                <TableCell align="right">
-                                                  s
-                                                </TableCell>
-                                              </TableRow>
-                                            
-                                          </TableBody>
-                                        </Table>
-                                      </Box>
-                                    </Collapse>
-                                  </TableCell>
-                                </TableRow>
-
-                              </TableBody>
-                              <TableFooter sx={{color: 'black'}}>
-                              <TableRow>
-                                  <TablePagination
-                                  sx={{color: 'black'}}
-                                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                  colSpan={5}
-                                  count={rows.length}
-                                  rowsPerPage={rowsPerPage}
-                                  page={page}
-                                  SelectProps={{
-                                      inputProps: {
-                                      'aria-label': 'rows per page',
-                                      'className': 'pTable'
-                                      },
-                                      native: true,
-                                  }}
-                                  onPageChange={handleChangePage}
-                                  onRowsPerPageChange={handleChangeRowsPerPage}
-                                  ActionsComponent={TablePaginationActions}
-                                  />
-                              </TableRow>
-                              </TableFooter>
-                          </Table>
+                      <TableContainer component={Paper}>
+                        <Table aria-label="collapsible table">
+                          <TableHead sx={{background: '#f8f9f9'}}>
+                            <TableRow>
+                                <TableCell></TableCell> 
+                                <TableCell>Full Name</TableCell>
+                                <TableCell>Address</TableCell>
+                                <TableCell style={{textAlign: 'center'}}>Email</TableCell>
+                                <TableCell></TableCell> 
+                                <TableCell style={{textAlign: 'right'}}>Phone Number</TableCell>
+                                <TableCell style={{textAlign: 'center'}}>Actions</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody sx={{border: 'none'}}>
+                            {rows.map((row) => (
+                              <Row key={row.id} row={row} />
+                            ))}
+                          </TableBody>
+                        </Table>
                       </TableContainer>
                   </Box>
   

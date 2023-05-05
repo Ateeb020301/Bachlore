@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Button, FormGroup, Input, Label } from 'reactstrap';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { Box } from '@mui/material';
+import { Box, MenuItem, Select } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ADD_CUSTOMER, AddCustomerPayload, GET_CUSTOMER, GET_CUSTOMERS } from '../../api/customer';
+import { GetSellerPayload } from '../../api/prospects/payloads';
+import { GET_SELLERS } from '../../api/sellers';
+import { GetSellersPayload } from '../seller/SellerContainer';
+import Menu from '@mui/material/Menu/Menu';
 
 interface DefaultCustomer {
     firstName: string;
@@ -13,6 +17,7 @@ interface DefaultCustomer {
     adresse: string;
     email: string;
     tlf: string;
+    sellerId: number
 }
 
 
@@ -23,7 +28,7 @@ interface ModalConsultantProps {
 //GQL pagination skip const
 const skipAmount = 0;
 //GQL pagination take const
-const takeAmount = 50;
+const takeAmount = 10;
 
 export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
     let defaultCustomer: DefaultCustomer = {
@@ -32,6 +37,7 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
         adresse: '',
         email: '',
         tlf: '',
+        sellerId: 0
     };
 
     const outsideRef = React.useRef(null);
@@ -39,6 +45,12 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
 
     const [currentCustomer, setCurrentCustomer] = useState<DefaultCustomer>(defaultCustomer);
     const [displayValidation, setDisplayValidation] = useState<string>('');
+
+    const { loading, error, data } = useQuery<GetSellersPayload>(GET_SELLERS, {
+        pollInterval: 500,
+        variables: { skipAmount: skipAmount, takeAmount: takeAmount },
+    });
+
     const [addCustomer] = useMutation<AddCustomerPayload, { input: DefaultCustomer }>(
         ADD_CUSTOMER, {
             refetchQueries: [
@@ -94,13 +106,29 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
             currentCustomer.adresse &&
             currentCustomer.lastName &&
             currentCustomer.email &&
-            currentCustomer.tlf
+            currentCustomer.tlf &&
+            currentCustomer.sellerId
 
         if (hasTruthyValues) {
             return true
         }
         return false;
     };
+
+    const [state, setState] = React.useState({
+        id: 0,
+        fullName: ''
+      });
+
+    const handleSelectChange = (event: any) => {
+        const name = event.target.name;
+        currentCustomer.sellerId = event.target.value;
+
+        setState({
+          ...state,
+          [name]: event.target.value,
+        });
+      };
 
     return (
         <Box>
@@ -169,6 +197,25 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
                             onChange={handleChange}
                             name='tlf'
                         />
+                    </FormGroup>
+                    <FormGroup>
+                        <Select 
+                            value={state.id} 
+                            onChange={handleSelectChange} 
+                            labelId="demo-simple-select-outlined-label"
+                            id="demo-simple-select-outlined"
+                            displayEmpty
+                            inputProps={{
+                                name: 'id',
+                                id: 'age-native-simple',
+                            }}
+                        >
+                            <MenuItem value="0" disabled>Select seller</MenuItem>
+                            {data?.sellers.items.map((sellers) => 
+                                <MenuItem key={sellers.id} value={sellers.id}>{sellers.fullName}</MenuItem>
+                            )}
+                            
+                        </Select>
                     </FormGroup>
 
                     <Button color='primary' onClick={ handleSubmit } disabled={!isValidConsultant()}>
