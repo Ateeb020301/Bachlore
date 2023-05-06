@@ -29,7 +29,7 @@ import { Prospect, Seller } from '../../logic/interfaces';
 import { EditProspectCustomerInput, EditProspectInput } from '../../api/prospects/inputs';
 import { EditProspectPayload } from '../../api/prospects/payloads';
 import CheckIcon from '@mui/icons-material/Check';
-import { ADD_ACTION, Action, AddActionPayload, GET_ACTION } from '../../api/action';
+import { ADD_ACTION, Action, AddActionPayload, DELETE_ACTION, GET_ACTION } from '../../api/action';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -46,6 +46,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
   interface ActionInterface {
     comment: string;
+    date: any;
     customerId: number;
   }
 
@@ -61,8 +62,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
     action: []
 
   };
+
+  const dateToday = new Date();
+
   let defaultAction: ActionInterface = {
     comment: '',
+    date: dateToday.toISOString().split('T')[0],
     customerId: 0
   };
   let inpCustomer : Customer;
@@ -133,22 +138,46 @@ const takeAmount = 50;
     awaitRefetchQueries: true,
   });
 
+  const [deleteAction] = useMutation<number, { input: { id: number } }>(DELETE_ACTION, {
+    refetchQueries: [
+        {
+            query: GET_CUSTOMER
+        },
+        {
+          query: GET_ACTION
+        },
+        {
+          query: GET_CUSTOMERS,
+          pollInterval: 500,
+          variables: { skipAmount: skipAmount, takeAmount: takeAmount }
+        }
+    ],
+    awaitRefetchQueries: true,
+  });
+
   const [addAction] = useMutation<AddActionPayload, { input: ActionInterface }>(
     ADD_ACTION, {
-        refetchQueries: [
+          refetchQueries: [
             {
-                query: GET_ACTION,
+                query: GET_CUSTOMER,
             },
+            {
+                query: GET_ACTION
+            },
+            {
+                query: GET_CUSTOMERS,
+                pollInterval: 500,
+                variables: { skipAmount: skipAmount, takeAmount: takeAmount }
+              }
         ],
         awaitRefetchQueries: true,
     }
 );
 
-  const deleteWrapper = (customer: Customer) => {
+const deleteWrapper = (customer: Customer) => {
     deleteCustomer({ variables: { input: { id:  customer.id } } })
-        .then((res) => {;
-          console.log(customer);
-            (data?.customers.items.length == 1 ?? (
+        .then((res) => {
+            if (data?.customers.items.length == 1) {
               customer.prospects.forEach((prospects) => {
                 deleteProspect({ variables: { input: { id: prospects.id } } })
                     .then((res) => {
@@ -172,21 +201,31 @@ const takeAmount = 50;
                         })
                         console.log(e);
                     });
+               })
+            }
+            customer.action.forEach((action) => {
+              deleteAction({ variables: { input: { id: action.id } } })
+              .then((res) => {
+              })
+              .catch((e) => {
+                  toast.error('Noe gikk galt ved sletting av kommentarer til kunde', {
+                      position: toast.POSITION.BOTTOM_RIGHT
+                  })
+                  console.log(e);
+              });
             })
-            ));
-
+            
             toast.success('Customer og deres prospects ble slettet', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
         })
         .catch((e) => {
-
             toast.error('Noe gikk galt ved sletting av Customer', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
             console.log(e);
         });
-};
+  };
     
   const [customers, setCustomer] = React.useState(inpCustomer);
     
@@ -249,7 +288,7 @@ const takeAmount = 50;
   }
     
   function createData(id: number, firstName: string, lastName: string, adresse:string, email: string, tlf: string, prospects: any[], seller: Seller, action: any[]) {
-    return { id, firstName, lastName, adresse, email, tlf, prospects, seller, action };
+    return { id, firstName, lastName, adresse, email, tlf, prospects, seller, action};
   }
 
   const rows: any[] = [];
@@ -258,28 +297,11 @@ const takeAmount = 50;
       rows.push(createData(customer.id, customer.firstName, customer.lastName,customer.adresse, customer.email, customer.tlf, customer.prospects, customer.seller, customer.action))
   })
 
-  console.log(rows)
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   function CustomerInform(customer: Customer) {
     inpCustomer = customer;
-    console.log(inpCustomer)
     setCustomer(customer)
     return (
       <GetInfo customer={customer} onClose={test}/>
@@ -309,7 +331,6 @@ const takeAmount = 50;
 
   const handleClickOpen = (customer: Customer) => {
     setCustomerDel(customer)
-    console.log(data?.customers.items.length)
     setOpen(true);
     (data?.customers.items.length == 1 ? (
         setAccept(true)
@@ -337,12 +358,10 @@ const takeAmount = 50;
           [name]: value,
       }));
 
-      console.log(defaultAction)
   };
 
   const handleCloseMessage = () => {
     handleClose();
-    console.log(defaultAction)
     addAction({ variables: { input: defaultAction } })
         .then((res) => {
             toast.success('Kommentar lagt til', {
@@ -396,7 +415,7 @@ const takeAmount = 50;
     return (
       <React.Fragment>
         <TableRow key={row.id}  hover>
-          <TableCell style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+          <TableCell style={{border: 'none'}}>
             <IconButton
                 aria-label="expand row"
                 size="small"
@@ -405,20 +424,20 @@ const takeAmount = 50;
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+          <TableCell style={{border: 'none'}}>
               {row.firstName + " " + row.lastName} 
           </TableCell>
-          <TableCell style={{border: 'none', borderBottom: '1px solid #e0e0e0', borderRight: 'none'}}>
+          <TableCell style={{border: 'none', borderRight: 'none'}}>
               {row.adresse}
           </TableCell>
-          <TableCell style={{border: 'none', borderBottom: '1px solid #e0e0e0'}}>
+          <TableCell style={{border: 'none'}}>
               {row.email}
           </TableCell>
-          <TableCell></TableCell>
-          <TableCell style={{textAlign: 'right', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
+          <TableCell style={{border: 'none'}}></TableCell>
+          <TableCell style={{textAlign: 'right', border: 'none'}}>
               {`(+47) ${row.tlf.slice(0,3)} ${row.tlf.slice(3,5)} ${row.tlf.slice(5,8)} `}
           </TableCell>
-          <TableCell style={{display: 'flex', justifyContent: 'center', border: 'none', borderBottom: '1px solid #e0e0e0' }}>
+          <TableCell style={{display: 'flex', justifyContent: 'center', border: 'none'}}>
             <IconButton onClick={() => openModal(row)} aria-label="edit" disableTouchRipple>
               <EditOutlinedIcon />
             </IconButton>
@@ -433,12 +452,19 @@ const takeAmount = 50;
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={openCollapse} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', margin: 1}}>
               <h2>
                 Comment
               </h2>
               {row.action.map((rows) => 
-                <h3 key={rows.id}>{rows.comment}</h3>
+                <Box key={rows.id} sx={{display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e0e0e0',  flex: 1}}>
+                  <Box sx={{flex: 1, margin: 0, p: 0}}>
+                    <p style={{color: 'black', fontSize: 16, borderRight: '1px solid #e0e0e0', marginBlockStart: 0, marginBlockEnd: 0, paddingBottom: '5px', paddingTop: '10px'}}>{rows.comment}</p>
+                  </Box>
+                  <Box sx={{flex: 1, textAlign: 'right'}}>
+                    <p style={{color: 'black', fontSize: 16, marginBlockStart: 0, marginBlockEnd: 0, paddingBottom: '5px', height: '100%', paddingTop: '10px'}}>{rows.date}</p>
+                  </Box>
+                </Box>
               )}
             </Box>
           </Collapse>

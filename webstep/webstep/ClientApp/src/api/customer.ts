@@ -49,6 +49,7 @@ export const GET_CUSTOMER = gql`
                 action {
                     id
                     comment
+                    date
                 }
                 seller {
                     id

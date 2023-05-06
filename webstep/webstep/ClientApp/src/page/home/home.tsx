@@ -21,17 +21,40 @@ import { Link } from "react-router-dom";
 import './home.css'
 import { FormControl, InputLabel, Select, SelectChangeEvent } from "@mui/material";
 import useForceUpdate from "use-force-update";
+import { GET_PROJECTS, GetProjectItemsPayload, GetProjectPayload } from "../../api/contract/queries";
+import { useQuery } from "@apollo/client";
+import { ProjectWithoutContract } from "../../logic/interfaces";
   
 let yearOut = 2017;
+
+//GQL pagination skip const
+const skipAmount = 0;
+//GQL pagination take const
+const takeAmount = 50;
+
 
 const Item = styled(Paper)(({ }) => ({
     backgroundColor: '#fefffe',
     textAlign: 'center',
     color: '#00192d',
     boxShadow: 'none',
-  }));
+}));
+
 export const Home = () => {
     const [year, setYear] = React.useState(yearOut);
+    const { loading, error, data } = useQuery<GetProjectPayload>(GET_PROJECTS, {
+        pollInterval: 500,
+        variables: { skipAmount: 0, takeAmount: 20 },
+    });
+
+    function CollapseTable() {
+        let projects: ProjectWithoutContract[] = [];
+        data?.projects.items.forEach((project) => {
+            projects.push(project);
+        })
+
+        return <CollapsibleTable project={projects} />
+    }
     const handleChange = (event: SelectChangeEvent) => {
       setYear(parseInt(event.target.value));
       yearOut = parseInt(event.target.value);
@@ -56,12 +79,15 @@ export const Home = () => {
           </Box>
         );
     }
+
+
+
     return (
         <Box sx={{my: 3, px:2, display: 'flex', flexWrap: 'wrap', maxHeight: '100%'}}>
 
             <Box sx={{display: 'flex', justifyContent: 'space-between', flexBasis: '100%'}}>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                    <h3 style={{margin: 0}}>God Morgen, Mohammad</h3>
+                    <h3 style={{margin: 0}}>Good Morning, Webstep</h3>
                     <p style={{opacity: 0.8, color: 'black'}}>Du har 8 meldinger</p>
                 </Box>
                 <Box sx={{display: 'flex', flexBasis: '50%'}}>
@@ -76,13 +102,13 @@ export const Home = () => {
                             <Grid xs={2} sm={4} md={1.5} sx={{mx: 1}}>
                                 <Item sx={{height: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
                                     <AssignmentTurnedInIcon sx={{pt: '10px', color: "green"}}/>
-                                    <p style={{color: '#00192d', fontWeight: 'bold'}}>Prosjekter</p>
+                                    <p style={{color: '#00192d', fontWeight: 'bold'}}>Projects</p>
                                 </Item>
                             </Grid>
                             <Grid xs={2} sm={4} md={1.5} sx={{mx: 1}}>
                                 <Item sx={{height: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
                                     <KeyIcon sx={{pt: '10px', color: "#FA4616 !important"}}/>
-                                    <p style={{color: '#00192d', fontWeight: 'bold'}}>Nøkkeltall</p>
+                                    <p style={{color: '#00192d', fontWeight: 'bold'}}>Key Numbers</p>
                                 </Item>
                             </Grid>
                             <Grid xs={2} sm={4} md={2} sx={{ml: 1}}>
@@ -147,7 +173,7 @@ export const Home = () => {
 
                         <Box sx={{display: 'flex', mt:3}}>
                             <Box sx={{border: 'solid', flex: 1, background: '#3979fa', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, my: 0, mr: 2, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                <h3 style={{color: 'white'}}>Total Prosjekter: <span className="totalProjects">0</span></h3>
+                                <h3 style={{color: 'white'}}>Total Projects: <span className="totalProjects">{data?.projects.items.length}</span></h3>
                             </Box>
                             <Box sx={{border: 'solid', background: '#fefeff', borderRadius: '10px', borderColor: '#e7eaf3', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);', p:1, ml: 2, justifyContent: 'space-between', display: 'flex', flex: 1}}>
                                 <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
@@ -156,7 +182,7 @@ export const Home = () => {
                                             <h4 style={{margin: 0, fontSize: '20px', opacity: 0.6}}>${SumProfit(yearOut)}</h4>
                                         </Box>
                                         <Box sx={{flex: 1, textAlign: 'right'}}>
-                                            <h5 style={{margin: 0}}>Totalt Profit</h5>
+                                            <h5 style={{margin: 0}}>Total Profit</h5>
                                             <h6 style={{margin: 0}}>{targetPercentage.toFixed(1)}% of Target</h6>
                                         </Box>
                                     </Box>
@@ -172,29 +198,19 @@ export const Home = () => {
             <Box sx={{display: 'flex', flexBasis: '100%', mt: 3, justifyContent: "space-between", height: 'auto', pb: 2}}>
                 <Box sx={{borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px', background: '#fefeff', display: 'flex', flexDirection: 'column', flex: 2.5, mr: 2, boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
                     <Box sx={{mx: 2, mt: 2, mb: 2}}>
-                        <h4 style={{padding: '0px', margin: '0px'}}>Pågående prosjekter</h4>
+                        <h4 style={{padding: '0px', margin: '0px'}}>Ongoing Projects</h4>
                     </Box>
                     
-                    <hr  style={{
-                        marginTop: 0,
-                        color: '#000000',
-                        backgroundColor: '#000000',
-                        opacity: 0.1,
-                        height: 0,
-                        border: 'none',
-                        borderTop: '1px solid black',
-                        width: '100%',
-                    }}/>
 
-                    <Box sx={{mx: 2, mt: 2, mb: 2}}>
-                        <CollapsibleTable />
+                    <Box sx={{}}>
+                        <CollapseTable />
                     </Box>
                 </Box>
             
             
                 <Box sx={{borderRadius: '10px', borderColor: '#e7eaf3', borderWidth: '1px',background: '#fefeff', display: 'flex', flexDirection: 'column', flex: 1, ml: 2, boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1);'}}>
                     <Box sx={{mx: 2, mt: 2, mb: 2}}>
-                        <h4 style={{padding: '0px', margin: '0px'}}>Nylig Aktivitet</h4>
+                        <h4 style={{padding: '0px', margin: '0px'}}>New Activity</h4>
                     </Box>
                         
                     <hr  style={{

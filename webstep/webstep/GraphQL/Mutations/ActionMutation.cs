@@ -35,6 +35,7 @@ namespace webstep.GraphQL.Mutations
             var action = new Models.Action
             {
                 Comment = input.Comment,
+                Date = input.Date,
                 Customer = customer,
             };
 

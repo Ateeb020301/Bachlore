@@ -17,7 +17,11 @@
     public record AddActionInput
     {
         [Required] public string Comment { get; set; }
+
         [Required] public int CustomerId { get; set; }
+
+        [Required]
+        public LocalDate Date { get; set; }
 
     }
 #nullable enable

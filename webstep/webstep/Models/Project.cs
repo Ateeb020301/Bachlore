@@ -21,6 +21,7 @@ namespace webstep.Models
         [Required]
         public string ProjectName { get; set; }
         public ICollection<Contract> Contracts { get; set; }
+        public ICollection<ProjectConsultant> ProjectConsultants { get; set; }
 
         public List<Contract> GetContracts(int id)
         {

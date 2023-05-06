@@ -10,6 +10,7 @@ import { GetSellerPayload } from '../../api/prospects/payloads';
 import { GET_SELLERS } from '../../api/sellers';
 import { GetSellersPayload } from '../seller/SellerContainer';
 import Menu from '@mui/material/Menu/Menu';
+import { GET_ACTION } from '../../api/action';
 
 interface DefaultCustomer {
     firstName: string;
@@ -56,6 +57,9 @@ export const AddForm: React.FC<ModalConsultantProps> = ({onClose}) => {
             refetchQueries: [
                 {
                     query: GET_CUSTOMER,
+                },
+                {
+                    query: GET_ACTION
                 },
                 {
                     query: GET_CUSTOMERS,

@@ -29,6 +29,9 @@ namespace webstep.Models
 
         [Required]
         public Customer Customer { get; set; }
+        
+        [Required]
+        public LocalDate Date { get; set; }
 
     }
 }

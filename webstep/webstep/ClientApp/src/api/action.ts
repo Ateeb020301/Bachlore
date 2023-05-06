@@ -21,6 +21,7 @@ export interface Action {
     id: number,
     comment:string, 
     customer: Customer;
+    date: any;
 }
 export interface GetActionItemsContractsPayload {
     actions: { items: Action[] }
@@ -34,6 +35,7 @@ export const GET_ACTION = gql`
             items {
                 id
                 comment
+                date
                 customer {
                     id
                     firstName
@@ -52,6 +54,7 @@ mutation($input: AddActionInput) {
         action {
             id
             comment
+            date
             customer {
                 id
                 firstName
