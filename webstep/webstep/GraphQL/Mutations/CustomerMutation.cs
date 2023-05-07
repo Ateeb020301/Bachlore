@@ -29,13 +29,17 @@ namespace webstep.GraphQL.Mutations
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
+            var seller = await _repo.SelectByIdAsync<Seller>(input.SellerId, context, cancellationToken)
+                     .ConfigureAwait(false);
+
             var customer = new Customer
             {
                 FirstName = input.FirstName,
                 LastName = input.LastName,
                 Email = input.Email,
                 Adresse = input.Adresse,
-                Tlf = input.Tlf
+                Tlf = input.Tlf,
+                Seller = seller,
             };
 
 
@@ -54,11 +58,17 @@ namespace webstep.GraphQL.Mutations
             var customer = await _repo.SelectByIdAsync<Customer>(input.Id, context, cancellationToken)
                                  .ConfigureAwait(false);
 
+
             customer.FirstName = input.FirstName ?? customer.FirstName;
             customer.LastName = input.LastName ?? customer.LastName;
             customer.Email = input.Email ?? customer.Email;
             customer.Adresse = input.Adresse ?? customer.Adresse;
             customer.Tlf = input.Tlf ?? customer.Tlf;
+            if (input.SellerId.HasValue)
+            {
+                var seller = await this._repo.SelectByIdAsync<Seller>((int)input.SellerId, context, cancellationToken).ConfigureAwait(false);
+                customer.Seller = seller;
+            }
 
             await _repo
                 .UpdateAsync(customer, context, cancellationToken)

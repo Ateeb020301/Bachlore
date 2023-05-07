@@ -23,7 +23,7 @@
     "material-ui-popup-state": "^1.9.3",
     "nginx": "^1.0.8",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.7.3",
+    "react-bootstrap": "^2.7.4",
     "react-chartjs-2": "^5.2.0",
     "react-confirm-alert": "^3.0.6",
     "react-dom": "^18.2.0",

@@ -24,8 +24,6 @@ export const SellerSection: React.FC<SellerSectionProps> = ({ id, name, showPros
         pollInterval: 3000,
     });
 
-    console.log(data)
-
     return (
         <>
             <CalendarRow

@@ -36,6 +36,9 @@ namespace webstep.Models
 
         public ICollection<Prospect>? Prospects { get; set; }
 
+        public ICollection<Seller>? Sellers { get; set; }
+
+
         public void Validate()
         {
             if (this.FullName.IsNullOrEmpty())

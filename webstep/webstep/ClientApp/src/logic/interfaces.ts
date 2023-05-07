@@ -42,7 +42,7 @@ export interface NewProspect {
 export interface ProjectConsultant {
     id: number;
     project: Project;
-    consultant: Consultant[];
+    consultant: Consultant;
 }
 
 export interface Seller {
@@ -96,6 +96,13 @@ export interface Project {
     customerName: string;
     projectName: string;
     hourlyRate: number;
+}
+
+export interface ProjectWithoutContract {
+    id: number;
+    customerName: string;
+    projectName: string;
+    projectConsultants: ProjectConsultant[];
 }
 
 export interface Consultant {

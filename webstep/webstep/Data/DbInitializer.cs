@@ -15,15 +15,15 @@
     {
         public static void Initialize(WebstepContext context)
         {
-            
+
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            
             context.Sellers.AddRange(DummySellers());
             context.Consultants.AddRange(DummyConsultants());
             context.Financials.AddRange(DummyFinancials());
-            context.Customers.AddRange(DummyCustomers());
+            context.SaveChanges();
+            context.Customers.AddRange(DummyCustomers(context));
             context.SaveChanges();
             context.Vacancies.AddRange(DummyVacancies(context));
             context.Prospects.AddRange(DummyProspects(context));
@@ -42,9 +42,10 @@
         /// <returns>
         /// The <see cref="List{Seller}"/>.
         /// </returns>
-        public static List<Customer> DummyCustomers()
+        public static List<Customer> DummyCustomers(WebstepContext context)
         {
-
+            var seller = context.Sellers.ToList();
+            
             return new List<Customer>()
             {
                 new Customer
@@ -53,7 +54,8 @@
                     LastName = "Salam",
                     Adresse = "Snypemyrlia 9",
                     Email = "ateeb@live.no",
-                    Tlf = "40749470"
+                    Tlf = "40749470",
+                    Seller = seller[4]
                 },
                 new Customer
                 {
@@ -61,7 +63,8 @@
                     LastName = "Abo Khalifa",
                     Adresse = "Byggveien 7",
                     Email = "mohammedabo0102@hotmail.com",
-                    Tlf = "45418389"
+                    Tlf = "45418389",
+                    Seller = seller[10]
                 },
                 new Customer
                 {
@@ -69,7 +72,8 @@
                     LastName = "Mehmod Hussain",
                     Adresse = "Brunasvei 93",
                     Email = "hassanreserve10@gmail.com",
-                    Tlf = "45457590"
+                    Tlf = "45457590",
+                    Seller = seller[3]
                 },
                 new Customer
                 {
@@ -77,7 +81,8 @@
                     LastName = "Vijayasanker",
                     Adresse = "Havreveien 32",
                     Email = "naveen150301@gmail.com",
-                    Tlf = "46762686"
+                    Tlf = "46762686",
+                    Seller = seller[5]
                 },
             };
         }
@@ -315,6 +320,7 @@
         {
             var seller = context.Sellers.ToList();
             var customer = context.Customers.ToList();
+            
 
             return new List<Prospect>()
             {

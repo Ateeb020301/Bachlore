@@ -39,7 +39,10 @@ namespace webstep.Models
         [Required]
         public string Tlf { get; set; }
 
+        public Seller Seller { get; set; }
+
         public ICollection<Prospect> Prospects { get; set; }
+        public ICollection<Action> Action { get; set; }
 
         public void Validate()
         {
