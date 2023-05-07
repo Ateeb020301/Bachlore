@@ -25,7 +25,8 @@
                 StartDateGreaterThanEndDateException => error.WithMessage("Start date can't be greater than end date"),
                 
                 EmploymentDateGreaterThanResignationDateException => error.WithMessage("Employment date can't be greater than resignation date"),
-                
+                FirstNameException => error.WithMessage("Employment"),
+
                 InsertFailedException insertFailed => error.WithMessage($"Failed to insert {insertFailed.Entity}"),
 
                 UpdateFailedException updateFailed => error.WithMessage($"Failed to update {updateFailed.Entity} with ID: {updateFailed.Id}"),
@@ -59,6 +60,7 @@
     public class DeleteFailedException : GraphQlException { }
 
     public class StartDateGreaterThanEndDateException : Exception { }
+    public class FirstNameException : Exception { }
     public class EmploymentDateGreaterThanResignationDateException : Exception { }
 
     public class ProbabilityOutOfBoundsException : Exception { public int[] Probability { get; internal set; } }

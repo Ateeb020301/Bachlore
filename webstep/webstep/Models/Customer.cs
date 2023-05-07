@@ -41,5 +41,17 @@ namespace webstep.Models
 
         public ICollection<Prospect> Prospects { get; set; }
 
+        public void Validate()
+        {
+            if (this.FirstName.IsNullOrEmpty())
+            {
+                throw new RequiredFieldNullException() { Field = nameof(this.FirstName) };
+            }
+
+            if (this.Email.IsNullOrEmpty())
+            {
+                throw new RequiredFieldNullException() { Field = nameof(this.Email) };
+            }
+        }
     }
 }
