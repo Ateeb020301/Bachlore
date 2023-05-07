@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using global::NodaTime;
+    using global::NodaTime.Extensions;
     using HotChocolate;
     using HotChocolate.Data;
     using HotChocolate.Types;
@@ -29,6 +31,7 @@
             [ScopedService] WebstepContext context,
             CancellationToken cancellationToken)
         {
+
             var consultant = new Consultant
             {
                 FirstName = input.FirstName,
@@ -38,11 +41,20 @@
                 Workdays = input.Workdays
             };
 
+            var activitylog = new ActivityLog
+            {
+                Type = "Consultant",
+                Method = "Insert",
+                newValues = "[" + input.FirstName + ", " + input.LastName + ", " + input.EmploymentDate + ", " + input.ResignationDate + ", " + input.Workdays + "]",
+            };
+
             consultant.Validate();
 
             await _repo.CreateAsync(consultant, context, cancellationToken)
                 .ConfigureAwait(false);
 
+            await _repo.CreateAsync(activitylog, context, cancellationToken)
+                .ConfigureAwait(false);
             return new ConsultantPayload(consultant);
         }
 
@@ -55,6 +67,13 @@
             var consultant = await _repo.SelectByIdAsync<Consultant>(input.Id, context, cancellationToken)
                                  .ConfigureAwait(false);
 
+            var activitylog = new ActivityLog
+            {
+                Type = "Consultant",
+                Method = "Update",
+                oldValues = "[" + consultant.FirstName + ", " + consultant.LastName + ", " + consultant.EmploymentDate + ", " + consultant.ResignationDate.HasValue + ", " + consultant.Workdays + "]"
+            };
+
             consultant.FirstName = input.FirstName ?? consultant.FirstName;
             consultant.LastName = input.LastName ?? consultant.LastName;
             consultant.EmploymentDate = input.EmploymentDate ?? consultant.EmploymentDate;
@@ -64,11 +83,14 @@
             {
                 consultant.ResignationDate = input.ResignationDate;
             }
+            activitylog.newValues = "Consultant edited [" + input.FirstName + ", " + input.LastName + ", " + input.EmploymentDate + ", " + input.ResignationDate.HasValue + ", " + input.Workdays + "]";
             
             consultant.Validate();
 
-            await _repo
-                .UpdateAsync(consultant, context, cancellationToken)
+            await _repo.UpdateAsync(consultant, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            await _repo.CreateAsync(activitylog, context, cancellationToken)
                 .ConfigureAwait(false);
 
             return new ConsultantPayload(consultant);
@@ -83,9 +105,17 @@
             var consultant = await _repo.SelectByIdAsync<Consultant>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
 
+            var activitylog = new ActivityLog
+            {
+                Type = "Consultant",
+                Method = "Delete",
+                newValues = "[" + consultant.FirstName + ", " + consultant.LastName + ", " + consultant.EmploymentDate + ", " + consultant.ResignationDate + ", " + consultant.Workdays + "]",
+            };
+
             await _repo.DeleteAsync(consultant, context, cancellationToken)
                 .ConfigureAwait(false);
-
+            await _repo.CreateAsync(activitylog, context, cancellationToken)
+                .ConfigureAwait(false);
             return new ConsultantPayload(consultant);
         }
     }

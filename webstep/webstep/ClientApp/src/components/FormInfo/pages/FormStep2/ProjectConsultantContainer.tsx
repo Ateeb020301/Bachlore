@@ -1,19 +1,24 @@
-import { useMutation, useQuery } from '@apollo/client';
-import React from 'react';
-import { DELETE_PROJECTCONSULTANT, GET_PROJECTCONSULTANTS } from '../../../../api/contract/queries';
-import { GetProjectConsultantPayload2 } from '../../../../api/contract/payloads';
-import { Loading } from '../../../../page/Utils/Loading';
-import { useForm } from '../../context/FormContext';
-import { ProjectConsultantDisplay } from './ProjectConsultantDisplay';
+import { useMutation, useQuery } from "@apollo/client";
+import React from "react";
+import {
+  DELETE_PROJECTCONSULTANT,
+  GET_PROJECTCONSULTANTS,
+} from "../../../../api/contract/queries";
+import { GetProjectConsultantPayload2 } from "../../../../api/contract/payloads";
+import { Loading } from "../../../../page/Utils/Loading";
+import { useForm } from "../../context/FormContext";
+import { ProjectConsultantDisplay } from "./ProjectConsultantDisplay";
 
 //sette projectconsultant id == id til nåcærende prosjekt
 export const ProjectConsultantContainer: React.FC = () => {
-    const { loading, error, data } = useQuery<GetProjectConsultantPayload2>(GET_PROJECTCONSULTANTS)
-    
-    const {state} = useForm()
-    let containerContent;
+  const { loading, error, data } = useQuery<GetProjectConsultantPayload2>(
+    GET_PROJECTCONSULTANTS
+  );
 
-    if (data) {
+  const { state } = useForm();
+  let containerContent;
+
+  /*if (data) {
         containerContent = 
             data.projectConsultant.map((aPC)=>{
             if(aPC.project.id===state.projectId){
@@ -41,6 +46,7 @@ export const ProjectConsultantContainer: React.FC = () => {
             </div>
         );
     }
+    */
 
-    return <div></div>
-}
+  return <div></div>;
+};

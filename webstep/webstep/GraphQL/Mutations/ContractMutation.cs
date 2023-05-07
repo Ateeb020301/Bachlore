@@ -14,6 +14,7 @@ namespace webstep.GraphQL.Mutations
 {
     using global::NodaTime;
     using global::NodaTime.Calendars;
+    using Microsoft.VisualBasic;
     using webstep.Interfaces;
 
     [ExtendObjectType(Name = nameof(Mutation))]
@@ -46,10 +47,16 @@ namespace webstep.GraphQL.Mutations
                 HourlyRate = input.HourlyRate
             };
 
+            var activitylog = new ActivityLog {
+                Type = "Contract",
+                Method = "Insert",
+            };
+
             try
             {
                 contract.StartDate = rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday);
                 contract.EndDate = rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday);
+                activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + contract.StartDate + ", " + contract.EndDate + project.ProjectName + ", " + consultant.FirstName + " " + consultant.LastName +  "]";
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -75,19 +82,31 @@ namespace webstep.GraphQL.Mutations
             var contract = await _repo
                 .SelectByIdAsync<Contract>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
+            var activitylog = new ActivityLog
+            {
+                Type = "Contract",
+                Method = "Update",
+                oldValues = "[" + contract.DaysOfWeek + ", " + contract.HourlyRate + ", " + contract.StartYear + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Day + ", " + contract.EndYear + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Month + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Day + "]"
+            };
             contract.DaysOfWeek = input.DaysOfWeek ?? contract.DaysOfWeek;
             contract.HourlyRate = input.HourlyRate ?? contract.HourlyRate;
+
+            activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + "]";
 
             try
             {
                 if (input.Start != null)
                 {
+                    activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + input.Start.Year + "-" + rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday).Day + ", " + contract.EndYear + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Month + "-" + contract.EndDate + "]";
                     contract.StartDate = rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday);
+                   
                 }
 
                 if (input.End != null)
                 {
+                    activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + contract.StartYear + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Day + ", " + input.End.Year + "-" + rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday).Month + "-" + rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday).Day + "]";
                     contract.EndDate = rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday);
+                    
                 }
             }
             catch (ArgumentOutOfRangeException)
@@ -98,6 +117,8 @@ namespace webstep.GraphQL.Mutations
             contract.Validate();
 
             await _repo.UpdateAsync(contract, context, cancellationToken).ConfigureAwait(false);
+            await _repo.CreateAsync(activitylog, context, cancellationToken)
+                    .ConfigureAwait(false);
 
             return new ContractPayload(contract);
         }
@@ -112,8 +133,17 @@ namespace webstep.GraphQL.Mutations
                                .SelectByIdAsync<Contract>(input.Id, context, cancellationToken)
                                .ConfigureAwait(false);
 
+            var activitylog = new ActivityLog
+            {
+                Type = "Contract",
+                Method = "Delete",
+                oldValues = "[" + contract.DaysOfWeek + ", " + contract.HourlyRate + ", " + contract.StartDate + ", " + contract.EndDate + "]"
+            };
+
             await _repo.DeleteAsync(contract, context, cancellationToken)
                                .ConfigureAwait(false);
+            await _repo.CreateAsync(activitylog, context, cancellationToken)
+                .ConfigureAwait(false);
 
             return new ContractPayload(contract);
         }

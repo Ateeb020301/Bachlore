@@ -33,9 +33,20 @@ namespace webstep.GraphQL.Mutations
                 ProjectName = input.ProjectName,
                 CustomerName = input.CustomerName,
             };
+
+            var activitylog = new ActivityLog
+            {
+                Type = "Project",
+                Method = "Insert",
+                newValues = "[" + input.ProjectName + ", " + input.CustomerName + "]",
+            };
             
             await _repo
                 .CreateAsync(project, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            await _repo
+                .CreateAsync(activitylog, context, cancellationToken)
                 .ConfigureAwait(false);
 
             return new ProjectPayload(project);
@@ -70,8 +81,19 @@ namespace webstep.GraphQL.Mutations
             var project = await _repo.SelectByIdAsync<Project>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
 
+            var activitylog = new ActivityLog
+            {
+                Type = "Project",
+                Method = "Delete",
+                newValues = "[" + project.ProjectName + ", " + project.CustomerName + "]",
+            };
+
             await _repo
                 .DeleteAsync(project, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            await _repo
+                .CreateAsync(activitylog, context, cancellationToken)
                 .ConfigureAwait(false);
 
             return new ProjectPayload(project);

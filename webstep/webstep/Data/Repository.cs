@@ -13,6 +13,7 @@
     using webstep.GraphQL;
     using webstep.Interfaces;
     using webstep.Models;
+    using System.Security.Cryptography.X509Certificates;
 
     public class Repository : IRepository
     {
@@ -78,6 +79,7 @@
         public async Task UpdateAsync<T>(T entity, WebstepContext context, CancellationToken cancellationToken) where T : BaseModel
         {
             context.Set<T>().Update(entity);
+            
             try
             {
                 await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

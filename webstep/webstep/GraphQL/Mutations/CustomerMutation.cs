@@ -42,8 +42,18 @@ namespace webstep.GraphQL.Mutations
                 Seller = seller,
             };
 
+            var activitylog = new ActivityLog
+            {
+                Type = "Customer",
+                Method = "Insert",
+                newValues = "[" + input.FirstName + ", " + input.LastName + ", " + input.Email + ", " + input.Adresse + ", " + input.Tlf + ", [" + seller.Id + ", " + seller.FullName + "] ]"
+            };
+
 
             await _repo.CreateAsync(customer, context, cancellationToken)
+                .ConfigureAwait(false);
+
+            await _repo.CreateAsync(activitylog, context, cancellationToken)
                 .ConfigureAwait(false);
 
             return new CustomerPayload(customer);
@@ -58,7 +68,12 @@ namespace webstep.GraphQL.Mutations
             var customer = await _repo.SelectByIdAsync<Customer>(input.Id, context, cancellationToken)
                                  .ConfigureAwait(false);
 
-
+            var activitylog = new ActivityLog
+            {
+                Type = "Customer",
+                Method = "Update",
+                oldValues = "[" + customer.FirstName + ", " + customer.LastName + ", " + customer.Email + ", " + customer.Adresse + ", " + customer.Tlf + "]"
+            };
             customer.FirstName = input.FirstName ?? customer.FirstName;
             customer.LastName = input.LastName ?? customer.LastName;
             customer.Email = input.Email ?? customer.Email;
@@ -69,9 +84,13 @@ namespace webstep.GraphQL.Mutations
                 var seller = await this._repo.SelectByIdAsync<Seller>((int)input.SellerId, context, cancellationToken).ConfigureAwait(false);
                 customer.Seller = seller;
             }
+            activitylog.newValues = "[" + input.FirstName + ", " + input.LastName + ", " + input.Email + ", " + input.Adresse + ", " + input.Tlf + "]";
 
             await _repo
-                .UpdateAsync(customer, context, cancellationToken)
+            .UpdateAsync(customer, context, cancellationToken)
+            .ConfigureAwait(false);
+            
+            await _repo.CreateAsync(activitylog, context, cancellationToken)
                 .ConfigureAwait(false);
 
             return new CustomerPayload(customer);
@@ -86,9 +105,18 @@ namespace webstep.GraphQL.Mutations
             var customer = await _repo.SelectByIdAsync<Customer>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
 
+            var activitylog = new ActivityLog
+            {
+                Type = "Customer",
+                Method = "Delete",
+                oldValues = "[" + customer.Id + "," + customer.FirstName + ", " + customer.LastName + ", " + customer.Email + ", " + customer.Adresse + ", " + customer.Tlf + "]"
+            };
+
             await _repo.DeleteAsync(customer, context, cancellationToken)
                 .ConfigureAwait(false);
 
+            await _repo.CreateAsync(activitylog, context, cancellationToken)
+                .ConfigureAwait(false);
             return new CustomerPayload(customer);
         }
     }

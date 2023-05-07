@@ -37,9 +37,14 @@ namespace webstep.Data
         public DbSet<Financial> Financials { get; set; }
         
         public DbSet<Vacancy> Vacancies { get; set; }
+
         public DbSet<Customer> Customers { get; set; }
+
         public DbSet<ProjectConsultant> ProjectConsultants { get; set; }
+
         public DbSet<Models.Action> Actions { get; set; }
+
+        public DbSet<ActivityLog> ActivityLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,6 +59,7 @@ namespace webstep.Data
             CustomerTable(modelBuilder);
             ProjectConsultantTable(modelBuilder);
             ActionTable(modelBuilder);
+            ActivityLog(modelBuilder);
         }
 
 
@@ -186,6 +192,12 @@ namespace webstep.Data
             builder.Entity<Models.Action>().ToTable("Actions");
             builder.Entity<Models.Action>().Property<bool>("isDeleted");
             builder.Entity<Models.Action>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
+        }
+        private void ActivityLog(ModelBuilder builder)
+        {
+            builder.Entity<ActivityLog>().ToTable("ActivityLogs");
+            builder.Entity<ActivityLog>().Property<bool>("isDeleted");
+            builder.Entity<ActivityLog>().HasQueryFilter(m => EF.Property<bool>(m, "isDeleted") == false);
         }
 
         public override int SaveChanges()

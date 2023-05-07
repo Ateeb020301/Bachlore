@@ -133,6 +133,14 @@ namespace webstep.GraphQL
         [UseOffsetPaging(MaxPageSize = 150), UseProjection, UseSorting]
         public IQueryable<Prospect> GetProspects() => this._repo.SelectAll<Prospect>();
 
+
+        /// <summary>
+        /// Fetche all activitylog
+        /// </summary>
+        /// <returns></returns>
+        [UseOffsetPaging(MaxPageSize = 150), UseProjection, UseSorting]
+        public IQueryable<ActivityLog> GetActivitylog() => this._repo.SelectAll<ActivityLog>();
+
         /// <summary>
         /// Fetches a single prospect
         /// </summary>
