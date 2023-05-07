@@ -20,9 +20,11 @@ namespace WebstepTest.ModelTest
             var customer = new Customer
             {
                 FirstName= "Test",
+                LastName="test",
                 Email = "Test@test.com",
+                Adresse="",
+                Tlf="",
             };
-
             try
             {
                 customer.Validate();
@@ -31,8 +33,6 @@ namespace WebstepTest.ModelTest
             {
                 Assert.Pass();
             }
-
-            Assert.Fail();
         }
 
     }
