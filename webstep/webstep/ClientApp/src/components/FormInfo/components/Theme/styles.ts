@@ -2,19 +2,18 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
 
-background-color: whitesmoke ;
-height: 80vh ;
+background-color: #ffffff ;
+display: flex;
 
 `
 
 export const Area = styled.div`
-width: 90% ;
+min-width: 100% ;
 margin: auto ;
-height: 100vh ;
 
 `
 export const Steps = styled.div`
-width: 100% ;
+min-width: 100% ;
 display: flex ;
 
 `

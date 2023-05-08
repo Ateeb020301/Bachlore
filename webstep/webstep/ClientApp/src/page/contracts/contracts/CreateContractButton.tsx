@@ -25,6 +25,23 @@ import {
 import { defaultMessagePlacement } from "../../../logic/toast";
 import { Modal } from "../../Utils/ModalComponent";
 import { GET_ACTIVITYLOG } from "../../../api/activitylog";
+import { FormStep1 } from "../../../components/FormInfo/pages/FormStep1/intex";
+import { FormStep2 } from "../../../components/FormInfo/pages/FormStep2";
+import { FormStep3 } from "../../../components/FormInfo/pages/FormStep3";
+import { FormProvider } from "../../../components/FormInfo/context/FormContext";
+import CheckIcon from "@mui/icons-material/Check";
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  IconButton,
+} from "@mui/material";
+import GlobalStyled from "../../../components/FormInfo/components/styles/GlobalStyledComponents/GlobalStyled";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 interface CreateContractButtonProps {
   consultantId: number;
@@ -36,8 +53,8 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({
   consultantId,
 }) => {
   const [isModalOpen, setModalState] = React.useState(false);
-
   const toggleModal = () => setModalState(!isModalOpen);
+  const navigate = useNavigate();
 
   const [addProjectConsultant] = useMutation<
     AddProjectConsultantPayload,
@@ -85,6 +102,12 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({
     ],
     awaitRefetchQueries: true,
   });
+
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    navigate("/belegg");
+    setOpen(false);
+  };
 
   const handleClick = () => {
     addProject({
@@ -141,14 +164,24 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({
 
   return (
     <div className="modalContainer">
-      <button className={"app__btn"} onClick={toggleModal}>
-        Kontrakt
-      </button>
-      <Modal
-        title={"Kontrakt form"}
-        isOpen={isModalOpen}
-        onClose={toggleModal}
-      />
+      <Button onClick={() => setOpen(true)} size="sm" color="primary">
+        + kontrakt
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        aria-labelledby="responsive-dialog-title"
+      >
+        <FormProvider>
+          <Routes>
+            <Route path="/" element={<FormStep1 />} />
+            <Route path="/step2" element={<FormStep2 />} />
+            <Route path="/step3" element={<FormStep3 />} />
+          </Routes>
+          <GlobalStyled />
+        </FormProvider>
+      </Dialog>
     </div>
   );
 };

@@ -14,15 +14,14 @@ h2{
 .passo{
     margin-bottom: 20px ;
 }
-button{
+#buttonClick{
     cursor:pointer;
-    width:120px;
-    height: 50px ;
     border-radius: 10px ;
     background-color: rgb(91, 24, 153);
     color: whitesmoke ;
     border: none;
-    margin-top: 20px;
+    height: 50px;
+    width: 120px;
 
 }
 

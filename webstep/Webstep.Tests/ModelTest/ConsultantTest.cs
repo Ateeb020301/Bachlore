@@ -72,7 +72,7 @@ namespace WebstepTest.ModelTest
                 FirstName = "John",
                 LastName = "Doe",
                 EmploymentDate = new LocalDate(2020, 05, 05),
-                ResignationDate = new LocalDate(2020, 05, 06)
+                ResignationDate = new LocalDate(2020, 05, 04)
             };
             try
             {

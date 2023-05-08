@@ -3,21 +3,23 @@ import styled from 'styled-components'
 export const Container = styled.div`
 padding: 50px ;
 
-P{
+p {
     display: block ;
     color: black;
 }
-h2{
+
+h2 {
     display: block ;
     margin-bottom: 5px ;
     color: rgb(91, 24, 153) ;
 }
-label{
+label {
     display: block ;
     margin-top:40px;
     margin-bottom:5px;
 }
-button{
+
+button {
     
     width:120px;
     height: 50px ;
@@ -29,12 +31,12 @@ button{
 
 }
 
-.passo{
-    margin-bottom: 20px ;
+.passo {
+    margin-bottom: 10px ;
 }
+
 input {
             display: block;
-            margin-top: 7px;
             box-sizing: border-box;
             width: 100%;
             padding: 20px 10px;
@@ -43,7 +45,7 @@ input {
             font-size: 28px;
             outline: 0;
             font-size: 15px;
-            background-color: rgb(235, 235, 235);
+            
         }
 
 

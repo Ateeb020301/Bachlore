@@ -1,62 +1,49 @@
-import * as C from './styles'
-import { ReactNode } from 'react'
-import { Header } from '../Header'
-import {SidebarItem} from '../SidebarItem'
-import {useForm} from '../../context/FormContext'
-import React from 'react'
+import * as C from "./styles";
+import { ReactNode } from "react";
+import { Header } from "../Header";
+import { SidebarItem } from "../SidebarItem";
+import { useForm } from "../../context/FormContext";
+import React from "react";
 type Props = {
-    children: ReactNode
-}
+  children: ReactNode;
+};
 
+export const Theme = ({ children }: Props) => {
+  const { state } = useForm();
+  return (
+    <C.Container>
+      <C.Area>
+        <Header />
 
+        <C.Steps>
+          <C.Sidebar>
+            <SidebarItem
+              title="Project"
+              description="Create Project"
+              icon="profile"
+              path="/"
+              active={state.currentStep === 1}
+            />
 
-export const Theme = ({children}: Props) => {
-    const {state} = useForm()
-    return(
-        <C.Container>
-            <C.Area>
-                
-                <Header />
+            <SidebarItem
+              title="Consultants"
+              description="Add Consultants"
+              icon="book"
+              path="../step2"
+              active={state.currentStep === 2}
+            />
 
-                <C.Steps>
-                    <C.Sidebar>
-                    <SidebarItem
-                            title="Navn"
-                            description="Identifikasjon"
-                            icon="profile"
-                            path="/"
-                            active={state.currentStep === 1}
-                        />
-
-                        <SidebarItem
-                            title="Team"
-                            description="Team velging"
-                            icon="book"
-                            path="../step2"
-                            active={state.currentStep === 2}
-                        />
-
-                        <SidebarItem
-                            title="Info"
-                            description="Generell info"
-                            icon="mail"
-                            path="../step3"
-                            active={state.currentStep === 3}
-                        />
-                        <SidebarItem
-                            title="Tusen Takk"
-                            description="Ferdig"
-                            icon="check"
-                            path="../step4"
-                            active={state.currentStep === 4}
-                        />
-                    </C.Sidebar>
-                    <C.Page>
-                        {children}
-                    </C.Page>
-                    
-                </C.Steps>
-            </C.Area>
-        </C.Container>
-    )
-}
+            <SidebarItem
+              title="Finish"
+              description="Thanks!"
+              icon="check"
+              path="../step3"
+              active={state.currentStep === 3}
+            />
+          </C.Sidebar>
+          <C.Page>{children}</C.Page>
+        </C.Steps>
+      </C.Area>
+    </C.Container>
+  );
+};

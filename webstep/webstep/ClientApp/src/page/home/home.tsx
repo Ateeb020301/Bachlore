@@ -476,85 +476,93 @@ export const Home = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              height: "400px",
+              maxHeight: "400px",
               overflowY: "auto",
             }}
           >
-            {dataP?.activitylog.items.length || 0 > 0
-              ? dataP?.activitylog.items.map((activitylog) => (
+            {dataP?.activitylog.items.length || 0 > 0 ? (
+              dataP?.activitylog.items.map((activitylog) => (
+                <Box
+                  key={activitylog.id}
+                  sx={{
+                    display: "flex",
+                    my: 0.5,
+                    px: 1,
+                    alignItems: "center",
+                  }}
+                >
                   <Box
-                    key={activitylog.id}
                     sx={{
                       display: "flex",
-                      my: 0.5,
-                      px: 1,
                       alignItems: "center",
+                      borderRadius: 100,
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: "#f2f6f8",
+                      justifyContent: "center",
                     }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        borderRadius: 100,
-                        width: "40px",
-                        height: "40px",
-                        backgroundColor: "#f2f6f8",
-                        justifyContent: "center",
+                    {activitylog.method == "Update" && (
+                      <AutorenewIcon
+                        sx={{ color: "#e9bc53", fontSize: "20px" }}
+                      />
+                    )}
+                    {activitylog.method == "Insert" && (
+                      <AddIcon sx={{ color: "#1bc771", fontSize: "20px" }} />
+                    )}
+                    {activitylog.method == "Delete" && (
+                      <ClearIcon sx={{ color: "#ec5f5e", fontSize: "20px" }} />
+                    )}
+                  </Box>
+                  <Box sx={{ flex: 1.5, mx: 2 }}>
+                    {activitylog.method == "Update" ||
+                    activitylog.method == "Delete" ? (
+                      <p style={{ fontSize: "14px", color: "#13C56B" }}>
+                        {activitylog.method}d {activitylog.type}
+                      </p>
+                    ) : (
+                      <p style={{ fontSize: "14px", color: "#13C56B" }}>
+                        {activitylog.method}ed {activitylog.type}
+                      </p>
+                    )}
+
+                    <p
+                      style={{
+                        fontSize: "12px",
+                        color: "black",
+                        opacity: 0.6,
                       }}
                     >
-                      {activitylog.method == "Update" && (
-                        <AutorenewIcon
-                          sx={{ color: "#e9bc53", fontSize: "20px" }}
-                        />
-                      )}
-                      {activitylog.method == "Insert" && (
-                        <AddIcon sx={{ color: "#1bc771", fontSize: "20px" }} />
-                      )}
-                      {activitylog.method == "Delete" && (
-                        <ClearIcon
-                          sx={{ color: "#ec5f5e", fontSize: "20px" }}
-                        />
-                      )}
-                    </Box>
-                    <Box sx={{ flex: 1.5, mx: 2 }}>
-                      {activitylog.method == "Update" ||
-                      activitylog.method == "Delete" ? (
-                        <p style={{ fontSize: "14px", color: "#13C56B" }}>
-                          {activitylog.method}d {activitylog.type}
-                        </p>
-                      ) : (
-                        <p style={{ fontSize: "14px", color: "#13C56B" }}>
-                          {activitylog.method}ed {activitylog.type}
-                        </p>
-                      )}
-
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          color: "black",
-                          opacity: 0.6,
-                        }}
-                      >
-                        {activitylog.date}
-                      </p>
-                    </Box>
-                    <Box sx={{ flex: 2, textAlign: "right" }}>
-                      <p style={{ fontSize: "12px", color: "#13C56B" }}>
-                        {activitylog.newValues}
-                      </p>
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          color: "black",
-                          opacity: 0.6,
-                        }}
-                      >
-                        {activitylog.oldValues}
-                      </p>
-                    </Box>
+                      {activitylog.date}
+                    </p>
                   </Box>
-                ))
-              : "There are no new employees"}
+                  <Box sx={{ flex: 2, textAlign: "right" }}>
+                    <p style={{ fontSize: "12px", color: "#13C56B" }}>
+                      {activitylog.newValues}
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "12px",
+                        color: "black",
+                        opacity: 0.6,
+                      }}
+                    >
+                      {activitylog.oldValues}
+                    </p>
+                  </Box>
+                </Box>
+              ))
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <h2 style={{ color: "red" }}>There are no new activity</h2>
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>

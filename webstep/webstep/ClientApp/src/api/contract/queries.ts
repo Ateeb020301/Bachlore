@@ -270,6 +270,7 @@ export const ADD_PROJECTCONSULTANT = gql`
         }
     }
 `;
+
 export const DELETE_PROJECTCONSULTANT = gql`
     mutation($input: DeleteProjectConsultantInput) {
         deleteProjectConsultant(input: $input) {
