@@ -1,5 +1,6 @@
 import React from 'react';
 import './Calendar.css'
+import { Box } from '@mui/material';
 
 interface CalendarSidebarHeaderProps {
     header: string;
@@ -9,13 +10,13 @@ interface CalendarSidebarHeaderProps {
 export const CalendarSidebarHeader: React.FC<CalendarSidebarHeaderProps> = ({ header, children }) => {
 
     return (
-        <div className='sidebar-header'>
-                <div>
+        <Box sx={{display: 'flex'}} className='sidebar-header'>
+                <Box sx={{flex: 1, px: 1}}>
                     <strong>
                         {header}
                     </strong>
-                </div>
-                <div>{children}</div>
-            </div>
+                </Box>
+                <Box sx={{flex: 1, pl: 1}}>{children}</Box>
+            </Box>
     );
 };

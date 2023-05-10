@@ -36,17 +36,15 @@ export const ConsultantCapacityRow: React.FC<ConsultantCapacityRowProps> = React
     });
 
     const consultant = cData?.consultantsCapacity.items[0].consultant;
-
+    /*<CreateContractButton consultantId={consultantId} />*/
     return (
         <CalendarRow
             sidebarContent={
                 <CalendarSidebarHeader header={consultant?.firstName + ' ' + consultant?.lastName || '- -'}>
-                    <div>
-                        <ButtonGroup>
+                    <div style={{display: 'flex'}}>
                             <AddVacancyButton consultantId={consultantId} planned={false} />
                             <AddVacancyButton consultantId={consultantId} planned />
                             <CreateContractButton consultantId={consultantId} />
-                        </ButtonGroup>
                     </div>
                 </CalendarSidebarHeader>
             }

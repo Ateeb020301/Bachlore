@@ -2,7 +2,6 @@ import { useMutation } from "@apollo/client";
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button } from "reactstrap";
 import {
   AddContractInput,
   AddProjectConsultantInput,
@@ -32,6 +31,7 @@ import { FormProvider } from "../../../components/FormInfo/context/FormContext";
 import CheckIcon from "@mui/icons-material/Check";
 import {
   Box,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -164,8 +164,8 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({
 
   return (
     <div className="modalContainer">
-      <Button onClick={() => setOpen(true)} size="sm" color="primary">
-        + kontrakt
+      <Button onClick={() => setOpen(true)} size="small" color="success">
+        + CONTRACT
       </Button>
       <Dialog
         open={open}

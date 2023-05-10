@@ -3,9 +3,10 @@ import { useQuery } from '@apollo/client';
 import { ProspectsCalendarContainer } from './Prospects/ProspectsCalendarContainer';
 import { FullPageContent } from '../Utils/FullPageContent';
 import { ToastContainer, toast } from 'react-toastify';
-import { MenuItem, Select } from '@mui/material';
+import { Box, MenuItem, Select } from '@mui/material';
 import { GET_SELLERS } from '../../api/sellers';
 import { GetSellersPayload } from '../seller/SellerContainer';
+import { ProspectContainer } from './prospectcontainer';
 
 //GQL pagination skip const
 const skipAmount = 0;
@@ -18,23 +19,29 @@ export const Prospects = () => {
         variables: { skipAmount: skipAmount, takeAmount: takeAmount }
     });
     return (
-        <div style={{justifyContent: 'center', width: '84vw', height: '100%', position: 'relative'}}>
-            <div style={{ width: '100%', border: 'solid'}}>
-                <h2>Prospekter</h2> 
-                <div>                     
-                    <select id="dds" name="sellerId" defaultValue=''>
-                        <option  value='' disabled>Choose a Seller</option>
-                            {data?.sellers.items.map((aSeller) => (
-                        <option key={aSeller.id} value={aSeller.id}>{aSeller.fullName}</option>
-                        ))}
-                    </select>
-                </div>
-            </div>
-            <div style={{height: '500px', overflow: 'auto', border: 'solid'}}>
+
+    <Box>
+        <Box sx={{height: '100%', m: 1, display: 'flex', flexDirection: 'column'}}>
+            <Box
+                sx={{
+                boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
+                display: "flex",
+                flexBasis: "100%",
+                flexWrap: "wrap",
+                background: "#ffffff",
+                borderRadius: "5px",
+                justifyContent: "space-between",
+                alignItems: "center",
+                }}
+            >
+                <ProspectContainer />
+            </Box>
+
+            <Box sx={{ width: '1440px', py: 1}}>
                 <ProspectsCalendarContainer/>
-            </div>
+            </Box>
             <ToastContainer />
-            
-        </div>
+        </Box>
+    </Box>
     );
 };
