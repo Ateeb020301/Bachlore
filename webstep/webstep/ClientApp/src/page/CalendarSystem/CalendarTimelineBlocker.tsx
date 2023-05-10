@@ -1,13 +1,15 @@
-import React from 'react';
+import React from "react";
 
-interface CalendarTimelineBlockerProps { }
+interface CalendarTimelineBlockerProps {}
 
 const style = {
-    display: 'block',
-    height: '100%',
-    width: '100%',
-    backgroundColor: '#637081',
+  display: "block",
+  height: "40px",
+  width: "100%",
+  backgroundColor: "#637081",
 };
-export const CalendarTimelineBlocker: React.FC<CalendarTimelineBlockerProps> = ({ }) => {
-    return <span style={style}></span>;
+export const CalendarTimelineBlocker: React.FC<
+  CalendarTimelineBlockerProps
+> = ({}) => {
+  return <span style={style}></span>;
 };

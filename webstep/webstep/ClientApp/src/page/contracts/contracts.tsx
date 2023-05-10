@@ -22,13 +22,14 @@ export const Contracts: React.FC = () => {
             background: "#ffffff",
             borderRadius: "5px",
             justifyContent: "space-between",
+            alignItems: "center",
             alignSelf: "center",
           }}
         >
           <ContractsContainer />
         </Box>
 
-        <Box sx={{ maxWidth: "85vw", alignSelf: "center", py: 1 }}>
+        <Box sx={{ width: "85vw", alignSelf: "center", py: 1 }}>
           <ContractCalendarContainer />
         </Box>
         <ToastContainer />

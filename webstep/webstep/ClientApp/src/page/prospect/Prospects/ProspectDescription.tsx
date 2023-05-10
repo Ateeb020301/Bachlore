@@ -99,7 +99,7 @@ export const ProspectDescription: React.FC<ProspectDescriptionProps> = ({
 
       <div>
         <span style={centeredSpan}>Prosjekt:</span>
-        <span style={centeredSpan}>
+        <span style={{ display: "flex", width: "150px" }}>
           {" "}
           <EditableField
             objectToEdit={prospect}
