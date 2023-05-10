@@ -113,7 +113,7 @@ export const ContractEventContainer: React.FC<ContractEventContainerProps> = ({
       start: { week: input.startWeek, year: input.startYear },
       end: { week: input.endWeek, year: input.endYear },
       daysOfWeek: contract.daysOfWeek,
-      hourlyRate: 1500,
+      hourlyRate: contract.hourlyRate,
     };
     editContract({ variables: { input: newContract } })
       .then((res) => {

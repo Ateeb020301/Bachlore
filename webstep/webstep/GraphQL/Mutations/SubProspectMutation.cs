@@ -82,15 +82,15 @@ namespace webstep.GraphQL.Mutations
             var rule = WeekYearRules.Iso;
             var subProspect = await this._repo.SelectByIdAsync<SubProspect>(input.Id, context, cancellationToken)
                 .ConfigureAwait(false);
-
-            subProspect.Probability = input.Probability ?? subProspect.Probability;
-            subProspect.NumOfConsultants = input.NumOfConsultants ?? subProspect.NumOfConsultants;
             var activitylog = new ActivityLog
             {
                 Type = "SubProspect",
                 Method = "Update",
                 oldValues = "[" + subProspect.Probability + ", " + subProspect.NumOfConsultants + ", " + subProspect.StartDate + ", " + subProspect.EndDate + "]"
             };
+            subProspect.Probability = input.Probability ?? subProspect.Probability;
+            subProspect.NumOfConsultants = input.NumOfConsultants ?? subProspect.NumOfConsultants;
+
 
             if (input.ProspectId.HasValue)
             {

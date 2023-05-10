@@ -88,26 +88,25 @@ namespace webstep.GraphQL.Mutations
                 Method = "Update",
                 oldValues = "[" + contract.DaysOfWeek + ", " + contract.HourlyRate + ", " + contract.StartYear + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Day + ", " + contract.EndYear + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Month + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Day + "]"
             };
+
             contract.DaysOfWeek = input.DaysOfWeek ?? contract.DaysOfWeek;
             contract.HourlyRate = input.HourlyRate ?? contract.HourlyRate;
-
-            activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + "]";
 
             try
             {
                 if (input.Start != null)
                 {
-                    activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + input.Start.Year + "-" + rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday).Day + ", " + contract.EndYear + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Month + "-" + contract.EndDate + "]";
                     contract.StartDate = rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday);
                    
                 }
 
                 if (input.End != null)
                 {
-                    activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + contract.StartYear + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Day + ", " + input.End.Year + "-" + rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday).Month + "-" + rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday).Day + "]";
                     contract.EndDate = rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday);
                     
                 }
+                activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + contract.StartDate + ", " + contract.EndDate + "]";
+
             }
             catch (ArgumentOutOfRangeException)
             {
