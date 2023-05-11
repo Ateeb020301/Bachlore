@@ -30,7 +30,7 @@ export const Prospects = () => {
           sx={{
             boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
             display: "flex",
-            width: "85vw",
+            width: "100%",
             flexWrap: "wrap",
             background: "#ffffff",
             borderRadius: "5px",
@@ -42,7 +42,14 @@ export const Prospects = () => {
           <ProspectContainer />
         </Box>
 
-        <Box sx={{ width: "85vw", alignSelf: "center", py: 1 }}>
+        <Box
+          sx={{
+            width: "100%",
+            py: 1,
+            height: "650px",
+            overflowY: "scroll",
+          }}
+        >
           <ProspectsCalendarContainer />
         </Box>
         <ToastContainer />

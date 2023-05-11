@@ -15,11 +15,11 @@ body {
 /* Website Layout Design */
 .app {
   height: 100vh;
-  overflow: hidden;
   width: 100%;
   max-width: 100%;
   display: flex;
   flex-direction: row;
+  overflow: hidden;
 }
 
 .content {

@@ -44,8 +44,13 @@
   background-color: #edf2f4;
 }
 
+.sidebar-header:nth-last-child() {
+  color: orange;
+}
+
 .timeline-content:first-child {
   color: orange;
+  border: solid;
 }
 
 .MuiPopover-paper {

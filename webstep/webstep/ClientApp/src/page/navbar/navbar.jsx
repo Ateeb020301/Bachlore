@@ -156,7 +156,7 @@ export const Navbar = () => {
                 setSelected={setSelected}
               />
               <Item
-                title={!isCollapsed &&("Contracting")}
+                title={!isCollapsed &&("Belegg")}
                 to="/belegg"
                 icon={<ContactsOutlinedIcon />}
                 selected={selected}

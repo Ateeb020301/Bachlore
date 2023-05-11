@@ -15,6 +15,7 @@ import {
   ADD_CONTRACT,
   GET_TEAMCONS_CONTRACTS,
   GET_CONSULTANT_CAPACITY,
+  GET_CONSULTANT_VACANCY,
 } from "../../../../api/contract/queries";
 import {
   AddProjectConsultantPayload,
@@ -38,6 +39,8 @@ import { GET_ACTIVITYLOG } from "../../../../api/activitylog";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getDefaultNewContract } from "../../../../api/contract/logic";
 import { AddContractInput } from "../../../../api/contract/inputs";
+import { ConsultantCapacity } from "../../../../api/contract/types";
+import { Consultant } from "../../../../logic/interfaces";
 
 //GQL pagination skip const
 const skipAmount = 0;
@@ -57,7 +60,6 @@ interface ProjectConsultantsNoId {
 export const FormStep2 = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { data } = useQuery<GetProjectItemsPayload>(GET_PROJECTS, {
     pollInterval: 500,
     variables: { skipAmount: skipAmount, takeAmount: takeAmount },
@@ -98,7 +100,29 @@ export const FormStep2 = () => {
   >(ADD_PROJECTCONSULTANT, {
     refetchQueries: [
       {
+        query: GET_TEAMCONS_CONTRACTS,
+        variables: { id: currenProject.consultantId },
+        pollInterval: 3000,
+      },
+      {
         query: GET_ACTIVITYLOG,
+      },
+      {
+        query: GET_CONSULTANT_CAPACITY,
+        variables: {
+          startYear: currentYear,
+          endYear: currentYear + 2,
+          id: currenProject.consultantId,
+        },
+        pollInterval: 3000,
+      },
+      {
+        query: GET_CONSULTANTS_INFO,
+      },
+      {
+        query: GET_CONSULTANT_VACANCY,
+        variables: { id: currenProject.consultantId },
+        pollInterval: 3000,
       },
     ],
     awaitRefetchQueries: true,
@@ -122,9 +146,15 @@ export const FormStep2 = () => {
           endYear: currentYear + 2,
           id: currenProject.consultantId,
         },
+        pollInterval: 3000,
       },
       {
         query: GET_CONSULTANTS_INFO,
+      },
+      {
+        query: GET_CONSULTANT_VACANCY,
+        variables: { id: currenProject.consultantId },
+        pollInterval: 3000,
       },
     ],
     awaitRefetchQueries: true,
@@ -135,7 +165,7 @@ export const FormStep2 = () => {
   const handleSelect = (e: SelectChangeEvent) => {
     const { name, value } = e.target;
     setChanged(true);
-    console.log(changed);
+
     setCurrentProject((prevProject) => ({
       ...prevProject,
       [name]: value,
@@ -145,8 +175,6 @@ export const FormStep2 = () => {
   let change = 0;
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log(state.name);
-    console.log(state.projectName);
 
     data?.projects.items.map((aProject) => {
       if (
@@ -160,6 +188,7 @@ export const FormStep2 = () => {
         });
       }
     });
+
     let tempName = "";
     dataC?.consultants.items.map((aConsultant) => {
       if (aConsultant.id === currenProject.consultantId) {
@@ -186,6 +215,7 @@ export const FormStep2 = () => {
               res.data?.addProjectConsultant.projectconsultant.id ?? 0,
           },
         ]);
+        defaultProjectConsultants.consultantId = 0;
         setActive(true);
         addContract({ variables: { input: defaultContract } })
           .then((res) => {
@@ -213,14 +243,14 @@ export const FormStep2 = () => {
   };
 
   const sendDeleteRequest = (id: number) => {
-    console.log(id);
-
     deletePC({ variables: { input: { id: id } } })
       .then((res) => {
         toast.success("Consultant fra Project slettet", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-        employees.pop();
+        setEmployees((current) =>
+          current.filter((employee) => employee.projectConsid != id)
+        );
       })
       .catch((e) => {
         toast.error("Noe gikk galt ved sletting av Consultant fra Projects", {
@@ -232,6 +262,21 @@ export const FormStep2 = () => {
 
   const initialState: any[] = [];
   const [employees, setEmployees] = useState(initialState);
+  let employeeList: any[] = [];
+  let employeeSelect: any[] = [];
+  employeeList = dataC?.consultants.items || [];
+
+  if (employees.length > 0) {
+    employees.forEach(
+      (employee) =>
+        (employeeList = employeeList.filter(
+          (current) => current.id != employee.id
+        ))
+    );
+  } else {
+    employeeSelect = employeeList;
+  }
+  employeeSelect = employeeList;
 
   return (
     <Theme>
@@ -253,9 +298,9 @@ export const FormStep2 = () => {
             <MenuItem value="0" disabled>
               Choose a Customer
             </MenuItem>
-            {dataC?.consultants.items.map((aConsultant) => (
-              <MenuItem key={aConsultant.id} value={aConsultant.id}>
-                {aConsultant.firstName} {aConsultant.lastName}
+            {employeeSelect.map((element, index) => (
+              <MenuItem key={index} value={element.id}>
+                {element.firstName} {element.lastName}
               </MenuItem>
             ))}
           </Select>
@@ -293,7 +338,7 @@ export const FormStep2 = () => {
         })}
         <ProjectConsultantContainer />
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", py: 2 }}>
           {/* <Link to='/step2'>Voltar</Link> */}
           <button
             id="buttonClick"
@@ -306,7 +351,7 @@ export const FormStep2 = () => {
           <button id="buttonClick" onClick={handleNextStep} disabled={!active}>
             Next
           </button>
-        </div>
+        </Box>
       </C.Container>
     </Theme>
   );

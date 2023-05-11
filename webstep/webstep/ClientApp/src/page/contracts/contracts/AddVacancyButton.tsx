@@ -54,7 +54,16 @@ export const AddVacancyButton: React.FC<AddVacancyButtonProps> = ({
       });
   };
   return (
-    <Button onClick={handleClick} size="small" color={planned ? "info" : "error"}>
+    <Button
+      onClick={handleClick}
+      size="small"
+      sx={{
+        borderRight: planned ? "1px solid" : "none",
+        borderLeft: planned ? "1px solid" : "none",
+        borderRadius: "0px",
+      }}
+      color={planned ? "info" : "error"}
+    >
       + {planned ? "Vacation" : "Sickness"}
     </Button>
   );

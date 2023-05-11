@@ -109,7 +109,6 @@ export const Home = () => {
       >
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <h3 style={{ margin: 0 }}>Good Morning, Webstep</h3>
-          <p style={{ opacity: 0.8, color: "black" }}>Du har 8 meldinger</p>
         </Box>
         <Box sx={{ display: "flex", flexBasis: "50%" }}>
           <Box sx={{ flexGrow: 1 }}>

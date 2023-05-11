@@ -17,7 +17,7 @@ export const Contracts: React.FC = () => {
           sx={{
             boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
             display: "flex",
-            width: "85vw",
+            width: "100%",
             flexWrap: "wrap",
             background: "#ffffff",
             borderRadius: "5px",
@@ -29,7 +29,7 @@ export const Contracts: React.FC = () => {
           <ContractsContainer />
         </Box>
 
-        <Box sx={{ width: "85vw", alignSelf: "center", py: 1 }}>
+        <Box sx={{ width: "100%", alignSelf: "center", py: 1 }}>
           <ContractCalendarContainer />
         </Box>
         <ToastContainer />
