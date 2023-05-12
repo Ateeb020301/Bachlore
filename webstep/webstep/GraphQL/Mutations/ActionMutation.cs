@@ -52,7 +52,7 @@ namespace webstep.GraphQL.Mutations
             {
                 Type = "Action",
                 Method = "Insert",
-                newValues = "["+input.Comment+", "+input.Date+", "+ result + "]",
+                NewValues = "["+input.Comment+", "+input.Date+", "+ result + "]",
             };
 
 
@@ -99,7 +99,7 @@ namespace webstep.GraphQL.Mutations
             {
                 Type = "Action",
                 Method = "Deleted",
-                newValues = "[" + action.Id + ", " + action.Comment + ", " + action.Date + "]",
+                NewValues = "[" + action.Id + ", " + action.Comment + ", " + action.Date + "]",
             };
 
 

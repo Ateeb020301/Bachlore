@@ -55,7 +55,7 @@ namespace webstep.GraphQL.Mutations
             {
                 subProspect.StartDate = rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday);
                 subProspect.EndDate = rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday);
-                activitylog.newValues = "[" + input.Probability + ", " + input.NumOfConsultants + ", " + prospect.ProjectName + ", " + subProspect.StartDate + ", " + subProspect.EndDate + "]";
+                activitylog.NewValues = "[" + input.Probability + ", " + input.NumOfConsultants + ", " + prospect.ProjectName + ", " + subProspect.StartDate + ", " + subProspect.EndDate + "]";
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -86,7 +86,7 @@ namespace webstep.GraphQL.Mutations
             {
                 Type = "SubProspect",
                 Method = "Update",
-                oldValues = "[" + subProspect.Probability + ", " + subProspect.NumOfConsultants + ", " + subProspect.StartDate + ", " + subProspect.EndDate + "]"
+                OldValues = "[" + subProspect.Probability + ", " + subProspect.NumOfConsultants + ", " + subProspect.StartDate + ", " + subProspect.EndDate + "]"
             };
             subProspect.Probability = input.Probability ?? subProspect.Probability;
             subProspect.NumOfConsultants = input.NumOfConsultants ?? subProspect.NumOfConsultants;
@@ -104,13 +104,13 @@ namespace webstep.GraphQL.Mutations
                 {
                     subProspect.StartDate = rule.GetLocalDate(input.Start.Year, input.Start.Week,
                     IsoDayOfWeek.Monday);
-                    activitylog.newValues = "[" + input.Probability + ", " + input.NumOfConsultants + ", " + input.Start.Year + "-" + rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday).Day + ", " + subProspect.EndYear + "-" + rule.GetLocalDate(subProspect.EndYear, subProspect.EndWeek, IsoDayOfWeek.Friday).Month + "-" + subProspect.EndDate + "]";
+                    activitylog.NewValues = "[" + input.Probability + ", " + input.NumOfConsultants + ", " + input.Start.Year + "-" + rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday).Day + ", " + subProspect.EndYear + "-" + rule.GetLocalDate(subProspect.EndYear, subProspect.EndWeek, IsoDayOfWeek.Friday).Month + "-" + subProspect.EndDate + "]";
                 }
                 if (input.End != null)
                 {
                     subProspect.EndDate =
                     rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday);
-                    activitylog.newValues = "[" + input.Probability + ", " + input.NumOfConsultants + ", " + subProspect.StartYear + "-" + rule.GetLocalDate(subProspect.StartYear, subProspect.StartWeek, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(subProspect.StartYear, subProspect.StartWeek, IsoDayOfWeek.Monday).Day + ", " + input.End.Year + "-" + rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday).Month + "-" + rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday).Day + "]";
+                    activitylog.NewValues = "[" + input.Probability + ", " + input.NumOfConsultants + ", " + subProspect.StartYear + "-" + rule.GetLocalDate(subProspect.StartYear, subProspect.StartWeek, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(subProspect.StartYear, subProspect.StartWeek, IsoDayOfWeek.Monday).Day + ", " + input.End.Year + "-" + rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday).Month + "-" + rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday).Day + "]";
                 }
             }
             catch (ArgumentOutOfRangeException)
@@ -142,7 +142,7 @@ namespace webstep.GraphQL.Mutations
             {
                 Type = "SubProspect",
                 Method = "Delete",
-                oldValues = "[" + subProspect.Probability + ", " + subProspect.NumOfConsultants + ", " + subProspect.StartDate + ", " + subProspect.EndDate + "]"
+                OldValues = "[" + subProspect.Probability + ", " + subProspect.NumOfConsultants + ", " + subProspect.StartDate + ", " + subProspect.EndDate + "]"
             };
 
             await this._repo

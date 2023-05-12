@@ -25,7 +25,10 @@
                 StartDateGreaterThanEndDateException => error.WithMessage("Start date can't be greater than end date"),
                 
                 EmploymentDateGreaterThanResignationDateException => error.WithMessage("Employment date can't be greater than resignation date"),
-                FirstNameException => error.WithMessage("Employment"),
+                
+                FirstNameException => error.WithMessage("Failed to implement Firstname"),
+
+                ActivityLogException => error.WithMessage("Failed to implement activity"),
 
                 InsertFailedException insertFailed => error.WithMessage($"Failed to insert {insertFailed.Entity}"),
 
@@ -61,6 +64,7 @@
 
     public class StartDateGreaterThanEndDateException : Exception { }
     public class FirstNameException : Exception { }
+    public class ActivityLogException : Exception { }
     public class EmploymentDateGreaterThanResignationDateException : Exception { }
 
     public class ProbabilityOutOfBoundsException : Exception { public int[] Probability { get; internal set; } }

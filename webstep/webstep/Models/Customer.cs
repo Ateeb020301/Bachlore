@@ -46,7 +46,10 @@ namespace webstep.Models
 
         public void Validate()
         {
-            if (this.FirstName.IsNullOrEmpty())
+            if (!this.FirstName.IsNullOrEmpty())
+            {
+                throw new FirstNameException();
+            }else if (this.FirstName.IsNullOrEmpty())
             {
                 throw new RequiredFieldNullException() { Field = nameof(this.FirstName) };
             }

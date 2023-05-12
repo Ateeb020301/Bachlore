@@ -56,7 +56,7 @@ namespace webstep.GraphQL.Mutations
             {
                 contract.StartDate = rule.GetLocalDate(input.Start.Year, input.Start.Week, IsoDayOfWeek.Monday);
                 contract.EndDate = rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday);
-                activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + contract.StartDate + ", " + contract.EndDate + project.ProjectName + ", " + consultant.FirstName + " " + consultant.LastName +  "]";
+                activitylog.NewValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + contract.StartDate + ", " + contract.EndDate + project.ProjectName + ", " + consultant.FirstName + " " + consultant.LastName +  "]";
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -86,7 +86,7 @@ namespace webstep.GraphQL.Mutations
             {
                 Type = "Contract",
                 Method = "Update",
-                oldValues = "[" + contract.DaysOfWeek + ", " + contract.HourlyRate + ", " + contract.StartYear + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Day + ", " + contract.EndYear + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Month + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Day + "]"
+                OldValues = "[" + contract.DaysOfWeek + ", " + contract.HourlyRate + ", " + contract.StartYear + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Month + "-" + rule.GetLocalDate(contract.StartYear, contract.StartWeek, IsoDayOfWeek.Monday).Day + ", " + contract.EndYear + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Month + "-" + rule.GetLocalDate(contract.EndYear, contract.EndWeek, IsoDayOfWeek.Friday).Day + "]"
             };
 
             contract.DaysOfWeek = input.DaysOfWeek ?? contract.DaysOfWeek;
@@ -105,7 +105,7 @@ namespace webstep.GraphQL.Mutations
                     contract.EndDate = rule.GetLocalDate(input.End.Year, input.End.Week, IsoDayOfWeek.Friday);
                     
                 }
-                activitylog.newValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + contract.StartDate + ", " + contract.EndDate + "]";
+                activitylog.NewValues = "[" + input.DaysOfWeek + ", " + input.HourlyRate + ", " + contract.StartDate + ", " + contract.EndDate + "]";
 
             }
             catch (ArgumentOutOfRangeException)
@@ -136,7 +136,7 @@ namespace webstep.GraphQL.Mutations
             {
                 Type = "Contract",
                 Method = "Delete",
-                oldValues = "[" + contract.DaysOfWeek + ", " + contract.HourlyRate + ", " + contract.StartDate + ", " + contract.EndDate + "]"
+                OldValues = "[" + contract.DaysOfWeek + ", " + contract.HourlyRate + ", " + contract.StartDate + ", " + contract.EndDate + "]"
             };
 
             await _repo.DeleteAsync(contract, context, cancellationToken)
