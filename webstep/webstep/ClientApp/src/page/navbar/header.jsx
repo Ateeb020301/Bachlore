@@ -15,7 +15,7 @@ import TextField from '@mui/material/TextField'
 
 export const HeaderBar = () => {
     return (
-        <Box sx={{display: 'flex', p: 3, background: '#fefeff', flex: 1}}>
+        <Box sx={{display: 'flex', p: 3, background: '#fefeff', flex: 1, maxWidth: '100%', position: 'sticky', top: 0, zIndex: 99}}>
             <Box sx={{display: 'flex', flex: 1, justifyContent: 'flex-end'}}>
                 <Box sx={{display: 'flex'}}>
                     <IconButton type="button">

@@ -24,6 +24,7 @@ import { ImageAndContent } from "../../Utils/ImageAndContent";
 import { getEditContractInput } from "../../../api/contract/logic";
 import { constants } from "../../../logic/constants";
 import { GET_ACTIVITYLOG } from "../../../api/activitylog";
+import { Box } from "@mui/material";
 
 interface ProjectDescriptionProps {
   project: Project;
@@ -119,42 +120,48 @@ export const ProjectDescription: React.FC<ProjectDescriptionProps> = ({
 
   return (
     <div style={contentStyle}>
-      <span style={{ display: "flex", flexDirection: "column" }}>
-        <span style={centeredSpan}>Kunde:</span>
-        <EditableField
-          editCallBack={editProjectWrapper}
-          fieldToEdit={project.customerName}
-          fieldName={"customerName"}
-          objectToEdit={project}
-          width={170}
-        />
-      </span>
-      <span style={{ display: "flex", flexDirection: "column" }}>
-        <span style={centeredSpan}>Prosjekt:</span>
-        <EditableField
-          editCallBack={editProjectWrapper}
-          fieldToEdit={project.projectName}
-          fieldName={"projectName"}
-          objectToEdit={project}
-          width={170}
-        />
-      </span>
-      <span style={{ display: "flex", flexDirection: "column" }}>
-        <span style={centeredSpan}>Timepris:</span>
-        <ImageAndContent
-          image={<HourlyRateImage widthAndHeightPx={20} />}
-          extraSpaceBetween={true}
-        >
-          <EditableNumberField
-            displayText={project.contracts[0].hourlyRate + "kr/t"}
+      <Box sx={{pl: 1}}>
+        <span style={{ display: "flex", flexDirection: "column" }}>
+          <span style={centeredSpan}>Kunde:</span>
+          <EditableField
+            editCallBack={editProjectWrapper}
+            fieldToEdit={project.customerName}
+            fieldName={"customerName"}
             objectToEdit={project}
-            fieldToEdit={project.contracts[0].hourlyRate.toString()}
-            fieldName={"hourlyRate"}
-            editCallBack={editContractWrapper}
-            width={65}
+            width={170}
           />
-        </ImageAndContent>
-      </span>
+        </span>
+      </Box>
+      <Box>
+        <span style={{ display: "flex", flexDirection: "column", width: '100px'}}>
+          <span style={centeredSpan}>Prosjekt:</span>
+          <EditableField
+            editCallBack={editProjectWrapper}
+            fieldToEdit={project.projectName}
+            fieldName={"projectName"}
+            objectToEdit={project}
+            width={170}
+          />
+        </span>
+      </Box>
+      <Box sx={{pr: 1}}>
+        <span style={{ display: "flex", flexDirection: "column" }}>
+          <span style={centeredSpan}>Timepris:</span>
+          <ImageAndContent
+            image={<HourlyRateImage widthAndHeightPx={20} />}
+            extraSpaceBetween={true}
+          >
+            <EditableNumberField
+              displayText={project.contracts[0].hourlyRate + "kr/t"}
+              objectToEdit={project}
+              fieldToEdit={project.contracts[0].hourlyRate.toString()}
+              fieldName={"hourlyRate"}
+              editCallBack={editContractWrapper}
+              width={170}
+            />
+          </ImageAndContent>
+        </span>
+      </Box>
     </div>
   );
 };

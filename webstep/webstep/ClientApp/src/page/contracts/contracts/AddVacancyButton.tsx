@@ -2,7 +2,6 @@ import { useMutation } from "@apollo/client";
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button } from "reactstrap";
 import { AddVacancyInput } from "../../../api/contract/inputs";
 import { getDefaultAddVacancyInput } from "../../../api/contract/logic";
 import { AddVacancyPayload } from "../../../api/contract/payloads";
@@ -10,6 +9,7 @@ import {
   ADD_VACANCY,
   GET_CONSULTANT_VACANCY,
 } from "../../../api/contract/queries";
+import { Button } from "@mui/material";
 
 interface AddVacancyButtonProps {
   consultantId: number;
@@ -54,8 +54,17 @@ export const AddVacancyButton: React.FC<AddVacancyButtonProps> = ({
       });
   };
   return (
-    <Button onClick={handleClick} size="sm" color="info">
-      + {planned ? "fri" : "sykdom"}
+    <Button
+      onClick={handleClick}
+      size="small"
+      sx={{
+        borderRight: planned ? "1px solid" : "none",
+        borderLeft: planned ? "1px solid" : "none",
+        borderRadius: "0px",
+      }}
+      color={planned ? "info" : "error"}
+    >
+      + {planned ? "Vacation" : "Sickness"}
     </Button>
   );
 };

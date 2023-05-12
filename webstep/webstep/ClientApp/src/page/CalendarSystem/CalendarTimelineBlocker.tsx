@@ -1,13 +1,23 @@
-import React from 'react';
+import React from "react";
+import { constants } from "../../logic/constants";
 
-interface CalendarTimelineBlockerProps { }
+interface CalendarTimelineGridProps {}
 
-const style = {
-    display: 'block',
-    height: '100%',
-    width: '100%',
-    backgroundColor: '#637081',
-};
-export const CalendarTimelineBlocker: React.FC<CalendarTimelineBlockerProps> = ({ }) => {
-    return <span style={style}></span>;
+export const CalendarTimelineBlocker = () => {
+  // Simple solution, assumes you want to view rougly 2 years worth of time
+  let weeks = constants.weeksToShow;
+  let columnWidth = constants.calendarColumnWidth;
+  let gridStyle = {
+    position: "relative" as "relative",
+    display: "grid",
+    gridTemplateColumns: "repeat(" + weeks + ", " + columnWidth + "px)",
+    gridAutoRows: "50px",
+    backgroundColor: "#637081",
+    height: "40px",
+  };
+  return (
+    <div style={{ display: "flex" }}>
+      <div style={gridStyle}></div>
+    </div>
+  );
 };

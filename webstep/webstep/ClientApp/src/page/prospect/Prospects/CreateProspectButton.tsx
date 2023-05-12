@@ -1,8 +1,9 @@
-import { useMutation } from "@apollo/client";
-import React from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useState } from "react";
 import {
   ADD_PROSPECT,
   ADD_SUBPROSPECT,
+  GET_PROSPECTS,
   GET_SELLER_PROSPECTS,
 } from "../../../api/prospects/queries";
 import { getCurrentWeek } from "../../../logic/dateFunctions";
@@ -17,40 +18,91 @@ import {
   AddProspectInput,
   AddSubProspectInput,
 } from "../../../api/prospects/inputs";
-import { Button } from "reactstrap";
 import { ModalAddProspect } from "./ModalAddProspect";
 import { Prospect } from "../../../logic/interfaces";
 import { GET_SELLERS } from "../../../api/sellers";
 import { GET_ACTIVITYLOG } from "../../../api/activitylog";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormGroup,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import {
+  GET_CUSTOMER,
+  GET_CUSTOMERS,
+  GetCustomerItemsContractsPayload,
+} from "../../../api/customer";
+import { Input, Label } from "reactstrap";
 
 interface CreateProspectButtonProps {
   customerId: number;
   sellerId: number;
 }
-const addButtonStyle = {
-  width: "25px",
-  height: "25px",
-  backgroundImage: "url(" + PlusIcon + ")",
-  backgroundSize: "cover",
-};
+
+interface ProspectNoId {
+  projectName: string;
+  customerId: string;
+  sellerId: number;
+}
+
+//GQL pagination skip const
+const skipAmount = 0;
+//GQL pagination take const
+const takeAmount = 50;
 
 export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
   sellerId,
   customerId,
 }) => {
   const [isModalProspectOpen, setState] = React.useState(false);
+  const navigate = useNavigate();
 
   const toggleAddprospect = () => setState(!isModalProspectOpen);
 
+  const { loading, error, data, refetch } =
+    useQuery<GetCustomerItemsContractsPayload>(GET_CUSTOMERS, {
+      pollInterval: 500,
+      variables: { skipAmount: skipAmount, takeAmount: takeAmount },
+    });
+
+  let defaultProspect: ProspectNoId = {
+    projectName: "",
+    customerId: "0",
+    sellerId: 0,
+  };
+
+  const [currentProspect, setCurrentProspect] =
+    useState<ProspectNoId>(defaultProspect);
+  //const [displayValidation, setDisplayValidation] = useState<string>(' ');
   const [addProspect] = useMutation<
     AddProspectPayload,
-    { input: AddProspectInput }
+    { input: ProspectNoId }
   >(ADD_PROSPECT, {
     refetchQueries: [
       {
+        query: GET_PROSPECTS,
+      },
+      {
         query: GET_ACTIVITYLOG,
       },
+      {
+        query: GET_SELLERS,
+        variables: { skipAmount: skipAmount, takeAmount: takeAmount },
+      },
+      {
+        query: GET_CUSTOMER,
+      },
     ],
+    awaitRefetchQueries: true,
   });
   const [addSubProspect] = useMutation<
     AddSubProspectPayload,
@@ -64,12 +116,39 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
       {
         query: GET_ACTIVITYLOG,
       },
+      {
+        query: GET_PROSPECTS,
+      },
+      {
+        query: GET_CUSTOMER,
+      },
     ],
     awaitRefetchQueries: true,
   });
 
-  const handleClick = () => {
-    let defaultProspect = getDefaultProspect(sellerId, customerId);
+  const handleSelect = (e: SelectChangeEvent) => {
+    const { name, value } = e.target;
+    setCurrentProspect((prevProspect) => ({
+      ...prevProspect,
+      [name]: value,
+    }));
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setCurrentProspect((prevProspect) => ({
+      ...prevProspect,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    defaultProspect.projectName = currentProspect.projectName;
+    defaultProspect.customerId = currentProspect.customerId;
+    defaultProspect.sellerId = sellerId;
+
     addProspect({ variables: { input: defaultProspect } })
       .then((res) => {
         let newProspectId = res.data?.addProspect.prospect.id;
@@ -81,6 +160,7 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
               toast.success("Prospekt opprettet", {
                 position: toast.POSITION.BOTTOM_RIGHT,
               });
+              currentProspect.projectName = "";
             })
             .catch((e) => {
               toast.error("Noe gikk galt ved oppretting av sub-prospektet", {
@@ -95,33 +175,91 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
         });
       });
   };
+
+  const isValidText = (s: string) => {
+    return s !== "";
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    navigate("/prospect");
+    setOpen(false);
+  };
   return (
     <>
-      <Button onClick={toggleAddprospect} size="sm" color="primary">
+      <Button
+        onClick={() => setOpen(true)}
+        size="small"
+        variant="text"
+        color="primary"
+      >
         + prospekt
       </Button>
 
-      <ModalAddProspect
-        title={"Edit Seller"}
-        isOpen={isModalProspectOpen}
-        onClose={toggleAddprospect}
-        sellerId={sellerId}
-        customerId={customerId}
-      />
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle>Add a new Prospect</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here.
+            We will send updates occasionally.
+          </DialogContentText>
+        </DialogContent>
+        <form>
+          <Box sx={{ display: "flex" }}>
+            <Box sx={{ m: 1, flex: 1 }}>
+              <FormGroup>
+                <TextField
+                  type="text"
+                  id="projectName"
+                  label="Project Name (Required)"
+                  color={
+                    isValidText(currentProspect.projectName)
+                      ? "success"
+                      : "error"
+                  }
+                  placeholder="Project Name (Required)"
+                  value={currentProspect.projectName}
+                  onChange={handleChange}
+                  name="projectName"
+                />
+              </FormGroup>
+            </Box>
+
+            <Box sx={{ m: 1, flex: 1 }}>
+              <FormGroup>
+                <Select
+                  id="ddc"
+                  name="customerId"
+                  value={currentProspect.customerId}
+                  onChange={handleSelect}
+                  error={parseInt(currentProspect.customerId) < 0}
+                >
+                  <MenuItem value="0" disabled>
+                    Choose a customer
+                  </MenuItem>
+                  {data?.customers.items.map((aCustomer) => (
+                    <MenuItem key={aCustomer.id} value={aCustomer.id}>
+                      {aCustomer.firstName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormGroup>
+            </Box>
+          </Box>
+          <Box sx={{ m: 1 }}>
+            <Button color="primary" onClick={handleSubmit}>
+              Legg til
+            </Button>
+          </Box>
+        </form>
+      </Dialog>
     </>
   );
-};
-
-const getDefaultProspect = (sellerId: number, customerId: number) => {
-  let projectName = "Prosjektnavn";
-  customerId = 0;
-  let defaultProspect: AddProspectInput = {
-    projectName: projectName,
-    customerId: customerId,
-    sellerId: sellerId,
-    id: 0,
-  };
-  return defaultProspect;
 };
 
 const getDefaultSubProspect = (prospectId: number) => {

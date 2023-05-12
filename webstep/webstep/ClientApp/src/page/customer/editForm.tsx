@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import { Button, FormGroup, Input, Label } from "reactstrap";
+import React, { useState } from "react";
+import { FormGroup, Input, Label } from "reactstrap";
 import { useMutation } from "@apollo/client";
 import "react-toastify/dist/ReactToastify.css";
-import { toast, ToastContainer } from "react-toastify";
-import {
-  AddConsultantPayload,
-  ADD_CONSULTANT,
-  EditConsultantPayload,
-  EDIT_CONSULTANT,
-} from "../../api/consultants";
-import { Box } from "@mui/material";
-import { Form, useNavigate } from "react-router-dom";
-import {
-  GET_CONSULTANTS_INFO,
-  GET_CONSULTANT_CAPACITY,
-  GET_TEAMCONS_CONTRACTS,
-} from "../../api/contract/queries";
-import { constants } from "../../logic/constants";
+import { toast } from "react-toastify";
+import { Box, Button, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { GET_CONSULTANTS_INFO } from "../../api/contract/queries";
 import {
   EDIT_CUSTOMER,
   EditCustomerPayload,
@@ -146,88 +134,115 @@ export const EditForm: React.FC<ModalEditCustomerProps> = ({
   };
 
   return (
-    <Box>
-      <Box>
-        <form>
-          <FormGroup>
-            <Label for="firstName">First Name</Label>
-            <br />
-            <Input
-              type="text"
-              id="firstName"
-              valid={isValidText(currentCustomer.firstName)}
-              invalid={!isValidText(currentCustomer.firstName)}
-              value={currentCustomer.firstName}
-              onChange={handleChange}
-              name="firstName"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="lastName">Last Name</Label>
-            <br />
-            <Input
-              type="text"
-              id="lastName"
-              valid={isValidText(currentCustomer.lastName)}
-              invalid={!isValidText(currentCustomer.lastName)}
-              value={currentCustomer.lastName}
-              onChange={handleChange}
-              name="lastName"
-            />
-          </FormGroup>
+    <Box
+      sx={{
+        border: "solid",
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+      }}
+    >
+      <form>
+        <Box sx={{ display: "flex" }}>
+          <Box sx={{ p: 1 }}>
+            <FormGroup>
+              <TextField
+                type="text"
+                id="firstName"
+                label="Firstname (Required)"
+                color={
+                  isValidText(currentCustomer.firstName) ? "success" : "error"
+                }
+                placeholder="Firstname (Required)"
+                value={currentCustomer.firstName}
+                onChange={handleChange}
+                name="firstName"
+              />
+            </FormGroup>
+          </Box>
+          <Box sx={{ p: 1 }}>
+            <FormGroup>
+              <TextField
+                type="text"
+                id="lastName"
+                label="Lastname (Required)"
+                color={
+                  isValidText(currentCustomer.lastName) ? "success" : "error"
+                }
+                placeholder="Firstname (Required)"
+                value={currentCustomer.lastName}
+                onChange={handleChange}
+                name="lastName"
+              />
+            </FormGroup>
+          </Box>
+        </Box>
 
-          <FormGroup>
-            <Label for="addresse">Address</Label>
-            <br />
-            <Input
-              type="text"
-              id="addresse"
-              min={0}
-              max={5}
-              valid={isValidText(currentCustomer.adresse)}
-              invalid={!isValidText(currentCustomer.adresse)}
-              value={currentCustomer.adresse}
-              onChange={handleChange}
-              name="adresse"
-            />
-          </FormGroup>
+        <Box sx={{ display: "flex" }}>
+          <Box sx={{ p: 1, flex: 2 }}>
+            <FormGroup>
+              <TextField
+                type="text"
+                id="addresse"
+                label="Address (Required)"
+                color={
+                  isValidText(currentCustomer.adresse) ? "success" : "error"
+                }
+                placeholder="Adress (Required)"
+                value={currentCustomer.adresse}
+                onChange={handleChange}
+                name="addresse"
+                fullWidth
+              />
+            </FormGroup>
+          </Box>
 
-          <FormGroup>
-            <Label for="email">Email</Label>
-            <br />
-            <Input
-              type="text"
-              id="inpEmail"
-              valid={isValidText(currentCustomer.email)}
-              invalid={!isValidText(currentCustomer.email)}
-              value={currentCustomer.email}
-              onChange={handleChange}
-              name="email"
-            />
-          </FormGroup>
+          <Box sx={{ p: 1, flex: 1 }}>
+            <FormGroup>
+              <TextField
+                type="text"
+                id="inpTlf"
+                label="Phone number (Required)"
+                color={isValidText(currentCustomer.tlf) ? "success" : "error"}
+                placeholder="Phone number (Required)"
+                value={currentCustomer.tlf}
+                onChange={handleChange}
+                name="tlf"
+              />
+            </FormGroup>
+          </Box>
+        </Box>
 
-          <FormGroup>
-            <Label for="tlf">Phone Number:</Label>
-            <br />
-            <Input
-              type="text"
-              id="inpTlf"
-              className={displayValidation}
-              value={currentCustomer.tlf ? currentCustomer.tlf : ""}
-              onChange={handleChange}
-              name="tlf"
-            />
-          </FormGroup>
-
-          <Button
-            color="primary"
-            onClick={handleSubmit}
-            disabled={!isValidConsultant()}
-          >
-            Legg til
-          </Button>
-        </form>
-      </Box>
+        <Box sx={{ display: "flex" }}>
+          <Box sx={{ p: 1, flex: 1 }}>
+            <FormGroup>
+              <TextField
+                type="text"
+                id="inpEmail"
+                label="Email (Required)"
+                color={isValidText(currentCustomer.email) ? "success" : "error"}
+                placeholder="Adress (Required)"
+                value={currentCustomer.email}
+                onChange={handleChange}
+                name="email"
+                fullWidth
+              />
+            </FormGroup>
+          </Box>
+          <Box sx={{ p: 1, flex: 1 }}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleSubmit}
+              disabled={!isValidConsultant()}
+              sx={{ height: "100%" }}
+              fullWidth
+            >
+              Legg til
+            </Button>
+          </Box>
+        </Box>
+      </form>
     </Box>
   );
 };

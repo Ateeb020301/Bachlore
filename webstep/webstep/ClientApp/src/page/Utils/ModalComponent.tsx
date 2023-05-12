@@ -48,7 +48,6 @@ export const Modal: React.FC<ModalProps> = ({ title, isOpen, onClose }) => {
             <Routes>
               <Route path="/" element={<FormStep1 />} />
               <Route path="/step2/:id" element={<FormStep2 />} />
-              <Route path="/step3" element={<FormStep3 />} />
             </Routes>
             <GlobalStyled />
           </FormProvider>
