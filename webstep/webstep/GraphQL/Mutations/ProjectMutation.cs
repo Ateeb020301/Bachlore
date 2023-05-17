@@ -38,7 +38,7 @@ namespace webstep.GraphQL.Mutations
             {
                 Type = "Project",
                 Method = "Insert",
-                newValues = "[" + input.ProjectName + ", " + input.CustomerName + "]",
+                NewValues = "[" + input.ProjectName + ", " + input.CustomerName + "]",
             };
             
             await _repo
@@ -85,7 +85,7 @@ namespace webstep.GraphQL.Mutations
             {
                 Type = "Project",
                 Method = "Delete",
-                newValues = "[" + project.ProjectName + ", " + project.CustomerName + "]",
+                NewValues = "[" + project.ProjectName + ", " + project.CustomerName + "]",
             };
 
             await _repo

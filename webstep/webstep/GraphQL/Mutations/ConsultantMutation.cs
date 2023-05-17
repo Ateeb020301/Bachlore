@@ -45,7 +45,7 @@
             {
                 Type = "Consultant",
                 Method = "Insert",
-                newValues = "[" + input.FirstName + ", " + input.LastName + ", " + input.EmploymentDate + ", " + input.ResignationDate + ", " + input.Workdays + "]",
+                NewValues = "[" + input.FirstName + ", " + input.LastName + ", " + input.EmploymentDate + ", " + input.ResignationDate + ", " + input.Workdays + "]",
             };
 
             consultant.Validate();
@@ -71,7 +71,7 @@
             {
                 Type = "Consultant",
                 Method = "Update",
-                oldValues = "[" + consultant.FirstName + ", " + consultant.LastName + ", " + consultant.EmploymentDate + ", " + consultant.ResignationDate.HasValue + ", " + consultant.Workdays + "]"
+                OldValues = "[" + consultant.FirstName + ", " + consultant.LastName + ", " + consultant.EmploymentDate + ", " + consultant.ResignationDate.HasValue + ", " + consultant.Workdays + "]"
             };
 
             consultant.FirstName = input.FirstName ?? consultant.FirstName;
@@ -83,7 +83,7 @@
             {
                 consultant.ResignationDate = input.ResignationDate;
             }
-            activitylog.newValues = "Consultant edited [" + input.FirstName + ", " + input.LastName + ", " + input.EmploymentDate + ", " + input.ResignationDate.HasValue + ", " + input.Workdays + "]";
+            activitylog.NewValues = "Consultant edited [" + input.FirstName + ", " + input.LastName + ", " + input.EmploymentDate + ", " + input.ResignationDate.HasValue + ", " + input.Workdays + "]";
             
             consultant.Validate();
 
@@ -109,7 +109,7 @@
             {
                 Type = "Consultant",
                 Method = "Delete",
-                newValues = "[" + consultant.FirstName + ", " + consultant.LastName + ", " + consultant.EmploymentDate + ", " + consultant.ResignationDate + ", " + consultant.Workdays + "]",
+                NewValues = "[" + consultant.FirstName + ", " + consultant.LastName + ", " + consultant.EmploymentDate + ", " + consultant.ResignationDate + ", " + consultant.Workdays + "]",
             };
 
             await _repo.DeleteAsync(consultant, context, cancellationToken)

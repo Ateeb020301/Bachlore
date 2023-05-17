@@ -6,7 +6,7 @@ using webstep.Models;
 
 namespace WebstepTest.ModelTest
 {
-    public class CustomerTest
+    public class ActivityLogTest
     {
         [SetUp]
         public void Setup()
@@ -15,24 +15,25 @@ namespace WebstepTest.ModelTest
         }
 
         [Test]
-        public void FirstNameException()
+        public void ActivityLogException()
         {
-            var customer = new Customer
+            var activityLog = new ActivityLog
             {
-                FirstName= "Test",
-                LastName="test",
-                Email = "Test@test.com",
-                Adresse="",
-                Tlf="",
+                Method = "Test",
+                Type = "ghj",
+                Date = new LocalDate(2020, 05, 04),
+                OldValues = "ef",
+                NewValues = "sfg"
             };
             try
             {
-                customer.Validate();
+                activityLog.Validate();
             }
-            catch (FirstNameException)
+            catch (ActivityLogException)
             {
                 Assert.Pass();
             }
+
             Assert.Fail();
         }
 

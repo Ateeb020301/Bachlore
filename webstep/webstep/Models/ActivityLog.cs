@@ -28,13 +28,30 @@ namespace webstep.Models
 
         [Required]
         public string Method { get; set; }
-        public string oldValues { get; set; }
 
-        public string newValues { get; set; }
+        public string OldValues { get; set; }
+
+        public string NewValues { get; set; }
 
         [Required]
-        public LocalDate date { get; set; } = SystemClock.Instance.InZone(DateTimeZoneProviders.Tzdb["Europe/London"]).GetCurrentDate();
+        public LocalDate Date { get; set; } = SystemClock.Instance.InZone(DateTimeZoneProviders.Tzdb["Europe/London"]).GetCurrentDate();
 
+        public void Validate()
+        {
+            if (!this.Method.IsNullOrEmpty())
+            {
+                throw new ActivityLogException();
+            }
+            else if (this.Method.IsNullOrEmpty())
+            {
+                throw new RequiredFieldNullException() { Field = nameof(this.Method) };
+            }
 
+            if (this.OldValues.IsNullOrEmpty())
+            {
+                throw new RequiredFieldNullException() { Field = nameof(this.OldValues) };
+
+            }
+        }
     }
 }
