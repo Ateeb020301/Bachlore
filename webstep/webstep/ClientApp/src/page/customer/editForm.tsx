@@ -136,7 +136,6 @@ export const EditForm: React.FC<ModalEditCustomerProps> = ({
   return (
     <Box
       sx={{
-        border: "solid",
         display: "flex",
         justifyContent: "center",
         width: "100%",
