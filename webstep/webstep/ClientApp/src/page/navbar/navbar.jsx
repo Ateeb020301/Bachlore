@@ -20,14 +20,14 @@ import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, location, to, icon, selected, setSelected }) => {
   return (
     <MenuItem
-      active={selected === title}
+      active={selected === location}
       style={{
-        color: 'white',
+        color: 'white'
       }}
-      onClick={() => setSelected(title)}
+      onClick={() => setSelected(location)}
       icon={icon}
     >
       <p>{title}</p>
@@ -44,12 +44,6 @@ export const Navbar = () => {
 
   let changed = 'block';
   let solid = 'none'
-  let pad = '5px 0px 5px 0px !important'
-  {isCollapsed && (changed = 'flex')};
-  {!isCollapsed && (solid = 'solid')}
-  {isCollapsed && (pad = '15px 0px 10px 0px !important')}
-  {isCollapsed && (setNavCollapse = true)};
-  {!isCollapsed && (setNavCollapse = false)};
 
   return (
       <Box sx={{display: 'flex', zIndex: 1}}>
@@ -58,35 +52,33 @@ export const Navbar = () => {
           "& .pro-sidebar-inner": {
             background: `#064bd7 !important`,
             justifyContent: 'center',
-            display: changed
-            
+            display: (isCollapsed ? 'flex' : 'block'),
           },
           "& .pro-icon-wrapper": {
             backgroundColor: "transparent !important",
           
           },
-          "& .pro-inner-item": {
-            padding: pad
-          },
-          "& .pro-inner-item:hover": {
-            opacity: 0.9
+          "& .pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item": {
+            padding: '0px',
+            paddingTop: (isCollapsed ? '10px' : '0px'),
+          
           },
           "& .pro-menu-item.active": {
-            fontWeight: 'bolder',
-            opacity: .7,
-            borderRight: solid
+            borderRight: (!isCollapsed && 'solid'),
+            opacity: .8,
           },
         }}
       >
         <ProSidebar collapsed={isCollapsed}>
-          <Menu iconShape="square">
+          <Menu iconShape="square" style={{flex: 1}}>
             {/* LOGO AND MENU ICON */}
             <MenuItem
-              onClick={() => setIsCollapsed(!isCollapsed)}
+              onClick={() => (isCollapsed && setIsCollapsed(!isCollapsed))}
               icon={isCollapsed ? <MenuIcon /> : undefined}
               style={{
                 margin: "10px 0 10px 0",
                 color: 'white',
+                padding: 0,
               }}
             >
               {!isCollapsed && (
@@ -94,17 +86,21 @@ export const Navbar = () => {
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
-                  paddingLeft={'20px'}
+                  paddingLeft={'15px'}
                 >
-                  <img
-                    alt="profile-user"
-                    width="120px"
-                    src={require('../../components/images/webstepinv.png')}
-                    style={{ cursor: "pointer"}}
-                  />
-                  <IconButton style={{color: 'white'}} onClick={() => setIsCollapsed(!isCollapsed)}>
-                    <MenuOpen  />
-                  </IconButton>
+                  <Box>
+                    <img
+                      alt="profile-user"
+                      width="120px"
+                      src={require('../../components/images/webstepinv.png')}
+                      style={{ cursor: "pointer"}}
+                    />
+                  </Box>
+                  <Box>
+                    <IconButton style={{color: 'white'}} onClick={() => setIsCollapsed(!isCollapsed)}>
+                      <MenuOpen  />
+                    </IconButton>
+                  </Box>
                 </Box>
               )}
             </MenuItem>
@@ -135,6 +131,8 @@ export const Navbar = () => {
                 title={!isCollapsed &&("Dashboard")}
                 to="/"
                 icon={<HomeOutlinedIcon />}
+                location={"/"}
+                active={window.location.pathname == "/"}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -152,13 +150,17 @@ export const Navbar = () => {
                 title={!isCollapsed &&("Prospects")}
                 to="/prospect"
                 icon={<PeopleOutlinedIcon />}
+                location={"/prospect"}
+                active={window.location.pathname == "/prospect"}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
-                title={!isCollapsed &&("Belegg")}
+                title={!isCollapsed &&("Contracts")}
                 to="/belegg"
                 icon={<ContactsOutlinedIcon />}
+                location={"/belegg"}
+                active={window.location.pathname == "/belegg"}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -166,6 +168,8 @@ export const Navbar = () => {
                 title={!isCollapsed &&("Deals")}
                 to="/deals"
                 icon={<LocalOfferOutlinedIcon />}
+                location={"/deals"}
+                active={window.location.pathname == "/deals"}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -183,6 +187,8 @@ export const Navbar = () => {
                 title={!isCollapsed &&("Customers")}
                 to="/customer"
                 icon={<PeopleOutlineOutlinedIcon />}
+                location={"/customer"}
+                active={window.location.pathname == "/customer"}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -190,6 +196,7 @@ export const Navbar = () => {
                 title={!isCollapsed &&("Sellers")}
                 to="/seller"
                 icon={<PersonAddAltIcon />}
+                location={"/seller"}
                 selected={selected}
                 setSelected={setSelected}
               />
@@ -197,13 +204,8 @@ export const Navbar = () => {
                 title={!isCollapsed &&("Consultants")}
                 to="/consultant"
                 icon={<BadgeOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title={!isCollapsed &&("FAQ Page")}
-                to="/faq"
-                icon={<HelpOutlineOutlinedIcon />}
+                location={"/consultant"}
+                active={window.location.pathname === "/consultant/"}
                 selected={selected}
                 setSelected={setSelected}
               />

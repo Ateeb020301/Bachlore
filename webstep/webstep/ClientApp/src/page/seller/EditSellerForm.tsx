@@ -11,8 +11,8 @@ import {
   GET_SELLERS,
 } from "../../api/sellers";
 import "../consultant/AddModal.css";
-import "./Seller.css";
 import { GET_ACTIVITYLOG } from "../../api/activitylog";
+import { Box, TextField } from "@mui/material";
 
 interface ModalEditProps {
   onClose: () => void;
@@ -96,8 +96,6 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({
         employmentDate: currentSeller.employmentDate,
         resignationDate: currentSeller.resignationDate,
       };
-      console.log(currentSeller.resignationDate);
-      console.log(newSeller);
       editSeller({ variables: { input: newSeller } })
         .then((res) => {
           toast.success("Seller ble redigert", {
@@ -166,68 +164,175 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({
     return false;
   };
 
-  return (
-    <div>
-      <FormGroup>
-        <Label for="fullName">Seller</Label>
-        <br />
-        <Input
-          type="text"
-          id="fullName"
-          valid={isValidText(currentSeller.fullName)}
-          invalid={!isValidText(currentSeller.fullName)}
-          value={currentSeller.fullName}
-          onChange={handleChange}
-          name="fullName"
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="email">Etternavn</Label>
-        <br />
-        <Input
-          type="text"
-          id="email"
-          valid={isValidText(currentSeller.email)}
-          invalid={!isValidText(currentSeller.email)}
-          value={currentSeller.email}
-          onChange={handleChange}
-          name="email"
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="inpEmploymentDate">Start dato:</Label>
-        <Input
-          type="date"
-          id="inpEmploymentDate"
-          valid={isValidStartDate(currentSeller.employmentDate)}
-          invalid={!isValidStartDate(currentSeller.employmentDate)}
-          value={currentSeller.employmentDate}
-          onChange={handleChange}
-          name="employmentDate"
-        />
-      </FormGroup>
+  const isValidConsultant = (): boolean => {
+    let hasTruthyValues =
+      currentSeller.fullName &&
+      currentSeller.email &&
+      isValidStartDate(currentSeller.employmentDate);
 
-      <FormGroup>
-        <Label for="inpResignationDate">Slutt dato:</Label>
-        <Input
-          type="date"
-          id="inpResignationDate"
-          className={displayValidation}
-          value={
+    let resignDate = currentSeller.resignationDate?.toString();
+    if (hasTruthyValues) {
+      if (resignDate !== "") {
+        return (
+          isValidText(currentSeller.employmentDate) &&
+          isValidEndDate(
             currentSeller.resignationDate ? currentSeller.resignationDate : ""
-          }
-          onChange={handleChange}
-          name="resignationDate"
-        />
-      </FormGroup>
+          )
+        );
+      } else {
+        return isValidText(currentSeller.employmentDate);
+      }
+    }
+    return false;
+  };
 
-      <Button
-        color="primary"
-        onClick={handleSubmit}
-        disabled={!isValidSeller()}
-      >
-        Legg til
-      </Button>
-    </div>
+  return (
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ display: "flex", justifyContent: "center", p: 2, mt: 2 }}>
+        <form>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-betweens",
+              width: "100%",
+              py: 1,
+            }}
+          >
+            <Box sx={{ px: 1 }}>
+              <FormGroup>
+                <TextField
+                  type="text"
+                  id="fullName"
+                  label="Full Name (Required)"
+                  color={
+                    isValidText(currentSeller.fullName) ? "success" : "error"
+                  }
+                  placeholder="Full Name (Required)"
+                  value={currentSeller.fullName}
+                  onChange={handleChange}
+                  name="fullName"
+                />
+              </FormGroup>
+            </Box>
+            <Box sx={{ px: 1 }}>
+              <FormGroup>
+                <TextField
+                  type="text"
+                  id="email"
+                  label="Email (Required)"
+                  color={isValidText(currentSeller.email) ? "success" : "error"}
+                  placeholder="Lastname (Required)"
+                  value={currentSeller.email}
+                  onChange={handleChange}
+                  name="email"
+                />
+              </FormGroup>
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              py: 1,
+              flexDirection: "column",
+            }}
+          >
+            <Box sx={{ p: 1, flex: 1 }}>
+              <FormGroup>
+                <Box sx={{ display: "flex", flex: 1 }}>
+                  <Label
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "15px",
+                      borderTopLeftRadius: "5px",
+                      borderBottomLeftRadius: "5px",
+                      color: "white",
+                      background: "#064bd7",
+                      fontSize: "14px",
+                      flex: 1,
+                    }}
+                    for="employmentDate"
+                  >
+                    Start dato:
+                  </Label>
+                  <Input
+                    style={{
+                      display: "flex",
+                      padding: "10px",
+                      border: "1px solid #064bd7",
+                      flex: 2,
+                    }}
+                    type="date"
+                    id="inpEmploymentDate"
+                    valid={isValidStartDate(currentSeller.employmentDate)}
+                    invalid={!isValidStartDate(currentSeller.employmentDate)}
+                    value={currentSeller.employmentDate}
+                    onChange={handleChange}
+                    name="employmentDate"
+                  />
+                </Box>
+              </FormGroup>
+            </Box>
+
+            <Box sx={{ px: 1, flex: 1 }}>
+              <FormGroup>
+                <Box sx={{ display: "flex" }}>
+                  <Label
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "15px",
+                      borderTopLeftRadius: "5px",
+                      borderBottomLeftRadius: "5px",
+                      color: "white",
+                      background: "#064bd7",
+                      fontSize: "14px",
+                      flex: 1,
+                    }}
+                    for="resignationDate"
+                  >
+                    Slutt dato:
+                  </Label>
+                  <Input
+                    style={{
+                      display: "flex",
+                      padding: "10px",
+                      border: "1px solid #064bd7",
+                      flex: 2,
+                    }}
+                    type="date"
+                    id="inpResignationDate"
+                    className={displayValidation}
+                    value={
+                      currentSeller.resignationDate
+                        ? currentSeller.resignationDate
+                        : ""
+                    }
+                    onChange={handleChange}
+                    name="resignationDate"
+                  />
+                </Box>
+              </FormGroup>
+            </Box>
+          </Box>
+          <Box sx={{ display: "flex", py: 1 }}>
+            <Box sx={{ px: 1, width: "100%" }}>
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={handleSubmit}
+                disabled={!isValidConsultant()}
+              >
+                Legg til
+              </Button>
+            </Box>
+          </Box>
+        </form>
+      </Box>
+    </Box>
   );
 };

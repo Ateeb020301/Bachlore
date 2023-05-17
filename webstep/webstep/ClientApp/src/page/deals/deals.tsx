@@ -122,33 +122,6 @@ export const Deals = () => {
     setDisplayValidation(isValidatedStr);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setCurrentConsultant((prevConsultant) => ({
-      ...prevConsultant,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-
-    if (isValidConsultant()) {
-      addConsultant({ variables: { input: currentConsultant } })
-        .then((res) => {
-          toast.success("Konsulent opprettet", {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          });
-        })
-        .catch((err) => {
-          toast.error("Noe gikk galt med oppretting av en konsulent.", {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          });
-        });
-    }
-  };
-
   const isValidText = (s: string) => {
     return s !== "";
   };
@@ -204,6 +177,27 @@ export const Deals = () => {
   };
 
   const { loading, error, data } = useQuery<GetProspectsPayload>(GET_PROSPECTS);
+  let probTen: any[] = [];
+  let probThirty: any[] = [];
+  let probSeventy: any[] = [];
+  let probHundred: any[] = [];
+
+  data?.prospects.items.forEach((prospect) => {
+    prospect.subProspects.forEach((sub) => {
+      if (sub.probability == 10) {
+        probTen.push(prospect);
+      }
+      if (sub.probability == 30) {
+        probThirty.push(prospect);
+      }
+      if (sub.probability == 70) {
+        probSeventy.push(prospect);
+      }
+      if (sub.probability == 100) {
+        probHundred.push(prospect);
+      }
+    });
+  });
 
   function getDateOfWeek(w: any, y: any) {
     var d = 1 + (w - 1) * 7; // 1st of January + 7 days for each week
@@ -222,6 +216,11 @@ export const Deals = () => {
   }
   let count = 0;
 
+  let [filter, setFilter] = useState<string>("");
+  function dealsFilter(val: string) {
+    setFilter(val);
+  }
+  console.log(filter);
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", mt: 2 }}>
       <Box
@@ -261,7 +260,7 @@ export const Deals = () => {
           alignItems: "center",
         }}
       >
-        <DealsContainer />
+        <DealsContainer onClose={(val: string) => dealsFilter(val)} />
       </Box>
 
       <Box
@@ -288,7 +287,7 @@ export const Deals = () => {
           >
             <span>Lead Discovered</span>
             <span style={{ opacity: 0.5, fontSize: "14px" }}>
-              $265.200 4 Deals
+              {probTen.length} Deals
             </span>
           </Box>
         </Box>
@@ -306,7 +305,7 @@ export const Deals = () => {
           >
             <span>Needs Identified</span>
             <span style={{ opacity: 0.5, fontSize: "14px" }}>
-              $265.200 4 Deals
+              {probThirty.length} Deals
             </span>
           </Box>
         </Box>
@@ -325,7 +324,7 @@ export const Deals = () => {
           >
             <span>Meeting Scheduled</span>
             <span style={{ opacity: 0.5, fontSize: "14px" }}>
-              $265.200 4 Deals
+              {probSeventy.length} Deals
             </span>
           </Box>
         </Box>
@@ -344,7 +343,7 @@ export const Deals = () => {
           >
             <span>Deal Completed</span>
             <span style={{ opacity: 0.5, fontSize: "14px" }}>
-              $265.200 4 Deals
+              {probHundred.length} Deals
             </span>
           </Box>
         </Box>
@@ -360,77 +359,115 @@ export const Deals = () => {
         }}
       >
         <Box sx={{ flexBasis: "22%" }}>
-          {data?.prospects.items.map((prospects) =>
-            prospects.subProspects.length > 0 ? (
-              prospects.subProspects[0].probability == 10 ? (
-                <Accordion
-                  key={prospects.id}
-                  sx={{
-                    boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
-                    borderRadius: "5px",
-                    mb: 1,
-                    fontWeight: "950",
-                    letterSpacing: ".5px",
-                    display: "flex",
-                    flexDirection: "column",
-                    backgroundColor: "#ffffff",
-                  }}
-                >
-                  <AccordionSummary
-                    sx={{ maxHeight: "70px" }}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
+          {data?.prospects.items
+            .filter((deals) =>
+              (deals.customer.firstName + " " + deals.customer.lastName)
+                .toLocaleLowerCase()
+                .includes(filter.toLocaleLowerCase())
+            )
+            .map((prospects) =>
+              prospects.subProspects.length > 0 ? (
+                prospects.subProspects[0].probability == 10 ? (
+                  <Accordion
+                    key={prospects.id}
+                    sx={{
+                      boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
+                      borderRadius: "5px",
+                      mb: 1,
+                      fontWeight: "950",
+                      letterSpacing: ".5px",
+                      display: "flex",
+                      flexDirection: "column",
+                      backgroundColor: "#ffffff",
+                    }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        height: "100%",
-                      }}
+                    <AccordionSummary
+                      sx={{ maxHeight: "70px" }}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
                     >
                       <Box
-                        className="img"
                         sx={{
-                          mr: 2,
-                          padding: "5px",
-                          background: "#f2f6f8",
-                          border: "solid",
-                          borderColor: "#ecefee",
-                          borderWidth: "thin",
-                          borderRadius: "100%",
-                          height: "25px",
-                          width: "25px",
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "center",
+                          height: "100%",
                         }}
                       >
                         <Box
+                          className="img"
                           sx={{
-                            borderRadius: "100%",
+                            mr: 2,
+                            padding: "5px",
+                            background: "#f2f6f8",
+                            border: "solid",
                             borderColor: "#ecefee",
                             borderWidth: "thin",
-                            width: "100%",
+                            borderRadius: "100%",
                             height: "25px",
+                            width: "25px",
                             display: "flex",
-                            justifyContent: "center",
                             alignItems: "center",
+                            justifyContent: "center",
                           }}
                         >
-                          <p
-                            style={{
-                              color: "#6a96e9",
-                              fontWeight: 900,
-                              fontSize: "11px",
-                              letterSpacing: "1px",
+                          <Box
+                            sx={{
+                              borderRadius: "100%",
+                              borderColor: "#ecefee",
+                              borderWidth: "thin",
+                              width: "100%",
+                              height: "25px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
                             }}
                           >
-                            {prospects.customer.firstName.charAt(0)}
-                            {prospects.customer.lastName.charAt(0)}
+                            <p
+                              style={{
+                                color: "#6a96e9",
+                                fontWeight: 900,
+                                fontSize: "11px",
+                                letterSpacing: "1px",
+                              }}
+                            >
+                              {prospects.customer.firstName.charAt(0)}
+                              {prospects.customer.lastName.charAt(0)}
+                            </p>
+                          </Box>
+                        </Box>
+                        <Box sx={{ pl: 1 }}>
+                          <p
+                            style={{
+                              fontSize: "15px",
+                              fontWeight: 600,
+                              marginTop: "10px",
+                              color: "black",
+                            }}
+                          >
+                            {prospects.customer.firstName}{" "}
+                            {prospects.customer.lastName}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "12px",
+                              opacity: 0.5,
+                              marginTop: "0px",
+                              color: "black",
+                            }}
+                          >
+                            Project - {prospects.projectName}
                           </p>
                         </Box>
                       </Box>
-                      <Box sx={{ pl: 1 }}>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      sx={{
+                        borderTop: "dotted",
+                        borderWidth: "1px",
+                        borderColor: "#f7f6f9",
+                      }}
+                    >
+                      <Box>
                         <p
                           style={{
                             fontSize: "15px",
@@ -439,8 +476,7 @@ export const Deals = () => {
                             color: "black",
                           }}
                         >
-                          {prospects.customer.firstName}{" "}
-                          {prospects.customer.lastName}
+                          {prospects.projectName}
                         </p>
                         <p
                           style={{
@@ -450,437 +486,445 @@ export const Deals = () => {
                             color: "black",
                           }}
                         >
-                          Project - {prospects.projectName}
+                          The assigned seller for this deal is{" "}
+                          <strong
+                            style={{
+                              fontWeight: 900,
+                              textDecoration: "underline",
+                            }}
+                          >
+                            {prospects.seller.fullName}
+                          </strong>
+                          , with any inconvenience, he can be contacted down
+                          below
                         </p>
                       </Box>
-                    </Box>
-                  </AccordionSummary>
-                  <AccordionDetails
-                    sx={{
-                      borderTop: "dotted",
-                      borderWidth: "1px",
-                      borderColor: "#f7f6f9",
-                    }}
-                  >
-                    <Box>
-                      <p
-                        style={{
-                          fontSize: "15px",
-                          fontWeight: 600,
-                          marginTop: "10px",
-                          color: "black",
-                        }}
-                      >
-                        {prospects.projectName}
-                      </p>
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          opacity: 0.5,
-                          marginTop: "0px",
-                          color: "black",
-                        }}
-                      >
-                        The assigned seller for this deal is{" "}
-                        <strong
-                          style={{
-                            fontWeight: 900,
-                            textDecoration: "underline",
-                          }}
-                        >
-                          {prospects.seller.fullName}
-                        </strong>
-                        , with any inconvenience, he can be contacted down below
-                      </p>
-                    </Box>
-                    <Box>
-                      {prospects.subProspects.length > 1 ? (
-                        <>
-                          {prospects.subProspects.map((subProspects) => (
-                            <Accordion
-                              key={prospects.id}
-                              sx={{
-                                boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
-                                borderRadius: "5px",
-                                mb: 1,
-                                fontWeight: "950",
-                                letterSpacing: ".5px",
-                                display: "flex",
-                                flexDirection: "column",
-                                backgroundColor: "#ffffff",
-                              }}
-                            >
-                              <AccordionSummary
-                                sx={{ maxHeight: "70px", padding: 0 }}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
+                      <Box>
+                        {prospects.subProspects.length > 1 ? (
+                          <>
+                            {prospects.subProspects.map((subProspects) => (
+                              <Accordion
+                                key={prospects.id}
+                                sx={{
+                                  boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
+                                  borderRadius: "5px",
+                                  mb: 1,
+                                  fontWeight: "950",
+                                  letterSpacing: ".5px",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  backgroundColor: "#ffffff",
+                                }}
                               >
-                                <Box
+                                <AccordionSummary
+                                  sx={{ maxHeight: "70px", padding: 0 }}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      height: "100%",
+                                    }}
+                                  >
+                                    <Box sx={{ pl: 1 }}>
+                                      <p
+                                        style={{
+                                          fontSize: "12px",
+                                          opacity: 0.5,
+                                          marginTop: "0px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        Start Date -{" "}
+                                        {getDateOfWeek(
+                                          subProspects.startWeek,
+                                          subProspects.startYear
+                                        )}
+                                      </p>
+                                      <p
+                                        style={{
+                                          fontSize: "12px",
+                                          opacity: 0.5,
+                                          marginTop: "0px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        EndDate -{" "}
+                                        {getDateOfWeek(
+                                          subProspects.endWeek,
+                                          subProspects.endYear
+                                        )}
+                                      </p>
+                                    </Box>
+                                  </Box>
+                                </AccordionSummary>
+                                <AccordionDetails
                                   sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    height: "100%",
+                                    borderTop: "dotted",
+                                    borderWidth: "1px",
+                                    borderColor: "#f7f6f9",
                                   }}
                                 >
-                                  <Box sx={{ pl: 1 }}>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        opacity: 0.5,
-                                        marginTop: "0px",
-                                        color: "black",
+                                  <Box>
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
                                       }}
                                     >
-                                      Start Date -{" "}
-                                      {getDateOfWeek(
-                                        subProspects.startWeek,
-                                        subProspects.startYear
-                                      )}
-                                    </p>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        opacity: 0.5,
-                                        marginTop: "0px",
-                                        color: "black",
+                                      <Box sx={{ mr: 1 }}>
+                                        <NumbersOutlinedIcon
+                                          fontSize="inherit"
+                                          color="disabled"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <p
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            marginTop: "0px",
+                                            marginBlockStart: "0px",
+                                            marginBlockEnd: "0px",
+                                            color: "black",
+                                          }}
+                                        >
+                                          Number of Consultants
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "11px",
+                                            color: "black",
+                                            marginTop: "5px",
+                                            opacity: 0.5,
+                                          }}
+                                        >
+                                          {subProspects.numOfConsultants}{" "}
+                                          Consultants available
+                                        </p>
+                                      </Box>
+                                    </Box>
+
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
                                       }}
                                     >
-                                      EndDate -{" "}
-                                      {getDateOfWeek(
-                                        subProspects.endWeek,
-                                        subProspects.endYear
-                                      )}
-                                    </p>
-                                  </Box>
-                                </Box>
-                              </AccordionSummary>
-                              <AccordionDetails
-                                sx={{
-                                  borderTop: "dotted",
-                                  borderWidth: "1px",
-                                  borderColor: "#f7f6f9",
-                                }}
-                              >
-                                <Box>
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "flex-start",
-                                    }}
-                                  >
-                                    <Box sx={{ mr: 1 }}>
-                                      <NumbersOutlinedIcon
-                                        fontSize="inherit"
-                                        color="disabled"
-                                      />
-                                    </Box>
-                                    <Box>
-                                      <p
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          marginTop: "0px",
-                                          marginBlockStart: "0px",
-                                          marginBlockEnd: "0px",
-                                          color: "black",
-                                        }}
-                                      >
-                                        Number of Consultants
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "11px",
-                                          color: "black",
-                                          marginTop: "5px",
-                                          opacity: 0.5,
-                                        }}
-                                      >
-                                        {subProspects.numOfConsultants}{" "}
-                                        Consultants available
-                                      </p>
+                                      <Box sx={{ mr: 1 }}>
+                                        <PercentOutlinedIcon
+                                          fontSize="inherit"
+                                          color="disabled"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <p
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            marginTop: "0px",
+                                            marginBlockStart: "0px",
+                                            marginBlockEnd: "0px",
+                                            color: "black",
+                                          }}
+                                        >
+                                          Probability
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "11px",
+                                            color: "black",
+                                            marginTop: "5px",
+                                            opacity: 0.5,
+                                          }}
+                                        >
+                                          {subProspects.probability}% - Meeting
+                                          has been scheduled
+                                        </p>
+                                      </Box>
                                     </Box>
                                   </Box>
+                                </AccordionDetails>
+                              </Accordion>
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <NumbersOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Number of Consultants
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {prospects.subProspects[0].numOfConsultants}{" "}
+                                  Consultants available
+                                </p>
+                              </Box>
+                            </Box>
 
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "flex-start",
-                                    }}
-                                  >
-                                    <Box sx={{ mr: 1 }}>
-                                      <PercentOutlinedIcon
-                                        fontSize="inherit"
-                                        color="disabled"
-                                      />
-                                    </Box>
-                                    <Box>
-                                      <p
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          marginTop: "0px",
-                                          marginBlockStart: "0px",
-                                          marginBlockEnd: "0px",
-                                          color: "black",
-                                        }}
-                                      >
-                                        Probability
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "11px",
-                                          color: "black",
-                                          marginTop: "5px",
-                                          opacity: 0.5,
-                                        }}
-                                      >
-                                        {subProspects.probability}% - Meeting
-                                        has been scheduled
-                                      </p>
-                                    </Box>
-                                  </Box>
-                                </Box>
-                              </AccordionDetails>
-                            </Accordion>
-                          ))}
-                        </>
-                      ) : (
-                        <>
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <NumbersOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <HistoryOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Start Date
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {getDateOfWeek(
+                                    prospects.subProspects[0].startWeek,
+                                    prospects.subProspects[0].startYear
+                                  )}
+                                  , Week {prospects.subProspects[0].startWeek}
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Number of Consultants
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {prospects.subProspects[0].numOfConsultants}{" "}
-                                Consultants available
-                              </p>
-                            </Box>
-                          </Box>
 
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <HistoryOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <DoneOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  End Date
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {getDateOfWeek(
+                                    prospects.subProspects[0].endWeek,
+                                    prospects.subProspects[0].endYear
+                                  )}
+                                  , Week {prospects.subProspects[0].endWeek}
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Start Date
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {getDateOfWeek(
-                                  prospects.subProspects[0].startWeek,
-                                  prospects.subProspects[0].startYear
-                                )}
-                                , Week {prospects.subProspects[0].startWeek}
-                              </p>
-                            </Box>
-                          </Box>
 
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <DoneOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <PercentOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Probability
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {prospects.subProspects[0].probability}% -
+                                  Talks has begun
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                End Date
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {getDateOfWeek(
-                                  prospects.subProspects[0].endWeek,
-                                  prospects.subProspects[0].endYear
-                                )}
-                                , Week {prospects.subProspects[0].endWeek}
-                              </p>
-                            </Box>
-                          </Box>
-
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <PercentOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
-                            </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Probability
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {prospects.subProspects[0].probability}% - Talks
-                                has begun
-                              </p>
-                            </Box>
-                          </Box>
-                        </>
-                      )}
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
+                          </>
+                        )}
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                ) : (
+                  ""
+                )
               ) : (
                 ""
               )
-            ) : (
-              ""
-            )
-          )}
+            )}
         </Box>
 
         <Box sx={{ flexBasis: "22%" }}>
-          {data?.prospects.items.map((prospects) =>
-            prospects.subProspects.length > 0 ? (
-              prospects.subProspects[0].probability == 30 ? (
-                <Accordion
-                  key={prospects.id}
-                  sx={{
-                    boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
-                    borderRadius: "5px",
-                    mb: 1,
-                    fontWeight: "950",
-                    letterSpacing: ".5px",
-                    display: "flex",
-                    flexDirection: "column",
-                    backgroundColor: "#ffffff",
-                  }}
-                >
-                  <AccordionSummary
-                    sx={{ maxHeight: "70px" }}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
+          {data?.prospects.items
+            .filter((deals) =>
+              (deals.customer.firstName + " " + deals.customer.lastName)
+                .toLocaleLowerCase()
+                .includes(filter.toLocaleLowerCase())
+            )
+            .map((prospects) =>
+              prospects.subProspects.length > 0 ? (
+                prospects.subProspects[0].probability == 30 ? (
+                  <Accordion
+                    key={prospects.id}
+                    sx={{
+                      boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
+                      borderRadius: "5px",
+                      mb: 1,
+                      fontWeight: "950",
+                      letterSpacing: ".5px",
+                      display: "flex",
+                      flexDirection: "column",
+                      backgroundColor: "#ffffff",
+                    }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        height: "100%",
-                      }}
+                    <AccordionSummary
+                      sx={{ maxHeight: "70px" }}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
                     >
                       <Box
-                        className="img"
                         sx={{
-                          mr: 2,
-                          padding: "5px",
-                          background: "#f2f6f8",
-                          border: "solid",
-                          borderColor: "#ecefee",
-                          borderWidth: "thin",
-                          borderRadius: "100%",
-                          height: "25px",
-                          width: "25px",
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "center",
+                          height: "100%",
                         }}
                       >
                         <Box
+                          className="img"
                           sx={{
-                            borderRadius: "100%",
+                            mr: 2,
+                            padding: "5px",
+                            background: "#f2f6f8",
+                            border: "solid",
                             borderColor: "#ecefee",
                             borderWidth: "thin",
-                            width: "100%",
+                            borderRadius: "100%",
                             height: "25px",
+                            width: "25px",
                             display: "flex",
-                            justifyContent: "center",
                             alignItems: "center",
+                            justifyContent: "center",
                           }}
                         >
-                          <p
-                            style={{
-                              color: "#6a96e9",
-                              fontWeight: 900,
-                              fontSize: "11px",
-                              letterSpacing: "1px",
+                          <Box
+                            sx={{
+                              borderRadius: "100%",
+                              borderColor: "#ecefee",
+                              borderWidth: "thin",
+                              width: "100%",
+                              height: "25px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
                             }}
                           >
-                            {prospects.customer.firstName.charAt(0)}
-                            {prospects.customer.lastName.charAt(0)}
+                            <p
+                              style={{
+                                color: "#6a96e9",
+                                fontWeight: 900,
+                                fontSize: "11px",
+                                letterSpacing: "1px",
+                              }}
+                            >
+                              {prospects.customer.firstName.charAt(0)}
+                              {prospects.customer.lastName.charAt(0)}
+                            </p>
+                          </Box>
+                        </Box>
+                        <Box sx={{ pl: 1 }}>
+                          <p
+                            style={{
+                              fontSize: "15px",
+                              fontWeight: 600,
+                              marginTop: "10px",
+                              color: "black",
+                            }}
+                          >
+                            {prospects.customer.firstName}{" "}
+                            {prospects.customer.lastName}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "12px",
+                              opacity: 0.5,
+                              marginTop: "0px",
+                              color: "black",
+                            }}
+                          >
+                            Project - {prospects.projectName}
                           </p>
                         </Box>
                       </Box>
-                      <Box sx={{ pl: 1 }}>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      sx={{
+                        borderTop: "dotted",
+                        borderWidth: "1px",
+                        borderColor: "#f7f6f9",
+                      }}
+                    >
+                      <Box>
                         <p
                           style={{
                             fontSize: "15px",
@@ -889,8 +933,7 @@ export const Deals = () => {
                             color: "black",
                           }}
                         >
-                          {prospects.customer.firstName}{" "}
-                          {prospects.customer.lastName}
+                          {prospects.projectName}
                         </p>
                         <p
                           style={{
@@ -900,437 +943,445 @@ export const Deals = () => {
                             color: "black",
                           }}
                         >
-                          Project - {prospects.projectName}
+                          The assigned seller for this deal is{" "}
+                          <strong
+                            style={{
+                              fontWeight: 900,
+                              textDecoration: "underline",
+                            }}
+                          >
+                            {prospects.seller.fullName}
+                          </strong>
+                          , with any inconvenience, he can be contacted down
+                          below
                         </p>
                       </Box>
-                    </Box>
-                  </AccordionSummary>
-                  <AccordionDetails
-                    sx={{
-                      borderTop: "dotted",
-                      borderWidth: "1px",
-                      borderColor: "#f7f6f9",
-                    }}
-                  >
-                    <Box>
-                      <p
-                        style={{
-                          fontSize: "15px",
-                          fontWeight: 600,
-                          marginTop: "10px",
-                          color: "black",
-                        }}
-                      >
-                        {prospects.projectName}
-                      </p>
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          opacity: 0.5,
-                          marginTop: "0px",
-                          color: "black",
-                        }}
-                      >
-                        The assigned seller for this deal is{" "}
-                        <strong
-                          style={{
-                            fontWeight: 900,
-                            textDecoration: "underline",
-                          }}
-                        >
-                          {prospects.seller.fullName}
-                        </strong>
-                        , with any inconvenience, he can be contacted down below
-                      </p>
-                    </Box>
-                    <Box>
-                      {prospects.subProspects.length > 1 ? (
-                        <>
-                          {prospects.subProspects.map((subProspects) => (
-                            <Accordion
-                              key={prospects.id + "." + count++}
-                              sx={{
-                                boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
-                                borderRadius: "5px",
-                                mb: 1,
-                                fontWeight: "950",
-                                letterSpacing: ".5px",
-                                display: "flex",
-                                flexDirection: "column",
-                                backgroundColor: "#ffffff",
-                              }}
-                            >
-                              <AccordionSummary
-                                sx={{ maxHeight: "70px", padding: 0 }}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
+                      <Box>
+                        {prospects.subProspects.length > 1 ? (
+                          <>
+                            {prospects.subProspects.map((subProspects) => (
+                              <Accordion
+                                key={prospects.id + "." + count++}
+                                sx={{
+                                  boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
+                                  borderRadius: "5px",
+                                  mb: 1,
+                                  fontWeight: "950",
+                                  letterSpacing: ".5px",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  backgroundColor: "#ffffff",
+                                }}
                               >
-                                <Box
+                                <AccordionSummary
+                                  sx={{ maxHeight: "70px", padding: 0 }}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      height: "100%",
+                                    }}
+                                  >
+                                    <Box sx={{ pl: 1 }}>
+                                      <p
+                                        style={{
+                                          fontSize: "12px",
+                                          opacity: 0.5,
+                                          marginTop: "0px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        StartDate -{" "}
+                                        {getDateOfWeek(
+                                          subProspects.startWeek,
+                                          subProspects.startYear
+                                        )}
+                                      </p>
+                                      <p
+                                        style={{
+                                          fontSize: "12px",
+                                          opacity: 0.5,
+                                          marginTop: "0px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        EndDate -{" "}
+                                        {getDateOfWeek(
+                                          subProspects.endWeek,
+                                          subProspects.endYear
+                                        )}
+                                      </p>
+                                    </Box>
+                                  </Box>
+                                </AccordionSummary>
+                                <AccordionDetails
                                   sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    height: "100%",
+                                    borderTop: "dotted",
+                                    borderWidth: "1px",
+                                    borderColor: "#f7f6f9",
                                   }}
                                 >
-                                  <Box sx={{ pl: 1 }}>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        opacity: 0.5,
-                                        marginTop: "0px",
-                                        color: "black",
+                                  <Box>
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
                                       }}
                                     >
-                                      StartDate -{" "}
-                                      {getDateOfWeek(
-                                        subProspects.startWeek,
-                                        subProspects.startYear
-                                      )}
-                                    </p>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        opacity: 0.5,
-                                        marginTop: "0px",
-                                        color: "black",
+                                      <Box sx={{ mr: 1 }}>
+                                        <NumbersOutlinedIcon
+                                          fontSize="inherit"
+                                          color="disabled"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <p
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            marginTop: "0px",
+                                            marginBlockStart: "0px",
+                                            marginBlockEnd: "0px",
+                                            color: "black",
+                                          }}
+                                        >
+                                          Number of Consultants
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "11px",
+                                            color: "black",
+                                            marginTop: "5px",
+                                            opacity: 0.5,
+                                          }}
+                                        >
+                                          {subProspects.numOfConsultants}{" "}
+                                          Consultants available
+                                        </p>
+                                      </Box>
+                                    </Box>
+
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
                                       }}
                                     >
-                                      EndDate -{" "}
-                                      {getDateOfWeek(
-                                        subProspects.endWeek,
-                                        subProspects.endYear
-                                      )}
-                                    </p>
-                                  </Box>
-                                </Box>
-                              </AccordionSummary>
-                              <AccordionDetails
-                                sx={{
-                                  borderTop: "dotted",
-                                  borderWidth: "1px",
-                                  borderColor: "#f7f6f9",
-                                }}
-                              >
-                                <Box>
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "flex-start",
-                                    }}
-                                  >
-                                    <Box sx={{ mr: 1 }}>
-                                      <NumbersOutlinedIcon
-                                        fontSize="inherit"
-                                        color="disabled"
-                                      />
-                                    </Box>
-                                    <Box>
-                                      <p
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          marginTop: "0px",
-                                          marginBlockStart: "0px",
-                                          marginBlockEnd: "0px",
-                                          color: "black",
-                                        }}
-                                      >
-                                        Number of Consultants
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "11px",
-                                          color: "black",
-                                          marginTop: "5px",
-                                          opacity: 0.5,
-                                        }}
-                                      >
-                                        {subProspects.numOfConsultants}{" "}
-                                        Consultants available
-                                      </p>
+                                      <Box sx={{ mr: 1 }}>
+                                        <PercentOutlinedIcon
+                                          fontSize="inherit"
+                                          color="disabled"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <p
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            marginTop: "0px",
+                                            marginBlockStart: "0px",
+                                            marginBlockEnd: "0px",
+                                            color: "black",
+                                          }}
+                                        >
+                                          Probability
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "11px",
+                                            color: "black",
+                                            marginTop: "5px",
+                                            opacity: 0.5,
+                                          }}
+                                        >
+                                          {subProspects.probability}% - Customer
+                                          needs identified
+                                        </p>
+                                      </Box>
                                     </Box>
                                   </Box>
+                                </AccordionDetails>
+                              </Accordion>
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <NumbersOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Number of Consultants
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {prospects.subProspects[0].numOfConsultants}{" "}
+                                  Consultants available
+                                </p>
+                              </Box>
+                            </Box>
 
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "flex-start",
-                                    }}
-                                  >
-                                    <Box sx={{ mr: 1 }}>
-                                      <PercentOutlinedIcon
-                                        fontSize="inherit"
-                                        color="disabled"
-                                      />
-                                    </Box>
-                                    <Box>
-                                      <p
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          marginTop: "0px",
-                                          marginBlockStart: "0px",
-                                          marginBlockEnd: "0px",
-                                          color: "black",
-                                        }}
-                                      >
-                                        Probability
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "11px",
-                                          color: "black",
-                                          marginTop: "5px",
-                                          opacity: 0.5,
-                                        }}
-                                      >
-                                        {subProspects.probability}% - Customer
-                                        needs identified
-                                      </p>
-                                    </Box>
-                                  </Box>
-                                </Box>
-                              </AccordionDetails>
-                            </Accordion>
-                          ))}
-                        </>
-                      ) : (
-                        <>
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <NumbersOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <HistoryOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Start Date
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {getDateOfWeek(
+                                    prospects.subProspects[0].startWeek,
+                                    prospects.subProspects[0].startYear
+                                  )}
+                                  , Week {prospects.subProspects[0].startWeek}
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Number of Consultants
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {prospects.subProspects[0].numOfConsultants}{" "}
-                                Consultants available
-                              </p>
-                            </Box>
-                          </Box>
 
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <HistoryOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <DoneOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  End Date
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {getDateOfWeek(
+                                    prospects.subProspects[0].endWeek,
+                                    prospects.subProspects[0].endYear
+                                  )}
+                                  , Week {prospects.subProspects[0].endWeek}
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Start Date
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {getDateOfWeek(
-                                  prospects.subProspects[0].startWeek,
-                                  prospects.subProspects[0].startYear
-                                )}
-                                , Week {prospects.subProspects[0].startWeek}
-                              </p>
-                            </Box>
-                          </Box>
 
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <DoneOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <PercentOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Probability
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {prospects.subProspects[0].probability}% -
+                                  Talks has begun
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                End Date
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {getDateOfWeek(
-                                  prospects.subProspects[0].endWeek,
-                                  prospects.subProspects[0].endYear
-                                )}
-                                , Week {prospects.subProspects[0].endWeek}
-                              </p>
-                            </Box>
-                          </Box>
-
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <PercentOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
-                            </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Probability
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {prospects.subProspects[0].probability}% - Talks
-                                has begun
-                              </p>
-                            </Box>
-                          </Box>
-                        </>
-                      )}
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
+                          </>
+                        )}
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                ) : (
+                  ""
+                )
               ) : (
                 ""
               )
-            ) : (
-              ""
-            )
-          )}
+            )}
         </Box>
 
         <Box sx={{ flexBasis: "22%" }}>
-          {data?.prospects.items.map((prospects) =>
-            prospects.subProspects.length > 0 ? (
-              prospects.subProspects[0].probability == 70 ? (
-                <Accordion
-                  key={prospects.id}
-                  sx={{
-                    boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
-                    borderRadius: "5px",
-                    mb: 1,
-                    fontWeight: "950",
-                    letterSpacing: ".5px",
-                    display: "flex",
-                    flexDirection: "column",
-                    backgroundColor: "#ffffff",
-                  }}
-                >
-                  <AccordionSummary
-                    sx={{ maxHeight: "70px" }}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
+          {data?.prospects.items
+            .filter((deals) =>
+              (deals.customer.firstName + " " + deals.customer.lastName)
+                .toLocaleLowerCase()
+                .includes(filter.toLocaleLowerCase())
+            )
+            .map((prospects) =>
+              prospects.subProspects.length > 0 ? (
+                prospects.subProspects[0].probability == 70 ? (
+                  <Accordion
+                    key={prospects.id}
+                    sx={{
+                      boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
+                      borderRadius: "5px",
+                      mb: 1,
+                      fontWeight: "950",
+                      letterSpacing: ".5px",
+                      display: "flex",
+                      flexDirection: "column",
+                      backgroundColor: "#ffffff",
+                    }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        height: "100%",
-                      }}
+                    <AccordionSummary
+                      sx={{ maxHeight: "70px" }}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
                     >
                       <Box
-                        className="img"
                         sx={{
-                          mr: 2,
-                          padding: "5px",
-                          background: "#f2f6f8",
-                          border: "solid",
-                          borderColor: "#ecefee",
-                          borderWidth: "thin",
-                          borderRadius: "100%",
-                          height: "25px",
-                          width: "25px",
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "center",
+                          height: "100%",
                         }}
                       >
                         <Box
+                          className="img"
                           sx={{
-                            borderRadius: "100%",
+                            mr: 2,
+                            padding: "5px",
+                            background: "#f2f6f8",
+                            border: "solid",
                             borderColor: "#ecefee",
                             borderWidth: "thin",
-                            width: "100%",
+                            borderRadius: "100%",
                             height: "25px",
+                            width: "25px",
                             display: "flex",
-                            justifyContent: "center",
                             alignItems: "center",
+                            justifyContent: "center",
                           }}
                         >
-                          <p
-                            style={{
-                              color: "#6a96e9",
-                              fontWeight: 900,
-                              fontSize: "11px",
-                              letterSpacing: "1px",
+                          <Box
+                            sx={{
+                              borderRadius: "100%",
+                              borderColor: "#ecefee",
+                              borderWidth: "thin",
+                              width: "100%",
+                              height: "25px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
                             }}
                           >
-                            {prospects.customer.firstName.charAt(0)}
-                            {prospects.customer.lastName.charAt(0)}
+                            <p
+                              style={{
+                                color: "#6a96e9",
+                                fontWeight: 900,
+                                fontSize: "11px",
+                                letterSpacing: "1px",
+                              }}
+                            >
+                              {prospects.customer.firstName.charAt(0)}
+                              {prospects.customer.lastName.charAt(0)}
+                            </p>
+                          </Box>
+                        </Box>
+                        <Box sx={{ pl: 1 }}>
+                          <p
+                            style={{
+                              fontSize: "15px",
+                              fontWeight: 600,
+                              marginTop: "10px",
+                              color: "black",
+                            }}
+                          >
+                            {prospects.customer.firstName}{" "}
+                            {prospects.customer.lastName}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "12px",
+                              opacity: 0.5,
+                              marginTop: "0px",
+                              color: "black",
+                            }}
+                          >
+                            Project - {prospects.projectName}
                           </p>
                         </Box>
                       </Box>
-                      <Box sx={{ pl: 1 }}>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      sx={{
+                        borderTop: "dotted",
+                        borderWidth: "1px",
+                        borderColor: "#f7f6f9",
+                      }}
+                    >
+                      <Box>
                         <p
                           style={{
                             fontSize: "15px",
@@ -1339,8 +1390,7 @@ export const Deals = () => {
                             color: "black",
                           }}
                         >
-                          {prospects.customer.firstName}{" "}
-                          {prospects.customer.lastName}
+                          {prospects.projectName}
                         </p>
                         <p
                           style={{
@@ -1350,437 +1400,445 @@ export const Deals = () => {
                             color: "black",
                           }}
                         >
-                          Project - {prospects.projectName}
+                          The assigned seller for this deal is{" "}
+                          <strong
+                            style={{
+                              fontWeight: 900,
+                              textDecoration: "underline",
+                            }}
+                          >
+                            {prospects.seller.fullName}
+                          </strong>
+                          , with any inconvenience, he can be contacted down
+                          below
                         </p>
                       </Box>
-                    </Box>
-                  </AccordionSummary>
-                  <AccordionDetails
-                    sx={{
-                      borderTop: "dotted",
-                      borderWidth: "1px",
-                      borderColor: "#f7f6f9",
-                    }}
-                  >
-                    <Box>
-                      <p
-                        style={{
-                          fontSize: "15px",
-                          fontWeight: 600,
-                          marginTop: "10px",
-                          color: "black",
-                        }}
-                      >
-                        {prospects.projectName}
-                      </p>
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          opacity: 0.5,
-                          marginTop: "0px",
-                          color: "black",
-                        }}
-                      >
-                        The assigned seller for this deal is{" "}
-                        <strong
-                          style={{
-                            fontWeight: 900,
-                            textDecoration: "underline",
-                          }}
-                        >
-                          {prospects.seller.fullName}
-                        </strong>
-                        , with any inconvenience, he can be contacted down below
-                      </p>
-                    </Box>
-                    <Box>
-                      {prospects.subProspects.length > 1 ? (
-                        <>
-                          {prospects.subProspects.map((subProspects) => (
-                            <Accordion
-                              key={prospects.id}
-                              sx={{
-                                boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
-                                borderRadius: "5px",
-                                mb: 1,
-                                fontWeight: "950",
-                                letterSpacing: ".5px",
-                                display: "flex",
-                                flexDirection: "column",
-                                backgroundColor: "#ffffff",
-                              }}
-                            >
-                              <AccordionSummary
-                                sx={{ maxHeight: "70px", padding: 0 }}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
+                      <Box>
+                        {prospects.subProspects.length > 1 ? (
+                          <>
+                            {prospects.subProspects.map((subProspects) => (
+                              <Accordion
+                                key={prospects.id}
+                                sx={{
+                                  boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
+                                  borderRadius: "5px",
+                                  mb: 1,
+                                  fontWeight: "950",
+                                  letterSpacing: ".5px",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  backgroundColor: "#ffffff",
+                                }}
                               >
-                                <Box
+                                <AccordionSummary
+                                  sx={{ maxHeight: "70px", padding: 0 }}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      height: "100%",
+                                    }}
+                                  >
+                                    <Box sx={{ pl: 1 }}>
+                                      <p
+                                        style={{
+                                          fontSize: "12px",
+                                          opacity: 0.5,
+                                          marginTop: "0px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        StartDate -{" "}
+                                        {getDateOfWeek(
+                                          subProspects.startWeek,
+                                          subProspects.startYear
+                                        )}
+                                      </p>
+                                      <p
+                                        style={{
+                                          fontSize: "12px",
+                                          opacity: 0.5,
+                                          marginTop: "0px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        EndDate -{" "}
+                                        {getDateOfWeek(
+                                          subProspects.endWeek,
+                                          subProspects.endYear
+                                        )}
+                                      </p>
+                                    </Box>
+                                  </Box>
+                                </AccordionSummary>
+                                <AccordionDetails
                                   sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    height: "100%",
+                                    borderTop: "dotted",
+                                    borderWidth: "1px",
+                                    borderColor: "#f7f6f9",
                                   }}
                                 >
-                                  <Box sx={{ pl: 1 }}>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        opacity: 0.5,
-                                        marginTop: "0px",
-                                        color: "black",
+                                  <Box>
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
                                       }}
                                     >
-                                      StartDate -{" "}
-                                      {getDateOfWeek(
-                                        subProspects.startWeek,
-                                        subProspects.startYear
-                                      )}
-                                    </p>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        opacity: 0.5,
-                                        marginTop: "0px",
-                                        color: "black",
+                                      <Box sx={{ mr: 1 }}>
+                                        <NumbersOutlinedIcon
+                                          fontSize="inherit"
+                                          color="disabled"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <p
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            marginTop: "0px",
+                                            marginBlockStart: "0px",
+                                            marginBlockEnd: "0px",
+                                            color: "black",
+                                          }}
+                                        >
+                                          Number of Consultants
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "11px",
+                                            color: "black",
+                                            marginTop: "5px",
+                                            opacity: 0.5,
+                                          }}
+                                        >
+                                          {subProspects.numOfConsultants}{" "}
+                                          Consultants available
+                                        </p>
+                                      </Box>
+                                    </Box>
+
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
                                       }}
                                     >
-                                      EndDate -{" "}
-                                      {getDateOfWeek(
-                                        subProspects.endWeek,
-                                        subProspects.endYear
-                                      )}
-                                    </p>
-                                  </Box>
-                                </Box>
-                              </AccordionSummary>
-                              <AccordionDetails
-                                sx={{
-                                  borderTop: "dotted",
-                                  borderWidth: "1px",
-                                  borderColor: "#f7f6f9",
-                                }}
-                              >
-                                <Box>
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "flex-start",
-                                    }}
-                                  >
-                                    <Box sx={{ mr: 1 }}>
-                                      <NumbersOutlinedIcon
-                                        fontSize="inherit"
-                                        color="disabled"
-                                      />
-                                    </Box>
-                                    <Box>
-                                      <p
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          marginTop: "0px",
-                                          marginBlockStart: "0px",
-                                          marginBlockEnd: "0px",
-                                          color: "black",
-                                        }}
-                                      >
-                                        Number of Consultants
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "11px",
-                                          color: "black",
-                                          marginTop: "5px",
-                                          opacity: 0.5,
-                                        }}
-                                      >
-                                        {subProspects.numOfConsultants}{" "}
-                                        Consultants available
-                                      </p>
+                                      <Box sx={{ mr: 1 }}>
+                                        <PercentOutlinedIcon
+                                          fontSize="inherit"
+                                          color="disabled"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <p
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            marginTop: "0px",
+                                            marginBlockStart: "0px",
+                                            marginBlockEnd: "0px",
+                                            color: "black",
+                                          }}
+                                        >
+                                          Probability
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "11px",
+                                            color: "black",
+                                            marginTop: "5px",
+                                            opacity: 0.5,
+                                          }}
+                                        >
+                                          {subProspects.probability}% - Talks
+                                          has begun
+                                        </p>
+                                      </Box>
                                     </Box>
                                   </Box>
+                                </AccordionDetails>
+                              </Accordion>
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <NumbersOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Number of Consultants
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {prospects.subProspects[0].numOfConsultants}{" "}
+                                  Consultants available
+                                </p>
+                              </Box>
+                            </Box>
 
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "flex-start",
-                                    }}
-                                  >
-                                    <Box sx={{ mr: 1 }}>
-                                      <PercentOutlinedIcon
-                                        fontSize="inherit"
-                                        color="disabled"
-                                      />
-                                    </Box>
-                                    <Box>
-                                      <p
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          marginTop: "0px",
-                                          marginBlockStart: "0px",
-                                          marginBlockEnd: "0px",
-                                          color: "black",
-                                        }}
-                                      >
-                                        Probability
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "11px",
-                                          color: "black",
-                                          marginTop: "5px",
-                                          opacity: 0.5,
-                                        }}
-                                      >
-                                        {subProspects.probability}% - Talks has
-                                        begun
-                                      </p>
-                                    </Box>
-                                  </Box>
-                                </Box>
-                              </AccordionDetails>
-                            </Accordion>
-                          ))}
-                        </>
-                      ) : (
-                        <>
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <NumbersOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <HistoryOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Start Date
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {getDateOfWeek(
+                                    prospects.subProspects[0].startWeek,
+                                    prospects.subProspects[0].startYear
+                                  )}
+                                  , Week {prospects.subProspects[0].startWeek}
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Number of Consultants
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {prospects.subProspects[0].numOfConsultants}{" "}
-                                Consultants available
-                              </p>
-                            </Box>
-                          </Box>
 
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <HistoryOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <DoneOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  End Date
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {getDateOfWeek(
+                                    prospects.subProspects[0].endWeek,
+                                    prospects.subProspects[0].endYear
+                                  )}
+                                  , Week {prospects.subProspects[0].endWeek}
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Start Date
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {getDateOfWeek(
-                                  prospects.subProspects[0].startWeek,
-                                  prospects.subProspects[0].startYear
-                                )}
-                                , Week {prospects.subProspects[0].startWeek}
-                              </p>
-                            </Box>
-                          </Box>
 
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <DoneOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <PercentOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Probability
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {prospects.subProspects[0].probability}% -
+                                  Talks has begun
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                End Date
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {getDateOfWeek(
-                                  prospects.subProspects[0].endWeek,
-                                  prospects.subProspects[0].endYear
-                                )}
-                                , Week {prospects.subProspects[0].endWeek}
-                              </p>
-                            </Box>
-                          </Box>
-
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <PercentOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
-                            </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Probability
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {prospects.subProspects[0].probability}% - Talks
-                                has begun
-                              </p>
-                            </Box>
-                          </Box>
-                        </>
-                      )}
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
+                          </>
+                        )}
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                ) : (
+                  ""
+                )
               ) : (
                 ""
               )
-            ) : (
-              ""
-            )
-          )}
+            )}
         </Box>
 
         <Box sx={{ flexBasis: "22%" }}>
-          {data?.prospects.items.map((prospects) =>
-            prospects.subProspects.length > 0 ? (
-              prospects.subProspects[0].probability == 100 ? (
-                <Accordion
-                  key={prospects.id}
-                  sx={{
-                    boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
-                    borderRadius: "5px",
-                    mb: 1,
-                    fontWeight: "950",
-                    letterSpacing: ".5px",
-                    display: "flex",
-                    flexDirection: "column",
-                    backgroundColor: "#ffffff",
-                  }}
-                >
-                  <AccordionSummary
-                    sx={{ maxHeight: "70px" }}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
+          {data?.prospects.items
+            .filter((deals) =>
+              (deals.customer.firstName + " " + deals.customer.lastName)
+                .toLocaleLowerCase()
+                .includes(filter.toLocaleLowerCase())
+            )
+            .map((prospects) =>
+              prospects.subProspects.length > 0 ? (
+                prospects.subProspects[0].probability == 100 ? (
+                  <Accordion
+                    key={prospects.id}
+                    sx={{
+                      boxShadow: "0px 0px 3px 0px rgba(0,0,0,0.1)",
+                      borderRadius: "5px",
+                      mb: 1,
+                      fontWeight: "950",
+                      letterSpacing: ".5px",
+                      display: "flex",
+                      flexDirection: "column",
+                      backgroundColor: "#ffffff",
+                    }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        height: "100%",
-                      }}
+                    <AccordionSummary
+                      sx={{ maxHeight: "70px" }}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
                     >
                       <Box
-                        className="img"
                         sx={{
-                          mr: 2,
-                          padding: "5px",
-                          background: "#f2f6f8",
-                          border: "solid",
-                          borderColor: "#ecefee",
-                          borderWidth: "thin",
-                          borderRadius: "100%",
-                          height: "25px",
-                          width: "25px",
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "center",
+                          height: "100%",
                         }}
                       >
                         <Box
+                          className="img"
                           sx={{
-                            borderRadius: "100%",
+                            mr: 2,
+                            padding: "5px",
+                            background: "#f2f6f8",
+                            border: "solid",
                             borderColor: "#ecefee",
                             borderWidth: "thin",
-                            width: "100%",
+                            borderRadius: "100%",
                             height: "25px",
+                            width: "25px",
                             display: "flex",
-                            justifyContent: "center",
                             alignItems: "center",
+                            justifyContent: "center",
                           }}
                         >
-                          <p
-                            style={{
-                              color: "#6a96e9",
-                              fontWeight: 900,
-                              fontSize: "11px",
-                              letterSpacing: "1px",
+                          <Box
+                            sx={{
+                              borderRadius: "100%",
+                              borderColor: "#ecefee",
+                              borderWidth: "thin",
+                              width: "100%",
+                              height: "25px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
                             }}
                           >
-                            {prospects.customer.firstName.charAt(0)}
-                            {prospects.customer.lastName.charAt(0)}
+                            <p
+                              style={{
+                                color: "#6a96e9",
+                                fontWeight: 900,
+                                fontSize: "11px",
+                                letterSpacing: "1px",
+                              }}
+                            >
+                              {prospects.customer.firstName.charAt(0)}
+                              {prospects.customer.lastName.charAt(0)}
+                            </p>
+                          </Box>
+                        </Box>
+                        <Box sx={{ pl: 1 }}>
+                          <p
+                            style={{
+                              fontSize: "15px",
+                              fontWeight: 600,
+                              marginTop: "10px",
+                              color: "black",
+                            }}
+                          >
+                            {prospects.customer.firstName}{" "}
+                            {prospects.customer.lastName}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "12px",
+                              opacity: 0.5,
+                              marginTop: "0px",
+                              color: "black",
+                            }}
+                          >
+                            Project - {prospects.projectName}
                           </p>
                         </Box>
                       </Box>
-                      <Box sx={{ pl: 1 }}>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      sx={{
+                        borderTop: "dotted",
+                        borderWidth: "1px",
+                        borderColor: "#f7f6f9",
+                      }}
+                    >
+                      <Box>
                         <p
                           style={{
                             fontSize: "15px",
@@ -1789,8 +1847,7 @@ export const Deals = () => {
                             color: "black",
                           }}
                         >
-                          {prospects.customer.firstName}{" "}
-                          {prospects.customer.lastName}
+                          {prospects.projectName}
                         </p>
                         <p
                           style={{
@@ -1800,364 +1857,334 @@ export const Deals = () => {
                             color: "black",
                           }}
                         >
-                          Project - {prospects.projectName}
+                          The assigned seller for this deal is{" "}
+                          <strong
+                            style={{
+                              fontWeight: 900,
+                              textDecoration: "underline",
+                            }}
+                          >
+                            {prospects.seller.fullName}
+                          </strong>
+                          , with any inconvenience, he can be contacted down
+                          below
                         </p>
                       </Box>
-                    </Box>
-                  </AccordionSummary>
-                  <AccordionDetails
-                    sx={{
-                      borderTop: "dotted",
-                      borderWidth: "1px",
-                      borderColor: "#f7f6f9",
-                    }}
-                  >
-                    <Box>
-                      <p
-                        style={{
-                          fontSize: "15px",
-                          fontWeight: 600,
-                          marginTop: "10px",
-                          color: "black",
-                        }}
-                      >
-                        {prospects.projectName}
-                      </p>
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          opacity: 0.5,
-                          marginTop: "0px",
-                          color: "black",
-                        }}
-                      >
-                        The assigned seller for this deal is{" "}
-                        <strong
-                          style={{
-                            fontWeight: 900,
-                            textDecoration: "underline",
-                          }}
-                        >
-                          {prospects.seller.fullName}
-                        </strong>
-                        , with any inconvenience, he can be contacted down below
-                      </p>
-                    </Box>
-                    <Box>
-                      {prospects.subProspects.length > 1 ? (
-                        <>
-                          {prospects.subProspects.map((subProspects) => (
-                            <Accordion
-                              key={prospects.id}
-                              sx={{
-                                boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
-                                borderRadius: "5px",
-                                mb: 1,
-                                fontWeight: "950",
-                                letterSpacing: ".5px",
-                                display: "flex",
-                                flexDirection: "column",
-                                backgroundColor: "#ffffff",
-                              }}
-                            >
-                              <AccordionSummary
-                                sx={{ maxHeight: "70px", padding: 0 }}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
+                      <Box>
+                        {prospects.subProspects.length > 1 ? (
+                          <>
+                            {prospects.subProspects.map((subProspects) => (
+                              <Accordion
+                                key={prospects.id}
+                                sx={{
+                                  boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
+                                  borderRadius: "5px",
+                                  mb: 1,
+                                  fontWeight: "950",
+                                  letterSpacing: ".5px",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  backgroundColor: "#ffffff",
+                                }}
                               >
-                                <Box
+                                <AccordionSummary
+                                  sx={{ maxHeight: "70px", padding: 0 }}
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                >
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      height: "100%",
+                                    }}
+                                  >
+                                    <Box sx={{ pl: 1 }}>
+                                      <p
+                                        style={{
+                                          fontSize: "12px",
+                                          opacity: 0.5,
+                                          marginTop: "0px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        Start Date -{" "}
+                                        {getDateOfWeek(
+                                          subProspects.startWeek,
+                                          subProspects.startYear
+                                        )}
+                                      </p>
+                                      <p
+                                        style={{
+                                          fontSize: "12px",
+                                          opacity: 0.5,
+                                          marginTop: "0px",
+                                          color: "black",
+                                        }}
+                                      >
+                                        EndDate -{" "}
+                                        {getDateOfWeek(
+                                          subProspects.endWeek,
+                                          subProspects.endYear
+                                        )}
+                                      </p>
+                                    </Box>
+                                  </Box>
+                                </AccordionSummary>
+                                <AccordionDetails
                                   sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    height: "100%",
+                                    borderTop: "dotted",
+                                    borderWidth: "1px",
+                                    borderColor: "#f7f6f9",
+                                    margin: "0px",
                                   }}
                                 >
-                                  <Box sx={{ pl: 1 }}>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        opacity: 0.5,
-                                        marginTop: "0px",
-                                        color: "black",
+                                  <Box>
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
                                       }}
                                     >
-                                      Start Date -{" "}
-                                      {getDateOfWeek(
-                                        subProspects.startWeek,
-                                        subProspects.startYear
-                                      )}
-                                    </p>
-                                    <p
-                                      style={{
-                                        fontSize: "12px",
-                                        opacity: 0.5,
-                                        marginTop: "0px",
-                                        color: "black",
+                                      <Box sx={{ mr: 1 }}>
+                                        <NumbersOutlinedIcon
+                                          fontSize="inherit"
+                                          color="disabled"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <p
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            marginTop: "0px",
+                                            marginBlockStart: "0px",
+                                            marginBlockEnd: "0px",
+                                            color: "black",
+                                          }}
+                                        >
+                                          Number of Consultants
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "11px",
+                                            color: "black",
+                                            marginTop: "5px",
+                                            opacity: 0.5,
+                                          }}
+                                        >
+                                          {subProspects.numOfConsultants}{" "}
+                                          Consultants available
+                                        </p>
+                                      </Box>
+                                    </Box>
+
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
                                       }}
                                     >
-                                      EndDate -{" "}
-                                      {getDateOfWeek(
-                                        subProspects.endWeek,
-                                        subProspects.endYear
-                                      )}
-                                    </p>
-                                  </Box>
-                                </Box>
-                              </AccordionSummary>
-                              <AccordionDetails
-                                sx={{
-                                  borderTop: "dotted",
-                                  borderWidth: "1px",
-                                  borderColor: "#f7f6f9",
-                                  margin: "0px",
-                                }}
-                              >
-                                <Box>
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "flex-start",
-                                    }}
-                                  >
-                                    <Box sx={{ mr: 1 }}>
-                                      <NumbersOutlinedIcon
-                                        fontSize="inherit"
-                                        color="disabled"
-                                      />
-                                    </Box>
-                                    <Box>
-                                      <p
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          marginTop: "0px",
-                                          marginBlockStart: "0px",
-                                          marginBlockEnd: "0px",
-                                          color: "black",
-                                        }}
-                                      >
-                                        Number of Consultants
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "11px",
-                                          color: "black",
-                                          marginTop: "5px",
-                                          opacity: 0.5,
-                                        }}
-                                      >
-                                        {subProspects.numOfConsultants}{" "}
-                                        Consultants available
-                                      </p>
+                                      <Box sx={{ mr: 1 }}>
+                                        <PercentOutlinedIcon
+                                          fontSize="inherit"
+                                          color="disabled"
+                                        />
+                                      </Box>
+                                      <Box>
+                                        <p
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            marginTop: "0px",
+                                            marginBlockStart: "0px",
+                                            marginBlockEnd: "0px",
+                                            color: "black",
+                                          }}
+                                        >
+                                          Probability
+                                        </p>
+                                        <p
+                                          style={{
+                                            fontSize: "11px",
+                                            color: "black",
+                                            marginTop: "5px",
+                                            opacity: 0.5,
+                                          }}
+                                        >
+                                          {subProspects.probability}% - Deal has
+                                          been completed
+                                        </p>
+                                      </Box>
                                     </Box>
                                   </Box>
+                                </AccordionDetails>
+                              </Accordion>
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <NumbersOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Number of Consultants
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {prospects.subProspects[0].numOfConsultants}{" "}
+                                  Consultants available
+                                </p>
+                              </Box>
+                            </Box>
 
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "flex-start",
-                                    }}
-                                  >
-                                    <Box sx={{ mr: 1 }}>
-                                      <PercentOutlinedIcon
-                                        fontSize="inherit"
-                                        color="disabled"
-                                      />
-                                    </Box>
-                                    <Box>
-                                      <p
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          marginTop: "0px",
-                                          marginBlockStart: "0px",
-                                          marginBlockEnd: "0px",
-                                          color: "black",
-                                        }}
-                                      >
-                                        Probability
-                                      </p>
-                                      <p
-                                        style={{
-                                          fontSize: "11px",
-                                          color: "black",
-                                          marginTop: "5px",
-                                          opacity: 0.5,
-                                        }}
-                                      >
-                                        {subProspects.probability}% - Deal has
-                                        been completed
-                                      </p>
-                                    </Box>
-                                  </Box>
-                                </Box>
-                              </AccordionDetails>
-                            </Accordion>
-                          ))}
-                        </>
-                      ) : (
-                        <>
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <NumbersOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <HistoryOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Start Date
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {getDateOfWeek(
+                                    prospects.subProspects[0].startWeek,
+                                    prospects.subProspects[0].startYear
+                                  )}
+                                  , Week {prospects.subProspects[0].startWeek}
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Number of Consultants
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {prospects.subProspects[0].numOfConsultants}{" "}
-                                Consultants available
-                              </p>
-                            </Box>
-                          </Box>
 
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <HistoryOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <DoneOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  End Date
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {getDateOfWeek(
+                                    prospects.subProspects[0].endWeek,
+                                    prospects.subProspects[0].endYear
+                                  )}
+                                  , Week {prospects.subProspects[0].endWeek}
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Start Date
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {getDateOfWeek(
-                                  prospects.subProspects[0].startWeek,
-                                  prospects.subProspects[0].startYear
-                                )}
-                                , Week {prospects.subProspects[0].startWeek}
-                              </p>
-                            </Box>
-                          </Box>
 
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <DoneOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
+                            <Box
+                              sx={{ display: "flex", alignItems: "flex-start" }}
+                            >
+                              <Box sx={{ mr: 1 }}>
+                                <PercentOutlinedIcon
+                                  fontSize="inherit"
+                                  color="disabled"
+                                />
+                              </Box>
+                              <Box>
+                                <p
+                                  style={{
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                    marginTop: "0px",
+                                    marginBlockStart: "0px",
+                                    marginBlockEnd: "0px",
+                                    color: "black",
+                                  }}
+                                >
+                                  Probability
+                                </p>
+                                <p
+                                  style={{
+                                    fontSize: "11px",
+                                    color: "black",
+                                    marginTop: "5px",
+                                    opacity: 0.5,
+                                  }}
+                                >
+                                  {prospects.subProspects[0].probability}% -
+                                  Talks has begun
+                                </p>
+                              </Box>
                             </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                End Date
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {getDateOfWeek(
-                                  prospects.subProspects[0].endWeek,
-                                  prospects.subProspects[0].endYear
-                                )}
-                                , Week {prospects.subProspects[0].endWeek}
-                              </p>
-                            </Box>
-                          </Box>
-
-                          <Box
-                            sx={{ display: "flex", alignItems: "flex-start" }}
-                          >
-                            <Box sx={{ mr: 1 }}>
-                              <PercentOutlinedIcon
-                                fontSize="inherit"
-                                color="disabled"
-                              />
-                            </Box>
-                            <Box>
-                              <p
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  marginTop: "0px",
-                                  marginBlockStart: "0px",
-                                  marginBlockEnd: "0px",
-                                  color: "black",
-                                }}
-                              >
-                                Probability
-                              </p>
-                              <p
-                                style={{
-                                  fontSize: "11px",
-                                  color: "black",
-                                  marginTop: "5px",
-                                  opacity: 0.5,
-                                }}
-                              >
-                                {prospects.subProspects[0].probability}% - Talks
-                                has begun
-                              </p>
-                            </Box>
-                          </Box>
-                        </>
-                      )}
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
+                          </>
+                        )}
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                ) : (
+                  ""
+                )
               ) : (
                 ""
               )
-            ) : (
-              ""
-            )
-          )}
+            )}
         </Box>
       </Box>
 

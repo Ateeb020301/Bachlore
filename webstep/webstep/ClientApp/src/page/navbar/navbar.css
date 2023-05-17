@@ -1,8 +1,12 @@
 p {
-    font-size: 0.8rem;
-    color: white;
+  font-size: 0.8rem;
+  color: white;
 }
 
 .subHead {
-    opacity: 0.8;
+  opacity: 0.8;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item {
+  padding: 0px;
 }

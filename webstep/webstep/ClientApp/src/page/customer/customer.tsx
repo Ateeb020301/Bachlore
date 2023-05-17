@@ -422,13 +422,13 @@ export const Customers = () => {
   function CustomerInform(customer: Customer) {
     inpCustomer = customer;
     setCustomer(customer);
-    return <GetInfo customer={customer} onClose={test} />;
+    return <GetInfo customer={customer} onClose={toggleMsgModal} />;
   }
 
   const [isMessageOpen, setMessageOpen] = React.useState(false);
 
   const toggleMessageModal = () => setMessageOpen(!isMessageOpen);
-  function test() {
+  function toggleMsgModal() {
     toggleMessageModal();
   }
 
@@ -527,6 +527,11 @@ export const Customers = () => {
     setCustomerID(event.target.value);
     setAccept(true);
   };
+
+  let [filter, setFilter] = useState<string>("");
+  function customerFilter(val: string) {
+    setFilter(val);
+  }
 
   function Row(props: { row: ReturnType<typeof createData> }) {
     const { row } = props;
@@ -690,7 +695,9 @@ export const Customers = () => {
               alignItems: "center",
             }}
           >
-            <CustomerContainer />
+            <CustomerContainer
+              onClose={(value: string) => customerFilter(value)}
+            />
           </Box>
 
           <Box sx={{ display: "flex", flexBasis: "100%", m: 1 }}>
@@ -725,9 +732,15 @@ export const Customers = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody sx={{ border: "none" }}>
-                    {rows.map((row) => (
-                      <Row key={row.id} row={row} />
-                    ))}
+                    {rows
+                      .filter((cstm) =>
+                        (cstm.firstName + " " + cstm.lastName)
+                          .toLowerCase()
+                          .includes(filter.toLowerCase())
+                      )
+                      .map((row) => (
+                        <Row key={row.id} row={row} />
+                      ))}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -743,7 +756,7 @@ export const Customers = () => {
                 background: "#ffffff",
               }}
             >
-              <GetInfo customer={inpCustomer} onClose={test} />
+              <GetInfo customer={inpCustomer} onClose={toggleMsgModal} />
             </Box>
           </Box>
           <ModalEditCustomer

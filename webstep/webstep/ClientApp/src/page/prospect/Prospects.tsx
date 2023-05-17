@@ -5,7 +5,7 @@ import { FullPageContent } from "../Utils/FullPageContent";
 import { ToastContainer, toast } from "react-toastify";
 import { Box, MenuItem, Select } from "@mui/material";
 import { GET_SELLERS } from "../../api/sellers";
-import { GetSellersPayload } from "../seller/SellerContainer";
+import { GetSellersPayload } from "../../api/prospects/payloads";
 import { ProspectContainer } from "./prospectcontainer";
 
 //GQL pagination skip const

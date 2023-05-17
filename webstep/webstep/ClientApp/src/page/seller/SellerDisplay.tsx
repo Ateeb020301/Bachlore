@@ -1,29 +1,32 @@
-import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { DELETE_SELLER, GET_SELLERS } from "../../api/sellers";
-import { DisplayProspects } from "./DisplayProspects";
-import { SellerInterface } from "./SellerContainer";
-import "./Seller.css";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import { Seller } from "../../logic/interfaces";
+import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import {
+  Box,
+  Breadcrumbs,
+  ButtonBase,
+  Link,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { SellerInterface } from "../../api/prospects/payloads";
 import {
   DELETE_PROSPECT,
   DELETE_SUBPROSPECT,
   GET_SELLER_NAMES,
 } from "../../api/prospects/queries";
-import { Prospect } from "../../logic/interfaces";
+import { GET_ACTIVITYLOG } from "../../api/activitylog";
+import { DELETE_SELLER, GET_SELLERS } from "../../api/sellers";
+import { useNavigate } from "react-router-dom";
 import { ModalEdit } from "./EditModal";
 
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import { useNavigate } from "react-router-dom";
-import { GET_ACTIVITYLOG } from "../../api/activitylog";
-
-interface SellerFields {
-  seller: SellerInterface;
-  // prospect: Prospects;
-  prospects: Prospect[];
+interface SellerDisplayProps {
+  sellers: SellerInterface;
 }
 
 //GQL pagination skip const
@@ -31,13 +34,20 @@ const skipAmount = 0;
 //GQL pagination take const
 const takeAmount = 50;
 
-export const SellerDisplay: React.FC<SellerFields> = ({
-  seller,
-  prospects,
-}) => {
+export const SellerDisplay: React.FC<SellerDisplayProps> = ({ sellers }) => {
+  let str;
+  let acronym;
+
   const [isModalEditOpen, setState] = React.useState(false);
   const navigate = useNavigate();
   const toggleEdit = () => setState(!isModalEditOpen);
+
+  if (sellers != undefined) {
+    str = sellers.fullName;
+    acronym = str
+      .split(/\s/)
+      .reduce((response, word) => (response += word.slice(0, 1)), "");
+  }
 
   const [deleteProspect] = useMutation<number, { input: { id: number } }>(
     DELETE_PROSPECT,
@@ -90,14 +100,9 @@ export const SellerDisplay: React.FC<SellerFields> = ({
     }
   );
 
-  //used for toggling consultant info on/off
-  const [isHidden, setIsHidden] = useState(true);
-
-  const toggleOpen = () => setIsHidden(!isHidden);
-
   const sendDeleteRequest = (sellers: SellerInterface) => {
     console.log(sellers);
-    if (seller.prospects.length === 0) {
+    if (sellers.prospects.length === 0) {
       deleteSeller({ variables: { input: { id: sellers.id } } })
         .then((res) => {
           sellers.prospects.forEach((prospect) => {
@@ -140,47 +145,217 @@ export const SellerDisplay: React.FC<SellerFields> = ({
           console.log(e);
         });
     } else {
-      alert("Desverre har selleren Prospects");
+      toast.error("Selgeren er tilkoblet til prospekter", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     }
   };
-  let display = isHidden ? "none" : "block";
 
   return (
-    <div key={"Seller_" + seller.id} className="AccordionHolder">
-      <table className="tableContent">
-        <tbody>
-          <tr onClick={toggleOpen} className="AccordionHead noselect">
-            <td>{seller.id}</td>
-            <td>{seller.fullName}</td>
-            <td>{seller.email}</td>
-            <td>{seller.employmentDate}</td>
-            <td>{seller.resignationDate}</td>
-            <td>
-              <div className="btnContainer">
-                <DeleteForeverIcon
-                  onClick={() => sendDeleteRequest(seller)}
-                  id="btnR"
-                />
-                <ModeEditIcon onClick={toggleEdit} id="btnE" />
-                <AccountBoxIcon
-                  onClick={() => navigate(`/sellerprofile/${seller.id}`)}
-                  id="btnP"
-                />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div className="AccordionContent" style={{ display: display }}>
-        <p>Prospects:</p>
-        <DisplayProspects prospects={prospects} />
-      </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        height: "400px",
+        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
+        my: 2,
+        borderRadius: "10px",
+        background: "#ffffff",
+      }}
+    >
+      <Box
+        className={"headerCard"}
+        sx={{
+          display: "flex",
+          my: 2,
+          mx: 1,
+          alignItems: "center",
+        }}
+      >
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            height: "15%",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <PopupState variant="popover" popupId="demo-popup-menu">
+              {(popupState) => (
+                <React.Fragment>
+                  <ButtonBase
+                    sx={{ color: "#8093e6" }}
+                    {...bindTrigger(popupState)}
+                    disableRipple
+                    disableTouchRipple
+                  >
+                    <MoreHorizIcon fontSize="medium" />
+                  </ButtonBase>
+                  <Menu {...bindMenu(popupState)}>
+                    <MenuItem
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        padding: "5px",
+                        mb: 1,
+                      }}
+                      onClick={popupState.close}
+                    >
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <ButtonBase onClick={() => sendDeleteRequest(sellers)}>
+                          Delete Consultant
+                        </ButtonBase>
+                      </Box>
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <DeleteIcon fontSize={"small"} />
+                      </Box>
+                    </MenuItem>
+                    <MenuItem
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        padding: "5px",
+                        mt: 1,
+                      }}
+                      onClick={popupState.close}
+                    >
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <ButtonBase onClick={toggleEdit}>
+                          Edit Consultant
+                        </ButtonBase>
+                      </Box>
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <EditIcon fontSize={"small"} />
+                      </Box>
+                    </MenuItem>
+                  </Menu>
+                </React.Fragment>
+              )}
+            </PopupState>
+          </Box>
+        </Box>
+      </Box>
+      <Box
+        className={"bodyCard"}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Box>
+          <Box
+            id="img"
+            sx={{
+              padding: "5px",
+              background: "#f2f6f8",
+              border: "solid",
+              borderColor: "#ecefee",
+              borderWidth: "thin",
+              borderRadius: "100%",
+              height: "75px",
+              width: "75px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              sx={{
+                border: "solid",
+                borderRadius: "100%",
+                borderColor: "#ecefee",
+                borderWidth: "thin",
+                width: "100%",
+                height: "100%",
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <p
+                style={{
+                  color: "#6a96e9",
+                  fontWeight: 900,
+                  fontSize: "24px",
+                  letterSpacing: "2px",
+                }}
+              >
+                {acronym}
+              </p>
+            </Box>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            textAlign: "center",
+          }}
+        >
+          <h3 style={{ color: "#5d5860" }}>{sellers.fullName}</h3>
+          <h4 style={{ opacity: 0.7 }}>{sellers.email}</h4>
+        </Box>
+      </Box>
+      <Box
+        className={"footerCard"}
+        sx={{
+          display: "flex",
+          my: 3,
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            alignItems: "center",
+            borderRight: "1px gray dashed",
+          }}
+        >
+          <Box sx={{ flex: 1 }}>
+            <h4 style={{ color: "#5d5860", margin: "10px" }}>
+              Employment Date
+            </h4>
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <h5 style={{ opacity: 0.7, margin: "5px" }}>
+              {sellers.employmentDate}
+            </h5>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ flex: 1 }}>
+            <h4 style={{ color: "#5d5860", margin: "10px" }}>
+              Resignation Date
+            </h4>
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <h5 style={{ opacity: 0.7, margin: "5px" }}>
+              {" "}
+              {sellers.resignationDate != null
+                ? sellers.resignationDate
+                : "-"}{" "}
+            </h5>
+          </Box>
+        </Box>
+      </Box>
       <ModalEdit
         title={"Edit Seller"}
         isOpen={isModalEditOpen}
         onClose={toggleEdit}
-        seller={seller}
+        seller={sellers}
       />
-    </div>
+    </Box>
   );
 };

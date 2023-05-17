@@ -1,16 +1,17 @@
 ﻿import React from "react";
-import { useNavigate } from "react-router-dom";
+import { FormProvider } from "../../components/FormInfo/context/FormContext";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import "./AddModal.css";
 import { AddForm } from "./addForm";
 import CloseIcon from "@mui/icons-material/Close";
 
-interface ModalConsultantProps {
+interface ModalSellerProps {
   title: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const ModalConsultant: React.FC<ModalConsultantProps> = ({
+export const ModalSeller: React.FC<ModalSellerProps> = ({
   title,
   isOpen,
   onClose,
@@ -23,13 +24,13 @@ export const ModalConsultant: React.FC<ModalConsultantProps> = ({
   ) => {
     if (e.target === outsideRef.current) {
       onClose();
-      navigate("/consultant");
+      navigate("/seller");
     }
   };
 
   function closeIcon() {
     onClose();
-    navigate("/consultant");
+    navigate("/seller");
   }
 
   return isOpen ? (
@@ -43,7 +44,7 @@ export const ModalConsultant: React.FC<ModalConsultantProps> = ({
         <div className={"modalWrapper"}>
           <div className={"header"}>
             <div className={"headerTextCont"}>
-              <span className={"headerText"}>Add News Consultant</span>
+              <span className={"headerText"}>Add New Seller</span>
             </div>
             <div className={"headerButton"}>
               <CloseIcon onClick={closeIcon} className={"modal__closeIcon"} />

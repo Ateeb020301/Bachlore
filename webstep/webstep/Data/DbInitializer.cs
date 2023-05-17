@@ -139,69 +139,6 @@
                 },
                 new Seller
                 {
-                    FullName = "Cheryl E. Kramer",
-                    Email = "CherylEKramer@dayrep.com",
-                    EmploymentDate = startDate,
-                    NameIdentifier = "783483489"
-                },
-                new Seller
-                {
-                    FullName = "Cheryl E. Kramer",
-                    Email = "CherylEKramer@dayrep.com",
-                    EmploymentDate = today,
-                    NameIdentifier = "734783Yass889"
-                },
-                new Seller
-                {
-                    FullName = "Cheryl E. Kramer",
-                    Email = "CherylEKramer@dayrep.com",
-                    EmploymentDate = startDate,
-                    NameIdentifier = "7347883489"
-                },
-                new Seller
-                {
-                    FullName = "Cheryl E. Kramer",
-                    Email = "CherylEKramer@dayrep.com",
-                    EmploymentDate = today,
-                    NameIdentifier = "7347834834"
-                },
-                new Seller
-                {
-                    FullName = "Cheryl E. Kramer",
-                    Email = "CherylEKramer@dayrep.com",
-                    EmploymentDate = startDate,
-                    NameIdentifier = "7347834489"
-                },
-                new Seller
-                {
-                    FullName = "Cheryl E. Kramer",
-                    Email = "CherylEKramer@dayrep.com",
-                    EmploymentDate = today,
-                    NameIdentifier = "3483489"
-                },
-                new Seller
-                {
-                    FullName = "Cheryl E. Kramer",
-                    Email = "CherylEKramer@dayrep.com",
-                    EmploymentDate = startDate,
-                    NameIdentifier = "7783483489"
-                },
-                new Seller
-                {
-                    FullName = "This boring Kramer",
-                    Email = "CherylEKramer@dayrep.com",
-                    EmploymentDate = startDate,
-                    NameIdentifier = "73test33489"
-                },
-                new Seller
-                {
-                    FullName = "Test Kramer",
-                    Email = "CherylEKramer@dayrep.com",
-                    EmploymentDate = today,
-                    NameIdentifier = "7343483489"
-                },
-                new Seller
-                {
                     FullName = "John Doe",
                     Email = "CherylEKramer@dayrep.com",
                     EmploymentDate = startDate,

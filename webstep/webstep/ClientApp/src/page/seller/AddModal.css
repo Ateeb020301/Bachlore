@@ -1,9 +1,10 @@
 .modal {
   top: 0;
-  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100vw;
-  height: 100vh;
-  position: absolute;
+  height: auto;
   z-index: 99;
 }
 
@@ -30,15 +31,13 @@
 .modal__box {
   display: flex;
   flex-direction: column;
-  height: 60%;
-  width: 25%;
+  height: 85%;
+  width: 30%;
   border-radius: 2px;
   background-color: white;
   padding: 0px;
   cursor: auto;
   z-index: 99;
-  animation-name: showModal;
-  animation-duration: 0.3s;
 }
 
 .modal__title {
@@ -101,15 +100,5 @@
 @media screen and (min-width: 800px) {
   .modal__box {
     max-width: 600px;
-  }
-}
-
-@keyframes showModal {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 }

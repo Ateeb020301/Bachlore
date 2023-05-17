@@ -38,6 +38,7 @@ namespace webstep.GraphQL.Mutations
                 ResignationDate = input.ResignationDate
             };
 
+
             seller.Validate();
             
             await this._repo
@@ -60,6 +61,11 @@ namespace webstep.GraphQL.Mutations
             seller.FullName = input.FullName ?? seller.FullName;
             seller.Email = input.Email ?? seller.Email;
             seller.EmploymentDate = input.EmploymentDate ?? seller.EmploymentDate;
+            
+            if (input.ResignationDate.HasValue)
+            {
+                seller.ResignationDate = input.ResignationDate;
+            }
 
             seller.Validate();
 

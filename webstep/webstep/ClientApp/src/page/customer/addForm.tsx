@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FormGroup, Input, Label } from "reactstrap";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import { useMutation, useQuery } from "@apollo/client";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -12,9 +12,8 @@ import {
   GET_CUSTOMER,
   GET_CUSTOMERS,
 } from "../../api/customer";
-import { GetSellerPayload } from "../../api/prospects/payloads";
+import { GetSellersPayload } from "../../api/prospects/payloads";
 import { GET_SELLERS } from "../../api/sellers";
-import { GetSellersPayload } from "../seller/SellerContainer";
 import Menu from "@mui/material/Menu/Menu";
 import { GET_ACTION } from "../../api/action";
 import { GET_ACTIVITYLOG } from "../../api/activitylog";
@@ -145,122 +144,135 @@ export const AddForm: React.FC<ModalConsultantProps> = ({ onClose }) => {
   };
 
   return (
-    <Box sx={{width: '100%'}}>
-      <Box sx={{display: 'flex', justifyContent: 'center', p: 2, mt: 2}}>
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ display: "flex", justifyContent: "center", p: 2, mt: 2 }}>
         <form>
-          <Box sx={{display: 'flex', justifyContent: 'space-betweens', width: '100%', py:1}}>
-            <Box sx={{px: 1}}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-betweens",
+              width: "100%",
+              py: 1,
+            }}
+          >
+            <Box sx={{ px: 1 }}>
               <FormGroup>
-                <TextField 
+                <TextField
                   type="text"
                   id="firstName"
                   label="Firstname (Required)"
-                  color={(isValidText(currentCustomer.firstName) ? 'success' : 'error')}
+                  color={
+                    isValidText(currentCustomer.firstName) ? "success" : "error"
+                  }
                   placeholder="Firstname (Required)"
                   value={currentCustomer.firstName}
                   onChange={handleChange}
                   name="firstName"
-                  
                 />
               </FormGroup>
             </Box>
-            <Box sx={{px: 1}}>
+            <Box sx={{ px: 1 }}>
               <FormGroup>
-                <TextField 
-                    type="text"
-                    id="lastName"
-                    label="Lastname (Required)"
-                    color={(isValidText(currentCustomer.lastName) ? 'success' : 'error')}
-                    placeholder="Lastname (Required)"
-                    value={currentCustomer.lastName}
-                    onChange={handleChange}
-                    name="lastName"
-                    
-                  />
+                <TextField
+                  type="text"
+                  id="lastName"
+                  label="Lastname (Required)"
+                  color={
+                    isValidText(currentCustomer.lastName) ? "success" : "error"
+                  }
+                  placeholder="Lastname (Required)"
+                  value={currentCustomer.lastName}
+                  onChange={handleChange}
+                  name="lastName"
+                />
               </FormGroup>
             </Box>
           </Box>
 
-          <Box sx={{display: 'flex', py: 1}}>
-            <Box sx={{px: 1, width: '100%'}}>
+          <Box sx={{ display: "flex", py: 1 }}>
+            <Box sx={{ px: 1, width: "100%" }}>
               <FormGroup>
-                <TextField 
+                <TextField
                   type="text"
                   id="inpEmail"
                   label="Email (Required)"
-                  color={(isValidText(currentCustomer.email) ? 'success' : 'error')}
+                  color={
+                    isValidText(currentCustomer.email) ? "success" : "error"
+                  }
                   placeholder="Email (Required)"
                   value={currentCustomer.email}
                   onChange={handleChange}
                   name="email"
                   fullWidth
-                 />
+                />
               </FormGroup>
             </Box>
           </Box>
 
-          <Box sx={{display: 'flex', width: '100%', py: 1}}>
-            <Box sx={{px: 1, flex: 1}}>
+          <Box sx={{ display: "flex", width: "100%", py: 1 }}>
+            <Box sx={{ px: 1, flex: 1 }}>
               <FormGroup>
-                <TextField 
+                <TextField
                   type="text"
                   id="addresse"
                   label="Address (Required)"
-                  color={(isValidText(currentCustomer.adresse) ? 'success' : 'error')}
+                  color={
+                    isValidText(currentCustomer.adresse) ? "success" : "error"
+                  }
                   placeholder="Address (Required)"
                   value={currentCustomer.adresse}
                   onChange={handleChange}
                   name="adresse"
-                 />
+                />
               </FormGroup>
             </Box>
-            
-            <Box sx={{px: 1}}>
+
+            <Box sx={{ px: 1 }}>
               <FormGroup>
-                <TextField 
+                <TextField
                   type="text"
                   id="inpTlf"
                   label="Phone number (Required)"
-                  color={(isValidText(currentCustomer.tlf) ? 'success' : 'error')}
+                  color={isValidText(currentCustomer.tlf) ? "success" : "error"}
                   placeholder="Phone number (Required)"
                   value={currentCustomer.tlf}
                   onChange={handleChange}
                   name="tlf"
-                 />
-                </FormGroup>
+                />
+              </FormGroup>
             </Box>
           </Box>
 
-          <Box sx={{display: 'flex', py: 1}}>
-            <Box sx={{px: 1, width: '100%'}}>
-                <FormGroup>
-                  <Select
-                    value={state.id}
-                    onChange={handleSelectChange}
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    displayEmpty
-                    inputProps={{
-                      name: "id",
-                      id: "age-native-simple",
-                    }}
-                    fullWidth
-                  >
-                    <MenuItem value="0" disabled>
-                      Select seller
+          <Box sx={{ display: "flex", py: 1 }}>
+            <Box sx={{ px: 1, width: "100%" }}>
+              <FormGroup>
+                <Select
+                  value={state.id}
+                  onChange={handleSelectChange}
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  displayEmpty
+                  inputProps={{
+                    name: "id",
+                    id: "age-native-simple",
+                  }}
+                  fullWidth
+                >
+                  <MenuItem value="0" disabled>
+                    Select seller
+                  </MenuItem>
+                  {data?.sellers.items.map((sellers) => (
+                    <MenuItem key={sellers.id} value={sellers.id}>
+                      {sellers.fullName}
                     </MenuItem>
-                    {data?.sellers.items.map((sellers) => (
-                      <MenuItem key={sellers.id} value={sellers.id}>
-                        {sellers.fullName}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormGroup>
+                  ))}
+                </Select>
+              </FormGroup>
             </Box>
           </Box>
 
-          <Box sx={{display: 'flex', py: 1}}>
-            <Box sx={{px: 1, width: '100%'}}>
+          <Box sx={{ display: "flex", py: 1 }}>
+            <Box sx={{ px: 1, width: "100%" }}>
               <Button
                 color="success"
                 variant="contained"
@@ -272,7 +284,6 @@ export const AddForm: React.FC<ModalConsultantProps> = ({ onClose }) => {
               </Button>
             </Box>
           </Box>
-
         </form>
       </Box>
     </Box>
