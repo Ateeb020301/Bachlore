@@ -12,19 +12,21 @@ namespace webstep.GraphQL.Entities
 {
     public class SellerDataLoader : BatchDataLoader<int, Seller>
     {
-        private readonly WebstepContext _dbContext;
+        private readonly IDbContextFactory<WebstepContext> _dbContextFactory;
 
         public SellerDataLoader(
             IBatchScheduler batchScheduler,
-            WebstepContext dbContext)
+            IDbContextFactory<WebstepContext> dbContextFactory)
             : base(batchScheduler)
         {
-            _dbContext = dbContext;
+            _dbContextFactory = dbContextFactory;
         }
 
         protected override async Task<IReadOnlyDictionary<int, Seller>> LoadBatchAsync(IReadOnlyList<int> keys, CancellationToken cancellationToken)
         {
-            return await _dbContext.Sellers
+            await using WebstepContext dbContext = _dbContextFactory.CreateDbContext();
+
+            return await dbContext.Sellers
                 .Where(s => keys.Contains(s.Id))
                 .ToDictionaryAsync(t => t.Id, cancellationToken);
         }
