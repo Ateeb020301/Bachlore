@@ -76,28 +76,7 @@ export const DealsContainer: React.FC<DealsContainerProps> = ({ onClose }) => {
             />
           </Box>
         </Box>
-        <Box sx={{ mx: 1, my: 1 }}>
-          <Button
-            startIcon={<AddIcon />}
-            variant="contained"
-            sx={{
-              background: "#13c56b",
-              ":hover": { background: "#10a75b" },
-              textTransform: "none",
-              fontWeight: "600",
-              fontSize: "11px",
-              p: 1,
-              display: "flex",
-              alignItems: "center",
-            }}
-            size="small"
-            onClick={toggleModal}
-            disableRipple
-            disableFocusRipple
-          >
-            Deal
-          </Button>
-        </Box>
+        <Box sx={{ mx: 1, my: 1 }}></Box>
       </Box>
     </>
   );

@@ -46,7 +46,7 @@ export interface GetSellerPayload {
 }
 
 export interface GetSellerNamesPayload {
-    sellers: { items: [{ id: number; fullName: string }] };
+    sellers: { items: [{ id: string; fullName: string }] };
 }
 
 export interface GetSellersPayload {

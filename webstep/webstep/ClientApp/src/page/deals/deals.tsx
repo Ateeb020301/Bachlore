@@ -220,7 +220,6 @@ export const Deals = () => {
   function dealsFilter(val: string) {
     setFilter(val);
   }
-  console.log(filter);
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", mt: 2 }}>
       <Box
