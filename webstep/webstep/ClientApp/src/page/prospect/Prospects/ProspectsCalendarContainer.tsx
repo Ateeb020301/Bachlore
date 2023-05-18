@@ -21,7 +21,7 @@ export const ProspectsCalendarContainer = () => {
   let decodedId: string;
   return (
     <Calendar
-      title={"Selgere"}
+      title={"Sellers"}
       render={(b: boolean) =>
         data?.sellers.items.map((seller) => {
           {
