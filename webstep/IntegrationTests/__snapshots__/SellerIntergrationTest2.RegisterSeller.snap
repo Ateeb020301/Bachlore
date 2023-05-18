@@ -1,0 +1,19 @@
+﻿{
+  "errors": [
+    {
+      "message": "Unexpected Execution Error",
+      "locations": [
+        {
+          "line": 3,
+          "column": 25
+        }
+      ],
+      "path": [
+        "addSeller"
+      ]
+    }
+  ],
+  "data": {
+    "addSeller": null
+  }
+}

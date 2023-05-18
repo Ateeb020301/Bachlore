@@ -41,12 +41,6 @@ namespace webstep
 
         public IConfiguration Configuration { get; }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// </summary>
-        /// <param name="services">
-        /// The services.
-        /// </param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAntiforgery(options =>
@@ -54,12 +48,13 @@ namespace webstep
                 options.HeaderName = "X-XSRF-TOKEN";
             });
 
-            ConfigureDatabase(services);           
-            
+            ConfigureDatabase(services);
+
             services
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
                 .AddMutationType<Mutation>()
+                .AddDataLoader<SellerDataLoader>()
                 .AddSubscriptionType<Subscription>()
                 .AddProjections()
                 .AddFiltering()
@@ -69,12 +64,11 @@ namespace webstep
                 .AddMaxComplexityRule(65)
                 .AddMaxExecutionDepthRule(65)
                 .ConfigureSchema(x => x.AddNodaTime());
-                
+
             AddTypes(services);
 
-            ////development only
             services.AddDatabaseDeveloperPageExceptionFilter();
-            //// In production, the React files will be served from this directory
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
@@ -97,17 +91,10 @@ namespace webstep
                         ClockSkew = TimeSpan.FromMinutes(5)
                     };
                 });
+
+            services.AddRouting(); // Add this line
         }
 
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        /// </summary>
-        /// <param name="app">
-        /// The app.
-        /// </param>
-        /// <param name="env">
-        /// The env.
-        /// </param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -137,14 +124,11 @@ namespace webstep
                     Path = "/graphql-voyager"
                 });
 
-            app.UseRouting();
-            ////app.UseAuthentication();
-            ////app.UseAuthorization();
+            app.UseRouting(); // should be placed after UseStaticFiles and UseSpaStaticFiles
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGraphQL();
-                ////.RequireAuthorization();
             });
 
             app.UseSpa(spa =>
@@ -158,12 +142,6 @@ namespace webstep
             });
         }
 
-        /// <summary>
-        /// Configures a database connection pool
-        /// </summary>
-        /// <param name="services">
-        /// The services.
-        /// </param>
         protected virtual void ConfigureDatabase(IServiceCollection services)
         {
             services.AddTransient<IRepository, Repository>();
@@ -172,11 +150,6 @@ namespace webstep
                 options => options.UseSqlServer(
                     this.Configuration.GetConnectionString("DefaultConnection"),
                     x => x.UseNodaTime()));
-
-            /*
-             string connectionString = this.Configuration.GetConnectionString("default");
-            services.AddPooledDbContextFactory<WebstepContext>(o => o.UseSqlServer(connectionString, x=> x.UseNodaTime()).LogTo(Console.WriteLine));
-            */
         }
         private void AddTypes(IServiceCollection services)
         {
@@ -206,7 +179,6 @@ namespace webstep
                 .AddType<CustomerMutation>()
                 .AddType<ActionType>()
                 .AddType<ActionMutation>();
-
         }
     }
 }

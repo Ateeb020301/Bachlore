@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>webstep</name>
+    </assembly>
+    <members>
+        <member name="M:webstep.Data.DbInitializer.DummyCustomers(webstep.Data.WebstepContext)">
+            <summary>
+            Creates a list of dummy sellers
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.Generic.List`1"/>.
+            </returns>
+        </member>
+        <member name="M:webstep.Data.DbInitializer.DummySellers">
+            <summary>
+            Creates a list of dummy sellers
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.Generic.List`1"/>.
+            </returns>
+        </member>
+        <member name="M:webstep.Data.DbInitializer.DummyConsultants">
+            <summary>
+            Creates a list of dummy consultants.
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.Generic.List`1"/>.
+            </returns>
+        </member>
+        <member name="M:webstep.Data.DbInitializer.DummyProspects(webstep.Data.WebstepContext)">
+            <summary>
+            Creates a list of dummy prospects.
+            </summary>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            The <see cref="T:System.Collections.Generic.List`1"/>.
+            </returns>
+        </member>
+        <member name="M:webstep.Data.DbInitializer.DummySubProspects(webstep.Data.WebstepContext)">
+            <summary>
+            Creates a list of  subProspects.
+            </summary>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            The <see cref="T:System.Collections.Generic.List`1"/>.
+            </returns>
+        </member>
+        <member name="M:webstep.Data.DbInitializer.DummyContracts(webstep.Data.WebstepContext)">
+            <summary>
+            Creates a list of dummy contracts.
+            </summary>
+            <param name="context">
+            The context.
+            </param>
+            <returns>
+            The <see cref="T:System.Collections.Generic.List`1"/>.
+            </returns>
+        </member>
+        <member name="M:webstep.Data.DbInitializer.DummyFinancials">
+            <summary>
+            Creates a list dummy financial records.
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.Generic.List`1"/>.
+            </returns>
+        </member>
+        <member name="T:webstep.GraphQL.GraphQlErrorFilter">
+            <summary>
+            The graphQL error filter.
+            </summary>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetSellers(System.Nullable{NodaTime.LocalDate})">
+            <summary>
+            Fetches all sellers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetSeller(System.Int32)">
+            <summary>
+            Fetches a single seller
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetCustomers">
+            <summary>
+            Fetches all customer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetCustomer(System.Int32)">
+            <summary>
+            Fetches a single customer
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetConsultants(System.Nullable{NodaTime.LocalDate})">
+            <summary>
+            Fetches all consultants
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetConsultant(System.Int32)">
+            <summary>
+            Fetches a single consultant
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetContracts">
+            <summary>
+            Fetches all contracts
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetActions">
+            <summary>
+            Fetches all action
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetContract(System.Int32)">
+            <summary>
+            Fetches a single contract
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetAllFinancials">
+            <summary>
+            Fetches all financials,
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetFinancial(System.Int32)">
+            <summary>
+            Fetches a single financial record
+            </summary>
+            <param name="year"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetProspects">
+            <summary>
+            Fetches all prospects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetActivitylog">
+            <summary>
+            Fetche all activitylog
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetProspect(System.Int32)">
+            <summary>
+            Fetches a single prospect
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetSubProspects">
+            <summary>
+            Fetches all subprospects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetSubProspect(System.Int32)">
+            <summary>
+            Fetches a single subprospect
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetProject(System.Int32)">
+            <summary>
+            Fetches a single Project
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetProjectConsultant(System.Int32)">
+            <summary>
+            Fetches a single ProjectConsultant
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetProjectConsultants(System.Int32)">
+            <summary>
+            Fetches all ProjectConsultant
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetProjects">
+            <summary>
+            Fetches all Projects
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetVacancies">
+            <summary>
+            Fetches all vacancies
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetVacancy(System.Int32)">
+            <summary>
+            Fetches a single vacancy
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:webstep.GraphQL.Query.GetConsultantsCapacity(System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Fetches one or more consultants and calculates their free time
+            </summary>
+            <param name="endYear"></param>
+            <param name="startYear"></param>
+            <param name="consultantId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:webstep.GraphQL.Subscription">
+            <summary>
+            Includes subscriptions for all database entities
+            </summary>
+        </member>
+    </members>
+</doc>
