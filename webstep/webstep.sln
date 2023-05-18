@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webstep", "webstep\webstep.csproj", "{81515B04-CA02-4473-92B2-14A9BAA55F0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webstep.Tests", "Webstep.Tests\Webstep.Tests.csproj", "{9D3335FF-FAC6-45B9-BD41-EDE8D3902C4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webstep.Tests", "Webstep.Tests\Webstep.Tests.csproj", "{9D3335FF-FAC6-45B9-BD41-EDE8D3902C4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{DA6E47B4-90F6-4354-98AF-4E2F4DE85006}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9D3335FF-FAC6-45B9-BD41-EDE8D3902C4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D3335FF-FAC6-45B9-BD41-EDE8D3902C4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D3335FF-FAC6-45B9-BD41-EDE8D3902C4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA6E47B4-90F6-4354-98AF-4E2F4DE85006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA6E47B4-90F6-4354-98AF-4E2F4DE85006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA6E47B4-90F6-4354-98AF-4E2F4DE85006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA6E47B4-90F6-4354-98AF-4E2F4DE85006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
