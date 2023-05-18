@@ -24,8 +24,7 @@
         public LocalDate Date { get; set; }
 
     }
-#nullable enable
-    public record EditActionInput(int Id, string? Comment, int? CustomerId);
+
     public record DeleteActionInput(int Id);
     public record ActionPayload(Action Action);
 }

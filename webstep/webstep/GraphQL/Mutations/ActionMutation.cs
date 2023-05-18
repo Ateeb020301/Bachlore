@@ -62,29 +62,9 @@ namespace webstep.GraphQL.Mutations
             await _repo.CreateAsync(activitylog, context, cancellationToken)
                 .ConfigureAwait(false);
 
-
-
-
             return new ActionPayload(action);
         }
 
-        [UseDbContext(typeof(WebstepContext))]
-        public async Task<ActionPayload> EditActionAsync(
-            EditActionInput input,
-            [ScopedService] WebstepContext context,
-            CancellationToken cancellationToken)
-        {
-            var action = await _repo.SelectByIdAsync<Models.Action>(input.Id, context, cancellationToken)
-                                 .ConfigureAwait(false);
-
-            action.Comment = input.Comment ?? action.Comment;
-
-            await _repo
-                .UpdateAsync(action, context, cancellationToken)
-                .ConfigureAwait(false);
-
-            return new ActionPayload(action);
-        }
 
         [UseDbContext(typeof(WebstepContext))]
         public async Task<ActionPayload> DeleteActionAsync(
