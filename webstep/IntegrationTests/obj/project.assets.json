@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
+    "net5.0": {
       "coverlet.collector/3.1.2": {
         "type": "package",
         "build": {
@@ -2696,12 +2696,12 @@
           "Newtonsoft.Json": "13.0.1"
         },
         "compile": {
-          "lib/net6.0/Snapshooter.dll": {
+          "lib/netcoreapp3.1/Snapshooter.dll": {
             "related": ".pdb;.xml"
           }
         },
         "runtime": {
-          "lib/net6.0/Snapshooter.dll": {
+          "lib/netcoreapp3.1/Snapshooter.dll": {
             "related": ".pdb;.xml"
           }
         }
@@ -2714,12 +2714,12 @@
           "xunit.core": "2.4.2"
         },
         "compile": {
-          "lib/net6.0/Snapshooter.Xunit.dll": {
+          "lib/netcoreapp3.1/Snapshooter.Xunit.dll": {
             "related": ".pdb;.runtimeconfig.json"
           }
         },
         "runtime": {
-          "lib/net6.0/Snapshooter.Xunit.dll": {
+          "lib/netcoreapp3.1/Snapshooter.Xunit.dll": {
             "related": ".pdb;.runtimeconfig.json"
           }
         }
@@ -11959,7 +11959,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net6.0": [
+    "net5.0": [
       "GraphQL.Primitives >= 6.0.0",
       "Microsoft.AspNetCore.TestHost >= 5.0.0",
       "Microsoft.NET.Test.Sdk >= 17.3.2",
@@ -11993,15 +11993,15 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0"
+        "net5.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net5.0": {
+          "targetAlias": "net5.0",
           "projectReferences": {
             "F:\\bachelor2023\\webstep\\webstep\\webstep.csproj": {
               "projectPath": "F:\\bachelor2023\\webstep\\webstep\\webstep.csproj"
@@ -12016,8 +12016,8 @@
       }
     },
     "frameworks": {
-      "net6.0": {
-        "targetAlias": "net6.0",
+      "net5.0": {
+        "targetAlias": "net5.0",
         "dependencies": {
           "GraphQL.Primitives": {
             "target": "Package",

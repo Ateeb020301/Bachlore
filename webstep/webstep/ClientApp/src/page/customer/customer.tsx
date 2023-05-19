@@ -135,7 +135,6 @@ export const Customers = () => {
     </Link>,
   ];
   const { loading, error, data } = useQuery<CustomerPayload>(GET_CUSTOMER);
-  console.log(data);
   if (inpCustomer == undefined && data) {
     inpCustomer = data?.customers.items[0];
   }

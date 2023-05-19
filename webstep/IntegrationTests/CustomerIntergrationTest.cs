@@ -6,6 +6,10 @@ using System.Text;
 using System.Text.Json;
 using webstep;
 using webstep.GraphQL.Entities;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System;
+using Xunit;
 
 public class CustomerIntergrationTest
 {

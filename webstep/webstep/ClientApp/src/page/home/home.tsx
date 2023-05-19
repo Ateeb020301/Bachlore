@@ -13,7 +13,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DoughnutChart, { SumAnually, targetPercentage } from "./charts/doughnut";
 import ProfitLine, { SumProfit } from "./charts/linechart";
 import { Link } from "react-router-dom";
@@ -30,6 +30,7 @@ import { ProjectWithoutContract } from "../../logic/interfaces";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import ClearIcon from "@mui/icons-material/Clear";
 import { GET_ACTIVITYLOG, GetActivityLogPayload } from "../../api/activitylog";
+import { GoogleLoginResponse } from "react-google-login";
 
 let yearOut = 2017;
 

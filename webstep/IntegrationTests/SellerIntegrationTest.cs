@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using webstep;
 using System.Net;
 using webstep.Models;
+using System.Threading.Tasks;
 
 namespace IntegrationTests
 {

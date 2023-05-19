@@ -37,8 +37,6 @@ const GetInfo: React.FC<CustomerInfoProps> = ({ customer, onClose }) => {
     });
   }
 
-  console.log(customer);
-
   const element =
     customer != undefined ? (
       <Box sx={{ p: 1 }}>
