@@ -1,77 +1,81 @@
-﻿using System.Net.Http;
-using System.Text;
-using System.Text.Json;
+﻿using System;
+using System.Threading.Tasks;
+using HotChocolate;
+using HotChocolate.Execution;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 using Xunit;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.Hosting;
-using webstep;
-using System.Net;
-using webstep.Models;
+using webstep.GraphQL;
+using webstep.GraphQL.Mutations;
+using webstep.GraphQL.Entities;
 
 namespace IntegrationTests
 {
-    public class SellerIntergrationTest
+    public class SellerIntegrationTest
     {
-        private readonly TestServer _server;
-        private readonly HttpClient _client;
+        private readonly IRequestExecutor executor;
 
-        public SellerIntergrationTest()
+        public SellerIntegrationTest()
         {
-            // Arrange
-            _server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-            _client = _server.CreateClient();
+            // Prepare your executor here.
+            var services = new ServiceCollection();
+
+            // Mock any dependencies your GraphQL classes may have
+            // For example:
+            // services.AddSingleton<ISellerService, MockSellerService>();
+
+            // You need to replace Query and Mutation with your actual classes
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>()
+                .AddMutationType<SellerMutation>()
+                .AddType<SellerType>();
+
+            var serviceProvider = services.BuildServiceProvider();
+            var executorResolver = serviceProvider.GetRequiredService<IRequestExecutorResolver>();
+            executor = executorResolver.GetRequestExecutorAsync().Result;
         }
 
         [Fact]
-        public async Task AddSellerAsync_ReturnsSeller_WhenDataIsValid()
+        public async Task AddSeller()
         {
-            // Arrange
-            var query = new
-            {
-                query = @"
-                    mutation {
-                        addSeller(input: {
-                            fullName: ""John Doe"",
-                            email: ""johndoe@example.com"",
-                            employmentDate: ""2023-05-18""
-                        }) {
-                            seller {
-                                fullName
-                                email
-                                employmentDate
-                            }
+            IExecutionResult result = await executor.ExecuteAsync(@"
+                mutation {
+                    addSeller(input: {
+                        fullName: ""John Doe"",
+                        email: ""johndoe@example.com"",
+                        employmentDate: ""2023-05-18T00:00:00Z""
+                    }) {
+                        seller {
+                            fullName
+                            email
+                            employmentDate
                         }
-                    }"
-            };
+                    }
+                }");
 
-            var content = new StringContent(JsonSerializer.Serialize(query), Encoding.UTF8, "application/json");
+            // Handle any errors that occurred during execution
+            if (result.Errors?.Count > 0)
+            {
+                // Log the errors or throw an exception for better error understanding
+                throw new Exception("Execution errors occurred: " + result.Errors[0].Message);
+            }
 
-            // Act
-            var response = await _client.PostAsync("/graphql", content);
+            // Cast the result data to IQueryResult to access the data
+            if (result is IQueryResult queryResult)
+            {
+                var data = queryResult.Data;
 
-            // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                // Use your data here
+                Assert.NotNull(data);
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<GraphQLResponse<SellerPayload>>(jsonResponse);
+                var addSeller = data["addSeller"] as Dictionary<string, object>;
+                var seller = addSeller["seller"] as Dictionary<string, object>;
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Data);
-            Assert.NotNull(result.Data.Seller);
-            Assert.Equal("John Doe", result.Data.Seller.FullName);
-            Assert.Equal("johndoe@example.com", result.Data.Seller.Email);
+                Assert.Equal("John Doe", seller["fullName"]);
+                Assert.Equal("johndoe@example.com", seller["email"]);
+                Assert.Equal("2023-05-18T00:00:00Z", seller["employmentDate"]);
+            }
         }
-    }
-
-    public class GraphQLResponse<T>
-    {
-        public T Data { get; set; }
-        // Other fields...
-    }
-
-    public class SellerPayload
-    {
-        public Seller Seller { get; set; }
-        // Other fields...
     }
 }

@@ -18,6 +18,7 @@ namespace GraphQL.Tests
     public class SellerIntergrationTest2
     {
         [Fact]
+        [Obsolete]
         public async Task Seller_Schema_Changed()
         {
 
@@ -42,6 +43,7 @@ namespace GraphQL.Tests
             schema.Print().MatchSnapshot();
         }
         [Fact]
+        [Obsolete]
         public async Task RegisterSeller()
         {
             // arrange

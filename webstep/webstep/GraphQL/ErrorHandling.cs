@@ -28,6 +28,8 @@
                 
                 FirstNameException => error.WithMessage("Failed to implement Firstname"),
 
+                EmailException => error.WithMessage("Failed to implement email"),
+
                 ActivityLogException => error.WithMessage("Failed to implement activity"),
 
                 InsertFailedException insertFailed => error.WithMessage($"Failed to insert {insertFailed.Entity}"),
@@ -64,6 +66,7 @@
 
     public class StartDateGreaterThanEndDateException : Exception { }
     public class FirstNameException : Exception { }
+    public class EmailException : Exception { }
     public class ActivityLogException : Exception { }
     public class EmploymentDateGreaterThanResignationDateException : Exception { }
 

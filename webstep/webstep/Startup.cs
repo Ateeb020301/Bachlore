@@ -146,10 +146,18 @@ namespace webstep
         {
             services.AddTransient<IRepository, Repository>();
 
-            services.AddPooledDbContextFactory<WebstepContext>(
-                options => options.UseSqlServer(
-                    this.Configuration.GetConnectionString("DefaultConnection"),
-                    x => x.UseNodaTime()));
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Test")
+            {
+                services.AddDbContext<WebstepContext>(options =>
+                    options.UseInMemoryDatabase("TestDb"));
+            }
+            else
+            {
+                services.AddPooledDbContextFactory<WebstepContext>(
+                    options => options.UseSqlServer(
+                        this.Configuration.GetConnectionString("DefaultConnection"),
+                        x => x.UseNodaTime()));
+            }
         }
         private void AddTypes(IServiceCollection services)
         {
