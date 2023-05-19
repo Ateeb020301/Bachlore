@@ -6,7 +6,8 @@ namespace webstep.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-
+    using System.IdentityModel.Tokens.Jwt;
+    using HotChocolate.Types.Relay;
     using IdentityServer4.Extensions;
 
     using NodaTime;
@@ -17,7 +18,7 @@ namespace webstep.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public override int Id { get; set; }
+        public override int Id { get; set; } 
 
         [Required]
         public string FullName { get; set; }

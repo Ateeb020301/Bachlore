@@ -24,6 +24,7 @@ import { GET_ACTIVITYLOG } from "../../api/activitylog";
 import { DELETE_SELLER, GET_SELLERS } from "../../api/sellers";
 import { useNavigate } from "react-router-dom";
 import { ModalEdit } from "./EditModal";
+import { GET_CUSTOMER } from "../../api/customer";
 
 interface SellerDisplayProps {
   sellers: SellerInterface;
@@ -95,15 +96,23 @@ export const SellerDisplay: React.FC<SellerDisplayProps> = ({ sellers }) => {
         {
           query: GET_ACTIVITYLOG,
         },
+        {
+          query: GET_CUSTOMER,
+        },
       ],
       awaitRefetchQueries: true,
     }
   );
-
+  let decodedId: string;
   const sendDeleteRequest = (sellers: SellerInterface) => {
-    console.log(sellers);
+    decodedId = new TextDecoder()
+      .decode(
+        Uint8Array.from(atob(sellers.id.toString()), (c) => c.charCodeAt(0))
+      )
+      .replace(/[^0-9]/g, "");
+
     if (sellers.prospects.length === 0) {
-      deleteSeller({ variables: { input: { id: sellers.id } } })
+      deleteSeller({ variables: { input: { id: parseInt(decodedId) } } })
         .then((res) => {
           sellers.prospects.forEach((prospect) => {
             deleteProspect({ variables: { input: { id: prospect.id } } })

@@ -193,7 +193,7 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
         variant="text"
         color="primary"
       >
-        + prospekt
+        + prospect
       </Button>
 
       <Dialog
@@ -253,7 +253,7 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
           </Box>
           <Box sx={{ m: 1 }}>
             <Button color="primary" onClick={handleSubmit}>
-              Legg til
+              Submit
             </Button>
           </Box>
         </form>

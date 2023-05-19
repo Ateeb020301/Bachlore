@@ -19,7 +19,7 @@ export const ContractCalendarContainer = () => {
 
   return (
     <Calendar
-      title={"Konsulenter"}
+      title={"Consultants"}
       render={(b: boolean) =>
         data?.consInTeams.map((consultant: any) => {
           return (

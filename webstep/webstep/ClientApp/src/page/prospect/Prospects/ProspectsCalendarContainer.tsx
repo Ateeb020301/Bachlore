@@ -18,14 +18,20 @@ export const ProspectsCalendarContainer = () => {
       variables: { skipAmount: skipAmount, takeAmount: takeAmount },
     }
   );
+  let decodedId: string;
   return (
     <Calendar
-      title={"Selgere"}
+      title={"Sellers"}
       render={(b: boolean) =>
         data?.sellers.items.map((seller) => {
+          {
+            decodedId = new TextDecoder().decode(
+              Uint8Array.from(atob(seller.id), (c) => c.charCodeAt(0))
+            );
+          }
           return (
             <SellerSection
-              id={seller.id}
+              id={parseInt(decodedId.replace(/[^0-9]/g, ""))}
               name={seller.fullName}
               showProspects={b}
               key={uuidv4()}

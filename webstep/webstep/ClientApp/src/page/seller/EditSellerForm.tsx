@@ -84,13 +84,21 @@ export const EditSellerForm: React.FC<ModalEditProps> = ({
       [name]: value,
     }));
   };
-
+  let decodedId: number;
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log(currentSeller);
+    decodedId = parseInt(
+      new TextDecoder()
+        .decode(
+          Uint8Array.from(atob(currentSeller.id.toString()), (c) =>
+            c.charCodeAt(0)
+          )
+        )
+        .replace(/[^0-9]/g, "")
+    );
     if (isValidSeller()) {
       let newSeller: EditSellerInput = {
-        id: currentSeller.id,
+        id: decodedId,
         fullName: currentSeller.fullName,
         email: currentSeller.email,
         employmentDate: currentSeller.employmentDate,

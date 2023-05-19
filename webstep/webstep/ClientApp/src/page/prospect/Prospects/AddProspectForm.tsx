@@ -135,33 +135,6 @@ export const AddProspectForm: React.FC<ModalNewProspectProps> = ({
     awaitRefetchQueries: true,
   });
 
-  const handleClick = () => {
-    addProspect({ variables: { input: defaultProspect } })
-      .then((res) => {
-        let newProspectId = res.data?.addProspect.prospect.id;
-
-        if (newProspectId !== undefined) {
-          let defaultSubProspect = getDefaultSubProspect(newProspectId);
-          addSubProspect({ variables: { input: defaultSubProspect } })
-            .then((res) => {
-              toast.success("Prospekt opprettet", {
-                position: toast.POSITION.BOTTOM_RIGHT,
-              });
-            })
-            .catch((e) => {
-              toast.error("Noe gikk galt ved oppretting av sub-prospektet", {
-                position: toast.POSITION.BOTTOM_RIGHT,
-              });
-            });
-        }
-      })
-      .catch((e) => {
-        toast.error("Noe gikk galt ved oppretting av prospektet", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
-      });
-  };
-
   const handleSelect = (e: SelectChangeEvent) => {
     const { name, value } = e.target;
     setCurrentProspect((prevProspect) => ({
