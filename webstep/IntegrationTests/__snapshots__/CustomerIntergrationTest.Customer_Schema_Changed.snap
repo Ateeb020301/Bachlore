@@ -1,0 +1,473 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+}
+
+"The node interface is implemented by entities that have a global unique identifier."
+interface Node {
+  id: ID!
+}
+
+type Action {
+  id: Int!
+  comment: String!
+  customer: Customer!
+  date: LocalDate!
+}
+
+type ActionCollectionSegment {
+  items: [Action]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type ActivityLog {
+  id: Int!
+  type: String!
+  method: String!
+  oldValues: String
+  newValues: String
+  date: LocalDate!
+}
+
+type ActivityLogCollectionSegment {
+  items: [ActivityLog]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type Capacity {
+  days: Decimal!
+  week: Int!
+  year: Int!
+}
+
+"Information about the offset pagination."
+type CollectionSegmentInfo {
+  "Indicates whether more items exist following the set defined by the clients arguments."
+  hasNextPage: Boolean!
+  "Indicates whether more items exist prior the set defined by the clients arguments."
+  hasPreviousPage: Boolean!
+}
+
+type Consultant {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  employmentDate: LocalDate!
+  resignationDate: LocalDate
+  workdays: Int!
+  contracts: [Contract]
+  vacancies: [Vacancy]
+  projectConsultants: [ProjectConsultant]
+}
+
+type ConsultantCapacity {
+  consultant: Consultant
+  capacity: [Capacity]
+}
+
+type ConsultantCapacityCollectionSegment {
+  items: [ConsultantCapacity]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type ConsultantCollectionSegment {
+  items: [Consultant]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type Contract {
+  id: Int!
+  startYear: Int!
+  startWeek: Int!
+  endYear: Int!
+  endWeek: Int!
+  hourlyRate: Int!
+  project: Project!
+  consultant: Consultant!
+  daysOfWeek: Decimal!
+}
+
+type ContractCollectionSegment {
+  items: [Contract]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type Customer implements Node {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  adresse: String!
+  email: String!
+  tlf: String!
+  seller: Seller
+  prospects: [Prospect]
+  action: [Action]
+}
+
+type CustomerCollectionSegment {
+  items: [Customer]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type CustomerPayload {
+  customer: Customer!
+}
+
+type Financial {
+  id: Int!
+  year: Int!
+  month: Int!
+  revenue: Int
+  actualRevenue: Int
+  accumulatedRevenue: Int
+  accumulatedActualRevenue: Int
+  eBIT: Int
+  actualEBIT: Int
+  accumulatedEBIT: Int
+  accumulatedActualEBIT: Int
+  defaultHourlyRate: Int
+  actualHourlyRate: Int
+}
+
+type Mutation {
+  addCustomer(input: AddCustomerInput): CustomerPayload
+  editCustomer(input: EditCustomerInput): CustomerPayload
+  deleteCustomer(input: DeleteCustomerInput): CustomerPayload
+}
+
+type Project {
+  contracts(id: Int!): [Contract]
+  id: Int!
+  customerName: String!
+  projectName: String!
+  projectConsultants: [ProjectConsultant]
+}
+
+type ProjectCollectionSegment {
+  items: [Project]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type ProjectConsultant {
+  id: Int!
+  project: Project!
+  consultant: Consultant!
+}
+
+type Prospect {
+  id: Int!
+  projectName: String!
+  seller: Seller!
+  customer: Customer!
+  subProspects: [SubProspect]
+}
+
+type ProspectCollectionSegment {
+  items: [Prospect]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type Query {
+  node(id: ID!): Node
+  "Fetches all sellers"
+  sellers(skip: Int take: Int date: LocalDate order: [SellerSortInput!]): SellerCollectionSegment
+  "Fetches a single seller"
+  seller(id: Int!): [Seller]
+  "Fetches all customer"
+  customers(skip: Int take: Int order: [CustomerSortInput!]): CustomerCollectionSegment
+  "Fetches a single customer"
+  customer(id: Int!): [Customer]
+  "Fetches all consultants"
+  consultants(skip: Int take: Int date: LocalDate order: [ConsultantSortInput!]): ConsultantCollectionSegment
+  "Fetches a single consultant"
+  consultant(id: Int!): [Consultant]
+  "Fetches all contracts"
+  contracts(skip: Int take: Int order: [ContractSortInput!]): ContractCollectionSegment
+  "Fetches all action"
+  actions(skip: Int take: Int order: [ActionSortInput!]): ActionCollectionSegment
+  "Fetches a single contract"
+  contract(id: Int!): [Contract]
+  "Fetches all financials,"
+  allFinancials(where: FinancialFilterInput order: [FinancialSortInput!]): [Financial]
+  "Fetches a single financial record"
+  financial(year: Int! where: FinancialFilterInput order: [FinancialSortInput!]): [Financial]
+  "Fetches all prospects"
+  prospects(skip: Int take: Int order: [ProspectSortInput!]): ProspectCollectionSegment
+  "Fetche all activitylog"
+  activitylog(skip: Int take: Int order: [ActivityLogSortInput!]): ActivityLogCollectionSegment
+  "Fetches a single prospect"
+  prospect(id: Int!): [Prospect]
+  "Fetches all subprospects"
+  subProspects(skip: Int take: Int order: [SubProspectSortInput!]): SubProspectCollectionSegment
+  "Fetches a single subprospect"
+  subProspect(id: Int!): [SubProspect]
+  "Fetches a single Project"
+  project(id: Int!): [Project]
+  "Fetches a single ProjectConsultant"
+  projectConsultant(id: Int!): [ProjectConsultant]
+  "Fetches all ProjectConsultant"
+  projectConsultants(id: Int!): [Project]
+  "Fetches all Projects"
+  projects(skip: Int take: Int): ProjectCollectionSegment
+  "Fetches all vacancies"
+  vacancies(skip: Int take: Int order: [VacancySortInput!]): VacancyCollectionSegment
+  "Fetches a single vacancy"
+  vacancy(id: Int!): [Vacancy]
+  consInTeams: [Consultant]
+  "Fetches a consultant and calculates their contract time, returned as days per week busy"
+  consultantsCapacity(skip: Int take: Int startYear: Int! endYear: Int consultantId: Int): ConsultantCapacityCollectionSegment
+  contractBillable(week: Int! year: Int!): Decimal!
+  contractForecast(week: Int! year: Int!): Decimal!
+}
+
+type Seller {
+  id: Int!
+  fullName: String!
+  email: String!
+  nameIdentifier: String
+  employmentDate: LocalDate!
+  resignationDate: LocalDate
+  prospects: [Prospect!]
+}
+
+type SellerCollectionSegment {
+  items: [Seller]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type SubProspect {
+  id: Int!
+  probability: Int!
+  numOfConsultants: Decimal!
+  prospect: Prospect!
+  startYear: Int!
+  startWeek: Int!
+  endYear: Int!
+  endWeek: Int!
+}
+
+type SubProspectCollectionSegment {
+  items: [SubProspect]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+type Vacancy {
+  id: Int!
+  daysOfWeek: Decimal!
+  planned: Boolean!
+  startYear: Int!
+  startWeek: Int!
+  endYear: Int!
+  endWeek: Int!
+  consultant: Consultant!
+}
+
+type VacancyCollectionSegment {
+  items: [Vacancy]
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+}
+
+input ActionSortInput {
+  id: SortEnumType
+  comment: SortEnumType
+  customer: CustomerSortInput
+  date: SortEnumType
+}
+
+input ActivityLogSortInput {
+  id: SortEnumType
+  type: SortEnumType
+  method: SortEnumType
+  oldValues: SortEnumType
+  newValues: SortEnumType
+  date: SortEnumType
+}
+
+input AddCustomerInput {
+  firstName: String!
+  lastName: String!
+  adresse: String!
+  email: String!
+  tlf: String!
+  sellerId: Int!
+}
+
+input ComparableInt32OperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int!]
+  nin: [Int!]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+input ComparableNullableOfInt32OperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int]
+  nin: [Int]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+input ConsultantSortInput {
+  id: SortEnumType
+  firstName: SortEnumType
+  lastName: SortEnumType
+  employmentDate: SortEnumType
+  resignationDate: SortEnumType
+  workdays: SortEnumType
+}
+
+input ContractSortInput {
+  id: SortEnumType
+  startYear: SortEnumType
+  startWeek: SortEnumType
+  endYear: SortEnumType
+  endWeek: SortEnumType
+  hourlyRate: SortEnumType
+  project: ProjectSortInput
+  consultant: ConsultantSortInput
+  daysOfWeek: SortEnumType
+}
+
+input CustomerSortInput {
+  id: SortEnumType
+  firstName: SortEnumType
+  lastName: SortEnumType
+  adresse: SortEnumType
+  email: SortEnumType
+  tlf: SortEnumType
+  seller: SellerSortInput
+}
+
+input DeleteCustomerInput {
+  id: Int!
+}
+
+input EditCustomerInput {
+  id: Int!
+  firstName: String
+  lastName: String
+  adresse: String
+  email: String
+  tlf: String
+  sellerId: Int
+}
+
+input FinancialFilterInput {
+  and: [FinancialFilterInput!]
+  or: [FinancialFilterInput!]
+  id: ComparableInt32OperationFilterInput
+  year: ComparableInt32OperationFilterInput
+  month: ComparableInt32OperationFilterInput
+  revenue: ComparableNullableOfInt32OperationFilterInput
+  actualRevenue: ComparableNullableOfInt32OperationFilterInput
+  accumulatedRevenue: ComparableNullableOfInt32OperationFilterInput
+  accumulatedActualRevenue: ComparableNullableOfInt32OperationFilterInput
+  eBIT: ComparableNullableOfInt32OperationFilterInput
+  actualEBIT: ComparableNullableOfInt32OperationFilterInput
+  accumulatedEBIT: ComparableNullableOfInt32OperationFilterInput
+  accumulatedActualEBIT: ComparableNullableOfInt32OperationFilterInput
+  defaultHourlyRate: ComparableNullableOfInt32OperationFilterInput
+  actualHourlyRate: ComparableNullableOfInt32OperationFilterInput
+}
+
+input FinancialSortInput {
+  id: SortEnumType
+  year: SortEnumType
+  month: SortEnumType
+  revenue: SortEnumType
+  actualRevenue: SortEnumType
+  accumulatedRevenue: SortEnumType
+  accumulatedActualRevenue: SortEnumType
+  eBIT: SortEnumType
+  actualEBIT: SortEnumType
+  accumulatedEBIT: SortEnumType
+  accumulatedActualEBIT: SortEnumType
+  defaultHourlyRate: SortEnumType
+  actualHourlyRate: SortEnumType
+}
+
+input ProjectSortInput {
+  id: SortEnumType
+  customerName: SortEnumType
+  projectName: SortEnumType
+}
+
+input ProspectSortInput {
+  id: SortEnumType
+  projectName: SortEnumType
+  seller: SellerSortInput
+  customer: CustomerSortInput
+}
+
+input SellerSortInput {
+  id: SortEnumType
+  fullName: SortEnumType
+  email: SortEnumType
+  nameIdentifier: SortEnumType
+  employmentDate: SortEnumType
+  resignationDate: SortEnumType
+}
+
+input SubProspectSortInput {
+  id: SortEnumType
+  probability: SortEnumType
+  numOfConsultants: SortEnumType
+  prospect: ProspectSortInput
+  startYear: SortEnumType
+  startWeek: SortEnumType
+  endYear: SortEnumType
+  endWeek: SortEnumType
+}
+
+input VacancySortInput {
+  id: SortEnumType
+  daysOfWeek: SortEnumType
+  planned: SortEnumType
+  startYear: SortEnumType
+  startWeek: SortEnumType
+  endYear: SortEnumType
+  endWeek: SortEnumType
+  consultant: ConsultantSortInput
+}
+
+enum SortEnumType {
+  ASC
+  DESC
+}
+
+"The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`."
+directive @defer("If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to." label: String "Deferred when true." if: Boolean) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`."
+directive @stream("If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to." label: String "The initial elements that shall be send down to the consumer." initialCount: Int! "Streamed when true." if: Boolean!) on FIELD
+
+"The built-in `Decimal` scalar type."
+scalar Decimal
+
+scalar LocalDate

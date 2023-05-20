@@ -5,12 +5,17 @@ namespace webstep.GraphQL.Entities
     using System.ComponentModel.DataAnnotations;
     using global::NodaTime;
     using webstep.Models;
+    using HotChocolate.Resolvers;
 
     public class CustomerType : ObjectType<Customer>
     {
         protected override void Configure(IObjectTypeDescriptor<Customer> descriptor)
         {
-
+            descriptor
+                .ImplementsNode()
+                .IdField(t => t.Id)
+                .ResolveNode((ctx, id) =>
+                    ctx.DataLoader<CustomerDataLoader>().LoadAsync(id, ctx.RequestAborted));
         }
     }
 

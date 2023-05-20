@@ -1,0 +1,20 @@
+﻿{
+  "errors": [
+    {
+      "message": "\u0060sellerId\u0060 is a required field and cannot be null.",
+      "locations": [
+        {
+          "line": 3,
+          "column": 36
+        }
+      ],
+      "path": [
+        "addCustomer"
+      ],
+      "extensions": {
+        "field": "sellerId",
+        "specifiedBy": "http://spec.graphql.org/June2018/#sec-Input-Object-Required-Fields"
+      }
+    }
+  ]
+}
