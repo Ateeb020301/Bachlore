@@ -1,10 +1,10 @@
-name: Build and deploy .NET Core application to Web App webstep20230414054910
+name: Build and deploy .NET Core application to Web App webstep2023
 on:
   push:
     branches:
     - main
 env:
-  AZURE_WEBAPP_NAME: webstep20230414054910
+  AZURE_WEBAPP_NAME: webstep2023
   AZURE_WEBAPP_PACKAGE_PATH: webstep\published
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 5.0.x
@@ -49,5 +49,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.webstep20230414054910_F332 }}
+        publish-profile: ${{ secrets.webstep2023_8F4C }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
