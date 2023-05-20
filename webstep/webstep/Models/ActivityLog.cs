@@ -38,19 +38,12 @@ namespace webstep.Models
 
         public void Validate()
         {
-            if (!this.Method.IsNullOrEmpty())
+            if (!this.Method.IsNullOrEmpty() &&
+                !this.OldValues.IsNullOrEmpty()&&
+                !this.NewValues.IsNullOrEmpty() &&
+                !this.Type.IsNullOrEmpty())
             {
-                throw new ActivityLogException();
-            }
-            else if (this.Method.IsNullOrEmpty())
-            {
-                throw new RequiredFieldNullException() { Field = nameof(this.Method) };
-            }
-
-            if (this.OldValues.IsNullOrEmpty())
-            {
-                throw new RequiredFieldNullException() { Field = nameof(this.OldValues) };
-
+                throw new ClassException();
             }
         }
     }

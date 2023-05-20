@@ -32,6 +32,8 @@
 
                 ActivityLogException => error.WithMessage("Failed to implement activity"),
 
+                ClassException => error.WithMessage("Failed to implement class"), 
+
                 InsertFailedException insertFailed => error.WithMessage($"Failed to insert {insertFailed.Entity}"),
 
                 UpdateFailedException updateFailed => error.WithMessage($"Failed to update {updateFailed.Entity} with ID: {updateFailed.Id}"),
@@ -67,6 +69,7 @@
     public class StartDateGreaterThanEndDateException : Exception { }
     public class FirstNameException : Exception { }
     public class EmailException : Exception { }
+    public class ClassException : Exception { }
     public class ActivityLogException : Exception { }
     public class EmploymentDateGreaterThanResignationDateException : Exception { }
 

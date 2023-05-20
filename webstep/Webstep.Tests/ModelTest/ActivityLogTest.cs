@@ -29,7 +29,7 @@ namespace WebstepTest.ModelTest
             {
                 activityLog.Validate();
             }
-            catch (ActivityLogException)
+            catch (ClassException)
             {
                 Assert.Pass();
             }

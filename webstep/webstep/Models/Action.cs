@@ -33,5 +33,12 @@ namespace webstep.Models
         [Required]
         public LocalDate Date { get; set; }
 
+        public void Validate()
+        {
+            if (!this.Comment.IsNullOrEmpty())
+            {
+                throw new ClassException();
+            }
+        }
     }
 }
