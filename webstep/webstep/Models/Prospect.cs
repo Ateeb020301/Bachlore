@@ -25,13 +25,11 @@
         public Customer Customer { get; set; }
 
         public ICollection<SubProspect> SubProspects { get; set; }
-
         public void Validate()
         {
-
-            if (this.ProjectName.IsNullOrEmpty())
+            if (!(Customer == null) && !(Seller == null) && !this.ProjectName.IsNullOrEmpty())
             {
-                throw new RequiredFieldNullException() { Field = this.ProjectName };
+                throw new ClassException();
             }
         }
     }

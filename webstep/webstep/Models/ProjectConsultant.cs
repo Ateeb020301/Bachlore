@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +18,13 @@ namespace webstep.Models
         [Required]
         public Consultant Consultant { get; set; }
 
-
+        public void Validate()
+        {
+            if (!(Consultant==null)&& !(Project==null))
+            {
+                throw new ArgumentNullException(nameof(Consultant), "Consultant cannot be null.");
+            }
+        }
 
     }
 }

@@ -1,10 +1,13 @@
 using HotChocolate;
+using IdentityServer4.Extensions;
 using NodaTime.Calendars;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using webstep.GraphQL;
 using static webstep.Models.Consultant;
 
 namespace webstep.Models
@@ -34,6 +37,15 @@ namespace webstep.Models
             }
 
             return result;
+        }
+
+        public void Validate()
+        {
+            if (!this.ProjectName.IsNullOrEmpty()
+                &&!this.CustomerName.IsNullOrEmpty())
+            {
+                throw new ClassException();
+            }
         }
     }
 }
