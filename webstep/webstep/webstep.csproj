@@ -30,6 +30,7 @@
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.0.0-preview.2" />
     <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.5.5" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.0.0-preview.2" />
+    <PackageReference Include="HotChocolate.Language.Utf8" Version="12.0.0-preview.2" />
     <PackageReference Include="HotChocolate.Types.Selections" Version="10.5.5" />
     <PackageReference Include="IdentityServer4" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.2.0" />
