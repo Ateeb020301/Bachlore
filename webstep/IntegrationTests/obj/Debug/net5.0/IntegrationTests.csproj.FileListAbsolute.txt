@@ -84,17 +84,9 @@ F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.EntityFramew
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Sqlite.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.Caching.Abstractions.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.Caching.Memory.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.Configuration.Abstractions.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.DependencyModel.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.DiagnosticAdapter.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.Logging.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.Logging.Abstractions.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.Identity.Client.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
@@ -126,8 +118,6 @@ F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\SQLitePCLRaw.batteries
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\SQLitePCLRaw.nativelibrary.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\SQLitePCLRaw.core.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\SQLitePCLRaw.provider.dynamic_cdecl.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.Collections.Immutable.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.ComponentModel.Annotations.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.Composition.AttributedModel.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.Composition.Convention.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.Composition.Hosting.dll
@@ -137,7 +127,6 @@ F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.Configuration.C
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.Runtime.Caching.dll
-F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\xunit.abstractions.dll
 F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\xunit.assert.dll
@@ -581,3 +570,9 @@ C:\Users\ateeb\OneDrive\Documents\Github\bachelor2023\webstep\IntegrationTests\b
 C:\Users\ateeb\OneDrive\Documents\Github\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\ateeb\OneDrive\Documents\Github\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\ateeb\OneDrive\Documents\Github\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
+F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Castle.Core.dll
+F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\Moq.dll
+F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.pdb
+F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.pdb
+F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.pdb
+F:\bachelor2023\webstep\IntegrationTests\bin\Debug\net5.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb

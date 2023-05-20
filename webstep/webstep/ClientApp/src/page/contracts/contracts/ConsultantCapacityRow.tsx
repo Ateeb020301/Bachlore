@@ -63,7 +63,6 @@ export const ConsultantCapacityRow: React.FC<ConsultantCapacityRowProps> =
             <div style={{ display: "flex" }}>
               <AddVacancyButton consultantId={consultantId} planned={false} />
               <AddVacancyButton consultantId={consultantId} planned />
-              <CreateContractButton consultantId={consultantId} />
             </div>
           </CalendarSidebarHeader>
         }

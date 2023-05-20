@@ -244,9 +244,17 @@ export const Customers = () => {
       awaitRefetchQueries: true,
     }
   );
-
+  let decodedId: number;
   const deleteWrapper = (customer: Customer) => {
-    deleteCustomer({ variables: { input: { id: customer.id } } })
+    console.log(customer);
+    decodedId = parseInt(
+      new TextDecoder()
+        .decode(
+          Uint8Array.from(atob(customer.id.toString()), (c) => c.charCodeAt(0))
+        )
+        .replace(/[^0-9]/g, "")
+    );
+    deleteCustomer({ variables: { input: { id: decodedId } } })
       .then((res) => {
         if (data?.customers.items.length == 1) {
           customer.prospects.forEach((prospects) => {
@@ -465,7 +473,16 @@ export const Customers = () => {
     let { name, value }: any = e.target;
 
     defaultAction.comment = value;
-    defaultAction.customerId = inpCustomer.id;
+    let decodedId = parseInt(
+      new TextDecoder()
+        .decode(
+          Uint8Array.from(atob(inpCustomer.id.toString()), (c) =>
+            c.charCodeAt(0)
+          )
+        )
+        .replace(/[^0-9]/g, "")
+    );
+    defaultAction.customerId = decodedId;
 
     setCurrentAction((prevAction) => ({
       ...prevAction,

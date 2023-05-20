@@ -50,7 +50,7 @@ interface CreateProspectButtonProps {
 
 interface ProspectNoId {
   projectName: string;
-  customerId: string;
+  customerId: number;
   sellerId: number;
 }
 
@@ -76,7 +76,7 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
 
   let defaultProspect: ProspectNoId = {
     projectName: "",
-    customerId: "0",
+    customerId: 0,
     sellerId: 0,
   };
 
@@ -142,11 +142,24 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
       [name]: value,
     }));
   };
-
+  let decodedId: number;
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    console.log(currentProspect.customerId);
+    if (currentProspect.customerId != 0) {
+      decodedId = parseInt(
+        new TextDecoder()
+          .decode(
+            Uint8Array.from(atob(currentProspect.customerId.toString()), (c) =>
+              c.charCodeAt(0)
+            )
+          )
+          .replace(/[^0-9]/g, "")
+      );
+    }
+
     defaultProspect.projectName = currentProspect.projectName;
-    defaultProspect.customerId = currentProspect.customerId;
+    defaultProspect.customerId = decodedId;
     defaultProspect.sellerId = sellerId;
 
     addProspect({ variables: { input: defaultProspect } })
@@ -170,6 +183,7 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
         }
       })
       .catch((e) => {
+        console.log(e);
         toast.error("Noe gikk galt ved oppretting av prospektet", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
@@ -235,9 +249,9 @@ export const CreateProspectButton: React.FC<CreateProspectButtonProps> = ({
                 <Select
                   id="ddc"
                   name="customerId"
-                  value={currentProspect.customerId}
+                  value={currentProspect.customerId.toString()}
                   onChange={handleSelect}
-                  error={parseInt(currentProspect.customerId) < 0}
+                  error={currentProspect.customerId < 0}
                 >
                   <MenuItem value="0" disabled>
                     Choose a customer

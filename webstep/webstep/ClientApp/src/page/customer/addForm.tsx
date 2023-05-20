@@ -132,10 +132,17 @@ export const AddForm: React.FC<ModalConsultantProps> = ({ onClose }) => {
     id: 0,
     fullName: "",
   });
-
+  let decodedId: number;
   const handleSelectChange = (event: any) => {
     const name = event.target.name;
-    currentCustomer.sellerId = event.target.value;
+    decodedId = parseInt(
+      new TextDecoder()
+        .decode(
+          Uint8Array.from(atob(event.target.value), (c) => c.charCodeAt(0))
+        )
+        .replace(/[^0-9]/g, "")
+    );
+    currentCustomer.sellerId = decodedId;
 
     setState({
       ...state,

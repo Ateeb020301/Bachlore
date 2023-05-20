@@ -58,7 +58,6 @@ export const AddVacancyButton: React.FC<AddVacancyButtonProps> = ({
       onClick={handleClick}
       size="small"
       sx={{
-        borderRight: planned ? "1px solid" : "none",
         borderLeft: planned ? "1px solid" : "none",
         borderRadius: "0px",
       }}

@@ -27,7 +27,7 @@
         public ICollection<SubProspect> SubProspects { get; set; }
         public void Validate()
         {
-            if (!(Customer == null) && !(Seller == null) && !this.ProjectName.IsNullOrEmpty())
+            if ((Customer == null) && (Seller == null) && this.ProjectName.IsNullOrEmpty())
             {
                 throw new ClassException();
             }

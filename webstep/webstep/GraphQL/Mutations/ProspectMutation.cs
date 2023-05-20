@@ -37,7 +37,7 @@ namespace webstep.GraphQL.Mutations
             var seller = await this._repo
                 .SelectByIdAsync<Seller>(input.SellerId, context, cancellationToken)
                 .ConfigureAwait(false);
-
+            Console.WriteLine(input.CustomerId);
 
 
             var prospect = new Prospect

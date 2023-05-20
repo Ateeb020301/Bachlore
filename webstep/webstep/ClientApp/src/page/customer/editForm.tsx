@@ -87,12 +87,21 @@ export const EditForm: React.FC<ModalEditCustomerProps> = ({
       [name]: value,
     }));
   };
-
+  let decodedId: number;
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log(currentCustomer);
     if (isValidConsultant()) {
-      newCustomer.id = currentCustomer.id;
+      decodedId = parseInt(
+        new TextDecoder()
+          .decode(
+            Uint8Array.from(atob(currentCustomer.id.toString()), (c) =>
+              c.charCodeAt(0)
+            )
+          )
+          .replace(/[^0-9]/g, "")
+      );
+      newCustomer.id = decodedId;
       newCustomer.firstName = currentCustomer.firstName;
       newCustomer.lastName = currentCustomer.lastName;
       newCustomer.adresse = currentCustomer.adresse;
