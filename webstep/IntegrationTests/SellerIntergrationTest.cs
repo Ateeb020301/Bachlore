@@ -15,7 +15,7 @@ using webstep.GraphQL.NodaTime.Types;
 
 namespace GraphQL.Tests
 {
-    public class SellerIntergrationTest2
+    public class SellerIntergrationTest
     {
         [Fact]
         [Obsolete]
