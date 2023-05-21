@@ -24,7 +24,7 @@ jobs:
         include-prerelease: True
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
     - name: Modify package reference
-      run: dotnet add "${{ env.WORKING_DIRECTORY }}" package HotChocolate.Language.Utf8 --version 12.0.0-preview.2
+      run: dotnet add "${{ env.WORKING_DIRECTORY }}" package HotChocolate.Language.Utf8 --version 12.0.0
     - name: Restore
       run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
     - name: Build
