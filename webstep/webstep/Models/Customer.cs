@@ -13,6 +13,7 @@ namespace webstep.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Text.RegularExpressions;
     using NodaTime;
 
     using webstep.GraphQL;
@@ -45,16 +46,18 @@ namespace webstep.Models
 
         public void Validate()
         {
-            if (!this.FirstName.IsNullOrEmpty() &&
-                System.Text.RegularExpressions.Regex.IsMatch(this.FirstName, @"^[a-zA-Z]+$")){
-                throw new FirstNameException();
-            }
-            if (System.Text.RegularExpressions.Regex
-                .IsMatch(this.Email, @"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$")
-            && !this.Email.IsNullOrEmpty())
+            string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|no)$";
+            if (this.FirstName.IsNullOrEmpty() || 
+                this.Adresse.IsNullOrEmpty() || 
+                this.LastName.IsNullOrEmpty() ||
+                this.Tlf.IsNullOrEmpty() || 
+                this.Email.IsNullOrEmpty() || 
+                !(Regex.IsMatch(this.Email, regex, RegexOptions.IgnoreCase)) || 
+                this.Email.IsNullOrEmpty())
             {
-                throw new EmailException();
+                throw new RequiredFieldNullException();
             }
+           
         }
     }
 }

@@ -46,7 +46,7 @@ namespace webstep.Models
 
             if (this.Email.IsNullOrEmpty())
             {
-                throw new RequiredFieldNullException() { Field = nameof(this.FullName) };
+                throw new RequiredFieldNullException() { Field = nameof(this.Email) };
             }
 
             if (this.ResignationDate.HasValue)

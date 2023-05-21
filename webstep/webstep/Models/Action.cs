@@ -35,7 +35,7 @@ namespace webstep.Models
 
         public void Validate()
         {
-            if (!this.Comment.IsNullOrEmpty())
+            if (this.Comment.IsNullOrEmpty() || Customer == null)
             {
                 throw new ClassException();
             }

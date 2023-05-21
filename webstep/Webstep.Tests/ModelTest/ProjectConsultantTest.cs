@@ -27,8 +27,8 @@ namespace WebstepTest.ModelTest
 
             var project = new Project
             {
-                CustomerName = "David",
-                ProjectName = "Webstep"
+                CustomerName = "Jane",
+                ProjectName = "Kassesystem"
             };
 
             var projectConsultant = new ProjectConsultant
@@ -43,13 +43,9 @@ namespace WebstepTest.ModelTest
             }
             catch (ArgumentNullException)
             {
-                Assert.Pass();
+                Assert.Fail();
             }
-            catch (ArgumentException)
-            {
-                Assert.Pass();
-            }
-            Assert.Fail();
+            Assert.Pass();
 
         }
 

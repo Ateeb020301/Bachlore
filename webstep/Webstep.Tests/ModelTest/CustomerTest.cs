@@ -15,39 +15,21 @@ namespace WebstepTest.ModelTest
         }
 
         [Test]
-        public void FirstNameException()
+        public void CustomerObjectTest()
         {
-            var customer = new Customer
-            {
-                FirstName= "test",
-            };
-            try
-            {
+            var customer = new Customer { FirstName= "Ateeb", LastName = "Salam", Adresse = "Byggveien 7", Tlf = "45418389", Email = "ateeb@live.com" };
+
+            try {
                 customer.Validate();
             }
-            catch (FirstNameException)
-            {
-                Assert.Pass();
+            catch {
+
+                Assert.Fail();
             }
-            Assert.Fail();
+            Assert.Pass();
         }
-        [Test]
-        public void EmailException()
-        {
-            var customer = new Customer
-            {
-                Email = "Test@test.com",
-            };
-            try
-            {
-                customer.Validate();
-            }
-            catch (EmailException)
-            {
-                Assert.Pass();
-            }
-            Assert.Fail();
-        }
+
+
 
     }
 }

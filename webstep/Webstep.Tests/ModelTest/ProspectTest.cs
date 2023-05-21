@@ -21,9 +21,9 @@ namespace WebstepTest.ModelTest
             {
                 FirstName = "Test",
                 LastName = "Test",
-                Email = "Test",
+                Email = "test@msn.com",
                 Adresse = "Test",
-                Tlf = "Test",
+                Tlf = "45418389",
             };
             var seller = new Seller
             {

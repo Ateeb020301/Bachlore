@@ -2973,6 +2973,7 @@
           "HotChocolate.AspNetCore": "12.0.0-preview.2",
           "HotChocolate.AspNetCore.Playground": "10.5.5",
           "HotChocolate.Data.EntityFramework": "12.0.0-preview.2",
+          "HotChocolate.Language.Utf8": "12.0.0-preview.2",
           "HotChocolate.Types.Selections": "10.5.5",
           "IdentityServer4": "4.1.1",
           "Microsoft.AspNetCore.Antiforgery": "2.2.0",

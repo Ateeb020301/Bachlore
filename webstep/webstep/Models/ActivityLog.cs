@@ -38,10 +38,9 @@ namespace webstep.Models
 
         public void Validate()
         {
-            if (!this.Method.IsNullOrEmpty() &&
-                !this.OldValues.IsNullOrEmpty()&&
-                !this.NewValues.IsNullOrEmpty() &&
-                !this.Type.IsNullOrEmpty())
+            if (this.Method.IsNullOrEmpty() ||
+                this.Type.IsNullOrEmpty() ||
+                (this.OldValues.IsNullOrEmpty() && this.NewValues.IsNullOrEmpty()))
             {
                 throw new ClassException();
             }

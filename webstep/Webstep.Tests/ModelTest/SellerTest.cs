@@ -21,7 +21,7 @@ namespace WebstepTest.ModelTest
                 FullName = "Test",
                 Email = "Test@test.com",
                 EmploymentDate = new LocalDate(2020, 05, 05),
-                ResignationDate = new LocalDate(2020, 05, 04),
+                ResignationDate = new LocalDate(2020, 05, 06),
                 
             };
 
@@ -31,10 +31,10 @@ namespace WebstepTest.ModelTest
             }
             catch (EmploymentDateGreaterThanResignationDateException)
             {
-                Assert.Pass();
+                Assert.Fail();
             }
             
-            Assert.Fail();
+            Assert.Pass();
         }
         
     }

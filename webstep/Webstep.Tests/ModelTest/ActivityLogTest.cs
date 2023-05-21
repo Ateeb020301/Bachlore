@@ -19,11 +19,11 @@ namespace WebstepTest.ModelTest
         {
             var activityLog = new ActivityLog
             {
-                Method = "Test",
-                Type = "ghj",
+                Method = "Insert",
+                Type = "Action",
                 Date = new LocalDate(2020, 05, 04),
-                OldValues = "ef",
-                NewValues = "sfg"
+                OldValues = "Test",
+                NewValues = "Test"
             };
             try
             {
@@ -31,10 +31,10 @@ namespace WebstepTest.ModelTest
             }
             catch (ClassException)
             {
-                Assert.Pass();
+                Assert.Fail();
             }
 
-            Assert.Fail();
+            Assert.Pass();
         }
 
     }

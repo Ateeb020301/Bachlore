@@ -31,10 +31,10 @@ namespace WebstepTest.ModelTest
             }
             catch (ClassException)
             {
-                Assert.Pass();
+                Assert.Fail();
             }
 
-            Assert.Fail();
+            Assert.Pass();
         }
 
     }

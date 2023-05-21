@@ -20,7 +20,7 @@ namespace webstep.Models
 
         public void Validate()
         {
-            if (!(Consultant==null)&& !(Project==null))
+            if (Consultant==null || Project==null)
             {
                 throw new ArgumentNullException(nameof(Consultant), "Consultant cannot be null.");
             }

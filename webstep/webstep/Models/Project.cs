@@ -41,8 +41,8 @@ namespace webstep.Models
 
         public void Validate()
         {
-            if (!this.ProjectName.IsNullOrEmpty()
-                &&!this.CustomerName.IsNullOrEmpty())
+            if (this.ProjectName.IsNullOrEmpty() ||
+                this.CustomerName.IsNullOrEmpty())
             {
                 throw new ClassException();
             }
