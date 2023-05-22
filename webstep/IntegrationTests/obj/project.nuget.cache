@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "b/MjETLAMiyhaWLeZaDje3qgtRy7aM6LSPUuxatarx/KpkIl6SqVrlP8U4xBOKFBac8SANIfdtKUlI2tBMS0xQ==",
+  "dgSpecHash": "d7oL3uwkdgTqbqSOkY0JoCbX22zrHfMZptcJXdUqlgHE7PSO2R18pZccGjTjON0kC9pQ103dww4Ll56wYQ8cUA==",
   "success": true,
-  "projectFilePath": "F:\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj",
+  "projectFilePath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\IntegrationTests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Moham\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\Moham\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",

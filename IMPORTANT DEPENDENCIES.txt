@@ -22,6 +22,8 @@ npm i react-confirm-alert
 npm i material-ui-popup-state@^1.9.3
 npm i styled-components
 npm install react-bootstrap bootstrap
+npm i gapi-script 
+npm i @react-oauth/google
 
 
-npm install react-bootstrap bootstrap styled-components material-ui-popup-state@^1.9.3 typescript @faker-js/faker react-pro-sidebar@0.7.1 react-router-dom @apollo/client @mui/material @mui/icons-material @mui/x-data-grid apollo react-chartjs-2 react-dom chart.js formik graphql react react-scripts react-toastify yup
+npm install gapi-script @react-oauth/google react-bootstrap bootstrap styled-components material-ui-popup-state@^1.9.3 typescript @faker-js/faker react-pro-sidebar@0.7.1 react-router-dom @apollo/client @mui/material @mui/icons-material @mui/x-data-grid apollo react-chartjs-2 react-dom chart.js formik graphql react react-scripts react-toastify yup

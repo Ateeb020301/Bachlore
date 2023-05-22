@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "F:\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj": {}
+    "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\IntegrationTests.csproj": {}
   },
   "projects": {
-    "F:\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj": {
+    "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\IntegrationTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj",
+        "projectUniqueName": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\IntegrationTests.csproj",
         "projectName": "IntegrationTests",
-        "projectPath": "F:\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj",
+        "projectPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\IntegrationTests.csproj",
         "packagesPath": "C:\\Users\\Moham\\.nuget\\packages\\",
-        "outputPath": "F:\\bachelor2023\\webstep\\IntegrationTests\\obj\\",
+        "outputPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\Moham\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -32,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "F:\\bachelor2023\\webstep\\webstep\\webstep.csproj": {
-                "projectPath": "F:\\bachelor2023\\webstep\\webstep\\webstep.csproj"
+              "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj": {
+                "projectPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj"
               }
             }
           }
@@ -113,25 +109,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "F:\\bachelor2023\\webstep\\webstep\\webstep.csproj": {
+    "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\bachelor2023\\webstep\\webstep\\webstep.csproj",
+        "projectUniqueName": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj",
         "projectName": "webstep",
-        "projectPath": "F:\\bachelor2023\\webstep\\webstep\\webstep.csproj",
+        "projectPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj",
         "packagesPath": "C:\\Users\\Moham\\.nuget\\packages\\",
-        "outputPath": "F:\\bachelor2023\\webstep\\webstep\\obj\\",
+        "outputPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\Moham\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -267,7 +259,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

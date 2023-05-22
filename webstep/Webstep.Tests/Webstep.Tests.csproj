@@ -13,7 +13,7 @@
         <PackageReference Include="GraphQL.Client.Abstractions" Version="6.0.0" />
         <PackageReference Include="GraphQL.Client.Abstractions.Websocket" Version="6.0.0" />
         <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="6.0.0" />
-        <PackageReference Include="HotChocolate.Utilities.Introspection" Version="13.0.5" />
+        <PackageReference Include="HotChocolate.Utilities.Introspection" Version="12.0.0-preview.2" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.0" />
         <PackageReference Include="Moq" Version="4.18.4" />
         <PackageReference Include="NUnit" Version="3.13.3" />
