@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\IntegrationTests.csproj": {}
+    "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\IntegrationTests.csproj": {
+    "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\IntegrationTests.csproj",
+        "projectUniqueName": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj",
         "projectName": "IntegrationTests",
-        "projectPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\IntegrationTests.csproj",
-        "packagesPath": "C:\\Users\\Moham\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\IntegrationTests\\obj\\",
+        "projectPath": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj",
+        "packagesPath": "C:\\Users\\ateeb\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\IntegrationTests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Moham\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ateeb\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj": {
-                "projectPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj"
+              "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\webstep\\webstep.csproj": {
+                "projectPath": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\webstep\\webstep.csproj"
               }
             }
           }
@@ -109,21 +109,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj": {
+    "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\webstep\\webstep.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj",
+        "projectUniqueName": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\webstep\\webstep.csproj",
         "projectName": "webstep",
-        "projectPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\webstep.csproj",
-        "packagesPath": "C:\\Users\\Moham\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Moham\\Documents\\GitHub\\bachelorwebstep\\webstep\\webstep\\obj\\",
+        "projectPath": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\webstep\\webstep.csproj",
+        "packagesPath": "C:\\Users\\ateeb\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\webstep\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Moham\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ateeb\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -259,7 +259,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
