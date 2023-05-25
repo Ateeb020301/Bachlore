@@ -13077,19 +13077,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ateeb\\.nuget\\packages\\": {}
+    "C:\\Users\\47454\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj",
+      "projectUniqueName": "C:\\Users\\47454\\OneDrive\\Documents\\bachelor\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj",
       "projectName": "IntegrationTests",
-      "projectPath": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj",
-      "packagesPath": "C:\\Users\\ateeb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\IntegrationTests\\obj\\",
+      "projectPath": "C:\\Users\\47454\\OneDrive\\Documents\\bachelor\\bachelor2023\\webstep\\IntegrationTests\\IntegrationTests.csproj",
+      "packagesPath": "C:\\Users\\47454\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\47454\\OneDrive\\Documents\\bachelor\\bachelor2023\\webstep\\IntegrationTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ateeb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\47454\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13103,8 +13103,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\webstep\\webstep.csproj": {
-              "projectPath": "C:\\Users\\ateeb\\OneDrive\\Documents\\Github\\bachelor2023\\webstep\\webstep\\webstep.csproj"
+            "C:\\Users\\47454\\OneDrive\\Documents\\bachelor\\bachelor2023\\webstep\\webstep\\webstep.csproj": {
+              "projectPath": "C:\\Users\\47454\\OneDrive\\Documents\\bachelor\\bachelor2023\\webstep\\webstep\\webstep.csproj"
             }
           }
         }

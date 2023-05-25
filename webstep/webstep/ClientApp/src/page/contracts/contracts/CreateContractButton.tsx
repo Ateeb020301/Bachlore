@@ -64,6 +64,11 @@ export const CreateContractButton: React.FC<CreateContractButtonProps> = ({
       {
         query: GET_ACTIVITYLOG,
       },
+      {
+          query: GET_TEAMCONS_CONTRACTS,
+          variables: { id: consultantId },
+          pollInterval: 3000
+      }
     ],
   });
   const [addProject] = useMutation<

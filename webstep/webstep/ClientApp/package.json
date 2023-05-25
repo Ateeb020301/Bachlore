@@ -7,7 +7,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.1",
+    "@mui/material": "^5.13.2",
     "@mui/x-data-grid": "^5.17.26",
     "@progress/kendo-react-form": "^5.13.1",
     "@react-oauth/google": "^0.11.0",

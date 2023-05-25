@@ -16,6 +16,7 @@ import {
   GET_TEAMCONS_CONTRACTS,
   GET_CONSULTANT_CAPACITY,
   GET_CONSULTANT_VACANCY,
+  GET_PROJECTCONSULTANT_IDS,
 } from "../../../../api/contract/queries";
 import {
   AddProjectConsultantPayload,
@@ -106,7 +107,11 @@ export const FormStep2 = () => {
       },
       {
         query: GET_ACTIVITYLOG,
-      },
+        },
+        {
+            query: GET_PROJECTCONSULTANT_IDS
+        },
+          
       {
         query: GET_CONSULTANT_CAPACITY,
         variables: {
@@ -138,7 +143,10 @@ export const FormStep2 = () => {
       },
       {
         query: GET_ACTIVITYLOG,
-      },
+          },
+          {
+              query: GET_PROJECTCONSULTANT_IDS
+          },
       {
         query: GET_CONSULTANT_CAPACITY,
         variables: {
